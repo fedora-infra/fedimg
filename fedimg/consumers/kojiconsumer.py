@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import fedmsg.consumers
+import pprint
 
 
 class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
@@ -13,4 +14,4 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
     def consume(self, msg):
         """Here we put what we'd like to do when we receive the message."""
-        pass
+        pprint.pprint(msg)
