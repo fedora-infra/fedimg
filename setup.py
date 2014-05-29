@@ -21,11 +21,10 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=["fedmsg",
-                      "apache-libcloud",
-                      "koji"],
+                      "apache-libcloud"],
     packages=[],
     entry_points="""
     [moksha.consumer]
-    fedimg = fedimg:FedImg
+    kojiconsumer = fedimg.consumers:KojiConsumer
     """,
 )
