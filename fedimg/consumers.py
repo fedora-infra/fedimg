@@ -18,3 +18,10 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         """Here we put what we'd like to do when we receive the message."""
         # Convert JSON string representation to a Python data structure
         msg = fedmsg.encoding.loads(msg)
+        build_method = msg["msg"]["info"]["method"]["image"]
+        # If the build method is "image", we check to see if the child
+        # task's method is "createImage".
+        if build_method = "image":
+            # TODO: Continue to the child task and check its method
+            # as per the above comment.
+            pass
