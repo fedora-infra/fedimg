@@ -7,6 +7,14 @@ cloud providers.
 
 AGPLv3+
 
+## Requirements
+
+Among the requirements listed in `setup.py` by `install_requires` is `koji`.
+Koji is not available on PyPI. You must install the `koji` package to your
+system via `sudo yum install koji` before creating a virtualenv, which you
+should do with `mkvirtualenv [name] --system-site-packages` so that your
+system install of `koji` is included with your virtualenv.
+
 ## Providers
 
 We hope to simultaneously upload our cloud images to a variety of internal and

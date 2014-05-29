@@ -12,7 +12,7 @@ setup(
         "Programming Language :: Python :: 2",
         "License :: OSI Approved :: GNU Affero General Public License \
             v3 or later (AGPLv3+)",
-    ]
+    ],
     keywords='python Fedora cloud image uploader',
     author='David Gay',
     author_email='oddshocks@riseup.net',
@@ -20,7 +20,9 @@ setup(
     license='AGPLv3+',
     include_package_data=True,
     zip_safe=False,
-    install_requires=["fedmsg", "apache-libcloud"],
+    install_requires=["fedmsg",
+                      "apache-libcloud",
+                      "koji"],
     packages=[],
     entry_points="""
     [moksha.consumer]
