@@ -9,11 +9,12 @@ AGPLv3+
 
 ## Requirements
 
-Among the requirements listed in `setup.py` by `install_requires` is `koji`.
-Koji is not available on PyPI. You must install the `koji` package to your
-system via `sudo yum install koji` before creating a virtualenv, which you
-should do with `mkvirtualenv [name] --system-site-packages` so that your
-system install of `koji` is included with your virtualenv.
+Besides the requirements listed in `setup.py` by `install_requires` is the
+`koji` module.  Koji is not available on PyPI. You must install the `koji`
+package to your system via `sudo yum install koji` before creating a
+virtualenv for fedimg, which you should do with `mkvirtualenv [name]
+--system-site-packages` so that your system install of `koji` is included with
+your virtualenv.
 
 ## Installation
 
