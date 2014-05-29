@@ -20,7 +20,7 @@ setup(
     license='AGPLv3+',
     include_package_data=True,
     zip_safe=False,
-    install_requires=["fedmsg"],
+    install_requires=["fedmsg", "apache-libcloud"],
     packages=[],
     entry_points="""
     [moksha.consumer]
