@@ -21,8 +21,6 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
         builds = list()  # These will be the Koji build IDs to upload, if any.
 
-        # Convert JSON string representation to a Python data structure
-        msg = fedmsg.encoding.loads(msg)
         msg_info = msg["msg"]["info"]
 
         # If the build method is "image", we check to see if the child
