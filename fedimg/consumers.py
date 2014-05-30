@@ -4,6 +4,8 @@
 import fedmsg.consumers
 import fedmsg.encoding
 
+import fedimg.uploader
+
 
 class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
     # To our knowledge, all *image* builds appear under this
@@ -16,12 +18,22 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
     def consume(self, msg):
         """Here we put what we'd like to do when we receive the message."""
+
+        builds = list()  # These will be the Koji build IDs to upload, if any.
+
         # Convert JSON string representation to a Python data structure
         msg = fedmsg.encoding.loads(msg)
-        build_method = msg["msg"]["info"]["method"]["image"]
+        msg_info = msg["msg"]["info"]
+
         # If the build method is "image", we check to see if the child
         # task's method is "createImage".
-        if build_method = "image":
-            # TODO: Continue to the child task and check its method
-            # as per the above comment.
-            pass
+        if msg_info["method"] == "image":
+            if isinstance(msg_info["children"], list):
+                for child in msg_info["children"]:
+                    if child["method"] == "createImage":
+                        # We only care about the image if the build
+                        # completed successfully (with state code 2).
+                        if child["state"] == 2:
+                            builds.append(child["id"])
+        if len(builds) > 0:
+            fedimg.uploader.upload(builds)
