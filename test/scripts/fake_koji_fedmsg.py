@@ -17,8 +17,8 @@ resp = requests.get('https://apps.fedoraproject.org/datagrepper/id?id=%s' % idx)
 msg = resp.json()
 
 tokens = msg['topic'].split('.')
-modname = tokens[4]
-topic = '.'.join(tokens[5:])
+modname = tokens[3]
+topic = '.'.join(tokens[4:])
 
 print "Faking {}\n".format('.'.join(tokens))
 
