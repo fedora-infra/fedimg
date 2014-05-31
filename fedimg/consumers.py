@@ -21,7 +21,7 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
         builds = list()  # These will be the Koji build IDs to upload, if any.
 
-        msg_info = msg["msg"]["info"]
+        msg_info = msg["body"]["msg"]["info"]
 
         # If the build method is "image", we check to see if the child
         # task's method is "createImage".
