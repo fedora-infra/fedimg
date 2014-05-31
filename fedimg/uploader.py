@@ -16,9 +16,9 @@ def upload(builds):
         koji_session = koji.ClientSession(koji_server)
         if len(builds) == 1:
             print "\nRESULTS FOR listTaskOutput():\n"
-            pprint(koji_session.listTaskOutput())
+            pprint(koji_session.listTaskOutput(builds[0]))
             print "\nRESULTS FOR getTaskResult():\n"
-            pprint(koji_session.getTaskResult())
+            pprint(koji_session.getTaskResult(builds[0]))
         elif len(builds) >= 2:
             #koji.multicall = True
             for build in builds:
