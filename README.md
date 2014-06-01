@@ -30,11 +30,10 @@ external spaces.
 
 ### Current
 
-None yet -- I've just started!
+* Local file downloads (to be sent, for example, to an NFS share to make the
+  image files available on Fedora's internal FTP server
 
 ### Future
-
-* Internal Fedora FTP server
 
 * Amazon EC2
 
@@ -44,7 +43,7 @@ None yet -- I've just started!
 
 * Rackspace
 
-* Official internal Fedora and Red Hat cloud spaces
+* Official Fedora and Red Hat cloud spaces
 
 ## Contributors
 
