@@ -3,6 +3,7 @@
 
 import koji
 
+import fedimg
 import fedimg.downloader
 
 
@@ -16,15 +17,8 @@ def upload(builds):
         raise Exception("Build upload function must take a list.")
         return  # TODO: Does this need to go here?
 
-    # KOJI_SERVER is the location of the Koji hub that should be used
-    # to initialize the Koji connection.
-    KOJI_SERVER = "https://koji.fedoraproject.org/kojihub"
-
     # Create a Koji connection to the Fedora Koji instance
-    koji_session = koji.ClientSession(KOJI_SERVER)
-
-    # The two slashes ("//") in the following URL are NOT a mistake.
-    base_koji_task_url = "https://kojipkgs.fedoraproject.org//work/tasks"
+    koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
 
     upload_files = list()  # list of full URLs of files
 
@@ -36,7 +30,7 @@ def upload(builds):
 
         # extension to base URL to exact file directory
         koji_url_extension = "/{}/{}".format(str(task_id)[3:], str(task_id))
-        full_file_location = base_koji_task_url + koji_url_extension
+        full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
 
         file_urls = list()  # full URLs of qcow2 files
         for f in file_names:

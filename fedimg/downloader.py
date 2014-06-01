@@ -5,14 +5,7 @@ import os
 import sys
 import urllib2
 
-# LOCAL_DOWNLOAD_DIR should be changed as appropriate in production
-# in order to properly upload files to local shares for FTP access.
-LOCAL_DOWNLOAD_DIR = "/var/lib/fedimg/download/"
-
-# Set DOWNLOAD_PROGRESS to False if you want to hide any the file
-# download progress indicator (might be a good idea on production systems
-# where fedmsg-hub has other regular outputs.
-DOWNLOAD_PROGRESS = True
+import fedimg
 
 
 def download(urls):
@@ -20,14 +13,15 @@ def download(urls):
     stores them locally. """
 
     # Create the proper local upload directory if it doesn't exist.
-    if not os.path.exists(LOCAL_DOWNLOAD_DIR):
-        os.makedirs(LOCAL_DOWNLOAD_DIR)
+    if not os.path.exists(fedimg.LOCAL_DOWNLOAD_DIR):
+        os.makedirs(fedimg.LOCAL_DOWNLOAD_DIR)
 
-    print "Local downloads will be stored in {}.".format(LOCAL_DOWNLOAD_DIR)
+    print "Local downloads will be stored in {}.".format(
+        fedimg.LOCAL_DOWNLOAD_DIR)
 
     for url in urls:
         file_name = url.split('/')[-1]
-        local_file_name = LOCAL_DOWNLOAD_DIR + file_name
+        local_file_name = fedimg.LOCAL_DOWNLOAD_DIR + file_name
         u = urllib2.urlopen(url)
         try:
             with open(local_file_name, 'wb') as f:
@@ -45,7 +39,7 @@ def download(urls):
                     bytes_downloaded += len(buff)
                     f.write(buff)
                     bytes_remaining = float(bytes_downloaded) / file_size
-                    if DOWNLOAD_PROGRESS:
+                    if fedimg.DOWNLOAD_PROGRESS:
                         # TODO: Improve this progress indicator by making
                         # it more readable and user-friendly.
                         status = r"{0}  [{1:.2%}]".format(bytes_downloaded,
@@ -53,5 +47,5 @@ def download(urls):
                         status = status + chr(8) * (len(status) + 1)
                         sys.stdout.write(status)
         except OSError:
-            print "Problem writing to {}.".format(LOCAL_DOWNLOAD_DIR)
+            print "Problem writing to {}.".format(fedimg.LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
