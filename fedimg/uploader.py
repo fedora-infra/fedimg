@@ -2,7 +2,8 @@
 # -*- coding: utf8 -*-
 
 import koji
-import os
+
+import fedimg.downloader
 
 
 def upload(builds):
@@ -14,10 +15,6 @@ def upload(builds):
         # TODO: Not sure if this is the proper way to handle this.
         raise Exception("Build upload function must take a list.")
         return  # TODO: Does this need to go here?
-
-    # LOCAL_UPLOAD_DIR should be changed as appropriate in production
-    # in order to properly upload files to local shares for FTP access.
-    LOCAL_UPLOAD_DIR = "/var/lib/fedimg/upload/"
 
     # KOJI_SERVER is the location of the Koji hub that should be used
     # to initialize the Koji connection.
@@ -61,10 +58,4 @@ def upload(builds):
             upload_files.extend(get_qcow2_files(result))
         koji.multicall = False  # TODO: Is this needed?
 
-    # Create the proper local upload directory if it doesn't exist.
-    if not os.path.exists(LOCAL_UPLOAD_DIR):
-        os.makedirs(LOCAL_UPLOAD_DIR)
-
-    print "Local uploads will be stored in {}.".format(LOCAL_UPLOAD_DIR)
-    for f in upload_files:
-        print "Uploading file at {}".format(f)
+    fedimg.downloader.download(upload_files)
