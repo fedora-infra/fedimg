@@ -9,6 +9,11 @@ import urllib2
 # in order to properly upload files to local shares for FTP access.
 LOCAL_DOWNLOAD_DIR = "/var/lib/fedimg/download/"
 
+# Set DOWNLOAD_PROGRESS to False if you want to hide any the file
+# download progress indicator (might be a good idea on production systems
+# where fedmsg-hub has other regular outputs.
+DOWNLOAD_PROGRESS = True
+
 
 def download(urls):
     """ Downloads files from a list of URLs with a progress bar and
@@ -40,10 +45,13 @@ def download(urls):
                     bytes_downloaded += len(buff)
                     f.write(buff)
                     bytes_remaining = float(bytes_downloaded) / file_size
-                    status = r"{0}  [{1:.2%}]".format(bytes_downloaded,
-                                                      bytes_remaining)
-                    status = status + chr(8) * (len(status) + 1)
-                    sys.stdout.write(status)
+                    if DOWNLOAD_PROGRESS:
+                        # TODO: Improve this progress indicator by making
+                        # it more readable and user-friendly.
+                        status = r"{0}  [{1:.2%}]".format(bytes_downloaded,
+                                                          bytes_remaining)
+                        status = status + chr(8) * (len(status) + 1)
+                        sys.stdout.write(status)
         except OSError:
             print "Problem writing to {}.".format(LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
