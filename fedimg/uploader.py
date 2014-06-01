@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import koji
+import os
 
 
 def upload(builds):
@@ -14,9 +15,16 @@ def upload(builds):
         raise Exception("Build upload function must take a list.")
         return  # TODO: Does this need to go here?
 
+    # LOCAL_UPLOAD_DIR should be changed as appropriate in production
+    # in order to properly upload files to local shares for FTP access.
+    LOCAL_UPLOAD_DIR = "/var/lib/fedimg/upload/"
+
+    # KOJI_SERVER is the location of the Koji hub that should be used
+    # to initialize the Koji connection.
+    KOJI_SERVER = "https://koji.fedoraproject.org/kojihub"
+
     # Create a Koji connection to the Fedora Koji instance
-    koji_server = "https://koji.fedoraproject.org/kojihub"
-    koji_session = koji.ClientSession(koji_server)
+    koji_session = koji.ClientSession(KOJI_SERVER)
 
     # The two slashes ("//") in the following URL are NOT a mistake.
     base_koji_task_url = "https://kojipkgs.fedoraproject.org//work/tasks"
@@ -53,5 +61,10 @@ def upload(builds):
             upload_files.extend(get_qcow2_files(result))
         koji.multicall = False  # TODO: Is this needed?
 
+    # Create the proper local upload directory if it doesn't exist.
+    if not os.path.exists(LOCAL_UPLOAD_DIR):
+        os.makedirs(LOCAL_UPLOAD_DIR)
+
+    print "Local uploads will be stored in {}.".format(LOCAL_UPLOAD_DIR)
     for f in upload_files:
-        print "Would upload file at {}\n".format(f)
+        print "Uploading file at {}".format(f)
