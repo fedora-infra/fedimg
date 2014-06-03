@@ -1,7 +1,11 @@
+#!/bin/env python
+# -*- coding: utf8 -*-
+
 import socket
 hostname = socket.gethostname()
 
 config = dict(
+    kojiconsumer=True,
     endpoints={
         "fedimg.%s" % hostname: [
             "tcp://127.0.0.1:6009",
@@ -10,4 +14,4 @@ config = dict(
             "tcp://127.0.0.1:6006",
         ],
     },
-}
+)

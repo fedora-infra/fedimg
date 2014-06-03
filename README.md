@@ -18,10 +18,10 @@ your virtualenv.
 
 ## Installation
 
-Besides installing fedimg or before running `python setup.py {develop/install}`,
-for now you must also copy `fedmsg/kojiconfig.py` to
-`/etc/fedmsg.d/kojiconsumer.py` in order for the consumer to properly listen in
-on the fedmsg bus as `fedmsg-hub` (currently installed separately) runs.
+Besides installing fedimg or before running `python setup.py
+{develop/install}`, you must copy `fedmsg.d/fedimg.py` to
+`/etc/fedmsg.d/fedimg.py` in order for the consumer to properly listen in on
+the fedmsg bus as `fedmsg-hub` (currently installed separately) runs.
 
 ## Providers
 
