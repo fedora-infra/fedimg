@@ -6,6 +6,7 @@ import sys
 import urllib2
 
 import fedimg
+import fedimg.messenger
 
 
 def download(urls):
@@ -31,9 +32,15 @@ def download(urls):
                 print "Downloading {0} ({1} bytes)".format(url, file_size)
                 bytes_downloaded = 0
                 block_size = 8192
+                fedimg.messenger.message(file_name,
+                                         'internal Fedora FTP server',
+                                         'started')
                 while True:
                     buff = u.read(block_size)  # buffer
                     if not buff:
+                        fedimg.messenger.message(file_name,
+                                                 'internal Fedora FTP server',
+                                                 'succeeded')
                         break
 
                     bytes_downloaded += len(buff)
@@ -49,3 +56,5 @@ def download(urls):
         except OSError:
             print "Problem writing to {}.".format(fedimg.LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
+            fedimg.messenger.message(file_name, 'internal Fedora FTP server',
+                                     'failed')
