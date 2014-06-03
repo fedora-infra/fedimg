@@ -2,12 +2,19 @@
 # -*- coding: utf8 -*-
 
 import os
+import subprocess
 import sys
 import urllib2
 
 import fedimg
 import fedimg.messenger
 
+
+def compress(file_path):
+    """ Compress a downloaded image file into a tar.xz file. """
+    subprocess.call('tar', '-cfJ', file_path)
+    # TODO: Remove the original, uncompressed image file?
+    # That is, assuming it's not needed for upload to cloud services.
 
 def download(urls):
     """ Downloads files from a list of URLs with a progress bar and
@@ -38,6 +45,18 @@ def download(urls):
                 while True:
                     buff = u.read(block_size)  # buffer
                     if not buff:
+                        try:
+                            compress(local_file_name)
+                        except OSError:
+                            print "ERROR: Problem compressing image file."
+                            # TODO: Do we still want this sort of failure
+                            # message if the file downloaded properly
+                            # but failed to compress?
+                            fedimg.messenger.message(file_name,
+                                                     'internal Fedora FTP server',
+                                                     'failed')
+                            break
+
                         fedimg.messenger.message(file_name,
                                                  'internal Fedora FTP server',
                                                  'succeeded')
