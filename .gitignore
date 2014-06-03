@@ -53,6 +53,8 @@ coverage.xml
 docs/_build/
 
 # Swap files
-
 *~*
 *.swp
+
+# Config file (containing secret keys and whatnot)
+fedimg.cfg
