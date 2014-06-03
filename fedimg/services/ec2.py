@@ -18,6 +18,4 @@ EC2_REGIONS = [
 def upload(image):
     """ Takes an image location provided by Koji and uploads it
         to all EC2 regions."""
-
-    AMI_ID = 'ami-something123'
-    SIZE_ID = 'tx.something'
+    pass
