@@ -9,7 +9,7 @@ def message(image_name, dest, status):
     "failed"). Emits a fedmsg appropriate for each image upload task. """
 
     fedmsg.publish(topic='image.upload', modname='fedimg', msg={
-        'image': image_name,
+        'image_name': image_name,
         'destination': dest,
         'status': status,
     })
