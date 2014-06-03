@@ -31,7 +31,7 @@ external spaces.
 ### Current
 
 * Local file downloads (to be sent, for example, to an NFS share to make the
-  image files available on Fedora's internal FTP server
+  image files available on Fedora's internal FTP server)
 
 ### Future
 
