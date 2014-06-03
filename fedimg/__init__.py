@@ -1,3 +1,8 @@
+"""
+Note that keys and other credentials for cloud providers are instantiated
+in their respective fedimg.services.* files.
+"""
+
 import ConfigParser
 
 config = ConfigParser.RawConfigParser()
