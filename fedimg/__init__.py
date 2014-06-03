@@ -1,8 +1,3 @@
-"""
-Note that keys and other credentials for cloud providers are instantiated
-in their respective fedimg.services.* files.
-"""
-
 import ConfigParser
 
 config = ConfigParser.RawConfigParser()
@@ -18,3 +13,7 @@ BASE_KOJI_TASK_URL = config.get('koji', 'base_task_url')
 LOCAL_DOWNLOAD_DIR = config.get('general', 'local_download_dir')
 
 DOWNLOAD_PROGRESS = config.get('general', 'download_progress')
+
+# AMAZON WEB SERVICES (EC2)
+AWS_ACCESS_ID = config.get('aws', 'access_id')
+AWS_SECRET_KEY = config.get('aws', 'secret_key')
