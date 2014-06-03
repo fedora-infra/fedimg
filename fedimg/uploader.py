@@ -52,4 +52,9 @@ def upload(builds):
             upload_files.extend(get_qcow2_files(result))
         koji.multicall = False  # TODO: Is this needed?
 
+    # Download files locally, perhaps to an NFS share behind an internal FTP
+    # server.
     fedimg.downloader.download(upload_files)
+
+    ### This is where code will go to upload to the services supported by
+    ### the files in the services/ directory.
