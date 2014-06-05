@@ -17,7 +17,6 @@ def upload(builds):
     if not isinstance(builds, list):
         # TODO: Not sure if this is the proper way to handle this.
         raise Exception("Build upload function must take a list.")
-        return  # TODO: Does this need to go here?
 
     # Create a Koji connection to the Fedora Koji instance
     koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
