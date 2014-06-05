@@ -9,7 +9,8 @@ import fedimg
 
 def compress(file_path):
     """ Compress a downloaded image file into a tar.xz file. """
-    subprocess.call('tar', '-cfJ', file_path)
+    xz_file_path = file_path + ".tar.xz"
+    subprocess.call(['tar', '-cfJ', xz_file_path, file_path])
     # TODO: Remove the original, uncompressed image file?
     # That is, assuming it's not needed for upload to cloud services.
 
