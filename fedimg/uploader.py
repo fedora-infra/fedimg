@@ -7,6 +7,23 @@ import fedimg
 import fedimg.downloader
 
 
+def get_qcow2_files(task_result):
+    # I think there might only ever be one qcow2 file per task,
+    # but doing it this way plays it safe.
+    file_names = [f for f in task_result['files'] if ".qcow2" in f]
+    task_id = task_result['task_id']
+
+    # extension to base URL to exact file directory
+    koji_url_extension = "/{}/{}".format(str(task_id)[3:], str(task_id))
+    full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
+
+    file_urls = list()  # full URLs of qcow2 files
+    for f in file_names:
+        file_urls.append(full_file_location + "/{}".format(f))
+
+    return file_urls
+
+
 def upload(builds):
     """ Takes a list of one or more Koji build IDs (passed to it from
     consumer.py) and sends the appropriate image files off to cloud
@@ -21,22 +38,6 @@ def upload(builds):
     koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
 
     upload_files = list()  # list of full URLs of files
-
-    def get_qcow2_files(task_result):
-        # I think there might only ever be one qcow2 file per task,
-        # but doing it this way plays it safe.
-        file_names = [f for f in task_result['files'] if ".qcow2" in f]
-        task_id = task_result['task_id']
-
-        # extension to base URL to exact file directory
-        koji_url_extension = "/{}/{}".format(str(task_id)[3:], str(task_id))
-        full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
-
-        file_urls = list()  # full URLs of qcow2 files
-        for f in file_names:
-            file_urls.append(full_file_location + "/{}".format(f))
-
-        return file_urls
 
     if len(builds) == 1:
         task_result = koji_session.getTaskResult(builds[0])
@@ -56,5 +57,5 @@ def upload(builds):
     # server.
     fedimg.downloader.download(upload_files)
 
-    ### This is where code will go to upload to the services supported by
-    ### the files in the services/ directory.
+    # This is where code will go to upload to the services supported by
+    # the files in the services/ directory.
