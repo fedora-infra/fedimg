@@ -6,22 +6,7 @@ import koji
 import fedimg
 import fedimg.downloader
 
-
-def get_qcow2_files(task_result):
-    # I think there might only ever be one qcow2 file per task,
-    # but doing it this way plays it safe.
-    file_names = [f for f in task_result['files'] if ".qcow2" in f]
-    task_id = task_result['task_id']
-
-    # extension to base URL to exact file directory
-    koji_url_extension = "/{}/{}".format(str(task_id)[3:], str(task_id))
-    full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
-
-    file_urls = list()  # full URLs of qcow2 files
-    for f in file_names:
-        file_urls.append(full_file_location + "/{}".format(f))
-
-    return file_urls
+from fedimg.util import get_qcow2_files
 
 
 def upload(builds):
