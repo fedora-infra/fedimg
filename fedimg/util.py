@@ -32,3 +32,13 @@ def get_qcow2_files(task_result):
         file_urls.append(full_file_location + "/{}".format(f))
 
     return file_urls
+
+
+def qcow2_to_raw(file_path):
+    """ Takes the file path of a qcow2 image file and creates a .RAW conversion
+    of the image. """
+    if file_path.split('.')[-1] != 'qcow2':
+        # TODO: logging here
+        raise Exception("{0} is not a .qcow2 file.".format(file_path))
+
+    # this is where I'll convert the image, once I decide on the proper tool
