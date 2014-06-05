@@ -9,12 +9,8 @@ import urllib2
 import fedimg
 import fedimg.messenger
 
+from fedmsg.util import compress
 
-def compress(file_path):
-    """ Compress a downloaded image file into a tar.xz file. """
-    subprocess.call('tar', '-cfJ', file_path)
-    # TODO: Remove the original, uncompressed image file?
-    # That is, assuming it's not needed for upload to cloud services.
 
 def download(urls):
     """ Downloads files from a list of URLs with a progress bar and
@@ -40,7 +36,7 @@ def download(urls):
                 bytes_downloaded = 0
                 block_size = 8192
                 fedimg.messenger.message(file_name,
-                                         'internal Fedora FTP server',
+                                         'internal Fedora FTP',
                                          'started')
                 while True:
                     buff = u.read(block_size)  # buffer
@@ -53,12 +49,12 @@ def download(urls):
                             # message if the file downloaded properly
                             # but failed to compress?
                             fedimg.messenger.message(file_name,
-                                                     'internal Fedora FTP server',
+                                                     'internal Fedora FTP',
                                                      'failed')
                             break
 
                         fedimg.messenger.message(file_name,
-                                                 'internal Fedora FTP server',
+                                                 'internal Fedora FTP',
                                                  'succeeded')
                         break
 
@@ -75,5 +71,5 @@ def download(urls):
         except OSError:
             print "Problem writing to {}.".format(fedimg.LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
-            fedimg.messenger.message(file_name, 'internal Fedora FTP server',
+            fedimg.messenger.message(file_name, 'internal Fedora FTP',
                                      'failed')
