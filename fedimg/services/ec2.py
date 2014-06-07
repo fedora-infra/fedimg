@@ -69,4 +69,5 @@ class EC2Service(object):
 
             # create node
             name = 'fedimg AMI builder'  # TODO: will add raw image title
-            node = driver.create_node(name=name, image=image, size=size)
+            node = driver.create_node(name=name, image=image, size=size,
+                                      ex_iamprofile=fedimg.AWS_IAM_PROFILE)
