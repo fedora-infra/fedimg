@@ -15,9 +15,10 @@ class EC2ServiceException(Exception):
 class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
+    # Will be a list of dicts. Dicts will contain AMI info.
+    amis = list()
+
     def __init__(self):
-        # Will be a list of dicts. Dicts will contain AMI info.
-        self.amis = list()
 
         for line in fedimg.AWS_AMIS.split('\n'):
             """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
@@ -51,11 +52,21 @@ class EC2Service(object):
         # If none of those returned, there is a problem.
         raise EC2ServiceException('Invalid region, no matching provider.')
 
-    def upload(self, image):
+    def upload(self, raw):
         """ Takes a raw image file and registers it as an AMI in each
         EC2 region. """
         # TODO: Check here to confirm that image is proper format (RAW)?
         for ami in self.amis:
-            driver = get_driver(ami['prov'])
-            conn = driver(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
-            # WORK IN PROGRESS
+            cls = get_driver(ami['prov'])
+            driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
+
+            # select the desired node attributes
+            sizes = driver.list_sizes()
+            size_id = 't1.micro'  # The smallest one for now.
+            # check to make sure we have access to that size node
+            size = [s for s in sizes if s.id == size_id][0]
+            image = NodeImage(id=ami['ami'], name=None, driver=driver)
+
+            # create node
+            name = 'fedimg AMI builder'  # TODO: will add raw image title
+            node = driver.create_node(name=name, image=image, size=size)
