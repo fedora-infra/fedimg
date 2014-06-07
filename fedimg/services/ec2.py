@@ -74,3 +74,18 @@ class EC2Service(object):
             node = driver.create_node(name=name, image=image, size=size,
                                       ex_iamprofile=fedimg.AWS_IAM_PROFILE,
                                       ex_ebs_optimized=True)
+
+            # create a volume for the uploaded image to be written to
+            vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
+            # TODO: might need to provide availability zone in the below call
+            vol = driver.create_volume(10, vol_name)
+
+            # attach the created volume to the spun-up node
+            # alternatively, might be able to have the node be spun up with
+            # an extra volume using a block device mapping
+
+            # write image to secondary volume
+
+            # register that volume as an AMI, possibly after snapshotting it
+
+            # emit a fedmsg, etc
