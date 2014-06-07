@@ -68,6 +68,8 @@ class EC2Service(object):
             image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
             # create node
+            # must be EBS-backed for AMI registration to work
             name = 'fedimg AMI builder'  # TODO: will add raw image title
             node = driver.create_node(name=name, image=image, size=size,
-                                      ex_iamprofile=fedimg.AWS_IAM_PROFILE)
+                                      ex_iamprofile=fedimg.AWS_IAM_PROFILE,
+                                      ex_ebs_optimized=True)
