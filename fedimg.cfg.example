@@ -10,8 +10,25 @@ download_progress = True
 
 [koji]
 server = https://koji.fedoraproject.org/kojihub
+# The two adjacent slashes in the below URL are _not_ a typo.
 base_task_url = https://kojipkgs.fedoraproject.org//work/tasks
 
 [aws]
 access_id = secretaccessID
 secret_key = supersecretsecretkey
+amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c
+ap-northeast-1|Fedora|20|x86_64|ami-8fd0b38e
+ap-southeast-1|Fedora|20|i386|ami-bccd99ee
+ap-southeast-1|Fedora|20|x86_64|ami-92cd99c0
+ap-southeast-2|Fedora|20|i386|ami-374bd40d
+ap-southeast-2|Fedora|20|x86_64|ami-eb4cd3d1
+eu-west-1|Fedora|20|i386|ami-3401e843
+eu-west-1|Fedora|20|x86_64|ami-c00fe6b7
+sa-east-1|Fedora|20|i386|ami-6f6ecf72
+sa-east-1|Fedora|20|x86_64|ami-056ecf18
+us-east-1|Fedora|20|i386|ami-3b361952
+us-east-1|Fedora|20|x86_64|ami-1337187a
+us-west-1|Fedora|20|i386|ami-68e3d32d
+us-west-1|Fedora|20|x86_64|ami-54e3d311
+us-west-2|Fedora|20|i386|ami-56771366
+us-west-2|Fedora|20|x86_64|ami-ea7612da
