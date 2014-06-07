@@ -3,8 +3,9 @@
 
 import fedimg
 
-from libcloud.compute.types import Provider
+from libcloud.compute.base import NodeImage
 from libcloud.compute.providers import get_driver
+from libcloud.compute.types import Provider
 
 
 class EC2ServiceException(Exception):
