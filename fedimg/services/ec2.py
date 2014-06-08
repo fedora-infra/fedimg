@@ -57,6 +57,9 @@ class EC2Service(object):
         """ Takes a raw image file and registers it as an AMI in each
         EC2 region. """
         # TODO: Check here to confirm that image is proper format (RAW)?
+        # TODO: Make sure that once we create an AMI, we copy it to other
+        # regions via region-to-region copy rather than remake the AMI
+        # in each region (might just be copying image though).
         for ami in self.amis:
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
@@ -78,11 +81,13 @@ class EC2Service(object):
             # create a volume for the uploaded image to be written to
             vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
             # TODO: might need to provide availability zone in the below call
-            vol = driver.create_volume(10, vol_name)
+            vol = driver.create_volume(10, vol_name)  # new 10 GB volume
 
-            # attach the created volume to the spun-up node
-            # alternatively, might be able to have the node be spun up with
-            # an extra volume using a block device mapping
+            # Attach the new volume to the node
+            # TODO: Check to see if it's faster to have the second volume
+            # in the block device mappings when the instance is spun up.
+            driver.attach_volume(node, vol, device='/dev/sdb')
+
 
             # write image to secondary volume
 

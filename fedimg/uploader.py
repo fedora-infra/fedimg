@@ -5,6 +5,7 @@ import koji
 
 import fedimg
 import fedimg.downloader
+from fedimg.services.ec2 import EC2Service
 
 from fedimg.util import get_qcow2_files
 
@@ -41,5 +42,6 @@ def upload(builds):
     # server.
     fedimg.downloader.download(upload_files)
 
-    # This is where code will go to upload to the services supported by
-    # the files in the services/ directory.
+    # EC2 upload
+    ec2 = EC2Service()
+    ec2.upload(upload_files)
