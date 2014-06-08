@@ -14,7 +14,7 @@ from fedmsg.util import compress
 
 def download(urls):
     """ Downloads files from a list of URLs with a progress bar and
-    stores them locally. """
+    stores them locally. Returns a list of local file locations. """
 
     # Create the proper local upload directory if it doesn't exist.
     if not os.path.exists(fedimg.LOCAL_DOWNLOAD_DIR):
@@ -22,6 +22,8 @@ def download(urls):
 
     print "Local downloads will be stored in {}.".format(
         fedimg.LOCAL_DOWNLOAD_DIR)
+
+    local_files = list()  # If a file finishes downloading, it is appended here
 
     for url in urls:
         file_name = url.split('/')[-1]
@@ -41,7 +43,10 @@ def download(urls):
                 while True:
                     buff = u.read(block_size)  # buffer
                     if not buff:
+                        # Add finished download path to list
+                        local_files.append(local_file_name)
                         try:
+                            # compress qcow2 with xz for storage
                             compress(local_file_name)
                         except OSError:
                             print "ERROR: Problem compressing image file."
@@ -68,6 +73,7 @@ def download(urls):
                                                           bytes_remaining)
                         status = status + chr(8) * (len(status) + 1)
                         sys.stdout.write(status)
+            return local_files
         except OSError:
             print "Problem writing to {}.".format(fedimg.LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
