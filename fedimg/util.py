@@ -10,11 +10,14 @@ import fedimg
 
 
 def compress(file_path):
-    """ Compress a downloaded image file into a tar.xz file. """
+    """ Compress a downloaded image file into a tar.xz file. Deletes the
+    original file and returns file path to compressed file. """
     xz_file_path = file_path + ".tar.xz"
     subprocess.call(['tar', '-cfJ', xz_file_path, file_path])
-    # TODO: Remove the original, uncompressed image file?
-    # That is, assuming it's not needed for upload to cloud services.
+    # Above command waits until command completes before returning,
+    # there shouldn't need to be any wait() method called.
+    subprocess.call(['rm', file_path])
+    return xz_file_path
 
 
 def get_qcow2_files(task_result):
