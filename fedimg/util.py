@@ -4,6 +4,8 @@
 Utility functions for fedimg.
 """
 
+import subprocess
+
 import fedimg
 
 
@@ -35,10 +37,20 @@ def get_qcow2_files(task_result):
 
 
 def qcow2_to_raw(file_path):
-    """ Takes the file path of a qcow2 image file and creates a .RAW conversion
-    of the image. """
-    if file_path.split('.')[-1] != 'qcow2':
-        # TODO: logging here
+    """ Takes the file path of a qcow2 image file and creates a .raw conversion
+    of the image. Returns the file path to the new raw image. qcow2 files are
+    smaller than raw images, so this function saves us time by downloading only
+    one, smaller file and then converting it for services requiring raw image
+    files. """
+    if file_path.endswith('.qcow2'):
+        raw_file_path = file_path[:5] + '.raw'
+        try:
+            # TODO: Wait for completion on this conversion?
+            subprocess.call(['qemu-img', 'convert', file_path, raw_file_path])
+            # TODO: Emit fedmsg?
+            return raw_file_path
+        except:
+            print "Problem converting qcow2 file to raw."
+            return None
+    else:
         raise Exception("{0} is not a .qcow2 file.".format(file_path))
-
-    # this is where I'll convert the image, once I decide on the proper tool

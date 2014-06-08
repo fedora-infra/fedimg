@@ -16,6 +16,9 @@ virtualenv for fedimg, which you should do with `mkvirtualenv [name]
 --system-site-packages` so that your system install of `koji` is included with
 your virtualenv.
 
+You must also have the `qemu-img` tool installed, or qcow2 --> raw image
+conversion will fail.
+
 ## Installation
 
 Besides installing fedimg or before running `python setup.py
