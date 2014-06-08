@@ -14,10 +14,6 @@ def upload(builds):
     """ Takes a list of one or more Koji build IDs (passed to it from
     consumer.py) and sends the appropriate image files off to cloud
     services. """
-    # Error out if the "builds" argument passed to upload() is not a list.
-    if not isinstance(builds, list):
-        # TODO: Not sure if this is the proper way to handle this.
-        raise Exception("Build upload function must take a list.")
 
     # Create a Koji connection to the Fedora Koji instance
     koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
