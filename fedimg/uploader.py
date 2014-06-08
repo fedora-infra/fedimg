@@ -34,10 +34,11 @@ def upload(builds):
             upload_files.extend(get_qcow2_files(result))
         koji.multicall = False  # TODO: Is this needed?
 
-    # Download files locally, perhaps to an NFS share behind an internal FTP
-    # server.
-    fedimg.downloader.download(upload_files)
+    # Download files locally and compress them with xz.
+    # download() returns raw image files made from the downloaded qcow2s
+    raw_images = fedimg.downloader.download(upload_files)
 
     # EC2 upload
     ec2 = EC2Service()
-    ec2.upload(upload_files)
+    for image in raw_images:
+        ec2.upload(image)
