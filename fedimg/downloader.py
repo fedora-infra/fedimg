@@ -9,12 +9,14 @@ import urllib2
 import fedimg
 import fedimg.messenger
 
-from fedmsg.util import compress
+from fedmsg.util import compress, qcow2_to_raw
 
 
 def download(urls):
-    """ Downloads files from a list of URLs with a progress bar and
-    stores them locally. Returns a list of local file locations. """
+    """ Downloads files (qcow2s, specifically) from a list of URLs with an
+    optional progress bar. It then makes raw image files out of the downloaded
+    qcow2 files, and then compresses the qcow2 files with xz for storage.
+    Returns a list of raw image files. """
 
     # Create the proper local upload directory if it doesn't exist.
     if not os.path.exists(fedimg.LOCAL_DOWNLOAD_DIR):
@@ -23,7 +25,8 @@ def download(urls):
     print "Local downloads will be stored in {}.".format(
         fedimg.LOCAL_DOWNLOAD_DIR)
 
-    local_files = list()  # If a file finishes downloading, it is appended here
+    # When qcow2s are downloaded and converted, they are added here
+    raw_files = list()
 
     for url in urls:
         file_name = url.split('/')[-1]
@@ -43,8 +46,8 @@ def download(urls):
                 while True:
                     buff = u.read(block_size)  # buffer
                     if not buff:
-                        # Add finished download path to list
-                        local_files.append(local_file_name)
+                        # Make a raw image file out of the downloaded qcow2
+                        raw_files.append(qcow2_to_raw(local_file_name))
                         try:
                             # compress qcow2 with xz for storage
                             compress(local_file_name)
@@ -73,7 +76,7 @@ def download(urls):
                                                           bytes_remaining)
                         status = status + chr(8) * (len(status) + 1)
                         sys.stdout.write(status)
-            return local_files
+            return raw_files
         except OSError:
             print "Problem writing to {}.".format(fedimg.LOCAL_DOWNLOAD_DIR)
             print "Make sure to run this service with root permissions."
