@@ -1,12 +1,14 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
 
-import fedimg
+import os
 import subprocess
 
 from libcloud.compute.base import NodeImage
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
+
+import fedimg
 
 
 class EC2ServiceException(Exception):
@@ -17,10 +19,10 @@ class EC2ServiceException(Exception):
 class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
-    # Will be a list of dicts. Dicts will contain AMI info.
-    amis = list()
 
     def __init__(self):
+        # Will be a list of dicts. Dicts will contain AMI info.
+        self.amis = list()
 
         for line in fedimg.AWS_AMIS.split('\n'):
             """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
@@ -58,10 +60,15 @@ class EC2Service(object):
         """ Takes a raw image file and registers it as an AMI in each
         EC2 region. """
         # TODO: Check here to confirm that image is proper format (RAW)?
+
+        # get size of raw image and use to compute a reasonable volume size
+        raw_info = os.stat(raw)
+        vol_size = int(float(raw_info.st_size) / 10**9) + 2
+
         # TODO: Make sure that once we create an AMI, we copy it to other
         # regions via region-to-region copy rather than remake the AMI
         # in each region (might just be copying image though).
-        ami = amis[0]  # DEBUG (us east x86_64)
+        ami = self.amis[0]  # DEBUG (us east x86_64)
         #for ami in self.amis:
         cls = get_driver(ami['prov'])
         driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
@@ -76,28 +83,47 @@ class EC2Service(object):
         # create node
         # must be EBS-backed for AMI registration to work
         name = 'fedimg AMI builder'  # TODO: will add raw image title
+        mappings = [{'VirtualName': None,
+                    'Ebs':{'VolumeSize': 12,  # DEBUG
+                           'VolumeType': 'standard',
+                           'DeleteOnTermination': 'true'},
+                    'DeviceName': '/dev/sda'},
+                    {'VirtualName': None,
+                      'Ebs':{'VolumeSize': 12,  # DEBUG
+                             'VolumeType': 'standard',
+                             'DeleteOnTermination': 'true'},
+                      'DeviceName': '/dev/sdb'}]
         node = driver.create_node(name=name, image=image, size=size,
-                                  ex_iamprofile=fedimg.AWS_IAM_PROFILE,
-                                  ex_ebs_optimized=True)
+                                  ex_ebs_optimized=True,
+                                  ex_blockdevicemappings=mappings)
 
         # create a volume for the uploaded image to be written to
-        vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
+        #vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
+        # get an availability zone for the volume (required)
+        #zones = driver.ex_list_availability_zones(only_available=True)
+        #location = zones[0]
+        # start up the instance
+        driver.ex_start_node(node)
+
         # TODO: might need to provide availability zone in the below call
-        vol = driver.create_volume(10, vol_name)  # new 10 GB volume
+        #vol = driver.create_volume(vol_size, vol_name, location=location)
+        
+        # wait until the instance is running
+        node_ip = driver.wait_until_running([node])[0][1][0]
 
         # Attach the new volume to the node
         # TODO: Check to see if it's faster to have the second volume
         # in the block device mappings when the instance is spun up.
-        driver.attach_volume(node, vol, device='/dev/sdb')
-
-        # start up the instance and wait until it's running
-        driver.ex_start_node(node)
-        node_ip = driver.wait_until_running([node])[0][1]
+        #driver.attach_volume(node, vol, device='/dev/sdb')
 
         # write image to secondary volume
-        ssh_address = 'ec2user@' + node_ip
-        cmd = 'dd if={0} bs=4096 | ssh {1} "dd of={2} bs=4096"'.format(
-            raw, ssh_address, '/dev/sdb')
+        ssh_address = 'ec2-user@' + node_ip
+        from q import q
+        q(raw)
+        q(ssh_address)
+        q('/dev/sdb')
+        cmd = "dd if={0} | ssh {1} 'dd of={2}'".format(raw, ssh_address,
+                                                       '/dev/sdb')
         subprocess.call(cmd)
 
         # register that volume as an AMI, possibly after snapshotting it
