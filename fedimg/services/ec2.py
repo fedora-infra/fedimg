@@ -118,13 +118,9 @@ class EC2Service(object):
 
         # write image to secondary volume
         ssh_address = 'ec2-user@' + node_ip
-        from q import q
-        q(raw)
-        q(ssh_address)
-        q('/dev/sdb')
         cmd = "dd if={0} | ssh {1} 'dd of={2}'".format(raw, ssh_address,
                                                        '/dev/sdb')
-        subprocess.call(cmd)
+        subprocess.call(cmd, shell=True)
 
         # register that volume as an AMI, possibly after snapshotting it
 
