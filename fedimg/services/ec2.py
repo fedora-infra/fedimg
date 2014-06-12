@@ -95,6 +95,7 @@ class EC2Service(object):
                       'DeviceName': '/dev/sdb'}]
         node = driver.create_node(name=name, image=image, size=size,
                                   ex_ebs_optimized=True,
+                                  ex_security_groups=['ssh'],
                                   ex_blockdevicemappings=mappings)
 
         # create a volume for the uploaded image to be written to
