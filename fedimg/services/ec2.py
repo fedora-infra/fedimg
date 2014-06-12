@@ -87,14 +87,14 @@ class EC2Service(object):
                     'Ebs':{'VolumeSize': 12,  # DEBUG
                            'VolumeType': 'standard',
                            'DeleteOnTermination': 'true'},
-                    'DeviceName': '/dev/sda'},
+                     'DeviceName': '/dev/sda'},
                     {'VirtualName': None,
-                      'Ebs':{'VolumeSize': 12,  # DEBUG
-                             'VolumeType': 'standard',
-                             'DeleteOnTermination': 'true'},
-                      'DeviceName': '/dev/sdb'}]
+                     'Ebs':{'VolumeSize': 12,  # DEBUG
+                            'VolumeType': 'standard',
+                            'DeleteOnTermination': 'true'},
+                     'DeviceName': '/dev/sdb'}]
         node = driver.create_node(name=name, image=image, size=size,
-                                  ex_ebs_optimized=True,
+                                  #ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
                                   ex_blockdevicemappings=mappings)
 
