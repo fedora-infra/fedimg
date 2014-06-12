@@ -77,11 +77,6 @@ class EC2Service(object):
         # must be EBS-backed for AMI registration to work
         name = 'fedimg AMI builder'  # TODO: will add raw image title
         mappings = [{'VirtualName': None,
-                    'Ebs': {'VolumeSize': 12,  # DEBUG
-                            'VolumeType': 'standard',
-                            'DeleteOnTermination': 'true'},
-                     'DeviceName': '/dev/sda'},
-                    {'VirtualName': None,
                      'Ebs': {'VolumeSize': 12,  # DEBUG
                              'VolumeType': 'standard',
                              'DeleteOnTermination': 'true'},
