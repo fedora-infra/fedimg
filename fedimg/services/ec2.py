@@ -1,11 +1,14 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
 
-import fedimg
+import os
+import subprocess
 
 from libcloud.compute.base import NodeImage
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
+
+import fedimg
 
 
 class EC2ServiceException(Exception):
@@ -16,10 +19,9 @@ class EC2ServiceException(Exception):
 class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
-    # Will be a list of dicts. Dicts will contain AMI info.
-    amis = list()
-
     def __init__(self):
+        # Will be a list of dicts. Dicts will contain AMI info.
+        self.amis = list()
 
         for line in fedimg.AWS_AMIS.split('\n'):
             """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
@@ -41,56 +43,63 @@ class EC2Service(object):
     def _region_to_provider(self, region):
         """ Takes a region name (ex. 'eu-west-1') and returns
         the appropriate libcloud provider value. """
-        if region == 'ap-northeast-1' return Provider.EC2_AP_NORTHEAST
-        if region == 'ap-southeast-1' return Provider.EC2_AP_SOUTHEAST
-        if region == 'ap-southeast-2' return Provider.EC2_AP_SOUTHEAST2
-        if region == 'eu-west-1' return Provider.EC2_EU_WEST
-        if region == 'sa-east-1' return Provider.EC2_SA_EAST
-        if region == 'us-east-1' return Provider.EC2_US_EAST
-        if region == 'us-west-1' return Provider.EC2_US_WEST
-        if region == 'us-west-2' return Provider.EC2_US_WEST_OREGON
-
-        # If none of those returned, there is a problem.
-        raise EC2ServiceException('Invalid region, no matching provider.')
+        providers = {'ap-northeast-1': Provider.EC2_AP_NORTHEAST,
+                     'ap-southeast-1': Provider.EC2_AP_SOUTHEAST,
+                     'ap-southeast-2': Provider.EC2_AP_SOUTHEAST2,
+                     'eu-west-1': Provider.EC2_EU_WEST,
+                     'sa-east-1': Provider.EC2_SA_EAST,
+                     'us-east-1': Provider.EC2_US_EAST,
+                     'us-west-1': Provider.EC2_US_WEST,
+                     'us-west-2': Provider.EC2_US_WEST_OREGON}
+        return providers[region]
 
     def upload(self, raw):
         """ Takes a raw image file and registers it as an AMI in each
         EC2 region. """
         # TODO: Check here to confirm that image is proper format (RAW)?
-        # TODO: Make sure that once we create an AMI, we copy it to other
-        # regions via region-to-region copy rather than remake the AMI
-        # in each region (might just be copying image though).
-        for ami in self.amis:
-            cls = get_driver(ami['prov'])
-            driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
-            # select the desired node attributes
-            sizes = driver.list_sizes()
-            size_id = 't1.micro'  # The smallest one for now.
-            # check to make sure we have access to that size node
-            size = [s for s in sizes if s.id == size_id][0]
-            image = NodeImage(id=ami['ami'], name=None, driver=driver)
+        # get size of raw image and use to compute a reasonable volume size
+        raw_info = os.stat(raw)
+        vol_size = int(float(raw_info.st_size) / 10**9) + 2
 
-            # create node
-            # must be EBS-backed for AMI registration to work
-            name = 'fedimg AMI builder'  # TODO: will add raw image title
-            node = driver.create_node(name=name, image=image, size=size,
-                                      ex_iamprofile=fedimg.AWS_IAM_PROFILE,
-                                      ex_ebs_optimized=True)
+        ami = self.amis[0]  # DEBUG (us east x86_64)
+        cls = get_driver(ami['prov'])
+        driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
-            # create a volume for the uploaded image to be written to
-            vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
-            # TODO: might need to provide availability zone in the below call
-            vol = driver.create_volume(10, vol_name)  # new 10 GB volume
+        # select the desired node attributes
+        sizes = driver.list_sizes()
+        size_id = 'm1.small'
+        # check to make sure we have access to that size node
+        size = [s for s in sizes if s.id == size_id][0]
+        image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
-            # Attach the new volume to the node
-            # TODO: Check to see if it's faster to have the second volume
-            # in the block device mappings when the instance is spun up.
-            driver.attach_volume(node, vol, device='/dev/sdb')
+        # create node
+        # must be EBS-backed for AMI registration to work
+        name = 'fedimg AMI builder'  # TODO: will add raw image title
+        mappings = [{'VirtualName': None,
+                     'Ebs': {'VolumeSize': 12,  # DEBUG
+                             'VolumeType': 'standard',
+                             'DeleteOnTermination': 'true'},
+                     'DeviceName': '/dev/sdb'}]
+        node = driver.create_node(name=name, image=image, size=size,
+                                  ex_ebs_optimized=True,
+                                  ex_security_groups=['ssh'],
+                                  ex_keyname=fedimg.AWS_KEYPAIR,
+                                  ex_blockdevicemappings=mappings)
 
+        # start up the instance
+        driver.ex_start_node(node)
 
-            # write image to secondary volume
+        # wait until the instance is running
+        node_ip = driver.wait_until_running([node])[0][1][0]
 
-            # register that volume as an AMI, possibly after snapshotting it
+        # write image to secondary volume
+        ssh_address = 'ec2-user@' + node_ip
+        # TODO: Will need to add some sudo to this command.
+        cmd = "dd if={0} | ssh {1} 'dd of={2}'".format(raw, ssh_address,
+                                                       '/dev/sdb')
+        subprocess.call(cmd, shell=True)
 
-            # emit a fedmsg, etc
+        # register that volume as an AMI, possibly after snapshotting it
+
+        # emit a fedmsg, etc
