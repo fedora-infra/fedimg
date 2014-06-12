@@ -21,7 +21,8 @@ setup(
     include_package_data=True,
     zip_safe=False,
     install_requires=["fedmsg",
-                      "apache-libcloud"],
+                      "apache-libcloud",
+                      "paramiko"],
     packages=[],
     entry_points="""
     [moksha.consumer]
