@@ -5,6 +5,8 @@ import os
 import subprocess
 
 from libcloud.compute.base import NodeImage
+from libcloud.compute.deployment import MultiStepDeployment
+from libcloud.compute.deployment import ScriptDeployment, SSHKeyDeployment
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider
 
@@ -53,14 +55,9 @@ class EC2Service(object):
                      'us-west-2': Provider.EC2_US_WEST_OREGON}
         return providers[region]
 
-    def upload(self, raw):
-        """ Takes a raw image file and registers it as an AMI in each
+    def upload(self, raw_url):
+        """ Takes a URL to a .raw.xz file and registers it as an AMI in each
         EC2 region. """
-        # TODO: Check here to confirm that image is proper format (RAW)?
-
-        # get size of raw image and use to compute a reasonable volume size
-        raw_info = os.stat(raw)
-        vol_size = int(float(raw_info.st_size) / 10**9) + 2
 
         ami = self.amis[0]  # DEBUG (us east x86_64)
         cls = get_driver(ami['prov'])
@@ -73,32 +70,35 @@ class EC2Service(object):
         size = [s for s in sizes if s.id == size_id][0]
         image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
-        # create node
+        # deploy node
         # must be EBS-backed for AMI registration to work
         name = 'fedimg AMI builder'  # TODO: will add raw image title
+        # TODO: Make automatically-created /dev/sda be deleted on termination
         mappings = [{'VirtualName': None,
-                     'Ebs': {'VolumeSize': 12,  # DEBUG
+                     'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                              'VolumeType': 'standard',
                              'DeleteOnTermination': 'true'},
                      'DeviceName': '/dev/sdb'}]
-        node = driver.create_node(name=name, image=image, size=size,
+
+        # read in ssh key
+        with open(fedimg.AWS_KEYPATH) as f:
+            key_content = f.read()
+
+        # Add key to authorized keys for root user
+        step_1 = SSHKeyDeployment(key_content)
+
+        # Add script for deploymentA
+        script = "sudo curl {0} | xzcat > /dev/sdb".format(raw_url)
+        step_2 = ScriptDeployment(script)
+
+        # Create deployment object
+        msd = MultiStepDeployment([step_1, step_2])
+
+        node = driver.deploy_node(name=name, image=image, size=size,
+                                  deploy=msd,
                                   ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
-                                  ex_keyname=fedimg.AWS_KEYPAIR,
                                   ex_blockdevicemappings=mappings)
-
-        # start up the instance
-        driver.ex_start_node(node)
-
-        # wait until the instance is running
-        node_ip = driver.wait_until_running([node])[0][1][0]
-
-        # write image to secondary volume
-        ssh_address = 'ec2-user@' + node_ip
-        # TODO: Will need to add some sudo to this command.
-        cmd = "dd if={0} | ssh {1} 'dd of={2}'".format(raw, ssh_address,
-                                                       '/dev/sdb')
-        subprocess.call(cmd, shell=True)
 
         # register that volume as an AMI, possibly after snapshotting it
 

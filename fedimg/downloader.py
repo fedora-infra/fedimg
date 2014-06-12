@@ -12,6 +12,13 @@ import fedimg.messenger
 from fedmsg.util import compress, qcow2_to_raw
 
 
+"""
+
+THIS ENTIRE FILE IS DEPRECATED
+
+"""
+
+
 def download(urls):
     """ Downloads files (qcow2s, specifically) from a list of URLs with an
     optional progress bar. It then makes raw image files out of the downloaded
