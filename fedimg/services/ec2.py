@@ -119,6 +119,7 @@ class EC2Service(object):
 
         # write image to secondary volume
         ssh_address = 'ec2-user@' + node_ip
+        # TODO: Will need to add some sudo to this command.
         cmd = "dd if={0} | ssh {1} 'dd of={2}'".format(raw, ssh_address,
                                                        '/dev/sdb')
         subprocess.call(cmd, shell=True)
