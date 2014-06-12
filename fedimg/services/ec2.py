@@ -19,7 +19,6 @@ class EC2ServiceException(Exception):
 class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
-
     def __init__(self):
         # Will be a list of dicts. Dicts will contain AMI info.
         self.amis = list()
@@ -44,17 +43,15 @@ class EC2Service(object):
     def _region_to_provider(self, region):
         """ Takes a region name (ex. 'eu-west-1') and returns
         the appropriate libcloud provider value. """
-        if region == 'ap-northeast-1': return Provider.EC2_AP_NORTHEAST
-        if region == 'ap-southeast-1': return Provider.EC2_AP_SOUTHEAST
-        if region == 'ap-southeast-2': return Provider.EC2_AP_SOUTHEAST2
-        if region == 'eu-west-1': return Provider.EC2_EU_WEST
-        if region == 'sa-east-1': return Provider.EC2_SA_EAST
-        if region == 'us-east-1': return Provider.EC2_US_EAST
-        if region == 'us-west-1': return Provider.EC2_US_WEST
-        if region == 'us-west-2': return Provider.EC2_US_WEST_OREGON
-
-        # If none of those returned, there is a problem.
-        raise EC2ServiceException('Invalid region, no matching provider.')
+        providers = {'ap-northeast-1': Provider.EC2_AP_NORTHEAST,
+                     'ap-southeast-1': Provider.EC2_AP_SOUTHEAST,
+                     'ap-southeast-2': Provider.EC2_AP_SOUTHEAST2,
+                     'eu-west-1': Provider.EC2_EU_WEST,
+                     'sa-east-1': Provider.EC2_SA_EAST,
+                     'us-east-1': Provider.EC2_US_EAST,
+                     'us-west-1': Provider.EC2_US_WEST,
+                     'us-west-2': Provider.EC2_US_WEST_OREGON}
+        return providers[region]
 
     def upload(self, raw):
         """ Takes a raw image file and registers it as an AMI in each
@@ -65,11 +62,7 @@ class EC2Service(object):
         raw_info = os.stat(raw)
         vol_size = int(float(raw_info.st_size) / 10**9) + 2
 
-        # TODO: Make sure that once we create an AMI, we copy it to other
-        # regions via region-to-region copy rather than remake the AMI
-        # in each region (might just be copying image though).
         ami = self.amis[0]  # DEBUG (us east x86_64)
-        #for ami in self.amis:
         cls = get_driver(ami['prov'])
         driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
@@ -84,38 +77,25 @@ class EC2Service(object):
         # must be EBS-backed for AMI registration to work
         name = 'fedimg AMI builder'  # TODO: will add raw image title
         mappings = [{'VirtualName': None,
-                    'Ebs':{'VolumeSize': 12,  # DEBUG
-                           'VolumeType': 'standard',
-                           'DeleteOnTermination': 'true'},
-                     'DeviceName': '/dev/sda'},
-                    {'VirtualName': None,
-                     'Ebs':{'VolumeSize': 12,  # DEBUG
+                    'Ebs': {'VolumeSize': 12,  # DEBUG
                             'VolumeType': 'standard',
                             'DeleteOnTermination': 'true'},
+                     'DeviceName': '/dev/sda'},
+                    {'VirtualName': None,
+                     'Ebs': {'VolumeSize': 12,  # DEBUG
+                             'VolumeType': 'standard',
+                             'DeleteOnTermination': 'true'},
                      'DeviceName': '/dev/sdb'}]
         node = driver.create_node(name=name, image=image, size=size,
                                   ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
                                   ex_blockdevicemappings=mappings)
 
-        # create a volume for the uploaded image to be written to
-        #vol_name = 'fedimg AMI volume'  # TODO; will add raw image title
-        # get an availability zone for the volume (required)
-        #zones = driver.ex_list_availability_zones(only_available=True)
-        #location = zones[0]
         # start up the instance
         driver.ex_start_node(node)
 
-        # TODO: might need to provide availability zone in the below call
-        #vol = driver.create_volume(vol_size, vol_name, location=location)
-        
         # wait until the instance is running
         node_ip = driver.wait_until_running([node])[0][1][0]
-
-        # Attach the new volume to the node
-        # TODO: Check to see if it's faster to have the second volume
-        # in the block device mappings when the instance is spun up.
-        #driver.attach_volume(node, vol, device='/dev/sdb')
 
         # write image to secondary volume
         ssh_address = 'ec2-user@' + node_ip
