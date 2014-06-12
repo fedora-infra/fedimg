@@ -22,7 +22,7 @@ def upload(builds):
 
     if len(builds) == 1:
         task_result = koji_session.getTaskResult(builds[0])
-        upload_files.extend(get_qcow2_files(task_result))
+        upload_files.append(get_rawxz_url(task_result))
     elif len(builds) >= 2:
         # This is the edge case -- in fact, I don't even know if it
         # can happen, ever. Therefore, TODO: can this code ever be called?
@@ -31,14 +31,10 @@ def upload(builds):
             koji_session.listTaskOutput(build)
         results = koji.multiCall()
         for result in results:
-            upload_files.extend(get_qcow2_files(result))
+            upload_files.append(get_rawxz_url(result))
         koji.multicall = False  # TODO: Is this needed?
-
-    # Download files locally and compress them with xz.
-    # download() returns raw image files made from the downloaded qcow2s
-    raw_images = fedimg.downloader.download(upload_files)
 
     # EC2 upload
     ec2 = EC2Service()
-    for image in raw_images:
+    for image in upload_files:
         ec2.upload(image)

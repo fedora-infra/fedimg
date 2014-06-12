@@ -1,8 +1,10 @@
 [general]
+# DEPRECATED
 # LOCAL_DOWNLOAD_DIR should be changed as appropriate in production
 # in order to properly upload files to local shares for FTP access.
 local_download_dir = /mnt/alt.fedoraproject.org/pub/alt/cloud
 
+# DEPRECATED
 # Set DOWNLOAD_PROGRESS to False if you want to hide any the file
 # download progress indicator (might be a good idea on production systems
 # where fedmsg-hub has other regular outputs.
@@ -17,7 +19,7 @@ base_task_url = https://kojipkgs.fedoraproject.org//work/tasks
 access_id = secretaccessID
 secret_key = supersecretsecretkey
 iam_profile = oddshocks
-keypair = nameofkeypair
+keypath = /path/to/keypair/file
 amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c
 ap-northeast-1|Fedora|20|x86_64|ami-8fd0b38e
 ap-southeast-1|Fedora|20|i386|ami-bccd99ee
