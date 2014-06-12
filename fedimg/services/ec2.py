@@ -84,6 +84,7 @@ class EC2Service(object):
         node = driver.create_node(name=name, image=image, size=size,
                                   ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
+                                  ex_keyname=fedimg.AWS_KEYPAIR,
                                   ex_blockdevicemappings=mappings)
 
         # start up the instance
