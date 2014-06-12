@@ -75,7 +75,7 @@ class EC2Service(object):
 
         # select the desired node attributes
         sizes = driver.list_sizes()
-        size_id = 't1.micro'  # The smallest one for now.
+        size_id = 'm1.small'
         # check to make sure we have access to that size node
         size = [s for s in sizes if s.id == size_id][0]
         image = NodeImage(id=ami['ami'], name=None, driver=driver)
@@ -94,7 +94,7 @@ class EC2Service(object):
                             'DeleteOnTermination': 'true'},
                      'DeviceName': '/dev/sdb'}]
         node = driver.create_node(name=name, image=image, size=size,
-                                  #ex_ebs_optimized=True,
+                                  ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
                                   ex_blockdevicemappings=mappings)
 
