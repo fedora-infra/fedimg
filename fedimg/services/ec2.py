@@ -103,6 +103,7 @@ class EC2Service(object):
             #      VLiLF4kCUA@mail.gmail.com%3E
             node = driver.deploy_node(name=name, image=image, size=size,
                                       ssh_username='fedora',
+                                      ssh_alternate_usernames=['root'],
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
                                       ex_ebs_optimized=True,
