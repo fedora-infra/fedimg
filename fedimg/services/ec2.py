@@ -71,7 +71,6 @@ class EC2Service(object):
         image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
         # deploy node
-        # must be EBS-backed for AMI registration to work
         name = 'fedimg AMI builder'  # TODO: will add raw image title
         # TODO: Make automatically-created /dev/sda be deleted on termination
         mappings = [{'VirtualName': None,
@@ -94,6 +93,7 @@ class EC2Service(object):
         # Create deployment object
         msd = MultiStepDeployment([step_1, step_2])
 
+        # must be EBS-backed for AMI registration to work
         node = driver.deploy_node(name=name, image=image, size=size,
                                   deploy=msd,
                                   ex_ebs_optimized=True,
