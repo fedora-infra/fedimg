@@ -94,8 +94,15 @@ class EC2Service(object):
         msd = MultiStepDeployment([step_1, step_2])
 
         try:
-            # must be EBS-backed for AMI registration to work
+            # Must be EBS-backed for AMI registration to work.
+            # Username must be provided properly or paramiko will throw an
+            # error saying "invalid DSA key" even if the key is valid, in the
+            # case that the _username_ is not valid. see:
+            # http://mail-archives.apache.org/mod_mbox/libcloud-users/
+            #      201303.mbox/%3CCAJMHEm+ihtKWPJxLjKR9ro10X-VDNzcVMgc8jb6+
+            #      VLiLF4kCUA@mail.gmail.com%3E
             node = driver.deploy_node(name=name, image=image, size=size,
+                                      ssh_username='fedora',
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
                                       ex_ebs_optimized=True,
