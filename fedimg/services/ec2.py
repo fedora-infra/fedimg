@@ -8,7 +8,7 @@ from libcloud.compute.base import NodeImage
 from libcloud.compute.deployment import MultiStepDeployment
 from libcloud.compute.deployment import ScriptDeployment, SSHKeyDeployment
 from libcloud.compute.providers import get_driver
-from libcloud.compute.types import Provider
+from libcloud.compute.types import Provider, DeploymentException
 
 import fedimg
 
@@ -93,13 +93,17 @@ class EC2Service(object):
         # Create deployment object
         msd = MultiStepDeployment([step_1, step_2])
 
-        # must be EBS-backed for AMI registration to work
-        node = driver.deploy_node(name=name, image=image, size=size,
-                                  ssh_key=fedimg.AWS_KEYPATH,
-                                  deploy=msd,
-                                  ex_ebs_optimized=True,
-                                  ex_security_groups=['ssh'],
-                                  ex_blockdevicemappings=mappings)
+        try:
+            # must be EBS-backed for AMI registration to work
+            node = driver.deploy_node(name=name, image=image, size=size,
+                                      ssh_key=fedimg.AWS_KEYPATH,
+                                      deploy=msd,
+                                      ex_ebs_optimized=True,
+                                      ex_security_groups=['ssh'],
+                                      ex_blockdevicemappings=mappings)
+        except DeploymentException as e:
+            print "Problem deploying node. Terminating instance."
+            driver.destroy_node(e.node)
 
         # register that volume as an AMI, possibly after snapshotting it
 
