@@ -102,7 +102,8 @@ class EC2Service(object):
                                       ex_security_groups=['ssh'],
                                       ex_blockdevicemappings=mappings)
         except DeploymentException as e:
-            print "Problem deploying node. Terminating instance."
+            print "Problem deploying node: {}".format(e.value)
+            print "Terminating instance."
             driver.destroy_node(e.node)
 
         # register that volume as an AMI, possibly after snapshotting it
