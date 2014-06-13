@@ -95,6 +95,7 @@ class EC2Service(object):
 
         # must be EBS-backed for AMI registration to work
         node = driver.deploy_node(name=name, image=image, size=size,
+                                  ssh_key=fedimg.AWS_KEYPATH,
                                   deploy=msd,
                                   ex_ebs_optimized=True,
                                   ex_security_groups=['ssh'],
