@@ -20,3 +20,7 @@ AWS_SECRET_KEY = config.get('aws', 'secret_key')
 AWS_KEYPATH = config.get('aws', 'keypath')
 AWS_AMIS = config.get('aws', 'amis')
 AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
+
+# RACKSPACE
+RACKSPACE_USER = config.get('rackspace', 'username')
+RACKSPACE_API_KEY = config.get('rackspace', 'api_key')
