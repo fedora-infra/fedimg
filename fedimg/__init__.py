@@ -29,3 +29,8 @@ RACKSPACE_API_KEY = config.get('rackspace', 'api_key')
 GCE_EMAIL = config.get('gce', 'email')
 GCE_KEYPATH = config.get('gce', 'keypath')
 GCE_PROJECT_ID = config.get('gce', 'project_id')
+
+# HP
+HP_USER = config.get('hp', 'username')
+HP_PASSWORD = config.get('hp', 'password')
+HP_TENANT = config.get('hp', 'tenant')

@@ -45,3 +45,8 @@ api_key = secretk3y
 email = someacct@provider.com
 keypath = /path/to/pem/file
 project_id = someprojectid
+
+[hp]
+username = aperson
+password = somecoolpassword
+tenant = theprojectname
