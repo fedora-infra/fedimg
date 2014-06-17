@@ -24,3 +24,8 @@ AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
 # RACKSPACE
 RACKSPACE_USER = config.get('rackspace', 'username')
 RACKSPACE_API_KEY = config.get('rackspace', 'api_key')
+
+# GCE
+GCE_EMAIL = config.get('gce', 'email')
+GCE_KEYPATH = config.get('gce', 'keypath')
+GCE_PROJECT_ID = config.get('gce', 'project_id')

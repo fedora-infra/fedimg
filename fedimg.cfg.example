@@ -40,3 +40,8 @@ us-west-2|Fedora|20|x86_64|ami-ea7612da
 [rackspace]
 username = someuser
 api_key = secretk3y
+
+[gce]
+email = someacct@provider.com
+keypath = /path/to/pem/file
+project_id = someprojectid
