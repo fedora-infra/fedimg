@@ -11,6 +11,7 @@ from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider, DeploymentException
 
 import fedimg
+import fedimg.messenger
 
 
 class EC2ServiceException(Exception):
@@ -93,6 +94,12 @@ class EC2Service(object):
         # Create deployment object
         msd = MultiStepDeployment([step_1, step_2])
 
+        # Fedmsg info
+        file_name = raw_url.split('/')[-1]
+        destination = 'EC2 ({region})'.format(region=ami['region'])
+
+        fedimg.messenger.message(file_name, destination,
+                                 'started')
         try:
             # Must be EBS-backed for AMI registration to work.
             # Username must be provided properly or paramiko will throw an
@@ -109,7 +116,11 @@ class EC2Service(object):
                                       ex_ebs_optimized=True,
                                       ex_security_groups=['ssh'],
                                       ex_blockdevicemappings=mappings)
+            fedimg.messenger.message(file_name, destination,
+                                     'completed')
         except DeploymentException as e:
+            fedimg.messenger.message(file_name, destination,
+                                     'failed')
             print "Problem deploying node: {}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
