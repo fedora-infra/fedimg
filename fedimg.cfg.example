@@ -36,3 +36,7 @@ us-west-1|Fedora|20|i386|ami-68e3d32d
 us-west-1|Fedora|20|x86_64|ami-54e3d311
 us-west-2|Fedora|20|i386|ami-56771366
 us-west-2|Fedora|20|x86_64|ami-ea7612da
+
+[rackspace]
+username = someuser
+api_key = secretk3y
