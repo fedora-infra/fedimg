@@ -44,6 +44,6 @@ class RackspaceService(object):
                              'DeleteOnTermination': 'true'},
                      'DeviceName': '/dev/sdb'}]
 
-        # register that volume as an AMI, possibly after snapshotting it
+        # register that volume as an image
 
         # emit a fedmsg, etc
