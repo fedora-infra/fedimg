@@ -33,6 +33,6 @@ to these providers.
 
 ## Contributors
 
-* David Gay [oddshocks@riseup.net]
+* David Gay <oddshocks@riseup.net>
 
-* Ralph Bean [rbean@redhat.com]
+* Ralph Bean <rbean@redhat.com>
