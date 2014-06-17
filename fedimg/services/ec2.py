@@ -84,12 +84,6 @@ class EC2Service(object):
         with open(fedimg.AWS_KEYPATH, 'rb') as f:
             key_content = f.read()
 
-        from pprint import pprint
-        pprint(key_content)
-
-        import q
-        q.q(key_content)
-
         # Add key to authorized keys for root user
         step_1 = SSHKeyDeployment(key_content)
 
