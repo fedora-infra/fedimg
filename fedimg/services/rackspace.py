@@ -33,7 +33,7 @@ class RackspaceService(object):
         driver = cls(fedimg.RACKSPACE_USER, fedimg.RACKSPACE_API_KEY,
                      region=self.regions[0])
 
-        # create image
+        # create image from offical Fedora image on Rackspace
 
         # deploy node
         name = 'fedimg AMI builder'  # TODO: will add raw image title
@@ -43,41 +43,6 @@ class RackspaceService(object):
                              'VolumeType': 'standard',
                              'DeleteOnTermination': 'true'},
                      'DeviceName': '/dev/sdb'}]
-
-        # read in ssh key
-        with open(fedimg.AWS_KEYPATH) as f:
-            key_content = f.read()
-
-        # Add key to authorized keys for root user
-        step_1 = SSHKeyDeployment(key_content)
-
-        # Add script for deploymentA
-        script = "sudo curl {0} | xzcat > /dev/sdb".format(raw_url)
-        step_2 = ScriptDeployment(script)
-
-        # Create deployment object
-        msd = MultiStepDeployment([step_1, step_2])
-
-        try:
-            # Must be EBS-backed for AMI registration to work.
-            # Username must be provided properly or paramiko will throw an
-            # error saying "invalid DSA key" even if the key is valid, in the
-            # case that the _username_ is not valid. see:
-            # http://mail-archives.apache.org/mod_mbox/libcloud-users/
-            #      201303.mbox/%3CCAJMHEm+ihtKWPJxLjKR9ro10X-VDNzcVMgc8jb6+
-            #      VLiLF4kCUA@mail.gmail.com%3E
-            node = driver.deploy_node(name=name, image=image, size=size,
-                                      ssh_username='fedora',
-                                      ssh_alternate_usernames=['root'],
-                                      ssh_key=fedimg.AWS_KEYPATH,
-                                      deploy=msd,
-                                      ex_ebs_optimized=True,
-                                      ex_security_groups=['ssh'],
-                                      ex_blockdevicemappings=mappings)
-        except DeploymentException as e:
-            print "Problem deploying node: {}".format(e.value)
-            print "Terminating instance."
-            driver.destroy_node(e.node)
 
         # register that volume as an AMI, possibly after snapshotting it
 
