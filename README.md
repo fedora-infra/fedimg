@@ -1,4 +1,4 @@
-# fedimg
+# Fedimg
 
 Service to automatically upload built Fedora images to internal and external
 cloud providers.
@@ -16,9 +16,6 @@ virtualenv for fedimg, which you should do with `mkvirtualenv [name]
 --system-site-packages` so that your system install of `koji` is included with
 your virtualenv.
 
-You must also have the `qemu-img` tool installed, or qcow2 --> raw image
-conversion will fail.
-
 ## Installation
 
 Besides installing fedimg or before running `python setup.py
@@ -29,24 +26,10 @@ the fedmsg bus as `fedmsg-hub` (currently installed separately) runs.
 ## Providers
 
 We hope to simultaneously upload our cloud images to a variety of internal and
-external spaces.
-
-### Current
-
-* Local file downloads (to be sent, for example, to an NFS share to make the
-  image files available on Fedora's internal FTP server)
-
-### Future
-
-* Amazon EC2
-
-* GCE
-
-* HP
-
-* Rackspace
-
-* Official Fedora and Red Hat cloud spaces
+external spaces. Currently, the code supports Amazon EC2. Work has begun
+toward supporting Rackspace, GCE, and HP. We're currently waiting on some
+legal developments to determine what sort of account and access we'll have
+to these providers.
 
 ## Contributors
 
