@@ -9,8 +9,9 @@ AGPLv3+
 
 ## Documentation
 
-Official Fedimg documentation can be found at fedimg.readthedocs.org. This
-readme contains at least the basic information needed to set up Fedimg.
+Official Fedimg documentation can be [found at
+RTFD](https://fedimg.readthedocs.org). This readme contains at least the basic
+information needed to set up Fedimg.
 
 ### Requirements
 
