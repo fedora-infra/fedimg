@@ -18,6 +18,7 @@ DOWNLOAD_PROGRESS = config.get('general', 'download_progress')
 AWS_ACCESS_ID = config.get('aws', 'access_id')
 AWS_SECRET_KEY = config.get('aws', 'secret_key')
 AWS_KEYPATH = config.get('aws', 'keypath')
+AWS_PUBKEYPATH = config.get('aws', 'pubkeypath')
 AWS_AMIS = config.get('aws', 'amis')
 AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
 

@@ -81,7 +81,7 @@ class EC2Service(object):
                      'DeviceName': '/dev/sdb'}]
 
         # read in ssh key
-        with open(fedimg.AWS_KEYPATH, 'rb') as f:
+        with open(fedimg.AWS_PUBKEYPATH, 'rb') as f:
             key_content = f.read()
 
         # Add key to authorized keys for root user
@@ -113,7 +113,7 @@ class EC2Service(object):
                                       ssh_alternate_usernames=['root'],
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
-                                      ex_ebs_optimized=True,
+                                      ex_keyname='fedimg-dev',
                                       ex_security_groups=['ssh'],
                                       ex_blockdevicemappings=mappings)
             fedimg.messenger.message(file_name, destination,
