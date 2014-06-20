@@ -19,6 +19,7 @@ base_task_url = https://kojipkgs.fedoraproject.org//work/tasks
 access_id = secretaccessID
 secret_key = supersecretsecretkey
 iam_profile = oddshocks
+keyname = somekeyname
 keypath = /path/to/private/key
 pubkeypath = /path/to/public/key
 amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c

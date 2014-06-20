@@ -113,7 +113,7 @@ class EC2Service(object):
                                       ssh_alternate_usernames=['root'],
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
-                                      ex_keyname='fedimg-dev',
+                                      ex_keyname=fedimg.AWS_KEYNAME,
                                       ex_security_groups=['ssh'],
                                       ex_blockdevicemappings=mappings)
             fedimg.messenger.message(file_name, destination,
