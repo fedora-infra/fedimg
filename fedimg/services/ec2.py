@@ -87,8 +87,9 @@ class EC2Service(object):
         # Add key to authorized keys for root user
         step_1 = SSHKeyDeployment(key_content)
 
-        # Add script for deploymentA
-        script = "sudo curl {0} | xzcat > /dev/sdb".format(raw_url)
+        # Add script for deployment
+        # Device becomes /dev/xvdb on instance due to recent kernel change
+        script = "sudo curl {0} | xzcat > /dev/xvdb".format(raw_url)
         step_2 = ScriptDeployment(script)
 
         # Create deployment object
