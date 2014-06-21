@@ -66,7 +66,7 @@ class EC2Service(object):
 
         # select the desired node attributes
         sizes = driver.list_sizes()
-        size_id = 'm1.small'
+        size_id = 'm1.large'
         # check to make sure we have access to that size node
         size = [s for s in sizes if s.id == size_id][0]
         image = NodeImage(id=ami['ami'], name=None, driver=driver)
@@ -102,12 +102,6 @@ class EC2Service(object):
                                  'started')
         try:
             # Must be EBS-backed for AMI registration to work.
-            # Username must be provided properly or paramiko will throw an
-            # error saying "invalid DSA key" even if the key is valid, in the
-            # case that the _username_ is not valid. see:
-            # http://mail-archives.apache.org/mod_mbox/libcloud-users/
-            #      201303.mbox/%3CCAJMHEm+ihtKWPJxLjKR9ro10X-VDNzcVMgc8jb6+
-            #      VLiLF4kCUA@mail.gmail.com%3E
             node = driver.deploy_node(name=name, image=image, size=size,
                                       ssh_username='fedora',
                                       ssh_alternate_usernames=['root'],
@@ -115,7 +109,9 @@ class EC2Service(object):
                                       deploy=msd,
                                       ex_keyname=fedimg.AWS_KEYNAME,
                                       ex_security_groups=['ssh'],
+                                      ex_ebs_optimized=True,
                                       ex_blockdevicemappings=mappings)
+
             fedimg.messenger.message(file_name, destination,
                                      'completed')
         except DeploymentException as e:
