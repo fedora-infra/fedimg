@@ -9,6 +9,18 @@ import subprocess
 import fedimg
 
 
+def get_file_arch(file_name):
+    """ Takes a file name (probably of a .raw.xz image file) and returns
+    the suspected architecture of the contained image. If it doesn't look
+    like a 32-bit or 64-bit image, None is returned. """
+    if file_name.index('i386'):
+        return 'i386'
+    elif file_name.index('x86_64'):
+        return 'x86_64'
+    else:
+        return None
+
+
 def get_rawxz_url(task_result):
     """ Returns the URL of the raw.xz file produced by the Koji
     task ID represented by the task_result argument. """
