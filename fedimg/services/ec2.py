@@ -12,6 +12,7 @@ from libcloud.compute.types import Provider, DeploymentException
 
 import fedimg
 import fedimg.messenger
+from fedimg.util import get_file_arch
 
 
 class EC2ServiceException(Exception):
@@ -113,8 +114,27 @@ class EC2Service(object):
                                       ex_ebs_optimized=True,
                                       ex_blockdevicemappings=mappings)
 
+            # Temporary hack to let the deploy script run
+            from time import sleep
+            sleep(300)  # give it 5 minutes
+
+            root_device_name = '/dev/sda'  # this might be something else...
+
+            # NOTE: Amazon docs for the below `architecture` argument that
+            # the default for EBS-backed AMIs is i386, so if problems
+            # arise with this statement during development, that might be a
+            # place to look.
+            # TODO: Perhaps generate a description?
+            # actually egister image
+            driver.ex_register_image(file_name,
+                                     description=None,
+                                     architecture=get_file_arch(file_name),
+                                     root_device_name=root_device_name)
+
+            # Emit success fedmsg
             fedimg.messenger.message(file_name, destination,
                                      'completed')
+
         except DeploymentException as e:
             fedimg.messenger.message(file_name, destination,
                                      'failed')
@@ -122,6 +142,9 @@ class EC2Service(object):
             print "Terminating instance."
             driver.destroy_node(e.node)
 
-        # register that volume as an AMI, possibly after snapshotting it
-
-        # emit a fedmsg, etc
+        except Exception as e:
+            fedimg.messenger.message(file_name, destination,
+                                     'failed')
+            print "Problem registering AMI: {}".format(e.value)
+            print "Terminating instance."
+            driver.destroy_node(e.node)
