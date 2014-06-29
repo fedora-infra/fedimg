@@ -171,6 +171,13 @@ class EC2Service(object):
                                       ex_security_groups=['ssh'],
                                       ex_ebs_optimized=True)
 
+            # TODO: Wait until script completes and fedmsg is emitted.
+
+            # Destroy the test node
+            driver.destroy_node(test_node)
+
+            # TODO: Make sure the node's volume is also deleted
+
 
         except DeploymentException as e:
             fedimg.messenger.message(build_name, destination,
