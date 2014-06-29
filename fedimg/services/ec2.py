@@ -142,9 +142,11 @@ class EC2Service(object):
             print "Terminating instance."
             driver.destroy_node(e.node)
 
+        """
         except Exception as e:
             fedimg.messenger.message(file_name, destination,
                                      'failed')
-            print "Problem registering AMI: {}".format(e.value)
+            print "Problem registering AMI."
             print "Terminating instance."
             driver.destroy_node(e.node)
+        """
