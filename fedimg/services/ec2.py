@@ -65,9 +65,8 @@ class EC2Service(object):
         volume = None
         snapshot = None
         test_node = None
-        
-        fedimg.messenger.message(build_name, destination,
-                                 'started')
+
+        fedimg.messenger.message(build_name, destination, 'started')
 
         try:
             ami = self.amis[0]  # DEBUG (us east x86_64)
@@ -83,7 +82,8 @@ class EC2Service(object):
 
             # deploy node
             name = 'fedimg AMI builder'  # TODO: will add raw image title
-            # TODO: Make automatically-created /dev/sda be deleted on termination
+            # TODO: Make automatically-created /dev/sda be deleted
+            # on termination
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                                  'VolumeType': 'standard',
@@ -149,7 +149,7 @@ class EC2Service(object):
                                              description=None,
                                              root_device_name='/dev/sda',
                                              block_device_mapping=mapping,
-                                             architecture=arch))
+                                             architecture=arch)
 
             # Spin up a node of the AMI to test
             # TODO: Need to report back status of tests for this to be useful
@@ -163,13 +163,13 @@ class EC2Service(object):
             msd = MultiStepDeployment([step_1, step_2])
 
             test_node = driver.deploy_node(name=name, image=image, size=size,
-                                      ssh_username='fedora',
-                                      ssh_alternate_usernames=['root'],
-                                      ssh_key=fedimg.AWS_KEYPATH,
-                                      deploy=msd,
-                                      ex_keyname=fedimg.AWS_KEYNAME,
-                                      ex_security_groups=['ssh'],
-                                      ex_ebs_optimized=True)
+                                           ssh_username='fedora',
+                                           ssh_alternate_usernames=['root'],
+                                           ssh_key=fedimg.AWS_KEYPATH,
+                                           deploy=msd,
+                                           ex_keyname=fedimg.AWS_KEYNAME,
+                                           ex_security_groups=['ssh'],
+                                           ex_ebs_optimized=True)
 
             # TODO: Wait until script completes and fedmsg is emitted.
 
@@ -177,7 +177,6 @@ class EC2Service(object):
             driver.destroy_node(test_node)
 
             # TODO: Make sure the node's volume is also deleted
-
 
         except DeploymentException as e:
             fedimg.messenger.message(build_name, destination,
