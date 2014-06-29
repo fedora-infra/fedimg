@@ -20,6 +20,7 @@ AWS_SECRET_KEY = config.get('aws', 'secret_key')
 AWS_KEYNAME = config.get('aws', 'keyname')
 AWS_KEYPATH = config.get('aws', 'keypath')
 AWS_PUBKEYPATH = config.get('aws', 'pubkeypath')
+AWS_TEST = config.get('aws', 'test')
 AWS_AMIS = config.get('aws', 'amis')
 AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
 
