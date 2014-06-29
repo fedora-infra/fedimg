@@ -75,10 +75,10 @@ class EC2Service(object):
         # deploy node
         name = 'fedimg AMI builder'  # TODO: will add raw image title
         # TODO: Make automatically-created /dev/sda be deleted on termination
-        mappings = [{'VirtualName': None,
+        mappings = [{'VirtualName': None,  # cannot specify with Ebs
                      'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                              'VolumeType': 'standard',
-                             'DeleteOnTermination': 'true'},
+                             'DeleteOnTermination': 'false'},
                      'DeviceName': '/dev/sdb'}]
 
         # read in ssh key
