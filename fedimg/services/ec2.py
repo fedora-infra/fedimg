@@ -61,6 +61,10 @@ class EC2Service(object):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
         EC2 region. """
 
+        node = None
+        volume = None
+        snapshot = None
+
         ami = self.amis[0]  # DEBUG (us east x86_64)
         cls = get_driver(ami['prov'])
         driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
@@ -98,9 +102,10 @@ class EC2Service(object):
 
         # Fedmsg info
         file_name = raw_url.split('/')[-1]
+        build_name = file_name.replace('.raw.xz', '')
         destination = 'EC2 ({region})'.format(region=ami['region'])
 
-        fedimg.messenger.message(file_name, destination,
+        fedimg.messenger.message(build_name, destination,
                                  'started')
         try:
             # Must be EBS-backed for AMI registration to work.
@@ -117,36 +122,52 @@ class EC2Service(object):
             # Temporary hack to let the deploy script run
             from time import sleep
             sleep(300)  # give it 5 minutes
+            print "5 minutes have passed. Snapshotting and registering."
 
-            root_device_name = '/dev/sda'  # this might be something else...
+            # Terminate the utility instance
+            driver.destroy_node(node)
 
-            # NOTE: Amazon docs for the below `architecture` argument that
-            # the default for EBS-backed AMIs is i386, so if problems
-            # arise with this statement during development, that might be a
-            # place to look.
+            # Take a snapshot of the volume the image was written to
+            volume = [v for v in driver.list_volumes()][0]  # DEBUG
+            snapshot = driver.create_volume_snapshot(volume,
+                                                     name='fedimg snap')
+            snap_id = str(snapshot.id)
+
+            # Delete the volume now that we've got the snapshot
+            driver.destroy_volume(volume)
+
+            # Block device mapping for the AMI
+            mapping = [{'DeviceName': '/dev/sda',
+                        'Ebs': {'SnapshotId': snap_id}}]
+
+            # Actually register image
             # TODO: Perhaps generate a description?
-            # actually egister image
-            driver.ex_register_image(file_name,
+            driver.ex_register_image(build_name,
                                      description=None,
-                                     architecture=get_file_arch(file_name),
-                                     root_device_name=root_device_name)
+                                     root_device_name='/dev/sda',
+                                     block_device_mapping=mapping,
+                                     architecture=get_file_arch(file_name))
 
             # Emit success fedmsg
-            fedimg.messenger.message(file_name, destination,
+            fedimg.messenger.message(build_name, destination,
                                      'completed')
 
         except DeploymentException as e:
-            fedimg.messenger.message(file_name, destination,
+            fedimg.messenger.message(build_name, destination,
                                      'failed')
             print "Problem deploying node: {}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
 
-        """
-        except Exception as e:
-            fedimg.messenger.message(file_name, destination,
+        except Exception:
+            fedimg.messenger.message(build_name, destination,
                                      'failed')
-            print "Problem registering AMI."
-            print "Terminating instance."
-            driver.destroy_node(e.node)
-        """
+            print "Unexpected problem registering AMI."
+            print "Terminating instance and destroying other resources."
+
+            if node:
+                driver.destroy_node(node)
+            if volume:
+                driver.destroy_volume(volume)
+            if snapshot:
+                driver.destroy_volume_snapshot(snapshot)
