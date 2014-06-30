@@ -127,7 +127,9 @@ class EC2Service(object):
 
             # Temporary hack to let the deploy script run
             from time import sleep
-            sleep(300)  # give it 5 minutes
+            sleep(270)  # give it 5 minutes
+            print "30 seconds remaining!"
+            sleep(30)
             print "5 minutes have passed. Snapshotting and registering."
 
             # Terminate the utility instance
