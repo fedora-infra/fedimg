@@ -102,7 +102,7 @@ class EC2Service(object):
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance due to recent kernel change
-            script = "sudo curl {0} | xzcat > /dev/xvdb".format(raw_url)
+            script = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
             step_2 = ScriptDeployment(script)
 
             # Create deployment object
