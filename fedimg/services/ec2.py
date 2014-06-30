@@ -41,7 +41,8 @@ class EC2Service(object):
                     'os': attrs[1],
                     'ver': attrs[2],
                     'arch': attrs[3],
-                    'ami': attrs[4]}
+                    'ami': attrs[4],
+                    'aki': attrs[5]}
             self.amis.append(info)
 
     def _region_to_provider(self, region):
@@ -65,6 +66,8 @@ class EC2Service(object):
         volume = None
         snapshot = None
         test_node = None
+        build_name = 'Fedimg build'
+        destination = 'somewhere'
 
         fedimg.messenger.message(build_name, destination, 'started')
 
@@ -116,6 +119,7 @@ class EC2Service(object):
                                       ssh_alternate_usernames=['root'],
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
+                                      kernel_id=ami['aki'],
                                       ex_keyname=fedimg.AWS_KEYNAME,
                                       ex_security_groups=['ssh'],
                                       ex_ebs_optimized=True,

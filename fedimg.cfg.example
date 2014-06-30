@@ -23,7 +23,7 @@ keyname = somekeyname
 keypath = /path/to/private/key
 pubkeypath = /path/to/public/key
 test = /bin/true; echo $? > test.log
-amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c
+amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c|aki-427d952b
 ap-northeast-1|Fedora|20|x86_64|ami-8fd0b38e
 ap-southeast-1|Fedora|20|i386|ami-bccd99ee
 ap-southeast-1|Fedora|20|x86_64|ami-92cd99c0
