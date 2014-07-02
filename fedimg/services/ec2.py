@@ -186,6 +186,7 @@ class EC2Service(object):
                                            deploy=msd,
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
+                                           kernel_id=ami['aki'],
                                            ex_ebs_optimized=True)
 
             # TODO: Wait until script completes and fedmsg is emitted.
