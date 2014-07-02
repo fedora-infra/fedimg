@@ -177,6 +177,7 @@ class EC2Service(object):
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
 
+            name = 'fedimg AMI tester'
             test_node = driver.deploy_node(name=name, image=image, size=size,
                                            ssh_username='fedora',
                                            ssh_alternate_usernames=['root'],
