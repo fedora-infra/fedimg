@@ -127,19 +127,28 @@ class EC2Service(object):
 
             # Temporary hack to let the deploy script run
             from time import sleep
+            print "Sleeping"
             sleep(270)  # give it 5 minutes
             print "30 seconds remaining!"
             sleep(30)
             print "5 minutes have passed. Snapshotting and registering."
 
+            # Get volume name that image was written to
+            vol_id = [x['ebs']['volume_id'] for x in
+                      node.extra['block_device_mapping'] if
+                      x['device_name'] == '/dev/sdb'][0]
+
             # Terminate the utility instance
             driver.destroy_node(node)
 
             # Take a snapshot of the volume the image was written to
-            volume = [v for v in driver.list_volumes()][0]  # DEBUG
+            volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
             snapshot = driver.create_volume_snapshot(volume,
                                                      name='fedimg snap')
             snap_id = str(snapshot.id)
+
+            print "Waiting for snapshot to be built"
+            sleep(45)
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(volume)
