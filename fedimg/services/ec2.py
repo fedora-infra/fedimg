@@ -164,6 +164,7 @@ class EC2Service(object):
                                              description=None,
                                              root_device_name='/dev/sda',
                                              block_device_mapping=mapping,
+                                             kernel_id=ami['aki'],
                                              architecture=arch)
 
             # Spin up a node of the AMI to test
