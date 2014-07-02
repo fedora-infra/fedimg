@@ -205,7 +205,7 @@ class EC2Service(object):
         except Exception:
             fedimg.messenger.message(build_name, destination,
                                      'failed')
-            print "Unexpected problem registering AMI."
+            print "Unexpected problem."
             print "Terminating instance and destroying other resources."
 
             if node:
