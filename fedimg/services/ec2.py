@@ -158,7 +158,10 @@ class EC2Service(object):
 
             # Block device mapping for the AMI
             mapping = [{'DeviceName': '/dev/sda',
-                        'Ebs': {'SnapshotId': snap_id}}]
+                        'Ebs': {'SnapshotId': snap_id,
+                                'VolumeSize': 12,
+                                'VolumeType': 'standard',
+                                'DeleteOnTermination': 'true'}}]
 
             # Actually register image
             # TODO: Perhaps generate a description?
