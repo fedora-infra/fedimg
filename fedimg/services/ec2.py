@@ -178,11 +178,17 @@ class EC2Service(object):
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance due to recent kernel change
-            script = fedimg.AWS_TEST
+            script = "touch test"
             step_2 = ScriptDeployment(script)
 
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
+            
+            mappings = [{'VirtualName': None,  # cannot specify with Ebs
+                         'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
+                                 'VolumeType': 'standard',
+                                 'DeleteOnTermination': 'false'},
+                         'DeviceName': '/dev/sda'}]
 
             name = 'fedimg AMI tester'
             test_node = driver.deploy_node(name=name, image=image, size=size,
