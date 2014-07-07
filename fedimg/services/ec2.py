@@ -141,6 +141,9 @@ class EC2Service(object):
             # Terminate the utility instance
             driver.destroy_node(node)
 
+            # Wait for utility node to be terminated
+            sleep(45)
+
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
             snapshot = driver.create_volume_snapshot(volume,
