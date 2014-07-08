@@ -201,6 +201,10 @@ class EC2Service(object):
                                              kernel_id=ami['aki'],
                                              architecture=arch)
 
+            # Emit success fedmsg
+            fedimg.messenger.message('image.upload', build_name, destination,
+                                     'completed')
+
             # Spin up a node of the AMI to test
             # TODO: Need to report back status of tests for this to be useful
 
@@ -245,6 +249,9 @@ class EC2Service(object):
                 # There was a problem with the SSH command
                 raise EC2AMITestException("Tests on AMI failed.")
             else:
+                # Alert the fedmsg bus that an image test has started
+                fedimg.messenger.message('image.test', build_name, destination,
+                                         'started')
                 # Copy the AMI to every other region
                 for ami in arch_amis[1:]:
                     alt_cls = get_driver(ami['prov'])
@@ -256,10 +263,6 @@ class EC2Service(object):
 
             # Destroy the test node
             driver.destroy_node(test_node)
-
-            # Emit success fedmsg
-            fedimg.messenger.message('image.upload', build_name, destination,
-                                     'completed')
 
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', build_name, destination,
