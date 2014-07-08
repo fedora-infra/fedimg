@@ -236,7 +236,16 @@ class EC2Service(object):
             chan.exec_command(cmd)
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
-                pass
+                raise EC2AMITestException("Tests on AMI failed.")
+            else:
+                # Copy the AMI to every other region
+                for ami in arch_amis[1:]:
+                    alt_cls = get_driver(ami['prov'])
+                    alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                         fedimg.AWS_SECRET_KEY)
+                    image_name = "{0}-{1}".format(build_name, ami['region'])
+                    alt_driver.copy_image(image, amis[0]['region'],
+                                          name=image_name)
 
             # Destroy the test node
             driver.destroy_node(test_node)
