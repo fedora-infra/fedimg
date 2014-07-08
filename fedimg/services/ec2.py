@@ -4,6 +4,7 @@
 import os
 import subprocess
 
+import paramiko
 from libcloud.compute.base import NodeImage
 from libcloud.compute.deployment import MultiStepDeployment
 from libcloud.compute.deployment import ScriptDeployment, SSHKeyDeployment
@@ -104,7 +105,7 @@ class EC2Service(object):
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance
-            script = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
+            script = "touch test"
             step_2 = ScriptDeployment(script)
 
             # Create deployment object
@@ -128,13 +129,18 @@ class EC2Service(object):
                                       ex_ebs_optimized=True,
                                       ex_blockdevicemappings=mappings)
 
-            # Temporary hack to let the deploy script run
-            from time import sleep
-            print "Waiting for deploy script to run"
-            sleep(350)
-            print "30 seconds remaining!"
-            sleep(30)
-            print "5 minutes have passed. Snapshotting and registering."
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(node.public_ips[0])
+            cmd = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
+            chan = client.get_transport().open_session()
+            chan.exec_command(cmd)
+            if chan.recv_exit_status() != 0:
+                # There was a problem with the SSH command
+                raise EC2ServiceException("Problem writing image to \
+                                           utility instance volume.")
+
+            client.close()
 
             # Get volume name that image was written to
             vol_id = [x['ebs']['volume_id'] for x in
