@@ -72,7 +72,7 @@ class EC2Service(object):
         fedimg.messenger.message(build_name, destination, 'started')
 
         try:
-            ami = self.amis[0]  # DEBUG (us east x86_64)
+            ami = self.amis[0]
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
