@@ -103,7 +103,7 @@ class EC2Service(object):
             step_1 = SSHKeyDeployment(key_content)
 
             # Add script for deployment
-            # Device becomes /dev/xvdb on instance due to recent kernel change
+            # Device becomes /dev/xvdb on instance
             script = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
             step_2 = ScriptDeployment(script)
 
@@ -186,7 +186,7 @@ class EC2Service(object):
             # TODO: Need to report back status of tests for this to be useful
 
             # Add script for deployment
-            # Device becomes /dev/xvdb on instance due to recent kernel change
+            # Device becomes /dev/xvdb on instance
             script = "touch test"
             step_2 = ScriptDeployment(script)
 
