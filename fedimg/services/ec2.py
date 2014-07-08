@@ -148,12 +148,12 @@ class EC2Service(object):
             # Wait for utility node to be terminated
             sleep(45)
 
-            # Destroy /dev/sda volume that was the main disk on the utility instance
+            # Destroy /dev/sda volume that was the main disk
+            # on the utility instance
             sda_vol_id = [x['ebs']['volume_id'] for x in
-                      node.extra['block_device_mapping'] if
-                      x['device_name'] == '/dev/sda'][0]
+                          node.extra['block_device_mapping'] if
+                          x['device_name'] == '/dev/sda'][0]
             driver.destroy_volume(sda_vol_id)
-
 
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
@@ -194,7 +194,7 @@ class EC2Service(object):
 
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
-            
+
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                                  'VolumeType': 'standard',
@@ -227,10 +227,11 @@ class EC2Service(object):
             # TODO: Only do this if the tests pass on the test node
             for ami in arch_amis[1:]:
                 alt_cls = get_driver(ami['prov'])
-                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
+                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                     fedimg.AWS_SECRET_KEY)
                 image_name = "{0}-{1}".format(build_name, ami['region'])
-                alt_driver.copy_image(image, amis[0]['region'], name=image_name)
-                
+                alt_driver.copy_image(image, amis[0]['region'],
+                                      name=image_name)
 
         except DeploymentException as e:
             fedimg.messenger.message(build_name, destination,
@@ -247,10 +248,11 @@ class EC2Service(object):
 
             if node:
                 driver.destroy_node(node)
-                # Destroy /dev/sda volume that was the main disk on the utility instance
+                # Destroy /dev/sda volume that was the
+                # main disk on the utility instance
                 sda_vol_id = [x['ebs']['volume_id'] for x in
-                          node.extra['block_device_mapping'] if
-                          x['device_name'] == '/dev/sda'][0]
+                              node.extra['block_device_mapping'] if
+                              x['device_name'] == '/dev/sda'][0]
                 driver.destroy_volume(sda_vol_id)
             if volume:
                 driver.destroy_volume(volume)
