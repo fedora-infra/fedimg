@@ -230,6 +230,10 @@ class EC2Service(object):
                                            ex_security_groups=['ssh'],
                                            ex_ebs_optimized=True)
 
+            # Alert the fedmsg bus that an image test has started
+            fedimg.messenger.message('image.test', build_name, destination,
+                                     'started')
+
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             client.connect(node.public_ips[0], username='fedora'
