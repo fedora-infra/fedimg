@@ -199,7 +199,7 @@ class EC2Service(object):
                                  'DeleteOnTermination': 'true'},
                          'DeviceName': '/dev/sda'}]
 
-            name = 'fedimg AMI tester'
+            name = 'Fedimg AMI tester'
             test_node = driver.deploy_node(name=name, image=image, size=size,
                                            ssh_username='fedora',
                                            ssh_alternate_usernames=['root'],
