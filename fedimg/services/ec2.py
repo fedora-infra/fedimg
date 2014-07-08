@@ -82,7 +82,8 @@ class EC2Service(object):
         build_name = 'Fedimg build'
         destination = 'somewhere'
 
-        fedimg.messenger.message(build_name, destination, 'started')
+        fedimg.messenger.message('image.upload', build_name, destination,
+                                 'started')
 
         try:
             # Get an ami to start with that matches the image arch
@@ -240,27 +241,25 @@ class EC2Service(object):
 
             # Destroy the test node
             driver.destroy_node(test_node)
-            print "destroyed test node"
 
-            # Copy the AMI to every other region
-            # TODO: Only do this if the tests pass on the test node
-            for ami in arch_amis[1:]:
-                alt_cls = get_driver(ami['prov'])
-                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
-                                     fedimg.AWS_SECRET_KEY)
-                image_name = "{0}-{1}".format(build_name, ami['region'])
-                alt_driver.copy_image(image, amis[0]['region'],
-                                      name=image_name)
+            # Emit success fedmsg
+            fedimg.messenger.message('image.upload', build_name, destination,
+                                     'completed')
+
+        except EC2AMITestException as e:
+            fedimg.messenger.message('image.test', build_name, destination,
+                                     'failed')
 
         except DeploymentException as e:
-            fedimg.messenger.message(build_name, destination,
+            fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
             print "Problem deploying node: {}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
 
         except Exception:
-            fedimg.messenger.message(build_name, destination,
+            # Just give a general failure message.
+            fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
             print "Unexpected problem."
             print "Terminating instance and destroying other resources."
@@ -281,7 +280,3 @@ class EC2Service(object):
                 driver.delete_image(image)
             if test_node:
                 driver.destroy_node(test_node)
-
-        # Emit success fedmsg
-        fedimg.messenger.message(build_name, destination,
-                                 'completed')
