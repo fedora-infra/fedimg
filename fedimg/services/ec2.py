@@ -220,8 +220,6 @@ class EC2Service(object):
             driver.destroy_node(test_node)
             print "destroyed test node"
 
-            # TODO: Make sure the node's volume is also deleted
-
             # Copy the AMI to every other region
             # TODO: Only do this if the tests pass on the test node
             for ami in arch_amis[1:]:
