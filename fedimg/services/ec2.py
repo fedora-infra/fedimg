@@ -166,7 +166,8 @@ class EC2Service(object):
             # Actually register image
             # TODO: Perhaps generate a description?
             arch = get_file_arch(file_name)
-            image = driver.ex_register_image(build_name,
+            image_name = "{0}-{1}".format(build_name, ami[0]['region'])
+            image = driver.ex_register_image(image_name,
                                              description=None,
                                              root_device_name='/dev/sda',
                                              block_device_mapping=mapping,
@@ -211,6 +212,15 @@ class EC2Service(object):
             print "destroyed test node"
 
             # TODO: Make sure the node's volume is also deleted
+
+            # Copy the AMI to every other region
+            # TODO: Only do this if the tests pass on the test node
+            for ami in amis[1:]:
+                alt_cls = get_driver(ami['prov'])
+                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
+                image_name = "{0}-{1}".format(build_name, ami['region'])
+                alt_driver.copy_image(image, amis[0]['region'], name=image_name)
+                
 
         except DeploymentException as e:
             fedimg.messenger.message(build_name, destination,
