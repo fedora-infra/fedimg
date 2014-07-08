@@ -21,6 +21,17 @@ class EC2ServiceException(Exception):
     pass
 
 
+class EC2UtilityException(EC2ServiceException):
+    """ Something went wrong with writing the image file to a volume with the
+        utility instance. """
+    pass
+
+
+class EC2AMITestException(EC2ServiceException):
+    """ Something went wrong when a newly-registered AMI was tested. """
+    pass
+
+
 class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
