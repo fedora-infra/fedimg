@@ -255,23 +255,29 @@ class EC2Service(object):
             print "Problem deploying node: {}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
+            # Destroy /dev/sda volume if lagging behind
+            sda_vol_id = [x['ebs']['volume_id'] for x in
+                          e.node.extra['block_device_mapping'] if
+                          x['device_name'] == '/dev/sda'][0]
+            driver.destroy_volume(sda_vol_id)
 
         except Exception:
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
-            print "Unexpected problem."
+            print "Unexpected exception."
             print "Terminating instance and destroying other resources."
 
+        finally:
             if node:
                 driver.destroy_node(node)
-                # Destroy /dev/sda volume that was the
-                # main disk on the utility instance
+                # Destroy /dev/sda volume if lagging behind
                 sda_vol_id = [x['ebs']['volume_id'] for x in
                               node.extra['block_device_mapping'] if
                               x['device_name'] == '/dev/sda'][0]
                 driver.destroy_volume(sda_vol_id)
             if volume:
+                # Destroy /dev/sdb or whatever
                 driver.destroy_volume(volume)
             if snapshot:
                 driver.destroy_volume_snapshot(snapshot)
