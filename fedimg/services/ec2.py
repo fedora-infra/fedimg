@@ -72,7 +72,10 @@ class EC2Service(object):
         fedimg.messenger.message(build_name, destination, 'started')
 
         try:
-            ami = self.amis[0]
+            # Get an ami to start with that matches the image arch
+            arch = get_file_arch(file_name)
+            arch_amis = [a for a in self.amis if a['arch'] == arch]
+            ami = arch_amis[0]
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
