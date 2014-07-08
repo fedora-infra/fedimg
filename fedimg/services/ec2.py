@@ -211,7 +211,6 @@ class EC2Service(object):
             print "destroyed test node"
 
             # TODO: Make sure the node's volume is also deleted
-            """
 
         except DeploymentException as e:
             fedimg.messenger.message(build_name, destination,
