@@ -37,4 +37,10 @@ def upload(builds):
     # EC2 upload
     ec2 = EC2Service()
     for image in upload_files:
-        ec2.upload(image)
+        if (image.find('i386') != -1
+                and image.find('fedora-cloud-base') != 1) or \
+           (image.find('x86_64') != -1
+                and image.find('fedora-cloud-atomic') != 1) or \
+           (image.find('x86_64') != -1
+                and image.find('fedora-cloud-bigdata') != 1):
+            ec2.upload(image)
