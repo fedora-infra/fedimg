@@ -89,8 +89,6 @@ class EC2Service(object):
 
             # deploy node
             name = 'Fedimg AMI builder'
-            # TODO: Make automatically-created /dev/sda be deleted
-            # on termination
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                                  'VolumeType': 'standard',
