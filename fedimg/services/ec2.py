@@ -147,6 +147,13 @@ class EC2Service(object):
             # Wait for utility node to be terminated
             sleep(45)
 
+            # Destroy /dev/sda volume that was the main disk on the utility instance
+            sda_vol_id = [x['ebs']['volume_id'] for x in
+                      node.extra['block_device_mapping'] if
+                      x['device_name'] == '/dev/sda'][0]
+            driver.destroy_volume(sda_vol_id)
+
+
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
             snapshot = driver.create_volume_snapshot(volume,
@@ -239,6 +246,11 @@ class EC2Service(object):
 
             if node:
                 driver.destroy_node(node)
+                # Destroy /dev/sda volume that was the main disk on the utility instance
+                sda_vol_id = [x['ebs']['volume_id'] for x in
+                          node.extra['block_device_mapping'] if
+                          x['device_name'] == '/dev/sda'][0]
+                driver.destroy_volume(sda_vol_id)
             if volume:
                 driver.destroy_volume(volume)
             if snapshot:
