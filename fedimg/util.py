@@ -4,7 +4,10 @@
 Utility functions for fedimg.
 """
 
+import socket
 import subprocess
+
+import paramiko
 
 import fedimg
 
@@ -87,3 +90,16 @@ def qcow2_to_raw(file_path):
             return None
     else:
         raise Exception("{0} is not a .qcow2 file.".format(file_path))
+
+
+def ssh_connection_works(self, ip):
+    """ Returns True if an SSH connection can me made to `ip`. """
+    try:
+        ssh.connect(ip, username='fedora',
+                    key_filename=fedimg.AWS_KEYPATH)
+    except (paramiko.BadHostKeyException,
+            paramiko.AuthenticationException,
+            paramiko.SSHException, socket.error) as e:
+        return False
+    else:
+        return True

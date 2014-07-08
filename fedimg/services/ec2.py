@@ -2,7 +2,6 @@
 # -*- coding: utf8 -*-
 
 import os
-import socket
 import subprocess
 
 import paramiko
@@ -14,7 +13,7 @@ from libcloud.compute.types import Provider, DeploymentException
 
 import fedimg
 import fedimg.messenger
-from fedimg.util import get_file_arch
+from fedimg.util import get_file_arch, ssh_connection_works
 
 
 class EC2ServiceException(Exception):
@@ -70,18 +69,6 @@ class EC2Service(object):
                      'us-west-1': Provider.EC2_US_WEST,
                      'us-west-2': Provider.EC2_US_WEST_OREGON}
         return providers[region]
-
-    def _connection_works(self, ip):
-        """ Returns True if an SSH connection can me made to `ip`. """
-        try:
-            ssh.connect(ip, username='fedora',
-                        key_filename=fedimg.AWS_KEYPATH)
-        except (paramiko.BadHostKeyException,
-                paramiko.AuthenticationException,
-                paramiko.SSHException, socket.error) as e:
-            return False
-        else:
-            return True
 
     def upload(self, raw_url):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
@@ -176,7 +163,7 @@ class EC2Service(object):
             driver.destroy_node(node)
 
             # Wait for utility node to be terminated
-            while not self._connection_works(node.public_ips[0]):
+            while not ssh_connection_works(node.public_ips[0]):
                 sleep(10)
 
             # Destroy /dev/sda volume that was the main disk
