@@ -175,8 +175,9 @@ class EC2Service(object):
 
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
+            snap_name = 'fedimg-snap-{0}'.format(build_name)
             snapshot = driver.create_volume_snapshot(volume,
-                                                     name='fedimg snap')
+                                                     name=snap_name)
             snap_id = str(snapshot.id)
 
             print "Waiting for snapshot to be built"
