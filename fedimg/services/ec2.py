@@ -217,7 +217,15 @@ class EC2Service(object):
                                            ex_security_groups=['ssh'],
                                            ex_ebs_optimized=True)
 
-            # TODO: Wait until script completes and fedmsg is emitted.
+            client = paramiko.SSHClient()
+            client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+            client.connect(test_node.public_ips[0])
+            cmd = "true"
+            chan = client.get_transport().open_session()
+            chan.exec_command(cmd)
+            if chan.recv_exit_status() != 0:
+                # There was a problem with the SSH command
+                pass
 
             print "waiting for test node deployment"
             sleep(200)
