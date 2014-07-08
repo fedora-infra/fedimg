@@ -24,8 +24,8 @@ def upload(builds):
         task_result = koji_session.getTaskResult(builds[0])
         upload_files.append(get_rawxz_url(task_result))
     elif len(builds) >= 2:
-        # This is the edge case -- in fact, I don't even know if it
-        # can happen, ever. Therefore, TODO: can this code ever be called?
+        # Right now, builds only produce one .raw.xz file, so this should
+        # never happen.
         koji.multicall = True
         for build in builds:
             koji_session.listTaskOutput(build)
