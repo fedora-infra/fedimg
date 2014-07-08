@@ -197,7 +197,7 @@ class EC2Service(object):
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
                                  'VolumeType': 'standard',
-                                 'DeleteOnTermination': 'false'},
+                                 'DeleteOnTermination': 'true'},
                          'DeviceName': '/dev/sda'}]
 
             name = 'fedimg AMI tester'
