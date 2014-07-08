@@ -176,7 +176,8 @@ class EC2Service(object):
             driver.destroy_node(node)
 
             # Wait for utility node to be terminated
-            sleep(45)
+            while not self._connection_works(node.public_ips[0]):
+                sleep(10)
 
             # Destroy /dev/sda volume that was the main disk
             # on the utility instance
