@@ -149,9 +149,8 @@ class EC2Service(object):
             chan.exec_command(cmd)
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
-                raise EC2ServiceException("Problem writing image to \
+                raise EC2UtilityException("Problem writing image to \
                                            utility instance volume.")
-
             client.close()
 
             # Get volume name that image was written to
