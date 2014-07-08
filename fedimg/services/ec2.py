@@ -174,7 +174,6 @@ class EC2Service(object):
                                 'DeleteOnTermination': 'true'}}]
 
             # Actually register image
-            # TODO: Perhaps generate a description?
             image_name = "{0}-{1}".format(build_name, ami[0]['region'])
             image = driver.ex_register_image(image_name,
                                              description=None,
