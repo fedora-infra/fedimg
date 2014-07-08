@@ -227,9 +227,6 @@ class EC2Service(object):
                 # There was a problem with the SSH command
                 pass
 
-            print "waiting for test node deployment"
-            sleep(200)
-
             # Destroy the test node
             driver.destroy_node(test_node)
             print "destroyed test node"
