@@ -88,7 +88,7 @@ class EC2Service(object):
             image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
             # deploy node
-            name = 'fedimg AMI builder'  # TODO: will add raw image title
+            name = 'Fedimg AMI builder'
             # TODO: Make automatically-created /dev/sda be deleted
             # on termination
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
@@ -124,6 +124,7 @@ class EC2Service(object):
                                       ssh_key=fedimg.AWS_KEYPATH,
                                       deploy=msd,
                                       kernel_id=ami['aki'],
+                                      ex_metadata={'build': build_name},
                                       ex_keyname=fedimg.AWS_KEYNAME,
                                       ex_security_groups=['ssh'],
                                       ex_ebs_optimized=True,
@@ -207,9 +208,10 @@ class EC2Service(object):
                                            ssh_alternate_usernames=['root'],
                                            ssh_key=fedimg.AWS_KEYPATH,
                                            deploy=msd,
+                                           kernel_id=ami['aki'],
+                                           ex_metadata={'build': build_name},
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
-                                           kernel_id=ami['aki'],
                                            ex_ebs_optimized=True)
 
             # TODO: Wait until script completes and fedmsg is emitted.
