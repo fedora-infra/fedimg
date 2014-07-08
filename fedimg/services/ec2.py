@@ -2,6 +2,7 @@
 # -*- coding: utf8 -*-
 
 import os
+import socket
 import subprocess
 
 import paramiko
@@ -69,6 +70,18 @@ class EC2Service(object):
                      'us-west-1': Provider.EC2_US_WEST,
                      'us-west-2': Provider.EC2_US_WEST_OREGON}
         return providers[region]
+
+    def _connection_works(self, ip):
+        """ Returns True if an SSH connection can me made to `ip`. """
+        try:
+            ssh.connect(ip, username='fedora',
+                        key_filename=fedimg.AWS_KEYPATH)
+        except (paramiko.BadHostKeyException,
+                paramiko.AuthenticationException,
+                paramiko.SSHException, socket.error) as e:
+            return False
+        else:
+            return True
 
     def upload(self, raw_url):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
