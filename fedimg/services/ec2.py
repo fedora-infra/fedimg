@@ -102,7 +102,7 @@ class EC2Service(object):
             size_id = 'm1.large'
             # check to make sure we have access to that size node
             size = [s for s in sizes if s.id == size_id][0]
-            image = NodeImage(id=ami['ami'], name=None, driver=driver)
+            base_image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
             # deploy node
             name = 'Fedimg AMI builder'
@@ -128,7 +128,7 @@ class EC2Service(object):
             msd = MultiStepDeployment([step_1, step_2])
 
             # Must be EBS-backed for AMI registration to work.
-            node = driver.deploy_node(name=name, image=image, size=size,
+            node = driver.deploy_node(name=name, image=base_image, size=size,
                                       ssh_username='fedora',
                                       ssh_alternate_usernames=['root'],
                                       ssh_key=fedimg.AWS_KEYPATH,
