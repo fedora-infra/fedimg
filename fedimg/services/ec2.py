@@ -86,10 +86,14 @@ class EC2Service(object):
                                  'started')
 
         try:
+            file_name = raw_url.split('/')[-1]
+            build_name = file_name.replace('.raw.xz', '')
             # Get an ami to start with that matches the image arch
             arch = get_file_arch(file_name)
             arch_amis = [a for a in self.amis if a['arch'] == arch]
             ami = arch_amis[0]
+            destination = 'EC2 ({region})'.format(region=ami['region'])
+
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
@@ -122,11 +126,6 @@ class EC2Service(object):
 
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
-
-            # Fedmsg info
-            file_name = raw_url.split('/')[-1]
-            build_name = file_name.replace('.raw.xz', '')
-            destination = 'EC2 ({region})'.format(region=ami['region'])
 
             # Must be EBS-backed for AMI registration to work.
             node = driver.deploy_node(name=name, image=image, size=size,
