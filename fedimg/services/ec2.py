@@ -299,11 +299,11 @@ class EC2Service(object):
                           x['device_name'] == '/dev/sda'][0]
             driver.destroy_volume(sda_vol_id)
 
-        except Exception:
+        except Exception as e:
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
-            print "Unexpected exception."
+            print "Unexpected exception:", e.value
             print "Terminating instance and destroying other resources."
 
         finally:
