@@ -10,6 +10,7 @@ from libcloud.compute.deployment import MultiStepDeployment
 from libcloud.compute.deployment import ScriptDeployment, SSHKeyDeployment
 from libcloud.compute.providers import get_driver
 from libcloud.compute.types import Provider, DeploymentException
+from libcloud.compute.types import KeyPairDoesNotExistError
 
 import fedimg
 import fedimg.messenger
@@ -144,6 +145,14 @@ class EC2Service(object):
                                               ex_security_groups=['ssh'],
                                               ex_ebs_optimized=True,
                                               ex_blockdevicemappings=mappings)
+
+                except KeyPairDoesNotExistError:
+                    # The keypair is missing from the current region.
+                    # Let's install it.
+                    driver.ex_import_keypair(fedimg.AWS_KEYNAME,
+                                             fedimg.AWS_PUBKEYPATH)
+                    continue
+
                 except Exception as e:
                     # We might have an invalid security group, aka the 'ssh'
                     # security group doesn't exist in the current region. The
