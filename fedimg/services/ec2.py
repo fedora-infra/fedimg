@@ -128,17 +128,36 @@ class EC2Service(object):
             msd = MultiStepDeployment([step_1, step_2])
 
             # Must be EBS-backed for AMI registration to work.
-            node = driver.deploy_node(name=name, image=base_image, size=size,
-                                      ssh_username='fedora',
-                                      ssh_alternate_usernames=['root'],
-                                      ssh_key=fedimg.AWS_KEYPATH,
-                                      deploy=msd,
-                                      kernel_id=ami['aki'],
-                                      ex_metadata={'build': build_name},
-                                      ex_keyname=fedimg.AWS_KEYNAME,
-                                      ex_security_groups=['ssh'],
-                                      ex_ebs_optimized=True,
-                                      ex_blockdevicemappings=mappings)
+            while True:
+                try:
+                    node = driver.deploy_node(name=name, image=base_image,
+                                              size=size,
+                                              ssh_username='fedora',
+                                              ssh_alternate_usernames=['root'],
+                                              ssh_key=fedimg.AWS_KEYPATH,
+                                              deploy=msd,
+                                              kernel_id=ami['aki'],
+                                              ex_metadata={'build':
+                                                           build_name},
+                                              ex_keyname=fedimg.AWS_KEYNAME,
+                                              ex_security_groups=['ssh'],
+                                              ex_ebs_optimized=True,
+                                              ex_blockdevicemappings=mappings)
+                except Exception as e:
+                    # We might have an invalid security group, aka the 'ssh'
+                    # security group doesn't exist in the current region. The
+                    # reason this is caught here is because the related
+                    # exception that prints `InvalidGroup.NotFound` is, for
+                    # some reason, a base exception.
+                    if 'InvalidGroup.NotFound' in e.message:
+                        # Create the ssh security group
+                        driver.ex_create_security_group('ssh', 'ssh only')
+                        driver.ex_authorize_security_group('ssh', '22', '22',
+                                                           '0.0.0.0/0')
+                        continue
+                    else:
+                        raise
+                break
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
