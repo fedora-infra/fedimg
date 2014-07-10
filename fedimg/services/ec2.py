@@ -176,10 +176,13 @@ class EC2Service(object):
             cmd = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
             chan = client.get_transport().open_session()
             chan.exec_command(cmd)
-            if chan.recv_exit_status() != 0:
+            status = chan.recv_exit_status()
+            if status != 0:
                 # There was a problem with the SSH command
-                raise EC2UtilityException("Problem writing image to \
-                                           utility instance volume.")
+                raise EC2UtilityException("Problem writing image to"
+                                          " utility instance volume."
+                                          " Command exited with"
+                                          " status {0}.".format(status))
             client.close()
 
             # Get volume name that image was written to
