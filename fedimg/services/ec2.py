@@ -76,6 +76,7 @@ class EC2Service(object):
 
         node = None
         volume = None
+        sda_vol = None
         snapshot = None
         image = None
         test_node = None
@@ -189,7 +190,9 @@ class EC2Service(object):
             sda_vol_id = [x['ebs']['volume_id'] for x in
                           node.extra['block_device_mapping'] if
                           x['device_name'] == '/dev/sda'][0]
-            driver.destroy_volume(sda_vol_id)
+            sda_vol = [v for v in driver.list_volumes()
+                       if v.id == sda_vol_id][0]
+            driver.destroy_volume(sda_vol)
 
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
@@ -294,10 +297,6 @@ class EC2Service(object):
             print "Terminating instance."
             driver.destroy_node(e.node)
             # Destroy /dev/sda volume if lagging behind
-            sda_vol_id = [x['ebs']['volume_id'] for x in
-                          e.node.extra['block_device_mapping'] if
-                          x['device_name'] == '/dev/sda'][0]
-            driver.destroy_volume(sda_vol_id)
 
         except Exception as e:
             # Just give a general failure message.
@@ -305,15 +304,15 @@ class EC2Service(object):
                                      'failed')
             print "Unexpected exception:", e.value
             print "Terminating instance and destroying other resources."
+            if sda_vol:
+                driver.destroy_volume(sda_vol)
 
         finally:
             if node:
                 driver.destroy_node(node)
+            if sda_vol:
                 # Destroy /dev/sda volume if lagging behind
-                sda_vol_id = [x['ebs']['volume_id'] for x in
-                              node.extra['block_device_mapping'] if
-                              x['device_name'] == '/dev/sda'][0]
-                driver.destroy_volume(sda_vol_id)
+                driver.destroy_volume(sda_vol)
             if volume:
                 # Destroy /dev/sdb or whatever
                 driver.destroy_volume(volume)
