@@ -90,10 +90,8 @@ class EC2Service(object):
         try:
             file_name = raw_url.split('/')[-1]
             build_name = file_name.replace('.raw.xz', '')
-            # Get an ami to start with that matches the image arch
-            arch = get_file_arch(file_name)
-            arch_amis = [a for a in self.amis if a['arch'] == arch]
-            ami = arch_amis[0]
+            image_arch = get_file_arch(file_name)
+            ami = amis[0]
             destination = 'EC2 ({region})'.format(region=ami['region'])
 
             cls = get_driver(ami['prov'])
@@ -233,7 +231,7 @@ class EC2Service(object):
                                              root_device_name='/dev/sda',
                                              block_device_mapping=mapping,
                                              kernel_id=ami['aki'],
-                                             architecture=arch)
+                                             architecture=image_arch)
 
             # Emit success fedmsg
             fedimg.messenger.message('image.upload', build_name, destination,
@@ -287,7 +285,7 @@ class EC2Service(object):
                 fedimg.messenger.message('image.test', build_name, destination,
                                          'started')
                 # Copy the AMI to every other region
-                for ami in arch_amis[1:]:
+                for ami in amis[1:]:
                     alt_cls = get_driver(ami['prov'])
                     alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                          fedimg.AWS_SECRET_KEY)
