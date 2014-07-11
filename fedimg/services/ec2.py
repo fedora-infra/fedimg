@@ -132,8 +132,8 @@ class EC2Service(object):
                 try:
                     node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
-                                              ssh_username='fedora',
-                                              ssh_alternate_usernames=['root'],
+                                              ssh_username='root',
+                                              ssh_alternate_usernames=[''],
                                               ssh_key=fedimg.AWS_KEYPATH,
                                               deploy=msd,
                                               kernel_id=ami['aki'],
@@ -169,7 +169,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(node.public_ips[0], username='fedora',
+            client.connect(node.public_ips[0], username='root',
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
             chan = client.get_transport().open_session()
