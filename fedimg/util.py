@@ -92,7 +92,7 @@ def qcow2_to_raw(file_path):
         raise Exception("{0} is not a .qcow2 file.".format(file_path))
 
 
-def ssh_connection_works(self, ip):
+def ssh_connection_works(ip):
     """ Returns True if an SSH connection can me made to `ip`. """
     try:
         ssh.connect(ip, username='fedora',
