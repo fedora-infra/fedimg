@@ -91,7 +91,7 @@ class EC2Service(object):
             file_name = raw_url.split('/')[-1]
             build_name = file_name.replace('.raw.xz', '')
             image_arch = get_file_arch(file_name)
-            ami = amis[0]
+            ami = self.amis[0]
             destination = 'EC2 ({region})'.format(region=ami['region'])
 
             cls = get_driver(ami['prov'])
@@ -285,12 +285,12 @@ class EC2Service(object):
                 fedimg.messenger.message('image.test', build_name, destination,
                                          'started')
                 # Copy the AMI to every other region
-                for ami in amis[1:]:
+                for ami in self.amis[1:]:
                     alt_cls = get_driver(ami['prov'])
                     alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                          fedimg.AWS_SECRET_KEY)
                     image_name = "{0}-{1}".format(build_name, ami['region'])
-                    alt_driver.copy_image(image, amis[0]['region'],
+                    alt_driver.copy_image(image, self.amis[0]['region'],
                                           name=image_name)
 
             # Destroy the test node
