@@ -23,22 +23,14 @@ keyname = somekeyname
 keypath = /path/to/private/key
 pubkeypath = /path/to/public/key
 test = /bin/true; echo $? > test.log
-amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c|aki-136bf512
-       ap-northeast-1|Fedora|20|x86_64|ami-8fd0b38e|aki-176bf516
-       ap-southeast-1|Fedora|20|i386|ami-bccd99ee|aki-ae3973fc
-       ap-southeast-1|Fedora|20|x86_64|ami-92cd99c0|aki-503e7402
-       ap-southeast-2|Fedora|20|i386|ami-374bd40d|aki-cd62fff7
-       ap-southeast-2|Fedora|20|x86_64|ami-eb4cd3d1|aki-c362fff9
-       eu-west-1|Fedora|20|i386|ami-3401e843|aki-68a3451f
-       eu-west-1|Fedora|20|x86_64|ami-c00fe6b7|aki-52a34525
-       sa-east-1|Fedora|20|i386|ami-6f6ecf72|aki-5b53f446
-       sa-east-1|Fedora|20|x86_64|ami-056ecf18|aki-5553f448
-       us-east-1|Fedora|20|i386|ami-3b361952|aki-8f9dcae6
-       us-east-1|Fedora|20|x86_64|ami-1337187a|aki-919dcaf8
-       us-west-1|Fedora|20|i386|ami-68e3d32d|aki-8e0531cb
-       us-west-1|Fedora|20|x86_64|ami-54e3d311|aki-880531cd
-       us-west-2|Fedora|20|i386|ami-56771366|aki-f08f11c0
-       us-west-2|Fedora|20|x86_64|ami-ea7612da|aki-fc8f11cc
+amis = ap-northeast-1|RHEL|5.7|x86_64|ami-ea9723eb|aki-d409a2d5
+       ap-southeast-1|RHEL|5.7|x86_64|ami-2c007a7e|aki-11d5aa43
+       ap-southeast-2|RHEL|5.7|x86_64|ami-a7b7209d|aki-998413a3
+       eu-west-1|RHEL|5.7|x86_64|ami-69c5f71d|aki-4feec43b
+       sa-east-1|RHEL|5.7|x86_64|ami-3038e72d|aki-cc3ce3d1
+       us-east-1|RHEL|5.7|x86_64|ami-d9ed21b0|aki-427d952b
+       us-west-1|RHEL|5.7|x86_64|ami-f1762ab4|aki-9ba0f1de
+       us-west-2|RHEL|5.7|x86_64|ami-3c0a870c|aki-98ec26f8
 
 [rackspace]
 username = someuser
