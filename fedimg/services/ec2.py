@@ -200,7 +200,7 @@ class EC2Service(object):
             # on the utility instance
             sda_vol_id = [x['ebs']['volume_id'] for x in
                           node.extra['block_device_mapping'] if
-                          x['device_name'] == '/dev/sda'][0]
+                          x['device_name'] == '/dev/sda1'][0]
             sda_vol = [v for v in driver.list_volumes()
                        if v.id == sda_vol_id][0]
             driver.destroy_volume(sda_vol)
