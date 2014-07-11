@@ -193,7 +193,7 @@ class EC2Service(object):
             driver.destroy_node(node)
 
             # Wait for utility node to be terminated
-            while not ssh_connection_works(node.public_ips[0]):
+            while ssh_connection_works(node.public_ips[0]):
                 sleep(10)
 
             # Destroy /dev/sda volume that was the main disk
