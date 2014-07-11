@@ -94,12 +94,13 @@ def qcow2_to_raw(file_path):
 
 def ssh_connection_works(ip):
     """ Returns True if an SSH connection can me made to `ip`. """
+    ssh = paramiko.SSHClient()
+    ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     try:
         ssh.connect(ip, username='fedora',
                     key_filename=fedimg.AWS_KEYPATH)
+        return True
     except (paramiko.BadHostKeyException,
             paramiko.AuthenticationException,
             paramiko.SSHException, socket.error) as e:
         return False
-    else:
-        return True
