@@ -312,7 +312,7 @@ class EC2Service(object):
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
-            print "Unexpected exception:", e.value
+            print "Unexpected exception:", e
             print "Terminating instance and destroying other resources."
             if sda_vol:
                 driver.destroy_volume(sda_vol)
