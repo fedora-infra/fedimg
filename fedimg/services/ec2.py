@@ -43,9 +43,9 @@ class EC2Service(object):
         for line in fedimg.AWS_AMIS.split('\n'):
             """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
             0: region (ex. eu-west-1)
-            1: OS (ex. Fedora)
-            2: version (ex. 20)
-            3: arch (i386 or x86_64)
+            1: OS (ex. RHEL)
+            2: version (ex. 5.7)
+            3: arch (ex. x86_64)
             4: ami name (ex. ami-68e3d32d) """
             # strip line to avoid any newlines or spaces from sneaking in
             attrs = line.strip().split('|')
@@ -90,10 +90,8 @@ class EC2Service(object):
         try:
             file_name = raw_url.split('/')[-1]
             build_name = file_name.replace('.raw.xz', '')
-            # Get an ami to start with that matches the image arch
-            arch = get_file_arch(file_name)
-            arch_amis = [a for a in self.amis if a['arch'] == arch]
-            ami = arch_amis[0]
+            image_arch = get_file_arch(file_name)
+            ami = self.amis[0]
             destination = 'EC2 ({region})'.format(region=ami['region'])
 
             cls = get_driver(ami['prov'])
@@ -134,8 +132,8 @@ class EC2Service(object):
                 try:
                     node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
-                                              ssh_username='fedora',
-                                              ssh_alternate_usernames=['root'],
+                                              ssh_username='root',
+                                              ssh_alternate_usernames=[''],
                                               ssh_key=fedimg.AWS_KEYPATH,
                                               deploy=msd,
                                               kernel_id=ami['aki'],
@@ -171,7 +169,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(node.public_ips[0], username='fedora',
+            client.connect(node.public_ips[0], username='root',
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "curl {0} | sudo xzcat > /dev/xvdb".format(raw_url)
             chan = client.get_transport().open_session()
@@ -233,7 +231,7 @@ class EC2Service(object):
                                              root_device_name='/dev/sda',
                                              block_device_mapping=mapping,
                                              kernel_id=ami['aki'],
-                                             architecture=arch)
+                                             architecture=image_arch)
 
             # Emit success fedmsg
             fedimg.messenger.message('image.upload', build_name, destination,
@@ -287,12 +285,12 @@ class EC2Service(object):
                 fedimg.messenger.message('image.test', build_name, destination,
                                          'started')
                 # Copy the AMI to every other region
-                for ami in arch_amis[1:]:
+                for ami in self.amis[1:]:
                     alt_cls = get_driver(ami['prov'])
                     alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                          fedimg.AWS_SECRET_KEY)
                     image_name = "{0}-{1}".format(build_name, ami['region'])
-                    alt_driver.copy_image(image, amis[0]['region'],
+                    alt_driver.copy_image(image, self.amis[0]['region'],
                                           name=image_name)
 
             # Destroy the test node
@@ -314,7 +312,7 @@ class EC2Service(object):
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
-            print "Unexpected exception:", e.value
+            print "Unexpected exception:", e
             print "Terminating instance and destroying other resources."
             if sda_vol:
                 driver.destroy_volume(sda_vol)
