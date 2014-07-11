@@ -296,9 +296,15 @@ class EC2Service(object):
             # Destroy the test node
             driver.destroy_node(test_node)
 
+        except EC2UtilityException as e:
+            fedimg.messenger.message('image.upload', build_name, destination,
+                                     'failed')
+            print "Failure:", e
+
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', build_name, destination,
                                      'failed')
+            print "Failure:", e
 
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', build_name, destination,
