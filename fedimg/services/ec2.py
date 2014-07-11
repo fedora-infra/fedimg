@@ -132,7 +132,7 @@ class EC2Service(object):
                 try:
                     node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
-                                              ssh_username='root',
+                                              ssh_username='ec2-user',
                                               ssh_alternate_usernames=[''],
                                               ssh_key=fedimg.AWS_KEYPATH,
                                               deploy=msd,

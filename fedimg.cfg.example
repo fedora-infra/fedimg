@@ -23,14 +23,14 @@ keyname = somekeyname
 keypath = /path/to/private/key
 pubkeypath = /path/to/public/key
 test = /bin/true; echo $? > test.log
-amis = ap-northeast-1|RHEL|5.7|x86_64|ami-ea9723eb|aki-d409a2d5
-       ap-southeast-1|RHEL|5.7|x86_64|ami-2c007a7e|aki-11d5aa43
-       ap-southeast-2|RHEL|5.7|x86_64|ami-a7b7209d|aki-998413a3
-       eu-west-1|RHEL|5.7|x86_64|ami-69c5f71d|aki-4feec43b
-       sa-east-1|RHEL|5.7|x86_64|ami-3038e72d|aki-cc3ce3d1
-       us-east-1|RHEL|5.7|x86_64|ami-d9ed21b0|aki-427d952b
-       us-west-1|RHEL|5.7|x86_64|ami-f1762ab4|aki-9ba0f1de
-       us-west-2|RHEL|5.7|x86_64|ami-3c0a870c|aki-98ec26f8
+amis = ap-northeast-1|RHEL|6.5|x86_64|ami-e7aee0e6|aki-176bf516
+       ap-southeast-1|RHEL|6.5|x86_64|ami-c683df94|aki-503e7402
+       ap-southeast-2|RHEL|6.5|x86_64|ami-41ra8f7b|aki-c362fff9
+       eu-west-1|RHEL|6.5|x86_64|ami-81f23cf6|aki-52a34525
+       sa-east-1|RHEL|6.5|x86_64|ami-b7ec43aa|aki-5553f448
+       us-east-1|RHEL|6.5|x86_64|ami-be6a98d6|aki-919dcaf8
+       us-west-1|RHEL|6.5|x86_64|ami-fc393eb9|aki-880531cd
+       us-west-2|RHEL|6.5|x86_64|ami-79daa849|aki-fc8f11cc
 
 [rackspace]
 username = someuser
