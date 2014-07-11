@@ -43,9 +43,9 @@ class EC2Service(object):
         for line in fedimg.AWS_AMIS.split('\n'):
             """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
             0: region (ex. eu-west-1)
-            1: OS (ex. Fedora)
-            2: version (ex. 20)
-            3: arch (i386 or x86_64)
+            1: OS (ex. RHEL)
+            2: version (ex. 5.7)
+            3: arch (ex. x86_64)
             4: ami name (ex. ami-68e3d32d) """
             # strip line to avoid any newlines or spaces from sneaking in
             attrs = line.strip().split('|')
