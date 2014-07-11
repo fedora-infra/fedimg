@@ -3,6 +3,7 @@
 
 import os
 import subprocess
+from time import sleep
 
 import paramiko
 from libcloud.compute.base import NodeImage
