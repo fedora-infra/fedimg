@@ -338,7 +338,5 @@ class EC2Service(object):
                 driver.destroy_volume(volume)
             if snapshot:
                 driver.destroy_volume_snapshot(snapshot)
-            if image:
-                driver.delete_image(image)
             if test_node:
                 driver.destroy_node(test_node)
