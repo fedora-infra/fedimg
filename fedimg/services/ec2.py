@@ -314,7 +314,6 @@ class EC2Service(object):
             print "Problem deploying node: {0}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
-            # Destroy /dev/sda volume if lagging behind
 
         except Exception as e:
             # Just give a general failure message.
