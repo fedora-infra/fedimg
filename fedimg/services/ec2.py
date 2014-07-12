@@ -311,7 +311,7 @@ class EC2Service(object):
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
-            print "Problem deploying node: {}".format(e.value)
+            print "Problem deploying node: {0}".format(e.value)
             print "Terminating instance."
             driver.destroy_node(e.node)
             # Destroy /dev/sda volume if lagging behind
