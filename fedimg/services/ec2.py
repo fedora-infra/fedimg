@@ -227,7 +227,7 @@ class EC2Service(object):
                                 'DeleteOnTermination': 'true'}}]
 
             # Actually register image
-            image_name = "{0}-{1}".format(build_name, ami[0]['region'])
+            image_name = "{0}-{1}".format(build_name, ami['region'])
             image = driver.ex_register_image(image_name,
                                              description=None,
                                              root_device_name='/dev/sda',
