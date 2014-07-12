@@ -285,7 +285,7 @@ class EC2Service(object):
             else:
                 # Alert the fedmsg bus that an image test has started
                 fedimg.messenger.message('image.test', build_name, destination,
-                                         'started')
+                                         'completed')
                 # Copy the AMI to every other region
                 for ami in self.amis[1:]:
                     alt_cls = get_driver(ami['prov'])
