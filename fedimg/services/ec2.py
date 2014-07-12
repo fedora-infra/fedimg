@@ -203,7 +203,7 @@ class EC2Service(object):
                           x['device_name'] == '/dev/sda1'][0]
             sda_vol = [v for v in driver.list_volumes()
                        if v.id == sda_vol_id][0]
-            driver.destroy_volume(sda_vol)
+            sda_vol = None  # make sure Fedimg knows that the vol is gone
 
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
@@ -217,6 +217,7 @@ class EC2Service(object):
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(volume)
+            volume = None  # make sure Fedimg knows that the vol is gone
 
             # Block device mapping for the AMI
             mapping = [{'DeviceName': '/dev/sda',
