@@ -328,6 +328,9 @@ class EC2Service(object):
         finally:
             if node:
                 driver.destroy_node(node)
+                # Wait for node to be terminated
+                while ssh_connection_works(node.public_ips[0]):
+                    sleep(10)
             if sda_vol:
                 # Destroy /dev/sda volume if lagging behind
                 driver.destroy_volume(sda_vol)
