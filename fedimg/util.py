@@ -92,14 +92,14 @@ def qcow2_to_raw(file_path):
         raise Exception("{0} is not a .qcow2 file.".format(file_path))
 
 
-def ssh_connection_works(username, ip):
+def ssh_connection_works(username, ip, keypath):
     """ Returns True if an SSH connection can me made to `username`@`ip`. """
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
     works = False
     try:
         ssh.connect(ip, username=username,
-                    key_filename=fedimg.AWS_KEYPATH)
+                    key_filename=keypath)
         works = True
     except (paramiko.BadHostKeyException,
             paramiko.AuthenticationException,
