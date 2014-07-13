@@ -271,7 +271,7 @@ class EC2Service(object):
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
                                            ex_ebs_optimized=True)
-            
+
             # Wait until the utility node has SSH running
             while not ssh_connection_works(node.public_ips[0]):
                 sleep(10)
