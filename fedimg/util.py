@@ -96,11 +96,14 @@ def ssh_connection_works(username, ip):
     """ Returns True if an SSH connection can me made to `username`@`ip`. """
     ssh = paramiko.SSHClient()
     ssh.set_missing_host_key_policy(paramiko.AutoAddPolicy())
+    works = False
     try:
         ssh.connect(ip, username=username,
                     key_filename=fedimg.AWS_KEYPATH)
-        return True
+        works = True
     except (paramiko.BadHostKeyException,
             paramiko.AuthenticationException,
             paramiko.SSHException, socket.error) as e:
-        return False
+        pass
+    ssh.close()
+    return works
