@@ -170,7 +170,7 @@ class EC2Service(object):
                 break
 
             # Wait until the utility node has SSH running
-            while not ssh_connection_works(node.public_ips[0]):
+            while not ssh_connection_works('ec2-user', node.public_ips[0]):
                 sleep(10)
 
             client = paramiko.SSHClient()
@@ -198,7 +198,7 @@ class EC2Service(object):
             driver.destroy_node(node)
 
             # Wait for utility node to be terminated
-            while ssh_connection_works(node.public_ips[0]):
+            while ssh_connection_works('ec2-user', node.public_ips[0]):
                 sleep(10)
 
             # Destroy /dev/sda volume that was the main disk
@@ -272,8 +272,8 @@ class EC2Service(object):
                                            ex_security_groups=['ssh'],
                                            ex_ebs_optimized=True)
 
-            # Wait until the utility node has SSH running
-            while not ssh_connection_works(node.public_ips[0]):
+            # Wait until the test node has SSH running
+            while not ssh_connection_works('fedora', test_node.public_ips[0]):
                 sleep(10)
 
             # Alert the fedmsg bus that an image test has started
@@ -330,7 +330,7 @@ class EC2Service(object):
             if node:
                 driver.destroy_node(node)
                 # Wait for node to be terminated
-                while ssh_connection_works(node.public_ips[0]):
+                while ssh_connection_works('ec2_user', node.public_ips[0]):
                     sleep(10)
             if sda_vol:
                 # Destroy /dev/sda volume if lagging behind
