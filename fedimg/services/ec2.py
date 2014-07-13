@@ -84,6 +84,7 @@ class EC2Service(object):
         test_node = None
         build_name = 'Fedimg build'
         destination = 'somewhere'
+        test_success = False
 
         fedimg.messenger.message('image.upload', build_name, destination,
                                  'started')
@@ -286,14 +287,7 @@ class EC2Service(object):
                 # Alert the fedmsg bus that an image test has started
                 fedimg.messenger.message('image.test', build_name, destination,
                                          'completed')
-                # Copy the AMI to every other region
-                for ami in self.amis[1:]:
-                    alt_cls = get_driver(ami['prov'])
-                    alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
-                                         fedimg.AWS_SECRET_KEY)
-                    image_name = "{0}-{1}".format(build_name, ami['region'])
-                    alt_driver.copy_image(image, self.amis[0]['region'],
-                                          name=image_name)
+                test_success = True
 
             # Destroy the test node
             driver.destroy_node(test_node)
@@ -340,3 +334,28 @@ class EC2Service(object):
                 driver.destroy_volume_snapshot(snapshot)
             if test_node:
                 driver.destroy_node(test_node)
+
+        if test_success:
+            # Copy the AMI to every other region if tests passed
+            for ami in self.amis[1:]:
+                try:
+                    alt_dest = 'EC2 ({region})'.format(region=ami['region'])
+
+                    fedimg.messenger.message('image.upload', build_name,
+                                             alt_dest, 'started')
+
+                    alt_cls = get_driver(ami['prov'])
+                    alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                         fedimg.AWS_SECRET_KEY)
+
+                    image_name = "{0}-{1}".format(build_name, ami['region'])
+                    alt_driver.copy_image(image, self.amis[0]['region'],
+                                          name=image_name)
+
+                    fedimg.messenger.message('image.upload', build_name,
+                                             alt_dest, 'completed')
+                except Exception as e:
+                    # TODO: Catch a more specific image-copying exception
+                    print "Failure copying image to other regions:", e
+                    fedimg.messenger.message('image.upload', build_name,
+                                             alt_dest, 'failed')
