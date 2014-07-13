@@ -186,7 +186,8 @@ class EC2Service(object):
                 raise EC2UtilityException("Problem writing image to"
                                           " utility instance volume."
                                           " Command exited with"
-                                          " status {0}.".format(status))
+                                          " status {0}.\n"
+                                          "command: {1}".format(status, cmd))
             client.close()
 
             # Get volume name that image was written to
