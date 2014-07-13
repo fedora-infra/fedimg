@@ -169,6 +169,10 @@ class EC2Service(object):
                         raise
                 break
 
+            # Wait until the utility node has SSH running
+            while not ssh_connection_works(node.public_ips[0]):
+                sleep(10)
+
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             client.connect(node.public_ips[0], username='ec2-user',
@@ -267,6 +271,10 @@ class EC2Service(object):
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
                                            ex_ebs_optimized=True)
+            
+            # Wait until the utility node has SSH running
+            while not ssh_connection_works(node.public_ips[0]):
+                sleep(10)
 
             # Alert the fedmsg bus that an image test has started
             fedimg.messenger.message('image.test', build_name, destination,
