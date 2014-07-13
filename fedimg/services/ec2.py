@@ -241,7 +241,6 @@ class EC2Service(object):
                                      'completed')
 
             # Spin up a node of the AMI to test
-            # TODO: Need to report back status of tests for this to be useful
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance
