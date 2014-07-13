@@ -316,6 +316,7 @@ class EC2Service(object):
             print "Terminating instance and destroying other resources."
             if sda_vol:
                 driver.destroy_volume(sda_vol)
+        # TODO: Destroy volume snapshot appropriately in these exceptions
 
         finally:
             if node:
@@ -329,8 +330,6 @@ class EC2Service(object):
             if volume:
                 # Destroy /dev/sdb or whatever
                 driver.destroy_volume(volume)
-            if snapshot:
-                driver.destroy_volume_snapshot(snapshot)
             if test_node:
                 driver.destroy_node(test_node)
 
