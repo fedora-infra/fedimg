@@ -1,4 +1,6 @@
 [general]
+util_username = ec2-user
+test_username = fedora
 # DEPRECATED
 # LOCAL_DOWNLOAD_DIR should be changed as appropriate in production
 # in order to properly upload files to local shares for FTP access.

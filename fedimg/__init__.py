@@ -3,6 +3,9 @@ import ConfigParser
 config = ConfigParser.RawConfigParser()
 config.read('fedimg.cfg')
 
+UTIL_USER = config.get('general', 'util_username')
+TEST_USER = config.get('general', 'test_username')
+
 # koji_server is the location of the Koji hub that should be used
 # to initialize the Koji connection.
 KOJI_SERVER = config.get('koji', 'server')
