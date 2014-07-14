@@ -180,6 +180,8 @@ class EC2Service(object):
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "sudo sh -c 'curl {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
+            chan.get_pty()  # Request a pseudo-term to get around requiretty
+            print "Executing utility script"
             chan.exec_command(cmd)
             status = chan.recv_exit_status()
             if status != 0:
@@ -290,6 +292,8 @@ class EC2Service(object):
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "true"
             chan = client.get_transport().open_session()
+            chan.get_pty()  # Request a pseudo-term to get around requiretty
+            print "executing cmd"  # DEBUG
             chan.exec_command(cmd)
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
