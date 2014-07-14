@@ -206,14 +206,10 @@ class EC2Service(object):
                                        fedimg.AWS_KEYPATH):
                 sleep(10)
 
-            # Destroy /dev/sda volume that was the main disk
-            # on the utility instance
-            sda_vol_id = [x['ebs']['volume_id'] for x in
-                          node.extra['block_device_mapping'] if
-                          x['device_name'] == '/dev/sda1'][0]
-            sda_vol = [v for v in driver.list_volumes()
-                       if v.id == sda_vol_id][0]
-            sda_vol = None  # make sure Fedimg knows that the vol is gone
+            print "Done"
+
+            print "waiting a bit extra for funsies"
+            sleep(45)
 
             # Take a snapshot of the volume the image was written to
             volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
