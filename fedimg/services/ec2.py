@@ -218,8 +218,13 @@ class EC2Service(object):
                                                      name=snap_name)
             snap_id = str(snapshot.id)
 
-            print "Waiting for snapshot to be built"
-            sleep(45)
+            print "waiting for snapshot to be built"
+            while snapshot.extra['state'] != 'completed':
+                # need to re-pull snapshot object to get updates
+                snapshot = [s for s in driver.list_snapshots()
+                            if s.id == snap_id][0]
+                sleep(10)
+            print "built. destroying volume."
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(volume)
