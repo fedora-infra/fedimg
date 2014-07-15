@@ -32,7 +32,6 @@ def upload(builds):
         results = koji.multiCall()
         for result in results:
             upload_files.append(get_rawxz_url(result))
-        koji.multicall = False  # TODO: Is this needed?
 
     # EC2 upload
     ec2 = EC2Service()
