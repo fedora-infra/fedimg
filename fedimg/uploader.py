@@ -6,7 +6,7 @@ import koji
 import fedimg
 from fedimg.services.ec2 import EC2Service
 
-from fedimg.util import get_qcow2_files
+from fedimg.util import get_rawxz_url
 
 
 def upload(builds):
