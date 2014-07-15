@@ -36,7 +36,7 @@ class RackspaceService(object):
         # create image from offical Fedora image on Rackspace
 
         # deploy node
-        name = 'fedimg AMI builder'  # TODO: will add raw image title
+        name = 'fedimg AMI builder'
         # TODO: Make automatically-created /dev/sda be deleted on termination
         mappings = [{'VirtualName': None,
                      'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
