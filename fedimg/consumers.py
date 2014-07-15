@@ -35,5 +35,6 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                         # completed successfully (with state code 2).
                         if child["state"] == 2:
                             builds.append(child["id"])
+
         if len(builds) > 0:
             fedimg.uploader.upload(builds)
