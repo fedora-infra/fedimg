@@ -353,7 +353,8 @@ class EC2Service(object):
             if snapshot:
                 if image:
                     driver.delete_image(image)
-                    # Wait until the image is destroyed before destroying the snapshot
+                    # Wait until the image is destroyed before destroying the
+                    # snapshot.
                     while len(driver.list_images(ex_image_ids=image.id)) > 0:
                         sleep(10)
                 driver.destroy_volume_snapshot(snapshot)
