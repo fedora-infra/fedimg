@@ -8,7 +8,9 @@ import fedimg.uploader
 
 
 class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
-    # To our knowledge, all *image* builds appear under this
+    """ Listens for image Koji task completion and sends the build ID(s) of
+    child(ren) to the uploader. """
+    # To my knowledge, all *image* builds appear under this
     # exact topic, along with scratch builds.
     topic = 'org.fedoraproject.prod.buildsys.task.state.change'
     config_key = 'kojiconsumer'
@@ -17,7 +19,7 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         super(KojiConsumer, self).__init__(*args, **kwargs)
 
     def consume(self, msg):
-        """Here we put what we'd like to do when we receive the message."""
+        """ This is called when we receive a message matching the topic. """
 
         builds = list()  # These will be the Koji build IDs to upload, if any.
 
