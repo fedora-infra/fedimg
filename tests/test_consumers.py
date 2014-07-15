@@ -6,7 +6,7 @@ import unittest
 import fedmsg.consumers
 
 
-class TestKojiConsumer(Base):
+class TestKojiConsumer(object):
     """ Fedimg should pick up on completed createImage Koji tasks and kick off
     the upload process if they produce an image we want to upload. """
 
