@@ -4,7 +4,6 @@
 import koji
 
 import fedimg
-import fedimg.downloader
 from fedimg.services.ec2 import EC2Service
 
 from fedimg.util import get_qcow2_files
