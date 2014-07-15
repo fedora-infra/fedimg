@@ -240,12 +240,32 @@ class EC2Service(object):
 
             # Actually register image
             image_name = "{0}-{1}".format(build_name, ami['region'])
-            image = driver.ex_register_image(image_name,
-                                             description=None,
-                                             root_device_name='/dev/sda',
-                                             block_device_mapping=mapping,
-                                             kernel_id=ami['aki'],
-                                             architecture=image_arch)
+            # Avoid duplicate image name by adding a '-' and a number to the
+            # end if there is already an AMI with that name.
+            dup_count = 0  # counter: number of AMIs with same base image name
+            while True:
+                try:
+                    if dup_count == 1:
+                        image_name += '-1'  # avoid duplicate image name
+                    elif dup_count > 1:
+                        # Remove trailing '-1' or '-2' or '-3' or...
+                        image_name = ''.join(image_name.split('-')[:-1])
+                        # Re-add trailing dup number with new count
+                        image_name += '-{0}'.format(dup_count)
+                    image = driver.ex_register_image(
+                        image_name,
+                        description=None,
+                        root_device_name='/dev/sda',
+                        block_device_mapping=mapping,
+                        kernel_id=ami['aki'],
+                        architecture=image_arch)
+                except Exception as e:
+                    if 'InvalidAMIName.Duplicate' in e.message:
+                        dup_count += 1
+                        continue  # Keep trying until an unused name is found
+                    else:
+                        raise
+                break
 
             # Emit success fedmsg
             fedimg.messenger.message('image.upload', build_name, destination,
