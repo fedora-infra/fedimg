@@ -16,5 +16,8 @@ class TestKojiConsumer(object):
     def teardown(self):
         pass
 
+    def test_consume(self):
+        pass
+
 if __name__ == '__main__':
     unittest.main()
