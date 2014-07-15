@@ -350,10 +350,13 @@ class EC2Service(object):
             if volume:
                 # Destroy /dev/sdb or whatever
                 driver.destroy_volume(volume)
-            if snapshot and not image:
+            if snapshot:
+                if image:
+                    driver.delete_image(image)
+                    # Wait until the image is destroyed before destroying the snapshot
+                    while len(driver.list_images(ex_image_ids=image.id)) > 0:
+                        sleep(10)
                 driver.destroy_volume_snapshot(snapshot)
-            # TODO: If there are both image and snapshot, destroy the image,
-            # wait for it to be gone, then destroy the snapshot.
             if test_node:
                 driver.destroy_node(test_node)
 
