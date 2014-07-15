@@ -1,16 +1,6 @@
 [general]
 util_username = ec2-user
 test_username = fedora
-# DEPRECATED
-# LOCAL_DOWNLOAD_DIR should be changed as appropriate in production
-# in order to properly upload files to local shares for FTP access.
-local_download_dir = /mnt/alt.fedoraproject.org/pub/alt/cloud
-
-# DEPRECATED
-# Set DOWNLOAD_PROGRESS to False if you want to hide any the file
-# download progress indicator (might be a good idea on production systems
-# where fedmsg-hub has other regular outputs.
-download_progress = True
 
 [koji]
 server = https://koji.fedoraproject.org/kojihub
