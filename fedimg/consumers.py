@@ -3,7 +3,6 @@
 
 import fedmsg.consumers
 import fedmsg.encoding
-
 import fedimg.uploader
 
 
