@@ -410,29 +410,45 @@ class EC2Service(object):
         if test_success:
             # Copy the AMI to every other region if tests passed
             for ami in self.amis[1:]:
-                try:
-                    alt_dest = 'EC2 ({region})'.format(region=ami['region'])
+                # Avoid duplicate image name by adding a '-' and a number to the
+                # end if there is already an AMI with that name.
+                dup_count = 0  # counter: number of AMIs with same base image name
+                while True:
+                    try:
+                        if dup_count == 1:
+                            image_name += '-1'  # avoid duplicate image name
+                        elif dup_count > 1:
+                            # Remove trailing '-1' or '-2' or '-3' or...
+                            image_name = ''.join(image_name.split('-')[:-1])
+                            # Re-add trailing dup number with new count
+                            image_name += '-{0}'.format(dup_count)
+                        alt_dest = 'EC2 ({region})'.format(region=ami['region'])
 
-                    fedimg.messenger.message('image.upload', build_name,
-                                             alt_dest, 'started')
+                        fedimg.messenger.message('image.upload', build_name,
+                                                 alt_dest, 'started')
 
-                    alt_cls = get_driver(ami['prov'])
-                    alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
-                                         fedimg.AWS_SECRET_KEY)
+                        alt_cls = get_driver(ami['prov'])
+                        alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                             fedimg.AWS_SECRET_KEY)
 
-                    image_name = "{0}-{1}".format(build_name, ami['region'])
+                        image_name = "{0}-{1}".format(build_name, ami['region'])
 
-                    logging.info('AMI copy to {0} started'.format(
-                        ami['region']))
+                        logging.info('AMI copy to {0} started'.format(
+                            ami['region']))
 
-                    alt_driver.copy_image(image, self.amis[0]['region'],
-                                          name=image_name)
+                        alt_driver.copy_image(image, self.amis[0]['region'],
+                                              name=image_name)
 
-                    fedimg.messenger.message('image.upload', build_name,
-                                             alt_dest, 'completed')
-                except Exception as e:
-                    # TODO: Catch a more specific image-copying exception
-                    logging.exception('Image copy to {0} failed'.format(
-                        ami['region']))
-                    fedimg.messenger.message('image.upload', build_name,
-                                             alt_dest, 'failed')
+                        fedimg.messenger.message('image.upload', build_name,
+                                                 alt_dest, 'completed')
+                    except Exception as e:
+                        if 'InvalidAMIName.Duplicate' in e.message:
+                            dup_count += 1
+                            continue  # Keep trying until an unused name is found
+                        else:
+                            # TODO: Catch a more specific image-copying exception
+                            logging.exception('Image copy to {0} failed'.format(
+                                ami['region']))
+                            fedimg.messenger.message('image.upload', build_name,
+                                                     alt_dest, 'failed')
+                    break
