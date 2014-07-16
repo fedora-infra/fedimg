@@ -1,6 +1,8 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
 
+import logging
+
 import koji
 
 import fedimg
@@ -31,6 +33,8 @@ def upload(builds):
         for result in results:
             upload_files.append(get_rawxz_url(result))
 
+    logging.info('Starting upload process')
+
     # EC2 upload
     ec2 = EC2Service()
     for image in upload_files:
@@ -43,3 +47,7 @@ def upload(builds):
            and (image.find('fedora-cloud-atomic') > -1 or
                 image.find('fedora-cloud-bigdata') > -1)):
             ec2.upload(image)
+        else:
+            logging.info('Image {0} will not be uploaded')
+
+    logging.info('Upload process finished')
