@@ -1,9 +1,10 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
 
+import logging
+
 import fedmsg.consumers
 import fedmsg.encoding
-
 import fedimg.uploader
 
 
@@ -37,4 +38,6 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                             builds.append(child["id"])
 
         if len(builds) > 0:
+            for build in builds:
+                logging.info('Got Koji build {0}'.format(build))
             fedimg.uploader.upload(builds)
