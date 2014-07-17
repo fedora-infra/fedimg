@@ -13,7 +13,7 @@ setup(
         " License :: OSI Approved :: GNU Affero General Public License"
         " v3 or later (AGPLv3+)",
     ],
-    keywords='python Fedora cloud image uploader',
+    keywords='python Fedora cloud image uploader service',
     author='David Gay',
     author_email='oddshocks@riseup.net',
     url='https://github.com/fedora-infra/fedimg',
