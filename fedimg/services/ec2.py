@@ -21,18 +21,18 @@ from fedimg.util import get_file_arch, ssh_connection_works
 
 class EC2ServiceException(Exception):
     """ Custom exception for EC2Service. """
-    logging.exception('Problem with EC2 service')
+    pass
 
 
 class EC2UtilityException(EC2ServiceException):
     """ Something went wrong with writing the image file to a volume with the
         utility instance. """
-    logging.exception('Problem writing volume with utility instance')
+    pass
 
 
 class EC2AMITestException(EC2ServiceException):
     """ Something went wrong when a newly-registered AMI was tested. """
-    logging.exception('Problem testing new AMI')
+    pass
 
 
 class EC2Service(object):
@@ -199,6 +199,7 @@ class EC2Service(object):
             status = chan.recv_exit_status()
             if status != 0:
                 # There was a problem with the SSH command
+                logging.error('Problem writing volume with utility instance')
                 raise EC2UtilityException("Problem writing image to"
                                           " utility instance volume."
                                           " Command exited with"
@@ -348,6 +349,7 @@ class EC2Service(object):
             chan.exec_command(cmd)
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
+                logging.error('Problem testing new AMI')
                 raise EC2AMITestException("Tests on AMI failed.")
 
             logging.info('AMI test completed')
