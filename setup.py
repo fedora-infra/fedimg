@@ -24,7 +24,7 @@ setup(
     install_requires=["fedmsg",
                       "apache-libcloud",
                       "paramiko"],
-    tests_require = ['nose'],
+    tests_require=['nose'],
     packages=[],
     entry_points="""
     [moksha.consumer]
