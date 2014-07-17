@@ -31,6 +31,14 @@ includes the system-installed Koji library:
 mkvirtualenv fedimg --system-site-packages
 ```
 
+## Install Fedimg
+
+Within the virtualenv, run:
+
+```
+pip install fedimg
+```
+
 ## Plug in the consumer
 
 ```
