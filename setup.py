@@ -6,12 +6,12 @@ from setuptools import setup
 setup(
     name='fedimg',
     version='0.1.0',
-    description='Service to automatically upload built Fedora images \
-                    to internal and external cloud providers.',
+    description='Service to automatically upload built Fedora images'
+                ' to internal and external cloud providers.',
     classifiers=[
         "Programming Language :: Python :: 2",
-        "License :: OSI Approved :: GNU Affero General Public License \
-            v3 or later (AGPLv3+)",
+        " License :: OSI Approved :: GNU Affero General Public License"
+        " v3 or later (AGPLv3+)",
     ],
     keywords='python Fedora cloud image uploader',
     author='David Gay',
