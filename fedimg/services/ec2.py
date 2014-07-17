@@ -270,7 +270,7 @@ class EC2Service(object):
                         image_name += '-1'  # avoid duplicate image name
                     elif dup_count > 1:
                         # Remove trailing '-1' or '-2' or '-3' or...
-                        image_name = ''.join(image_name.split('-')[:-1])
+                        image_name = '-'.join(image_name.split('-')[:-1])
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
                     image = driver.ex_register_image(
@@ -421,7 +421,7 @@ class EC2Service(object):
                             image_name += '-1'  # avoid duplicate image name
                         elif dup_count > 1:
                             # Remove trailing '-1' or '-2' or '-3' or...
-                            image_name = ''.join(image_name.split('-')[:-1])
+                            image_name = '-'.join(image_name.split('-')[:-1])
                             # Re-add trailing dup number with new count
                             image_name += '-{0}'.format(dup_count)
                         alt_dest = 'EC2 ({region})'.format(
