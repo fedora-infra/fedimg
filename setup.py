@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='fedimg',
-    version='0.0.1',
+    version='0.1.0',
     description='Service to automatically upload built Fedora images \
                     to internal and external cloud providers.',
     classifiers=[
