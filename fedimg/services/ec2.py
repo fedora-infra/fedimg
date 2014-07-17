@@ -412,9 +412,9 @@ class EC2Service(object):
         if test_success:
             # Copy the AMI to every other region if tests passed
             for ami in self.amis[1:]:
-                # Avoid duplicate image name by adding a '-' and a number to the
-                # end if there is already an AMI with that name.
-                dup_count = 0  # counter: number of AMIs with same base image name
+                # Avoid duplicate image name by adding a '-' and a number to
+                # the end if there is already an AMI with that name.
+                dup_count = 0  # counter: num of AMIs with same base image name
                 while True:
                     try:
                         if dup_count == 1:
@@ -424,7 +424,8 @@ class EC2Service(object):
                             image_name = ''.join(image_name.split('-')[:-1])
                             # Re-add trailing dup number with new count
                             image_name += '-{0}'.format(dup_count)
-                        alt_dest = 'EC2 ({region})'.format(region=ami['region'])
+                        alt_dest = 'EC2 ({region})'.format(
+                            region=ami['region'])
 
                         fedimg.messenger.message('image.upload', build_name,
                                                  alt_dest, 'started')
@@ -433,7 +434,8 @@ class EC2Service(object):
                         alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                              fedimg.AWS_SECRET_KEY)
 
-                        image_name = "{0}-{1}".format(build_name, ami['region'])
+                        image_name = "{0}-{1}".format(
+                            build_name, ami['region'])
 
                         logging.info('AMI copy to {0} started'.format(
                             ami['region']))
@@ -445,12 +447,15 @@ class EC2Service(object):
                                                  alt_dest, 'completed')
                     except Exception as e:
                         if 'InvalidAMIName.Duplicate' in e.message:
+                            # Keep trying until an unused name is found
                             dup_count += 1
-                            continue  # Keep trying until an unused name is found
+                            continue
                         else:
-                            # TODO: Catch a more specific image-copying exception
-                            logging.exception('Image copy to {0} failed'.format(
-                                ami['region']))
-                            fedimg.messenger.message('image.upload', build_name,
+                            # TODO: Catch a more specific exception
+                            logging.exception(
+                                'Image copy to {0} failed'.format(
+                                    ami['region']))
+                            fedimg.messenger.message('image.upload',
+                                                     build_name,
                                                      alt_dest, 'failed')
                     break
