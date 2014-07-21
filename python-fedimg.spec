@@ -49,7 +49,7 @@ rm -rf %{modname}.egg-info
 %{__python} setup.py test
 
 %files
-%doc README.md LICENSE
+%doc doc/ README.md LICENSE
 %config(noreplace) %{_sysconfdir}/fedimg.cfg
 %{python_sitelib}/%{modname}/
 %{python_sitelib}/%{modname}-%{version}*
