@@ -6,7 +6,7 @@ from fedimg.consumers import KojiConsumer
 
 # Read in config file
 config = ConfigParser.RawConfigParser()
-config.read('fedimg.cfg')
+config.read('/etc/fedimg.cfg')
 
 UTIL_USER = config.get('general', 'util_username')
 TEST_USER = config.get('general', 'test_username')
