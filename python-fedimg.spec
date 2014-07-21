@@ -43,6 +43,8 @@ rm -rf %{modname}.egg-info
 
 %{__python} setup.py install -O1 --skip-build --root=%{buildroot}
 
+%{__cp} fedimg.cfg.example %{buildroot}%{_sysconfdir}/fedimg.cfg
+
 %check
 %{__python} setup.py test
 
