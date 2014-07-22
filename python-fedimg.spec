@@ -1,6 +1,6 @@
-%global modname python-fedimg
+%global modname fedimg
 
-Name:               %{modname}
+Name:               python-fedimg
 Version:            0.1.0
 Release:            1%{?dist}
 Summary:            Service to automatically upload built Fedora images to internal and external cloud providers.
