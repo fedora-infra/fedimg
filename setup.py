@@ -5,7 +5,7 @@ from setuptools import setup
 
 setup(
     name='fedimg',
-    version='0.1.0',
+    version='0.2.0',
     description='A service that listens to the Fedmsg bus and'
                 ' automatically uploads built Fedora cloud images'
                 ' to internal and external cloud providers.',
