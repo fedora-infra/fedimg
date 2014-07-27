@@ -35,7 +35,6 @@ cloud images to internal and external cloud providers
 # Remove bundled egg-info in case it exists
 rm -rf %{modname}.egg-info
 
-
 %build
 %{__python} setup.py build
 
