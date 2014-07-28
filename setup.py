@@ -25,7 +25,7 @@ setup(
                       "apache-libcloud",
                       "paramiko"],
     tests_require=['nose'],
-    packages=[],
+    packages=find_packages(),
     entry_points="""
     [moksha.consumer]
     kojiconsumer = fedimg.consumers:KojiConsumer
