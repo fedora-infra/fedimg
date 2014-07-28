@@ -10,3 +10,7 @@
 -   setup.py improvements
 -   Config file is now read from /etc/fedimg.cfg
 -   PEP 8 fixes
+
+## 0.2.1
+
+-   Fix `packages` argument in setup.py
