@@ -13,4 +13,4 @@
 
 ## 0.2.1
 
--   Fix `packages` argument in setup.py
+-   Fix `packages` argument in setup.py to take `find_packages()`
