@@ -30,7 +30,7 @@ class GCEService(object):
 
         cls = get_driver(Provider.GCE)
         driver = cls(fedimg.GCE_EMAIL, fedimg.GCE_KEYPATH,
-                     project=fedimg.GCE_PROJECT_ID
+                     project=fedimg.GCE_PROJECT_ID,
                      datacenter=self.datacenters[0])
 
         # create image from offical Fedora image on GCE
