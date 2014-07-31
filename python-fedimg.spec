@@ -52,7 +52,7 @@ rm -rf %{modname}.egg-info
 %files
 %doc docs/ README.md LICENSE
 %config(noreplace) %{_sysconfdir}/fedimg.cfg
-%config(noreplace) %{_sysconfdir}/fedmsg.d/fedimg.py
+%config(noreplace) %{_sysconfdir}/fedmsg.d/fedimg.py*
 
 %{python_sitelib}/%{modname}/
 %{python_sitelib}/%{modname}-%{version}*
