@@ -11,8 +11,8 @@ setup(
                 ' to internal and external cloud providers.',
     classifiers=[
         "Programming Language :: Python :: 2",
-        " License :: OSI Approved :: GNU Affero General Public License"
-        " v3 or later (AGPLv3+)",
+        "License :: OSI Approved :: GNU Affero General Public License",
+        "v3 or later (AGPLv3+)",
     ],
     keywords='python Fedora cloud image uploader service',
     author='David Gay',
