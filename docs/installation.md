@@ -44,3 +44,11 @@ pip install fedimg
 ```
 sudo cp fedmsg.d/fedimg.py /etc/fedmsg.d/fedimg.py
 ```
+
+## Modify the config file
+
+A file should be located at `/etc/fedimg.cfg` that is similar to the `fedimg.cfg.example` file included with
+Fedimg. Usernames, passwords, keys, and the like must be updated to match those for your own accounts.
+Usernames in the `[general]` section should match the user account you'd like Fedimg to use when
+connecting to spun up instances. If you'd like to use an alternate Koji server, you must update
+the server address and base task URL.
