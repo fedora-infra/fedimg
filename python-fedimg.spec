@@ -58,5 +58,5 @@ rm -rf %{modname}.egg-info
 %{python_sitelib}/%{modname}-%{version}*
 
 %changelog
-* Tue Sep 16 2014 David Gay <dgay@redhat.com> - 0.2.2-1
+* Tue Sep 16 2014 David Gay <dgay@redhat.com> - 0.2.3-1
 - initial package for Fedora

@@ -18,6 +18,10 @@
 ## 0.2.2
 
 -   Include .pyc and .pyo files for consumer in /etc/fedmsg.d/
+-   Add missing comma
+
+## 0.2.3
+
 -   Better IAM profile name example in the config
 -   Addition to docs: section about setting up the config file
--   Minor typo fixes
+-   Fix strange saces and add missing comma to setup.py classifiers section
