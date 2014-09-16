@@ -32,3 +32,8 @@
 -   Add shebang and coding to top of fedimg init file
 -   Remove shebang from fedmsg.d/fedimg.py
 -   Make all necessary fedimg files executable in spec install section
+
+## 0.2.5
+
+-   Remove coding from fedmsg.d/fedimg.py since it seems to make it executable
+-   make init file executable in spec install section, as well
