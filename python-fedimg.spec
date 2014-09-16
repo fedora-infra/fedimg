@@ -46,7 +46,7 @@ rm -rf %{modname}.egg-info
 
 %{__python} setup.py install -O1 --skip-build --root=%{buildroot}
 
-for file in $RPM_BUILD_ROOT%{python_sitelib}/fedimg/{services/*,uploader,messenger,util,consumers}.py; do
+for file in $RPM_BUILD_ROOT%{python_sitelib}/fedimg/{services/*,__init__,uploader,messenger,util,consumers}.py; do
    chmod a+x $file
 done
 
