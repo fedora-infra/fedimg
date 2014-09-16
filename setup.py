@@ -5,14 +5,14 @@ from setuptools import setup, find_packages
 
 setup(
     name='fedimg',
-    version='0.2.2',
+    version='0.2.3',
     description='A service that listens to the Fedmsg bus and'
                 ' automatically uploads built Fedora cloud images'
                 ' to internal and external cloud providers.',
     classifiers=[
         "Programming Language :: Python :: 2",
-        "License :: OSI Approved :: GNU Affero General Public License",
-        "v3 or later (AGPLv3+)",
+        "License :: OSI Approved :: GNU Affero General Public License"
+        " v3 or later (AGPLv3+)",
     ],
     keywords='python Fedora cloud image uploader service',
     author='David Gay',
