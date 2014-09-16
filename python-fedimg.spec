@@ -3,7 +3,7 @@
 Name:               python-fedimg
 Version:            0.2.3
 Release:            1%{?dist}
-Summary:            Service to automatically upload built Fedora images to internal and external cloud providers.
+Summary:            Automatically upload Fedora Cloud images to cloud providers
 
 Group:              Development/Libraries
 License:            AGPLv3+
