@@ -14,3 +14,10 @@
 ## 0.2.1
 
 -   Fix `packages` argument in setup.py to take `find_packages()`
+
+## 0.2.2
+
+-   Include .pyc and .pyo files for consumer in /etc/fedmsg.d/
+-   Better IAM profile name example in the config
+-   Addition to docs: section about setting up the config file
+-   Minor typo fixes

@@ -1,7 +1,7 @@
 %global modname fedimg
 
 Name:               python-fedimg
-Version:            0.2.0
+Version:            0.2.2
 Release:            1%{?dist}
 Summary:            Service to automatically upload built Fedora images to internal and external cloud providers.
 
@@ -58,5 +58,5 @@ rm -rf %{modname}.egg-info
 %{python_sitelib}/%{modname}-%{version}*
 
 %changelog
-* Sun Jul 27 2014 David Gay <dgay@redhat.com> - 0.2.0-1
+* Tue Sep 16 2014 David Gay <dgay@redhat.com> - 0.2.2-1
 - initial package for Fedora
