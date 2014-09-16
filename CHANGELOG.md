@@ -25,3 +25,10 @@
 -   Better IAM profile name example in the config
 -   Addition to docs: section about setting up the config file
 -   Fix strange saces and add missing comma to setup.py classifiers section
+
+## 0.2.4
+
+-   Shorten spec summary and remove trailing dot
+-   Add shebang and coding to top of fedimg init file
+-   Remove shebang from fedmsg.d/fedimg.py
+-   Make all necessary fedimg files executable in spec install section
