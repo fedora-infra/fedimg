@@ -1,6 +1,3 @@
-#!/bin/env python
-# -*- coding: utf8 -*-
-
 import logging
 
 import koji

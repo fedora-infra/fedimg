@@ -1,6 +1,3 @@
-#!/bin/env python
-# -*- coding: utf8 -*-
-
 """
 This file might contain some code later, but since this service will likely
 be running on a machine that can write files to the NFS share behind our FTP

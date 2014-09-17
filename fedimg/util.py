@@ -1,5 +1,3 @@
-#!/bin/env python
-# -*- coding: utf8 -*-
 """
 Utility functions for fedimg.
 """

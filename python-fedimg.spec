@@ -46,10 +46,6 @@ rm -rf %{modname}.egg-info
 
 %{__python} setup.py install -O1 --skip-build --root=%{buildroot}
 
-for file in %{buildroot}{python_sitelib}/fedimg/{services/*,__init__,uploader,messenger,util,consumers}.py; do
-   chmod a+x $file
-done
-
 %check
 %{__python} setup.py test
 
