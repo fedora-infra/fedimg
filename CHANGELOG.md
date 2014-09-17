@@ -37,3 +37,10 @@
 
 -   Remove coding from fedmsg.d/fedimg.py since it seems to make it executable
 -   make init file executable in spec install section, as well
+
+## 0.2.6
+
+-   use proper buildroot macro in spec file
+-   preserve file timestamps when copying in spec file
+-   do not make library files executable, and don't give them shebangs
+-   add license headers to all Python files 

@@ -1,7 +1,7 @@
 %global modname fedimg
 
 Name:               python-fedimg
-Version:            0.2.5
+Version:            0.2.6
 Release:            1%{?dist}
 Summary:            Automatically upload Fedora Cloud images to cloud providers
 
@@ -60,3 +60,10 @@ rm -rf %{modname}.egg-info
 %changelog
 * Tue Sep 16 2014 David Gay <dgay@redhat.com> - 0.2.5-1
 - initial package for Fedora
+
+* Wed Sep 17 2014 David Gay <dgay@redhat.com> - 0.2.6-1
+- new version cut after package review
+- use proper buildroot macro in spec file
+- preserve file timestamps when copying in spec file
+- do not make library files executable, and don't give them shebangs
+- add license headers to all Python files
