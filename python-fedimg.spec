@@ -41,8 +41,8 @@ rm -rf %{modname}.egg-info
 %install
 
 %{__mkdir} -p %{buildroot}%{_sysconfdir}/fedmsg.d/
-%{__cp} fedimg.cfg.example %{buildroot}%{_sysconfdir}/fedimg.cfg
-%{__cp} fedmsg.d/fedimg.py %{buildroot}%{_sysconfdir}/fedmsg.d/.
+%{__cp} -p fedimg.cfg.example %{buildroot}%{_sysconfdir}/fedimg.cfg
+%{__cp} -p fedmsg.d/fedimg.py %{buildroot}%{_sysconfdir}/fedmsg.d/.
 
 %{__python} setup.py install -O1 --skip-build --root=%{buildroot}
 
