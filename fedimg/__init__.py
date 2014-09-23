@@ -29,9 +29,6 @@ from fedimg.consumers import KojiConsumer
 config = ConfigParser.RawConfigParser()
 config.read('/etc/fedimg.cfg')
 
-UTIL_USER = config.get('general', 'util_username')
-TEST_USER = config.get('general', 'test_username')
-
 # koji_server is the location of the Koji hub that should be used
 # to initialize the Koji connection.
 KOJI_SERVER = config.get('koji', 'server')
@@ -40,6 +37,8 @@ KOJI_SERVER = config.get('koji', 'server')
 BASE_KOJI_TASK_URL = config.get('koji', 'base_task_url')
 
 # AMAZON WEB SERVICES (EC2)
+AWS_UTIL_USER = config.get('aws', 'util_username')
+AWS_TEST_USER = config.get('aws', 'test_username')
 AWS_ACCESS_ID = config.get('aws', 'access_id')
 AWS_SECRET_KEY = config.get('aws', 'secret_key')
 AWS_KEYNAME = config.get('aws', 'keyname')

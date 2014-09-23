@@ -157,7 +157,7 @@ class EC2Service(object):
                 try:
                     node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
-                                              ssh_username=fedimg.UTIL_USER,
+                                              ssh_username=fedimg.AWS_UTIL_USER,
                                               ssh_alternate_usernames=[''],
                                               ssh_key=fedimg.AWS_KEYPATH,
                                               deploy=msd,
@@ -196,7 +196,7 @@ class EC2Service(object):
                 break
 
             # Wait until the utility node has SSH running
-            while not ssh_connection_works(fedimg.UTIL_USER,
+            while not ssh_connection_works(fedimg.AWS_UTIL_USER,
                                            node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
@@ -205,7 +205,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(node.public_ips[0], username=fedimg.UTIL_USER,
+            client.connect(node.public_ips[0], username=fedimg.AWS_UTIL_USER,
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "sudo sh -c 'curl {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
@@ -236,7 +236,7 @@ class EC2Service(object):
             driver.destroy_node(node)
 
             # Wait for utility node to be terminated
-            while ssh_connection_works(fedimg.UTIL_USER, node.public_ips[0],
+            while ssh_connection_works(fedimg.AWS_UTIL_USER, node.public_ips[0],
                                        fedimg.AWS_KEYPATH):
                 sleep(10)
 
@@ -332,7 +332,7 @@ class EC2Service(object):
 
             name = 'Fedimg AMI tester'
             test_node = driver.deploy_node(name=name, image=image, size=size,
-                                           ssh_username=fedimg.TEST_USER,
+                                           ssh_username=fedimg.AWS_TEST_USER,
                                            ssh_alternate_usernames=['root'],
                                            ssh_key=fedimg.AWS_KEYPATH,
                                            deploy=msd,
@@ -343,7 +343,7 @@ class EC2Service(object):
                                            ex_ebs_optimized=True)
 
             # Wait until the test node has SSH running
-            while not ssh_connection_works(fedimg.TEST_USER,
+            while not ssh_connection_works(fedimg.AWS_TEST_USER,
                                            test_node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
@@ -356,7 +356,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(test_node.public_ips[0], username=fedimg.TEST_USER,
+            client.connect(test_node.public_ips[0], username=fedimg.AWS_TEST_USER,
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "true"
             chan = client.get_transport().open_session()

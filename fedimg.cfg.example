@@ -1,13 +1,11 @@
-[general]
-util_username = ec2-user
-test_username = fedora
-
 [koji]
 server = https://koji.fedoraproject.org/kojihub
 # The two adjacent slashes in the below URL are _not_ a typo.
 base_task_url = https://kojipkgs.fedoraproject.org//work/tasks
 
 [aws]
+util_username = ec2-user
+test_username = fedora
 access_id = secretaccessID
 secret_key = supersecretsecretkey
 iam_profile = iamprofilename
