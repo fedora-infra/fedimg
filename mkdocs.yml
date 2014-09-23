@@ -2,4 +2,5 @@ site_name: Fedimg
 pages:
 - ['index.md', 'About']
 - ['installation.md', 'Installation']
+- ['consumer.md', 'Consumer']
 theme: readthedocs
