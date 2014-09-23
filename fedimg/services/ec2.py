@@ -34,7 +34,7 @@ from libcloud.compute.types import KeyPairDoesNotExistError
 
 import fedimg
 import fedimg.messenger
-from fedimg.util import get_file_arch, ssh_connection_works
+from fedimg.util import get_file_arch, get_virt_type, ssh_connection_works
 
 
 class EC2ServiceException(Exception):
@@ -380,6 +380,9 @@ class EC2Service(object):
             # Destroy the test node
             driver.destroy_node(test_node)
 
+            # Make AMI public
+            driver.ex_modify_image_attribute(image, {'LaunchPermission.Add.1.Group': 'all'})
+
         except EC2UtilityException as e:
             fedimg.messenger.message('image.upload', build_name, destination,
                                      'failed')
@@ -458,8 +461,13 @@ class EC2Service(object):
                         logging.info('AMI copy to {0} started'.format(
                             ami['region']))
 
-                        alt_driver.copy_image(image, self.amis[0]['region'],
-                                              name=image_name)
+                        image_copy = alt_driver.copy_image(image,
+                                            self.amis[0]['region'],
+                                            name=image_name)
+
+                        # Make copied AMI public
+                        alt_driver.ex_modify_image_attribute(image_copy, 
+                                    {'LaunchPermission.Add.1.Group': 'all'})
 
                         fedimg.messenger.message('image.upload', build_name,
                                                  alt_dest, 'completed')
