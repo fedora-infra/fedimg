@@ -58,6 +58,19 @@ def get_rawxz_url(task_result):
     return full_file_location + "/{}".format(file_name)
 
 
+def get_virt_type(file_name):
+    """ Takes a file name (probably of a .raw.xz image file) and returns
+    the suspected virtualization type that the image file should be
+    registered as. """
+    file_name = file_name.lower()
+    if file_name.find('atomic') != -1:
+        # hvm is required for atomic images
+        return 'hvm'
+    else:
+        # otherwise, use the default (paravirtual)
+        return None
+
+
 def ssh_connection_works(username, ip, keypath):
     """ Returns True if an SSH connection can me made to `username`@`ip`. """
     ssh = paramiko.SSHClient()
