@@ -3,4 +3,5 @@ pages:
 - ['index.md', 'About']
 - ['installation.md', 'Installation']
 - ['consumer.md', 'Consumer']
+- ['messaging.md', 'Messaging']
 theme: readthedocs
