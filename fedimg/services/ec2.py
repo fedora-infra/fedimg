@@ -281,6 +281,7 @@ class EC2Service(object):
             # Actually register image
             logging.info('Registering image as an AMI')
             image_name = "{0}-{1}".format(build_name, ami['region'])
+            virt_type = get_virt_type(image_name)
             # Avoid duplicate image name by adding a '-' and a number to the
             # end if there is already an AMI with that name.
             dup_count = 0  # counter: number of AMIs with same base image name
@@ -298,6 +299,7 @@ class EC2Service(object):
                         description=None,
                         root_device_name='/dev/sda',
                         block_device_mapping=mapping,
+                        virtualization_type=virt_type,
                         kernel_id=ami['aki'],
                         architecture=image_arch)
                 except Exception as e:
@@ -333,6 +335,11 @@ class EC2Service(object):
             logging.info('Deploying test node')
 
             name = 'Fedimg AMI tester'
+            if virt_type == 'hvm':
+                size_id = 'm3.medium'
+            else:
+                size_id = 'm1.medium'
+            size = [s for s in sizes if s.id == size_id][0]
             test_node = driver.deploy_node(name=name, image=image, size=size,
                                            ssh_username=fedimg.AWS_TEST_USER,
                                            ssh_alternate_usernames=['root'],
