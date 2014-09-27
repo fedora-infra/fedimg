@@ -9,12 +9,8 @@ EC2 regions. This page explains the process, which takes place in
 This document makes use of a few terms which may be ambiguous or unfamiliar to
 you. This section hopes to alleviate confusion.
 
-### Instance
-
 An **instance** is a virtual machine that exists on EC2. They are started from
 an AMI. To put it simply, an instance is a computer.
-
-### AMI
 
 An **AMI**, or **Amazon Machine Image**, is essentially a picture of a
 potential instance.  The AMI defines everything about how the new instance will
@@ -23,13 +19,9 @@ with. It is what is used to start a new instance on EC2. Fedimg registers
 Fedora images as public AMIs so they are freely available in all regions for
 testing and use.
 
-### Utility instance
-
 The **utility instance** is the instance which downloads the raw image file and
 writes it to a volume for later snapshotting. It is the first instance that is
 created during the EC2 service.
-
-### Test instance
 
 The **test instance** is launched from the AMI that is registered by an earlier
 step. Fedimg can be easily configured to perform tests on this instance to
