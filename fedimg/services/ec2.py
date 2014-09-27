@@ -349,7 +349,7 @@ class EC2Service(object):
                                            ex_metadata={'build': build_name},
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
-                                           ex_ebs_optimized=True)
+                                           )
 
             # Wait until the test node has SSH running
             while not ssh_connection_works(fedimg.AWS_TEST_USER,
