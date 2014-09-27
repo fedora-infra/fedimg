@@ -29,7 +29,7 @@ be executed by this account.
 `secret_key` is the secret key of the AWS account that will be used.
 
 `iam_profile` is the name of the IAM profile that will be used. **This is
-currently unused.**A
+currently unused.**
 
 `keyname` is the name of the keypair that will be used.
 
