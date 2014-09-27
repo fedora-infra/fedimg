@@ -7,7 +7,7 @@ EC2 regions. This page explains the process, which takes place in
 ## Terminology
 
 This document makes use of a few terms which may be ambiguous or unfamiliar to
-you. This section hopes to avoid confusion.
+you. This section hopes to alleviate confusion.
 
 ### Instance
 
