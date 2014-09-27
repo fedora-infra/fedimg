@@ -114,6 +114,8 @@ class EC2Service(object):
             file_name = raw_url.split('/')[-1]
             build_name = file_name.replace('.raw.xz', '')
             image_arch = get_file_arch(file_name)
+            # no EBS-enabled instance types offer a 32 bit architecture
+            self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
             ami = self.amis[0]
             destination = 'EC2 ({region})'.format(region=ami['region'])
 
