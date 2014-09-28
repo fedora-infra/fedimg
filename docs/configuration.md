@@ -8,6 +8,15 @@ At the time of this writing, the configuration file is read in when Fedimg is
 initialized, so it may be necessary to restart Fedimg after making a
 configuration change.
 
+## General options
+
+`clean_up_on_failure` can be set to False in order to skip the destruction of
+instances, volumes, and other resources if there is an exception in the upload
+process.
+
+`delete_image_on_failure` can be set to False to skip the destruction of the
+uploaded image if there is an exception in the upload process.
+
 ## Koji options
 
 `server` is the URL of the Koji server.
