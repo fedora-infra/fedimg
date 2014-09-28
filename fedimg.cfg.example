@@ -1,3 +1,7 @@
+[general]
+clean_up_on_failure = True
+delete_image_on_failure = True
+
 [koji]
 server = https://koji.fedoraproject.org/kojihub
 # The two adjacent slashes in the below URL are _not_ a typo.

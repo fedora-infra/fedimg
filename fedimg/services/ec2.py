@@ -100,6 +100,31 @@ class EC2Service(object):
                      'us-west-2': Provider.EC2_US_WEST_OREGON}
         return providers[region]
 
+    def _clean_up(self, delete_image=False):
+        logging.info('Cleaning up resources')
+        if delete_image:
+            if self.image:
+                driver.delete_image(self.image)
+                self.image = None
+            if self.snapshot:
+                driver.destroy_volume_snapshot(self.snapshot)
+                self.snapshot = None
+
+        if self.util_node:
+            driver.destroy_node(self.util_node)
+            # Wait for node to be terminated
+            while ssh_connection_works(fedimg.AWS_UTIL_USER, self.util_node.public_ips[0],
+                                       fedimg.AWS_KEYPATH):
+                sleep(10)
+            self.util_node = None
+        if self.util_volume:
+            # Destroy /dev/sdb or whatever
+            driver.destroy_volume(self.util_volume)
+            self.util_volume = None
+        if self.test_node:
+            driver.destroy_node(self.test_node)
+            self.test_node = None
+        
     def upload(self, raw_url):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
         EC2 region. """
@@ -265,7 +290,7 @@ class EC2Service(object):
             logging.info('Snapshot taken')
 
             # Delete the volume now that we've got the snapshot
-            driver.destroy_volume(volume)
+            driver.destroy_volume(self.util_volume)
             self.util_volume = None  # make sure Fedimg knows that the vol is gone
 
             logging.info('Destroyed volume')
@@ -293,7 +318,7 @@ class EC2Service(object):
                         image_name = '-'.join(image_name.split('-')[:-1])
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
-                    image = driver.ex_register_image(
+                    self.image = driver.ex_register_image(
                         image_name,
                         description=None,
                         root_device_name='/dev/sda',
@@ -395,43 +420,33 @@ class EC2Service(object):
             fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Failure:", e
+            if fedimg.CLEAN_UP_ON_FAILURE:
+                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', self.build_name, self.destination,
                                      'failed')
             print "Failure:", e
+            if fedimg.CLEAN_UP_ON_FAILURE:
+                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Problem deploying node: {0}".format(e.value)
-            print "Terminating instance."
-            driver.destroy_node(e.node)
+            if fedimg.CLEAN_UP_ON_FAILURE:
+                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except Exception as e:
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Unexpected exception:", e
-            print "Terminating instance and destroying other resources."
-            if self.snapshot:
-                if self.image:
-                    driver.delete_image(self.image)
-                    driver.destroy_volume_snapshot(self.snapshot)
+            if fedimg.CLEAN_UP_ON_FAILURE:
+                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
-        finally:
-            logging.info('Cleaning up resources')
-            if self.util_node:
-                driver.destroy_node(self.util_node)
-                # Wait for node to be terminated
-                while ssh_connection_works(fedimg.AWS_UTIL_USER, self.util_node.public_ips[0],
-                                           fedimg.AWS_KEYPATH):
-                    sleep(10)
-            if volume:
-                # Destroy /dev/sdb or whatever
-                driver.destroy_volume(self.util_volume)
-            if self.test_node:
-                driver.destroy_node(self.test_node)
+        else:
+            self._clean_up()
 
         if self.test_success:
             # Copy the AMI to every other region if tests passed
