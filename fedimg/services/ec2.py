@@ -102,13 +102,13 @@ class EC2Service(object):
 
     def _clean_up(self, delete_image=False):
         logging.info('Cleaning up resources')
-        if delete_image:
-            if self.image:
-                driver.delete_image(self.image)
-                self.image = None
-            if self.snapshot:
-                driver.destroy_volume_snapshot(self.snapshot)
-                self.snapshot = None
+        if delete_image and self.image:
+            driver.delete_image(self.image)
+            self.image = None
+
+        if self.snapshot and not self.image:
+            driver.destroy_volume_snapshot(self.snapshot)
+            self.snapshot = None
 
         if self.util_node:
             driver.destroy_node(self.util_node)
