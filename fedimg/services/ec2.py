@@ -62,10 +62,10 @@ class EC2Service(object):
         self.sda_vol = None
         self.snapshot = None
         self.image = None
-        self.self.test_node = None
-        self.self.build_name = 'Fedimg build'
-        self.self.destination = 'somewhere'
-        self.self.test_success = False
+        self.test_node = None
+        self.build_name = 'Fedimg build'
+        self.destination = 'somewhere'
+        self.test_success = False
 
         # Will be a list of dicts. Dicts will contain AMI info.
         self.amis = list()
