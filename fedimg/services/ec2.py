@@ -57,8 +57,8 @@ class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
     def __init__(self):
-        self.node = None
-        self.volume = None
+        self.util_node = None
+        self.util_volume = None
         self.sda_vol = None
         self.snapshot = None
         self.image = None
@@ -157,7 +157,7 @@ class EC2Service(object):
             # Must be EBS-backed for AMI registration to work.
             while True:
                 try:
-                    self.node = driver.deploy_node(name=name, image=base_image,
+                    self.util_node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
                                               ssh_username=fedimg.AWS_UTIL_USER,
                                               ssh_alternate_usernames=[''],
@@ -199,7 +199,7 @@ class EC2Service(object):
 
             # Wait until the utility node has SSH running
             while not ssh_connection_works(fedimg.AWS_UTIL_USER,
-                                           self.node.public_ips[0],
+                                           self.util_node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
 
@@ -207,7 +207,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(self.node.public_ips[0], username=fedimg.AWS_UTIL_USER,
+            client.connect(self.util_node.public_ips[0], username=fedimg.AWS_UTIL_USER,
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "sudo sh -c 'curl {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
@@ -229,16 +229,16 @@ class EC2Service(object):
 
             # Get volume name that image was written to
             vol_id = [x['ebs']['volume_id'] for x in
-                      self.node.extra['block_device_mapping'] if
+                      self.util_node.extra['block_device_mapping'] if
                       x['device_name'] == '/dev/sdb'][0]
 
             logging.info('Destroying utility node')
 
             # Terminate the utility instance
-            driver.destroy_node(self.node)
+            driver.destroy_node(self.util_node)
 
             # Wait for utility node to be terminated
-            while ssh_connection_works(fedimg.AWS_UTIL_USER, self.node.public_ips[0],
+            while ssh_connection_works(fedimg.AWS_UTIL_USER, self.util_node.public_ips[0],
                                        fedimg.AWS_KEYPATH):
                 sleep(10)
 
@@ -248,12 +248,12 @@ class EC2Service(object):
             sleep(45)
 
             # Take a snapshot of the volume the image was written to
-            self.volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
+            self.util_volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
             snap_name = 'fedimg-snap-{0}'.format(self.build_name)
 
             logging.info('Taking a snapshot of the written volume')
 
-            self.snapshot = driver.create_volume_snapshot(self.volume,
+            self.snapshot = driver.create_volume_snapshot(self.util_volume,
                                                      name=snap_name)
             snap_id = str(self.snapshot.id)
 
@@ -267,7 +267,7 @@ class EC2Service(object):
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(volume)
-            self.volume = None  # make sure Fedimg knows that the vol is gone
+            self.util_volume = None  # make sure Fedimg knows that the vol is gone
 
             logging.info('Destroyed volume')
 
@@ -424,10 +424,10 @@ class EC2Service(object):
 
         finally:
             logging.info('Cleaning up resources')
-            if self.node:
-                driver.destroy_node(self.node)
+            if self.util_node:
+                driver.destroy_node(self.util_node)
                 # Wait for node to be terminated
-                while ssh_connection_works(fedimg.AWS_UTIL_USER, self.node.public_ips[0],
+                while ssh_connection_works(fedimg.AWS_UTIL_USER, self.util_node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                     sleep(10)
             if self.sda_vol:
@@ -435,7 +435,7 @@ class EC2Service(object):
                 driver.destroy_volume(self.sda_vol)
             if volume:
                 # Destroy /dev/sdb or whatever
-                driver.destroy_volume(self.volume)
+                driver.destroy_volume(self.util_volume)
             if self.test_node:
                 driver.destroy_node(self.test_node)
 
