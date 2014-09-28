@@ -21,6 +21,7 @@
 
 import argparse
 import ConfigParser
+import logging
 
 from fedimg.consumers import KojiConsumer
 
@@ -64,3 +65,7 @@ GCE_PROJECT_ID = config.get('gce', 'project_id')
 HP_USER = config.get('hp', 'username')
 HP_PASSWORD = config.get('hp', 'password')
 HP_TENANT = config.get('hp', 'tenant')
+
+# Logging
+
+logging.basicConfig(level=logging.DEBUG, filename='/tmp/fedimg.log', filemode='w')
