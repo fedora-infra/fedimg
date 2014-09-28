@@ -59,7 +59,6 @@ class EC2Service(object):
     def __init__(self):
         self.util_node = None
         self.util_volume = None
-        self.sda_vol = None
         self.snapshot = None
         self.image = None
         self.test_node = None
@@ -415,8 +414,6 @@ class EC2Service(object):
                                      'failed')
             print "Unexpected exception:", e
             print "Terminating instance and destroying other resources."
-            if self.sda_vol:
-                driver.destroy_volume(self.sda_vol)
             if self.snapshot:
                 if self.image:
                     driver.delete_image(self.image)
@@ -430,9 +427,6 @@ class EC2Service(object):
                 while ssh_connection_works(fedimg.AWS_UTIL_USER, self.util_node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                     sleep(10)
-            if self.sda_vol:
-                # Destroy /dev/sda volume if lagging behind
-                driver.destroy_volume(self.sda_vol)
             if volume:
                 # Destroy /dev/sdb or whatever
                 driver.destroy_volume(self.util_volume)
