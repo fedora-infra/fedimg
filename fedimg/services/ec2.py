@@ -57,6 +57,16 @@ class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
     def __init__(self):
+        self.node = None
+        self.volume = None
+        self.sda_vol = None
+        self.snapshot = None
+        self.image = None
+        self.self.test_node = None
+        self.self.build_name = 'Fedimg build'
+        self.self.destination = 'somewhere'
+        self.self.test_success = False
+
         # Will be a list of dicts. Dicts will contain AMI info.
         self.amis = list()
 
@@ -95,29 +105,19 @@ class EC2Service(object):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
         EC2 region. """
 
-        node = None
-        volume = None
-        sda_vol = None
-        snapshot = None
-        image = None
-        test_node = None
-        build_name = 'Fedimg build'
-        destination = 'somewhere'
-        test_success = False
-
         logging.info('EC2 upload process started')
 
-        fedimg.messenger.message('image.upload', build_name, destination,
+        fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                  'started')
 
         try:
             file_name = raw_url.split('/')[-1]
-            build_name = file_name.replace('.raw.xz', '')
+            self.build_name = file_name.replace('.raw.xz', '')
             image_arch = get_file_arch(file_name)
             # no EBS-enabled instance types offer a 32 bit architecture
             self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
             ami = self.amis[0]
-            destination = 'EC2 ({region})'.format(region=ami['region'])
+            self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
@@ -157,7 +157,7 @@ class EC2Service(object):
             # Must be EBS-backed for AMI registration to work.
             while True:
                 try:
-                    node = driver.deploy_node(name=name, image=base_image,
+                    self.node = driver.deploy_node(name=name, image=base_image,
                                               size=size,
                                               ssh_username=fedimg.AWS_UTIL_USER,
                                               ssh_alternate_usernames=[''],
@@ -165,7 +165,7 @@ class EC2Service(object):
                                               deploy=msd,
                                               kernel_id=ami['aki'],
                                               ex_metadata={'build':
-                                                           build_name},
+                                                           self.build_name},
                                               ex_keyname=fedimg.AWS_KEYNAME,
                                               ex_security_groups=['ssh'],
                                               ex_ebs_optimized=True,
@@ -199,7 +199,7 @@ class EC2Service(object):
 
             # Wait until the utility node has SSH running
             while not ssh_connection_works(fedimg.AWS_UTIL_USER,
-                                           node.public_ips[0],
+                                           self.node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
 
@@ -207,7 +207,7 @@ class EC2Service(object):
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(node.public_ips[0], username=fedimg.AWS_UTIL_USER,
+            client.connect(self.node.public_ips[0], username=fedimg.AWS_UTIL_USER,
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "sudo sh -c 'curl {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
@@ -229,16 +229,16 @@ class EC2Service(object):
 
             # Get volume name that image was written to
             vol_id = [x['ebs']['volume_id'] for x in
-                      node.extra['block_device_mapping'] if
+                      self.node.extra['block_device_mapping'] if
                       x['device_name'] == '/dev/sdb'][0]
 
             logging.info('Destroying utility node')
 
             # Terminate the utility instance
-            driver.destroy_node(node)
+            driver.destroy_node(self.node)
 
             # Wait for utility node to be terminated
-            while ssh_connection_works(fedimg.AWS_UTIL_USER, node.public_ips[0],
+            while ssh_connection_works(fedimg.AWS_UTIL_USER, self.node.public_ips[0],
                                        fedimg.AWS_KEYPATH):
                 sleep(10)
 
@@ -248,18 +248,18 @@ class EC2Service(object):
             sleep(45)
 
             # Take a snapshot of the volume the image was written to
-            volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
-            snap_name = 'fedimg-snap-{0}'.format(build_name)
+            self.volume = [v for v in driver.list_volumes() if v.id == vol_id][0]
+            snap_name = 'fedimg-snap-{0}'.format(self.build_name)
 
             logging.info('Taking a snapshot of the written volume')
 
-            snapshot = driver.create_volume_snapshot(volume,
+            self.snapshot = driver.create_volume_snapshot(self.volume,
                                                      name=snap_name)
-            snap_id = str(snapshot.id)
+            snap_id = str(self.snapshot.id)
 
-            while snapshot.extra['state'] != 'completed':
+            while self.snapshot.extra['state'] != 'completed':
                 # need to re-pull snapshot object to get updates
-                snapshot = [s for s in driver.list_snapshots()
+                self.snapshot = [s for s in driver.list_snapshots()
                             if s.id == snap_id][0]
                 sleep(10)
 
@@ -267,7 +267,7 @@ class EC2Service(object):
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(volume)
-            volume = None  # make sure Fedimg knows that the vol is gone
+            self.volume = None  # make sure Fedimg knows that the vol is gone
 
             logging.info('Destroyed volume')
 
@@ -280,7 +280,7 @@ class EC2Service(object):
 
             # Actually register image
             logging.info('Registering image as an AMI')
-            image_name = "{0}-{1}".format(build_name, ami['region'])
+            image_name = "{0}-{1}".format(self.build_name, ami['region'])
             virt_type = get_virt_type(image_name)
             # Avoid duplicate image name by adding a '-' and a number to the
             # end if there is already an AMI with that name.
@@ -313,7 +313,7 @@ class EC2Service(object):
             logging.info('Completed image registration')
 
             # Emit success fedmsg
-            fedimg.messenger.message('image.upload', build_name, destination,
+            fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'completed')
 
             # Spin up a node of the AMI to test
@@ -340,32 +340,32 @@ class EC2Service(object):
             else:
                 size_id = 'm1.medium'
             size = [s for s in sizes if s.id == size_id][0]
-            test_node = driver.deploy_node(name=name, image=image, size=size,
+            self.test_node = driver.deploy_node(name=name, image=self.image, size=size,
                                            ssh_username=fedimg.AWS_TEST_USER,
                                            ssh_alternate_usernames=['root'],
                                            ssh_key=fedimg.AWS_KEYPATH,
                                            deploy=msd,
                                            kernel_id=ami['aki'],
-                                           ex_metadata={'build': build_name},
+                                           ex_metadata={'build': self.build_name},
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
                                            )
 
             # Wait until the test node has SSH running
             while not ssh_connection_works(fedimg.AWS_TEST_USER,
-                                           test_node.public_ips[0],
+                                           self.test_node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
 
             logging.info('Starting AMI tests')
 
             # Alert the fedmsg bus that an image test has started
-            fedimg.messenger.message('image.test', build_name, destination,
+            fedimg.messenger.message('image.test', self.build_name, self.destination,
                                      'started')
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
-            client.connect(test_node.public_ips[0], username=fedimg.AWS_TEST_USER,
+            client.connect(self.test_node.public_ips[0], username=fedimg.AWS_TEST_USER,
                            key_filename=fedimg.AWS_KEYPATH)
             cmd = "true"
             chan = client.get_transport().open_session()
@@ -380,30 +380,30 @@ class EC2Service(object):
                 raise EC2AMITestException("Tests on AMI failed.")
 
             logging.info('AMI test completed')
-            fedimg.messenger.message('image.test', build_name, destination,
+            fedimg.messenger.message('image.test', self.build_name, self.destination,
                                      'completed')
-            test_success = True
+            self.test_success = True
 
             logging.info('Destroying test node')
 
             # Destroy the test node
-            driver.destroy_node(test_node)
+            driver.destroy_node(self.test_node)
 
             # Make AMI public
-            driver.ex_modify_image_attribute(image, {'LaunchPermission.Add.1.Group': 'all'})
+            driver.ex_modify_image_attribute(self.image, {'LaunchPermission.Add.1.Group': 'all'})
 
         except EC2UtilityException as e:
-            fedimg.messenger.message('image.upload', build_name, destination,
+            fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Failure:", e
 
         except EC2AMITestException as e:
-            fedimg.messenger.message('image.test', build_name, destination,
+            fedimg.messenger.message('image.test', self.build_name, self.destination,
                                      'failed')
             print "Failure:", e
 
         except DeploymentException as e:
-            fedimg.messenger.message('image.upload', build_name, destination,
+            fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Problem deploying node: {0}".format(e.value)
             print "Terminating instance."
@@ -411,35 +411,35 @@ class EC2Service(object):
 
         except Exception as e:
             # Just give a general failure message.
-            fedimg.messenger.message('image.upload', build_name, destination,
+            fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Unexpected exception:", e
             print "Terminating instance and destroying other resources."
-            if sda_vol:
-                driver.destroy_volume(sda_vol)
-            if snapshot:
-                if image:
-                    driver.delete_image(image)
-                    driver.destroy_volume_snapshot(snapshot)
+            if self.sda_vol:
+                driver.destroy_volume(self.sda_vol)
+            if self.snapshot:
+                if self.image:
+                    driver.delete_image(self.image)
+                    driver.destroy_volume_snapshot(self.snapshot)
 
         finally:
             logging.info('Cleaning up resources')
-            if node:
-                driver.destroy_node(node)
+            if self.node:
+                driver.destroy_node(self.node)
                 # Wait for node to be terminated
-                while ssh_connection_works(fedimg.AWS_UTIL_USER, node.public_ips[0],
+                while ssh_connection_works(fedimg.AWS_UTIL_USER, self.node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                     sleep(10)
-            if sda_vol:
+            if self.sda_vol:
                 # Destroy /dev/sda volume if lagging behind
-                driver.destroy_volume(sda_vol)
+                driver.destroy_volume(self.sda_vol)
             if volume:
                 # Destroy /dev/sdb or whatever
-                driver.destroy_volume(volume)
-            if test_node:
-                driver.destroy_node(test_node)
+                driver.destroy_volume(self.volume)
+            if self.test_node:
+                driver.destroy_node(self.test_node)
 
-        if test_success:
+        if self.test_success:
             # Copy the AMI to every other region if tests passed
             for ami in self.amis[1:]:
                 # Avoid duplicate image name by adding a '-' and a number to
@@ -457,7 +457,7 @@ class EC2Service(object):
                         alt_dest = 'EC2 ({region})'.format(
                             region=ami['region'])
 
-                        fedimg.messenger.message('image.upload', build_name,
+                        fedimg.messenger.message('image.upload', self.build_name,
                                                  alt_dest, 'started')
 
                         alt_cls = get_driver(ami['prov'])
@@ -465,12 +465,12 @@ class EC2Service(object):
                                              fedimg.AWS_SECRET_KEY)
 
                         image_name = "{0}-{1}".format(
-                            build_name, ami['region'])
+                            self.build_name, ami['region'])
 
                         logging.info('AMI copy to {0} started'.format(
                             ami['region']))
 
-                        image_copy = alt_driver.copy_image(image,
+                        image_copy = alt_driver.copy_image(self.image,
                                             self.amis[0]['region'],
                                             name=image_name)
 
@@ -478,7 +478,7 @@ class EC2Service(object):
                         alt_driver.ex_modify_image_attribute(image_copy, 
                                     {'LaunchPermission.Add.1.Group': 'all'})
 
-                        fedimg.messenger.message('image.upload', build_name,
+                        fedimg.messenger.message('image.upload', self.build_name,
                                                  alt_dest, 'completed')
                     except Exception as e:
                         if 'InvalidAMIName.Duplicate' in e.message:
@@ -491,6 +491,6 @@ class EC2Service(object):
                                 'Image copy to {0} failed'.format(
                                     ami['region']))
                             fedimg.messenger.message('image.upload',
-                                                     build_name,
+                                                     self.build_name,
                                                      alt_dest, 'failed')
                     break
