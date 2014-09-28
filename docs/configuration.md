@@ -10,11 +10,11 @@ configuration change.
 
 ## General options
 
-`clean_up_on_failure` can be set to False in order to skip the destruction of
+`clean_up_on_failure` can be set to `False` in order to skip the destruction of
 instances, volumes, and other resources if there is an exception in the upload
 process.
 
-`delete_image_on_failure` can be set to False to skip the destruction of the
+`delete_image_on_failure` can be set to `False` to skip the destruction of the
 uploaded image if there is an exception in the upload process.
 
 ## Koji options
