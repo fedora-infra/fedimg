@@ -427,7 +427,7 @@ class EC2Service(object):
             if node:
                 driver.destroy_node(node)
                 # Wait for node to be terminated
-                while ssh_connection_works('ec2_user', node.public_ips[0],
+                while ssh_connection_works(fedimg.AWS_UTIL_USER, node.public_ips[0],
                                            fedimg.AWS_KEYPATH):
                     sleep(10)
             if sda_vol:
