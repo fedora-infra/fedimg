@@ -100,7 +100,8 @@ class EC2Service(object):
                      'us-west-2': Provider.EC2_US_WEST_OREGON}
         return providers[region]
 
-    def _clean_up(self, delete_image=False):
+    def _clean_up(self, driver, delete_image=False):
+        """ Cleans up resources via a libcloud driver. """
         logging.info('Cleaning up resources')
         if delete_image and self.image:
             driver.delete_image(self.image)
@@ -421,21 +422,21 @@ class EC2Service(object):
                                      'failed')
             print "Failure:", e
             if fedimg.CLEAN_UP_ON_FAILURE:
-                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                self._clean_up(driver, delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', self.build_name, self.destination,
                                      'failed')
             print "Failure:", e
             if fedimg.CLEAN_UP_ON_FAILURE:
-                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                self._clean_up(driver, delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', self.build_name, self.destination,
                                      'failed')
             print "Problem deploying node: {0}".format(e.value)
             if fedimg.CLEAN_UP_ON_FAILURE:
-                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                self._clean_up(driver, delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         except Exception as e:
             # Just give a general failure message.
@@ -443,10 +444,10 @@ class EC2Service(object):
                                      'failed')
             print "Unexpected exception:", e
             if fedimg.CLEAN_UP_ON_FAILURE:
-                self._clean_up(delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                self._clean_up(driver, delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
 
         else:
-            self._clean_up()
+            self._clean_up(driver)
 
         if self.test_success:
             # Copy the AMI to every other region if tests passed
