@@ -351,12 +351,6 @@ class EC2Service(object):
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
 
-            mappings = [{'VirtualName': None,  # cannot specify with Ebs
-                         'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
-                                 'VolumeType': 'standard',
-                                 'DeleteOnTermination': 'true'},
-                         'DeviceName': '/dev/sda'}]
-
             logging.info('Deploying test node')
 
             name = 'Fedimg AMI tester'
