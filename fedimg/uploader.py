@@ -42,8 +42,6 @@ def upload(builds):
         task_result = koji_session.getTaskResult(builds[0])
         upload_files.append(get_rawxz_url(task_result))
     elif len(builds) >= 2:
-        # Right now, builds only produce one .raw.xz file, so this should
-        # never happen.
         koji_session.multicall = True
         for build in builds:
             koji_session.getTaskResult(build)
