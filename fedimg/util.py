@@ -68,7 +68,7 @@ def get_virt_type(file_name):
         return 'hvm'
     else:
         # otherwise, use the default (paravirtual)
-        return None
+        return 'paravirtual'
 
 
 def ssh_connection_works(username, ip, keypath):
