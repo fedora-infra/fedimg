@@ -44,8 +44,8 @@ def get_file_arch(file_name):
 
 
 def get_rawxz_url(task_result):
-    """ Returns the URL of the raw.xz file produced by the Koji
-    task ID represented by the task_result argument. """
+    """ Returns the URL of the raw.xz file produced by the Koji task whose
+    output files are passed as a list via the task_result argument. """
     # I think there might only ever be one qcow2 file per task,
     # but doing it this way plays it safe.
     file_name = [f for f in task_result['files'] if f.endswith('.raw.xz')][0]
