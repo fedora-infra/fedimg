@@ -42,7 +42,6 @@ class TestUtil(unittest.TestCase):
         self.assertEquals(arch, 'x86_64')
 
     def test_get_rawxz_url(self):
-        # task_result will be a len 1 list of a list, because of reasons
         task_result = {'arch': 'i386',
                        'files': ['fedora-cloud-base-a89507d.ks',
                                  'koji-f21-build-7577982-base.ks',
