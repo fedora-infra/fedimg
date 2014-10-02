@@ -49,7 +49,7 @@ def upload(builds):
             koji_session.getTaskResult(build)
         results = koji_session.multiCall()
         for result in results:
-            upload_files.append(get_rawxz_url(result))
+            upload_files.append(get_rawxz_url(result[0]))
 
     logging.info('Starting upload process')
 
