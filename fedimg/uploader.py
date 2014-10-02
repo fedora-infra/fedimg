@@ -46,7 +46,7 @@ def upload(builds):
         # never happen.
         koji_session.multicall = True
         for build in builds:
-            koji_session.listTaskOutput(build)
+            koji_session.getTaskResult(build)
         results = koji_session.multiCall()
         for result in results:
             upload_files.append(get_rawxz_url(result))
