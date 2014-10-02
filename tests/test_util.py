@@ -1,0 +1,45 @@
+# This file is part of fedimg.
+# Copyright (C) 2014 Red Hat, Inc.
+#
+# fedimg is free software: you can redistribute it and/or modify
+# it under the terms of the GNU Affero General Public License as
+# published by the Free Software Foundation, either version 3 of the
+# License, or (at your option) any later version.
+#
+# fedimg is distributed in the hope that it will be useful,
+# but WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# Affero General Public License for more details.
+#
+# You should have received a copy of the GNU Affero General Public
+# License along with fedimg; if not, see http://www.gnu.org/licenses,
+# or write to the Free Software Foundation, Inc.,
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+#
+# Authors:  David Gay <dgay@redhat.com>
+#
+
+import mock
+import unittest
+
+import fedimg.util
+
+
+class TestUtil(unittest.TestCase):
+
+    def setUp(self):
+        pass
+
+    def tearDown(self):
+        pass
+
+    def test_get_file_arch(self):
+        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
+        arch = fedimg.util.get_file_arch(filename)
+        self.assertEquals(arch, 'i386')
+        filename = 'fedora-cloud-base-20140915-21.x86_64.raw.xz'
+        arch = fedimg.util.get_file_arch(filename)
+        self.assertEquals(arch, 'x86_64')
+
+if __name__ == '__main__':
+    unittest.main()
