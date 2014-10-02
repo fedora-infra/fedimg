@@ -19,23 +19,53 @@
 # Authors:  David Gay <dgay@redhat.com>
 #
 
+import mock
+import requests
 import unittest
 
-import fedmsg.consumers
+import fedmsg
+
+import fedimg.consumers
 
 
-class TestKojiConsumer(object):
+class TestKojiConsumer(unittest.TestCase):
     """ Fedimg should pick up on completed createImage Koji tasks and kick off
     the upload process if they produce an image we want to upload. """
 
-    def setup(self):
+    @classmethod
+    def setUpClass(cls):
+        import fedmsg.config
+        import fedmsg.meta
+
+        config = fedmsg.config.load_config([], None)
+        fedmsg.meta.make_processors(**config)
+        cls.fedmsg_config = config
+
+    def setUp(self):
+        class FakeHub(object):
+            config = self.fedmsg_config
+
+            def subscribe(*args, **kwargs):
+                pass
+
+        fedimg.consumers.KojiConsumer._initialized = True  # a lie
+        self.consumer = fedimg.consumers.KojiConsumer(FakeHub())
+
+    def tearDown(self):
         pass
 
-    def teardown(self):
-        pass
+    @mock.patch('fedimg.uploader.upload')
+    def test_consume(self, upload):
+        # I just pull the msg from the web for now
+        # I will later put it in a text file or something I guess?
+        koji_msg_id = '2014-e9065d79-8975-4b3d-897e-fcc807ba95dd'
+        datagrepper_url = 'https://apps.fedoraproject.org/datagrepper/id?id={0}'.format(koji_msg_id)
+        resp = requests.get(datagrepper_url)
+        # Need to wrap the message in a body dict to emulate how an actual
+        # consumed fedmsg would come through.
+        msg = {'body': {'msg': resp.json()['msg']}}
 
-    def test_consume(self):
-        pass
+        self.consumer.consume(msg)
 
 if __name__ == '__main__':
     unittest.main()
