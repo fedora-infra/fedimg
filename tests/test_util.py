@@ -41,5 +41,23 @@ class TestUtil(unittest.TestCase):
         arch = fedimg.util.get_file_arch(filename)
         self.assertEquals(arch, 'x86_64')
 
+    def test_get_rawxz_url(self):
+        # task_result will be a len 1 list of a list, because of reasons
+        task_result = {'arch': 'i386',
+                       'files': ['fedora-cloud-base-a89507d.ks',
+                                 'koji-f21-build-7577982-base.ks',
+                                 'tdl-i386.xml', 'qemu-img-qcow2-i386.log',
+                                 'xz-cp-raw-xz-i386.log', 'xz-raw-xz-i386.log',
+                                 'oz-i386.log', 'libvirt-qcow2-i386.xml',
+                                 'fedora-cloud-base-20140915-21.i386.qcow2',
+                                 'libvirt-raw-xz-i386.xml',
+                                 'fedora-cloud-base-20140915-21.i386.raw.xz'],
+                       'name': 'fedora-cloud-base',
+                       'release': '21',
+                       'rpmlist': [],
+                       'task_id': 7577982,
+                       'version': '20140915'}
+        url = fedimg.util.get_rawxz_url(task_result)
+
 if __name__ == '__main__':
     unittest.main()
