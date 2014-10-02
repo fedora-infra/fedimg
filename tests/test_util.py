@@ -58,5 +58,14 @@ class TestUtil(unittest.TestCase):
                        'version': '20140915'}
         url = fedimg.util.get_rawxz_url(task_result)
 
+    def test_get_virt_type(self):
+        filename = 'fedora-cloud-base-20140915-21.x86_64.raw.xz'
+        vtype = fedimg.util.get_virt_type(filename)
+        self.assertEqual(vtype, 'paravirtual')
+        filename = 'fedora-cloud-atomic-20140915-21.x86_64.raw.xz'
+        vtype = fedimg.util.get_virt_type(filename)
+        self.assertEqual(vtype, 'hvm')
+
+
 if __name__ == '__main__':
     unittest.main()
