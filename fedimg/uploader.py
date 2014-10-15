@@ -29,9 +29,9 @@ from fedimg.util import get_rawxz_url
 
 
 def upload(builds):
-    """ Takes a list of one or more Koji build IDs (passed to it from
-    consumer.py) and sends the appropriate image files off to cloud
-    services. """
+    """ Takes a list of one or more Koji createImage task IDs
+    (passed to it from consumer.py) and sends the appropriate
+    image files off to cloud services. """
 
     # Create a Koji connection to the Fedora Koji instance
     koji_session = koji.ClientSession(fedimg.KOJI_SERVER)

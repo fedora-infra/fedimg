@@ -27,8 +27,8 @@ import fedimg.uploader
 
 
 class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
-    """ Listens for image Koji task completion and sends the build ID(s) of
-    child(ren) to the uploader. """
+    """ Listens for image Koji task completion and sends the task IDs of
+    the child createImage tasks to the uploader. """
     # To my knowledge, all *image* builds appear under this
     # exact topic, along with scratch builds.
     topic = 'org.fedoraproject.prod.buildsys.task.state.change'
