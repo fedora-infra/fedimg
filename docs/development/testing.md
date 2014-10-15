@@ -13,10 +13,6 @@ Tests are best run with the `nosetests` command while inside your virtualenv.
 **Note**: Getting an error regarding a missing module when running `nosetests`
 can be caused by `nose` not being run with the virtualenv's library set. This
 can be resolved by running the tests with ``python `which nosetests` ``,
-instead of simply `nosetests`. If you don't want to have to type the longer
-command every time, you can make the tests run properly via simply `nosetests`
-by first running `alias nosetests="/usr/bin/env python $(which nosetests)`. For
-even more permanence, add that `alias` line to your `~/.zshrc`, `~/.bashrc`, or
-other profile configuration. *Remember:* If you choose to modify one of these
-configuration files, you will need to run `source` on the file for the changes
-to take effect.
+instead of simply `nosetests`. If you get missing module errors for `nose` or
+`mock`, you may first have to force the required testing
+libraries into your virtualenv by running `pip install nose mock -I`.
