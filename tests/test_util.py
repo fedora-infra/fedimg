@@ -22,6 +22,7 @@
 import mock
 import unittest
 
+import fedimg
 import fedimg.util
 
 
@@ -56,7 +57,15 @@ class TestUtil(unittest.TestCase):
                        'rpmlist': [],
                        'task_id': 7577982,
                        'version': '20140915'}
+
+        # extension to base URL to exact file directory
+        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
+        koji_url_extension = "/7982/7577982"
+        full_task_url = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
+        full_file_url = full_task_url + '/' + filename
+
         url = fedimg.util.get_rawxz_url(task_result)
+        self.assertEquals(url, full_file_url)
 
     def test_get_virt_type(self):
         filename = 'fedora-cloud-base-20140915-21.x86_64.raw.xz'
