@@ -56,16 +56,20 @@ class TestKojiConsumer(unittest.TestCase):
 
     @mock.patch('fedimg.uploader.upload')
     def test_consume(self, upload):
-        # I just pull the msg from the web for now
+        # I just pull the msg from the web for now.
         # I will later put it in a text file or something I guess?
+        # Below is an image task with two createImage children.
         koji_msg_id = '2014-e9065d79-8975-4b3d-897e-fcc807ba95dd'
         datagrepper_url = 'https://apps.fedoraproject.org/datagrepper/id?id={0}'.format(koji_msg_id)
         resp = requests.get(datagrepper_url)
+
         # Need to wrap the message in a body dict to emulate how an actual
         # consumed fedmsg would come through.
         msg = {'body': {'msg': resp.json()['msg']}}
 
         self.consumer.consume(msg)
+        # the list seems to always be newest task first, so:
+        upload.assert_called_with([7577982, 7577981])
 
 if __name__ == '__main__':
     unittest.main()
