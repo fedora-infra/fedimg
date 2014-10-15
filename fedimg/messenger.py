@@ -29,7 +29,7 @@ https://github.com/fedora-infra/fedmsg_meta_fedora_infrastructure/blob/develop/f
 
 def message(topic, image_url, dest, status):
     """ Takes a message topic, image name, an upload destination (ex.
-    "EC2-eu-west-1"), and a status (ex.  "failed"). Emits a fedmsg appropriate
+    "EC2-eu-west-1"), and a status (ex. "failed"). Emits a fedmsg appropriate
     for each image upload task. """
 
     image_name = image_url.split('/')[-1].replace('.raw.xz', '')
