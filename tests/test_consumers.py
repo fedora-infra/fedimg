@@ -55,7 +55,7 @@ class TestKojiConsumer(unittest.TestCase):
         pass
 
     @mock.patch('fedimg.uploader.upload')
-    def test_consume(self, upload):
+    def test_send_to_uploader(self, upload):
         # I just pull the msg from the web for now.
         # I will later put it in a text file or something I guess?
         # Below is an image task with two createImage children.
