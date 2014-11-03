@@ -319,13 +319,20 @@ class EC2Service(object):
                         image_name = '-'.join(image_name.split('-')[:-1])
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
+
+                    if virt_type == 'paravirtual':
+                        registration_aki = ami['aki']
+                    else:
+                        # Can't supply a kernel image with HVM
+                        registration_aki = None
+
                     self.image = driver.ex_register_image(
                         image_name,
                         description=None,
                         root_device_name='/dev/sda',
                         block_device_mapping=mapping,
                         virtualization_type=virt_type,
-                        kernel_id=ami['aki'],
+                        kernel_id=registration_aki,
                         architecture=image_arch)
                 except Exception as e:
                     if 'InvalidAMIName.Duplicate' in e.message:
@@ -359,12 +366,19 @@ class EC2Service(object):
             else:
                 size_id = 'm1.medium'
             size = [s for s in sizes if s.id == size_id][0]
+
+            if virt_type == 'paravirtual':
+                test_aki = ami['aki']
+            else:
+                # Can't supply a kernel image with HVM
+                test_aki = None
+
             self.test_node = driver.deploy_node(name=name, image=self.image, size=size,
                                            ssh_username=fedimg.AWS_TEST_USER,
                                            ssh_alternate_usernames=['root'],
                                            ssh_key=fedimg.AWS_KEYPATH,
                                            deploy=msd,
-                                           kernel_id=ami['aki'],
+                                           kernel_id=test_aki,
                                            ex_metadata={'build': self.build_name},
                                            ex_keyname=fedimg.AWS_KEYNAME,
                                            ex_security_groups=['ssh'],
