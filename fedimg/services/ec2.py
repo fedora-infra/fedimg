@@ -306,7 +306,19 @@ class EC2Service(object):
             # Actually register image
             logging.info('Registering image as an AMI')
             image_name = "{0}-{1}".format(self.build_name, ami['region'])
+
             virt_type = get_virt_type(image_name)
+
+            if virt_type == 'paravirtual':
+                test_size_id = 'm1.medium'
+                registration_aki = ami['aki']
+                test_aki = ami['aki']
+            else:  # HVM
+                test_size_id = 'm3.medium'
+                # Can't supply a kernel image with HVM
+                registration_aki = None
+                test_aki = None
+
             # Avoid duplicate image name by adding a '-' and a number to the
             # end if there is already an AMI with that name.
             dup_count = 0  # counter: number of AMIs with same base image name
@@ -320,11 +332,6 @@ class EC2Service(object):
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
 
-                    if virt_type == 'paravirtual':
-                        registration_aki = ami['aki']
-                    else:
-                        # Can't supply a kernel image with HVM
-                        registration_aki = None
 
                     self.image = driver.ex_register_image(
                         image_name,
@@ -361,17 +368,7 @@ class EC2Service(object):
             logging.info('Deploying test node')
 
             name = 'Fedimg AMI tester'
-            if virt_type == 'hvm':
-                size_id = 'm3.medium'
-            else:
-                size_id = 'm1.medium'
-            size = [s for s in sizes if s.id == size_id][0]
-
-            if virt_type == 'paravirtual':
-                test_aki = ami['aki']
-            else:
-                # Can't supply a kernel image with HVM
-                test_aki = None
+            size = [s for s in sizes if s.id == test_size_id][0]
 
             self.test_node = driver.deploy_node(name=name, image=self.image, size=size,
                                            ssh_username=fedimg.AWS_TEST_USER,
