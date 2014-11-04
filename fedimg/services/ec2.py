@@ -149,9 +149,9 @@ class EC2Service(object):
 
             # select the desired node attributes
             sizes = driver.list_sizes()
-            size_id = 'm1.large'
+            reg_size_id = 'm1.large'
             # check to make sure we have access to that size node
-            size = [s for s in sizes if s.id == size_id][0]
+            size = [s for s in sizes if s.id == reg_size_id][0]
             base_image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
             # deploy node
