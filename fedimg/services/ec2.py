@@ -296,13 +296,6 @@ class EC2Service(object):
 
             logging.info('Destroyed volume')
 
-            # Block device mapping for the AMI
-            mapping = [{'DeviceName': '/dev/sda',
-                        'Ebs': {'SnapshotId': snap_id,
-                                'VolumeSize': 12,
-                                'VolumeType': 'standard',
-                                'DeleteOnTermination': 'true'}}]
-
             # Actually register image
             logging.info('Registering image as an AMI')
             image_name = "{0}-{1}".format(self.build_name, ami['region'])
@@ -313,11 +306,20 @@ class EC2Service(object):
                 test_size_id = 'm1.medium'
                 registration_aki = ami['aki']
                 test_aki = ami['aki']
+                reg_root_device_name = '/dev/sda'
             else:  # HVM
                 test_size_id = 'm3.medium'
                 # Can't supply a kernel image with HVM
                 registration_aki = None
                 test_aki = None
+                reg_root_device_name = '/dev/sda1'
+
+            # Block device mapping for the AMI
+            mapping = [{'DeviceName': reg_root_device_name,
+                        'Ebs': {'SnapshotId': snap_id,
+                                'VolumeSize': 12,
+                                'VolumeType': 'standard',
+                                'DeleteOnTermination': 'true'}}]
 
             # Avoid duplicate image name by adding a '-' and a number to the
             # end if there is already an AMI with that name.
@@ -336,7 +338,7 @@ class EC2Service(object):
                     self.image = driver.ex_register_image(
                         image_name,
                         description=None,
-                        root_device_name='/dev/sda',
+                        root_device_name=reg_root_device_name,
                         block_device_mapping=mapping,
                         virtualization_type=virt_type,
                         kernel_id=registration_aki,
