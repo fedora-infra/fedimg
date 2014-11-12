@@ -303,7 +303,7 @@ class EC2Service(object):
 
             # Actually register image
             logging.info('Registering image as an AMI')
-            image_name = "{0}-{1}".format(self.build_name, ami['region'])
+            image_name = "{0}-{1}-0".format(self.build_name, ami['region'])
 
             virt_type = get_virt_type(image_name)
 
@@ -331,14 +331,11 @@ class EC2Service(object):
             dup_count = 0  # counter: number of AMIs with same base image name
             while True:
                 try:
-                    if dup_count == 1:
-                        image_name += '-1'  # avoid duplicate image name
-                    elif dup_count > 1:
-                        # Remove trailing '-1' or '-2' or '-3' or...
+                    if dup_count > 0:
+                        # Remove trailing '-0' or '-1' or '-2' or...
                         image_name = '-'.join(image_name.split('-')[:-1])
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
-
                     self.image = driver.ex_register_image(
                         image_name,
                         description=None,
