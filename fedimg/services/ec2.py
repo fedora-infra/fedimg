@@ -326,8 +326,8 @@ class EC2Service(object):
                                 'VolumeType': 'standard',
                                 'DeleteOnTermination': 'true'}}]
 
-            # Avoid duplicate image name by adding a '-' and a number to the
-            # end if there is already an AMI with that name.
+            # Avoid duplicate image name by incrementing the number at the
+            # end of the image name if there is already an AMI with that name.
             dup_count = 0  # counter: number of AMIs with same base image name
             while True:
                 try:
@@ -336,6 +336,7 @@ class EC2Service(object):
                         image_name = '-'.join(image_name.split('-')[:-1])
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(dup_count)
+                    # Try to register with that name
                     self.image = driver.ex_register_image(
                         image_name,
                         description=None,
@@ -345,9 +346,11 @@ class EC2Service(object):
                         kernel_id=registration_aki,
                         architecture=image_arch)
                 except Exception as e:
+                    # Check if the problem was a duplicate name
                     if 'InvalidAMIName.Duplicate' in e.message:
+                        # Keep trying until an unused name is found
                         dup_count += 1
-                        continue  # Keep trying until an unused name is found
+                        continue
                     else:
                         raise
                 break
@@ -514,6 +517,7 @@ class EC2Service(object):
                                                  self.build_name,
                                                  alt_dest, 'completed')
                     except Exception as e:
+                        # Check if the problem was a duplicate name
                         if 'InvalidAMIName.Duplicate' in e.message:
                             # Keep trying until an unused name is found
                             dup_count += 1
