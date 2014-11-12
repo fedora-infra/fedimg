@@ -502,6 +502,9 @@ class EC2Service(object):
                             self.amis[0]['region'],
                             name=image_name)
 
+                        logging.info('AMI {0} copied to AMI {1}'.format(
+                            self.image, image_name))
+
                         # Make copied AMI public
                         alt_driver.ex_modify_image_attribute(
                             image_copy,
