@@ -471,34 +471,35 @@ class EC2Service(object):
         if self.test_success:
             # Copy the AMI to every other region if tests passed
             for ami in self.amis[1:]:
-                # Avoid duplicate image name by adding a '-' and a number to
-                # the end if there is already an AMI with that name.
+
+                alt_dest = 'EC2 ({region})'.format(
+                    region=ami['region'])
+
+                fedimg.messenger.message('image.upload',
+                                         self.build_name,
+                                         alt_dest, 'started')
+
+                alt_cls = get_driver(ami['prov'])
+                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                     fedimg.AWS_SECRET_KEY)
+
+                image_name = "{0}-{1}-0".format(
+                    self.build_name, ami['region'])
+
+                logging.info('AMI copy to {0} started'.format(
+                    ami['region']))
+
+                # Avoid duplicate image name by incrementing the number at the
+                # end of the image name if there is already an AMI with
+                # that name.
                 dup_count = 0  # counter: num of AMIs with same base image name
                 while True:
                     try:
-                        if dup_count == 1:
-                            image_name += '-1'  # avoid duplicate image name
-                        elif dup_count > 1:
-                            # Remove trailing '-1' or '-2' or '-3' or...
+                        if dup_count > 0:
+                            # Remove trailing '-0' or '-1' or '-2' or...
                             image_name = '-'.join(image_name.split('-')[:-1])
                             # Re-add trailing dup number with new count
                             image_name += '-{0}'.format(dup_count)
-                        alt_dest = 'EC2 ({region})'.format(
-                            region=ami['region'])
-
-                        fedimg.messenger.message('image.upload',
-                                                 self.build_name,
-                                                 alt_dest, 'started')
-
-                        alt_cls = get_driver(ami['prov'])
-                        alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
-                                             fedimg.AWS_SECRET_KEY)
-
-                        image_name = "{0}-{1}".format(
-                            self.build_name, ami['region'])
-
-                        logging.info('AMI copy to {0} started'.format(
-                            ami['region']))
 
                         image_copy = alt_driver.copy_image(
                             self.image,
