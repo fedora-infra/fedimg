@@ -470,6 +470,7 @@ class EC2Service(object):
 
         if self.test_success:
             # Copy the AMI to every other region if tests passed
+            copied_images = list()  # completed image copies (ami: image)
             for ami in self.amis[1:]:
 
                 alt_dest = 'EC2 ({region})'.format(
@@ -506,17 +507,10 @@ class EC2Service(object):
                             self.amis[0]['region'],
                             name=image_name)
 
+                        copied_images.append(image_copy)
+
                         logging.info('AMI {0} copied to AMI {1}'.format(
                             self.image, image_name))
-
-                        # Make copied AMI public
-                        alt_driver.ex_modify_image_attribute(
-                            image_copy,
-                            {'LaunchPermission.Add.1.Group': 'all'})
-
-                        fedimg.messenger.message('image.upload',
-                                                 self.build_name,
-                                                 alt_dest, 'completed')
                     except Exception as e:
                         # Check if the problem was a duplicate name
                         if 'InvalidAMIName.Duplicate' in e.message:
@@ -532,3 +526,21 @@ class EC2Service(object):
                                                      self.build_name,
                                                      alt_dest, 'failed')
                     break
+
+            # Now cycle through and make all of the copied AMIs public
+            # once the copy process has completed.
+            amis = self.amis[1:]
+            for image in copied_images:
+                ami = amis[copied_images.index(image)]
+                alt_cls = get_driver(ami['prov'])
+                alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
+                                     fedimg.AWS_SECRET_KEY)
+                alt_driver.ex_modify_image_attribute(
+                    image,
+                    {'LaunchPermission.Add.1.Group': 'all'})
+
+                # TODO: Add logging here
+
+                fedimg.messenger.message('image.upload',
+                                         self.build_name,
+                                         alt_dest, 'completed')
