@@ -42,6 +42,6 @@ to these providers.
 
 ## Contributors
 
-* David Gay <oddshocks@riseup.net>
+* David Gay <dgay@redhat.com>
 
 * Ralph Bean <rbean@redhat.com>
