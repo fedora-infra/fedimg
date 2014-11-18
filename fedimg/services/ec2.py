@@ -540,6 +540,7 @@ class EC2Service(object):
                     {'LaunchPermission.Add.1.Group': 'all'})
 
                 # TODO: Add logging here
+                logging.info('Made image {0} public'.format(image))
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
