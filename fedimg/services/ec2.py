@@ -535,9 +535,18 @@ class EC2Service(object):
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
-                alt_driver.ex_modify_image_attribute(
-                    image,
-                    {'LaunchPermission.Add.1.Group': 'all'})
+                # Need to wait until the copy finishes in order to make
+                # the AMI public.
+                while True:
+                    try:
+                        alt_driver.ex_modify_image_attribute(
+                            image,
+                            {'LaunchPermission.Add.1.Group': 'all'})
+                    except Exception as e:
+                        if 'InvalidAMIID.Unavailable' in e.message:
+                            sleep(20)
+                            continue
+                    break
 
                 # TODO: Add logging here
                 logging.info('Made image {0} public'.format(image))
