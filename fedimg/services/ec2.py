@@ -59,6 +59,7 @@ class EC2Service(object):
         self.util_volume = None
         self.snapshot = None
         self.image = None
+        self.image_desc = None
         self.test_node = None
         self.build_name = 'Fedimg build'
         self.destination = 'somewhere'
@@ -137,6 +138,7 @@ class EC2Service(object):
         try:
             file_name = raw_url.split('/')[-1]
             self.build_name = file_name.replace('.raw.xz', '')
+            self.image_desc = "Created from build {0}".format(self.build_name)
             image_arch = get_file_arch(file_name)
             # no EBS-enabled instance types offer a 32 bit architecture
             self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
@@ -339,7 +341,7 @@ class EC2Service(object):
                     # Try to register with that name
                     self.image = driver.ex_register_image(
                         image_name,
-                        description=None,
+                        description=self.image_desc,
                         root_device_name=reg_root_device_name,
                         block_device_mapping=mapping,
                         virtualization_type=virt_type,
@@ -505,7 +507,8 @@ class EC2Service(object):
                         image_copy = alt_driver.copy_image(
                             self.image,
                             self.amis[0]['region'],
-                            name=image_name)
+                            name=image_name,
+                            description=self.image_desc)
 
                         copied_images.append(image_copy)
 
