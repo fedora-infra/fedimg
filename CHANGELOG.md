@@ -2,7 +2,7 @@
 
 ## 0.1.0
 
--   Initial PyPI realease
+-   Initial PyPI release
 
 ## 0.2.0
 
