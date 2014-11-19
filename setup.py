@@ -34,7 +34,7 @@ setup(
     ],
     keywords='python Fedora cloud image uploader service',
     author='David Gay',
-    author_email='oddshocks@riseup.net',
+    author_email='dgay@redhat.com',
     url='https://github.com/fedora-infra/fedimg',
     license='AGPLv3+',
     include_package_data=True,
