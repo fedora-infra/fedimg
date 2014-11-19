@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.3
+
+-   add utility function to get virtualization type for EC2 AMI registration
+-   make AMIs public after being tested and cpied
+-   tweaks to layout of config file
+-   only use 64 bit EBS utility instances
+-   remove hardcoded username
+-   rename some variables to be clearer
+-   add clean_up_on_failure and delete_image_on_failure config options
+-   improve exception handling
+-   make sure snapshot is deleted on cleanup if no image has been registered
+-   add some starter tests
+-   move around some processes to more appropriate files
+-   don't attempt to provide an AKI when registering an image as HVM
+-   fix root device name for PV vs. HVM
+-   serious PEP 8 fixes
+-   fix up duplicate image name prevention code
+-   various typofixes and code cleanup
+
 ## 0.2.6
 
 -   use proper buildroot macro in spec file
