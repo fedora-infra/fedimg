@@ -1,30 +1,16 @@
 # Changelog
 
-## 0.1.0
+## 0.2.6
 
--   Initial PyPI release
+-   use proper buildroot macro in spec file
+-   preserve file timestamps when copying in spec file
+-   do not make library files executable, and don't give them shebangs
+-   add license headers to all Python files 
 
-## 0.2.0
+## 0.2.5
 
--   Initial RPM release to Fedora
--   setup.py improvements
--   Config file is now read from /etc/fedimg.cfg
--   PEP 8 fixes
-
-## 0.2.1
-
--   Fix `packages` argument in setup.py to take `find_packages()`
-
-## 0.2.2
-
--   Include .pyc and .pyo files for consumer in /etc/fedmsg.d/
--   Add missing comma
-
-## 0.2.3
-
--   Better IAM profile name example in the config
--   Addition to docs: section about setting up the config file
--   Fix strange saces and add missing comma to setup.py classifiers section
+-   Remove coding from fedmsg.d/fedimg.py since it seems to make it executable
+-   make init file executable in spec install section, as well
 
 ## 0.2.4
 
@@ -33,14 +19,29 @@
 -   Remove shebang from fedmsg.d/fedimg.py
 -   Make all necessary fedimg files executable in spec install section
 
-## 0.2.5
+## 0.2.3
 
--   Remove coding from fedmsg.d/fedimg.py since it seems to make it executable
--   make init file executable in spec install section, as well
+-   Better IAM profile name example in the config
+-   Addition to docs: section about setting up the config file
+-   Fix strange saces and add missing comma to setup.py classifiers section
 
-## 0.2.6
+## 0.2.2
 
--   use proper buildroot macro in spec file
--   preserve file timestamps when copying in spec file
--   do not make library files executable, and don't give them shebangs
--   add license headers to all Python files 
+-   Include .pyc and .pyo files for consumer in /etc/fedmsg.d/
+-   Add missing comma
+
+## 0.2.1
+
+-   Fix `packages` argument in setup.py to take `find_packages()`
+
+## 0.2.0
+
+-   Initial RPM release to Fedora
+-   setup.py improvements
+-   Config file is now read from /etc/fedimg.cfg
+-   PEP 8 fixes
+
+## 0.1.0
+
+-   Initial PyPI release
+
