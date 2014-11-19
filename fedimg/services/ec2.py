@@ -544,12 +544,13 @@ class EC2Service(object):
                             {'LaunchPermission.Add.1.Group': 'all'})
                     except Exception as e:
                         if 'InvalidAMIID.Unavailable' in e.message:
+                            # Copy isn't done, so wait 20 seconds and try
+                            # again.
                             sleep(20)
                             continue
                     break
 
-                # TODO: Add logging here
-                logging.info('Made image {0} public'.format(image))
+                logging.info('Made image {0} public'.format(image.name))
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
