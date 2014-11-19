@@ -27,10 +27,12 @@ https://github.com/fedora-infra/fedmsg_meta_fedora_infrastructure/blob/develop/f
 """
 
 
-def message(topic, image_url, dest, status):
+def message(topic, image_url, dest, status, extra=None):
     """ Takes a message topic, image name, an upload destination (ex.
-    "EC2-eu-west-1"), and a status (ex. "failed"). Emits a fedmsg appropriate
-    for each image upload task. """
+    "EC2-eu-west-1"), and a status (ex. "failed"). Can also take an optional
+    dictionary of addiitonal bits of information, such as an AMI ID for an
+    image registered to AWS EC2. Emits a fedmsg appropriate
+    for each image task (an upload or a test). """
 
     image_name = image_url.split('/')[-1].replace('.raw.xz', '')
 
@@ -39,4 +41,5 @@ def message(topic, image_url, dest, status):
         'image_name': image_name,
         'destination': dest,
         'status': status,
+        'extra': extra,
     })

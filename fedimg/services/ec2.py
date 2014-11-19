@@ -361,7 +361,8 @@ class EC2Service(object):
 
             # Emit success fedmsg
             fedimg.messenger.message('image.upload', self.build_name,
-                                     self.destination, 'completed')
+                                     self.destination, 'completed',
+                                     extra={'id': self.image.id})
 
             # Spin up a node of the AMI to test
 
@@ -421,7 +422,8 @@ class EC2Service(object):
 
             logging.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
-                                     self.destination, 'completed')
+                                     self.destination, 'completed',
+                                     extra={'id': self.image.id})
             self.test_success = True
 
             logging.info('Destroying test node')
@@ -557,4 +559,5 @@ class EC2Service(object):
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
-                                         alt_dest, 'completed')
+                                         alt_dest, 'completed',
+                                         extra={'id': image.id})
