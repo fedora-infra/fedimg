@@ -65,19 +65,21 @@ class EC2Service(object):
         self.destination = 'somewhere'
         self.test_success = False
         self.dup_count = 0  # counter: helps avoid duplicate AMI names
+        self.amis = list()  # Will contain dicts. Dicts will contain AMI info.
 
-        # Will be a list of dicts. Dicts will contain AMI info.
-        self.amis = list()
-
+        # Populate list of AMIs by reading the AMI details from the config
+        # file.
         for line in fedimg.AWS_AMIS.split('\n'):
-            """ Each line in AWS_AMIS has pipe-delimited attributes at these indicies:
+            """ AWS_AMIS lines have pipe-delimited attrs at these indicies:
             0: region (ex. eu-west-1)
             1: OS (ex. RHEL)
             2: version (ex. 5.7)
             3: arch (ex. x86_64)
             4: ami name (ex. ami-68e3d32d) """
+
             # strip line to avoid any newlines or spaces from sneaking in
             attrs = line.strip().split('|')
+
             info = {'region': attrs[0],
                     'prov': self._region_to_provider(attrs[0]),
                     'os': attrs[1],
