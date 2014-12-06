@@ -28,7 +28,7 @@ setup(
                 ' automatically uploads built Fedora cloud images'
                 ' to internal and external cloud providers.',
     classifiers=[
-        "Programming Language :: Python :: 2",
+        "Programming Language :: Python :: 2.7",
         "License :: OSI Approved :: GNU Affero General Public License"
         " v3 or later (AGPLv3+)",
     ],
