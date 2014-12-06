@@ -58,6 +58,9 @@ rm -rf %{modname}.egg-info
 %{python_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Sat Dec 06 2014 David Gay <dgay@redhat.com> - 0.3.1-1
+- new Fedora release
+
 * Wed Sep 17 2014 David Gay <dgay@redhat.com> - 0.2.6-1
 - new version cut after package review
 - use proper buildroot macro in spec file

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.1
+
+-   cycle through and make copied AMIs public after uploads complete
+-   register AMI with description containing build name of source image file
+-   report AMI Ids when emitting related fedmsgs
+-   make sure all AMIs have a matching numerical extension across regions
+-   clean up a little EC2Service code
+-   typofixes, etc
+
 ## 0.3
 
 -   add utility function to get virtualization type for EC2 AMI registration
