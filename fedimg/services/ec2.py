@@ -20,6 +20,8 @@
 #
 
 import logging
+log = logging.getLogger("fedmsg")
+
 from time import sleep
 
 import paramiko
@@ -92,7 +94,7 @@ class EC2Service(object):
 
     def _clean_up(self, driver, delete_image=False):
         """ Cleans up resources via a libcloud driver. """
-        logging.info('Cleaning up resources')
+        log.info('Cleaning up resources')
         if delete_image and self.image:
             driver.delete_image(self.image)
             self.image = None
@@ -121,7 +123,7 @@ class EC2Service(object):
         """ Takes a URL to a .raw.xz file and registers it as an AMI in each
         EC2 region. """
 
-        logging.info('EC2 upload process started')
+        log.info('EC2 upload process started')
 
         fedimg.messenger.message('image.upload', self.build_name,
                                  self.destination, 'started')
@@ -169,7 +171,7 @@ class EC2Service(object):
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
 
-            logging.info('Deploying utility instance')
+            log.info('Deploying utility instance')
 
             # Must be EBS-backed for AMI registration to work.
             while True:
@@ -193,7 +195,7 @@ class EC2Service(object):
                 except KeyPairDoesNotExistError:
                     # The keypair is missing from the current region.
                     # Let's install it.
-                    logging.exception('Adding missing keypair to region')
+                    log.exception('Adding missing keypair to region')
                     driver.ex_import_keypair(fedimg.AWS_KEYNAME,
                                              fedimg.AWS_PUBKEYPATH)
                     continue
@@ -205,7 +207,7 @@ class EC2Service(object):
                     # exception that prints `InvalidGroup.NotFound` is, for
                     # some reason, a base exception.
                     if 'InvalidGroup.NotFound' in e.message:
-                        logging.exception('Adding missing security'
+                        log.exception('Adding missing security'
                                           'group to region')
                         # Create the ssh security group
                         driver.ex_create_security_group('ssh', 'ssh only')
@@ -222,7 +224,7 @@ class EC2Service(object):
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
 
-            logging.info('Utility node started with SSH running')
+            log.info('Utility node started with SSH running')
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -233,13 +235,13 @@ class EC2Service(object):
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
-            logging.info('Executing utility script')
+            log.info('Executing utility script')
 
             chan.exec_command(cmd)
             status = chan.recv_exit_status()
             if status != 0:
                 # There was a problem with the SSH command
-                logging.error('Problem writing volume with utility instance')
+                log.error('Problem writing volume with utility instance')
                 raise EC2UtilityException("Problem writing image to"
                                           " utility instance volume."
                                           " Command exited with"
@@ -252,7 +254,7 @@ class EC2Service(object):
                       self.util_node.extra['block_device_mapping'] if
                       x['device_name'] == '/dev/sdb'][0]
 
-            logging.info('Destroying utility node')
+            log.info('Destroying utility node')
 
             # Terminate the utility instance
             driver.destroy_node(self.util_node)
@@ -273,7 +275,7 @@ class EC2Service(object):
                                 if v.id == vol_id][0]
             snap_name = 'fedimg-snap-{0}'.format(self.build_name)
 
-            logging.info('Taking a snapshot of the written volume')
+            log.info('Taking a snapshot of the written volume')
 
             self.snapshot = driver.create_volume_snapshot(self.util_volume,
                                                           name=snap_name)
@@ -285,17 +287,17 @@ class EC2Service(object):
                                  if s.id == snap_id][0]
                 sleep(10)
 
-            logging.info('Snapshot taken')
+            log.info('Snapshot taken')
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(self.util_volume)
             # make sure Fedimg knows that the vol is gone
             self.util_volume = None
 
-            logging.info('Destroyed volume')
+            log.info('Destroyed volume')
 
             # Actually register image
-            logging.info('Registering image as an AMI')
+            log.info('Registering image as an AMI')
             image_name = "{0}-{1}-0".format(self.build_name, ami['region'])
 
             virt_type = get_virt_type(image_name)
@@ -347,7 +349,7 @@ class EC2Service(object):
                         raise
                 break
 
-            logging.info('Completed image registration')
+            log.info('Completed image registration')
 
             # Emit success fedmsg
             fedimg.messenger.message('image.upload', self.build_name,
@@ -364,7 +366,7 @@ class EC2Service(object):
             # Create deployment object
             msd = MultiStepDeployment([step_1, step_2])
 
-            logging.info('Deploying test node')
+            log.info('Deploying test node')
 
             name = 'Fedimg AMI tester'
             size = [s for s in sizes if s.id == test_size_id][0]
@@ -387,7 +389,7 @@ class EC2Service(object):
                                            fedimg.AWS_KEYPATH):
                 sleep(10)
 
-            logging.info('Starting AMI tests')
+            log.info('Starting AMI tests')
 
             # Alert the fedmsg bus that an image test has started
             fedimg.messenger.message('image.test', self.build_name,
@@ -402,21 +404,21 @@ class EC2Service(object):
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
-            logging.info('Running AMI test script')
+            log.info('Running AMI test script')
 
             chan.exec_command(cmd)
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
-                logging.error('Problem testing new AMI')
+                log.error('Problem testing new AMI')
                 raise EC2AMITestException("Tests on AMI failed.")
 
-            logging.info('AMI test completed')
+            log.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
                                      extra={'id': self.image.id})
             self.test_success = True
 
-            logging.info('Destroying test node')
+            log.info('Destroying test node')
 
             # Destroy the test node
             driver.destroy_node(self.test_node)
@@ -481,7 +483,7 @@ class EC2Service(object):
                 image_name = "{0}-{1}-0".format(
                     self.build_name, ami['region'])
 
-                logging.info('AMI copy to {0} started'.format(
+                log.info('AMI copy to {0} started'.format(
                     ami['region']))
 
                 # Avoid duplicate image name by incrementing the number at the
@@ -503,7 +505,7 @@ class EC2Service(object):
 
                         copied_images.append(image_copy)
 
-                        logging.info('AMI {0} copied to AMI {1}'.format(
+                        log.info('AMI {0} copied to AMI {1}'.format(
                             self.image, image_name))
                     except Exception as e:
                         # Check if the problem was a duplicate name
@@ -517,7 +519,7 @@ class EC2Service(object):
                             continue
                         else:
                             # TODO: Catch a more specific exception
-                            logging.exception(
+                            log.exception(
                                 'Image copy to {0} failed'.format(
                                     ami['region']))
                             fedimg.messenger.message('image.upload',
@@ -548,7 +550,7 @@ class EC2Service(object):
                             continue
                     break
 
-                logging.info('Made image {0} public'.format(image.name))
+                log.info('Made image {0} public'.format(image.name))
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,

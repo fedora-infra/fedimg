@@ -21,7 +21,6 @@
 
 import argparse
 import ConfigParser
-import logging
 
 from fedimg.consumers import KojiConsumer
 
@@ -67,5 +66,6 @@ HP_PASSWORD = config.get('hp', 'password')
 HP_TENANT = config.get('hp', 'tenant')
 
 # Logging
-
-logging.basicConfig(level=logging.DEBUG, filename='/tmp/fedimg.log', filemode='w')
+# This should just be called by calling scripts, daemons, etc...
+#import logging
+#logging.basicConfig(level=logging.DEBUG, filename='/tmp/fedimg.log', filemode='w')

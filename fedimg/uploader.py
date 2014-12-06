@@ -20,6 +20,7 @@
 #
 
 import logging
+log = logging.getLogger("fedmsg")
 
 from fedimg.services.ec2 import EC2Service
 
@@ -28,11 +29,11 @@ def upload(urls):
     """ Takes a list of one or more .raw.xz image files and
     sends them off to cloud services for registration. """
 
-    logging.info('Starting upload process')
+    log.info('Starting upload process')
 
     for url in urls:
         # EC2 upload
         ec2 = EC2Service()
         ec2.upload(url)
 
-    logging.info('Upload process finished')
+    log.info('Upload process finished')
