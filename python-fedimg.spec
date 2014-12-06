@@ -15,6 +15,7 @@ BuildArch:          noarch
 BuildRequires:      python2-devel
 BuildRequires:      python-setuptools
 BuildRequires:      python-nose
+BuildRequires:      python-mock
 
 BuildRequires:      fedmsg
 BuildRequires:      python-libcloud
