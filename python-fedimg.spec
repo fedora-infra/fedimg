@@ -1,7 +1,7 @@
 %global modname fedimg
 
 Name:               python-fedimg
-Version:            0.2.6
+Version:            0.3.1
 Release:            1%{?dist}
 Summary:            Automatically upload Fedora Cloud images to cloud providers
 
