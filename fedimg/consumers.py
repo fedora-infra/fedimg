@@ -20,6 +20,7 @@
 #
 
 import logging
+log = logging.getLogger("fedmsg")
 
 import fedmsg.consumers
 import fedmsg.encoding
@@ -39,13 +40,14 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
     def __init__(self, *args, **kwargs):
         super(KojiConsumer, self).__init__(*args, **kwargs)
+        log.info("Super happy fedimg ready and reporting for duty.")
 
     def _get_upload_urls(self, builds):
         """ Takes a list of koji createImage task IDs and returns a list of
         URLs to .raw.xz image files that should be uploaded. """
 
         for build in builds:
-            logging.info('Got Koji build {0}'.format(build))
+            log.info('Got Koji build {0}'.format(build))
 
         # Create a Koji connection to the Fedora Koji instance
         koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
@@ -76,7 +78,7 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                     url.find('fedora-cloud-atomic') == -1 and
                     url.find('fedora-cloud-bigdata') == -1)):
                 upload_files.remove(url)
-                logging.info('Image {0} will not be uploaded'.format(url))
+                log.info('Image {0} will not be uploaded'.format(url))
 
         return upload_files
 
@@ -86,6 +88,8 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         builds = list()  # These will be the Koji build IDs to upload, if any.
 
         msg_info = msg["body"]["msg"]["info"]
+
+        log.info('Received %r %r' % (msg['topic'], msg['body']['msg_id']))
 
         # If the build method is "image", we check to see if the child
         # task's method is "createImage".
