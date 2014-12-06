@@ -61,6 +61,7 @@ rm -rf %{modname}.egg-info
 %changelog
 * Sat Dec 06 2014 David Gay <dgay@redhat.com> - 0.3.1-1
 - new Fedora release
+- add python-mock to buildrequires
 
 * Wed Sep 17 2014 David Gay <dgay@redhat.com> - 0.2.6-1
 - new version cut after package review
