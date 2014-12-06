@@ -27,6 +27,7 @@ import socket
 import subprocess
 
 import paramiko
+from libcloud.compute.types import Provider
 
 import fedimg
 
@@ -69,6 +70,20 @@ def get_virt_type(file_name):
     else:
         # otherwise, use the default (paravirtual)
         return 'paravirtual'
+
+
+def region_to_provider(region):
+    """ Takes a region name (ex. 'eu-west-1') and returns
+    the appropriate libcloud provider value. """
+    providers = {'ap-northeast-1': Provider.EC2_AP_NORTHEAST,
+                 'ap-southeast-1': Provider.EC2_AP_SOUTHEAST,
+                 'ap-southeast-2': Provider.EC2_AP_SOUTHEAST2,
+                 'eu-west-1': Provider.EC2_EU_WEST,
+                 'sa-east-1': Provider.EC2_SA_EAST,
+                 'us-east-1': Provider.EC2_US_EAST,
+                 'us-west-1': Provider.EC2_US_WEST,
+                 'us-west-2': Provider.EC2_US_WEST_OREGON}
+    return providers[region]
 
 
 def ssh_connection_works(username, ip, keypath):
