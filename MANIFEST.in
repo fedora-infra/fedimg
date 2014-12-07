@@ -1,0 +1,7 @@
+include LICENSE
+include README.md
+include CHANGELOG.md
+include fedimg.cfg.example
+include mkdocs.yml
+recursive-include fedmsg.d *.py
+recursive-include docs *

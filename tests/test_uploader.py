@@ -19,21 +19,20 @@
 # Authors:  David Gay <dgay@redhat.com>
 #
 
-import logging
-log = logging.getLogger("fedmsg")
+import mock
+import unittest
 
-from fedimg.services.ec2 import EC2Service
+import fedimg.uploader
 
 
-def upload(urls):
-    """ Takes a list of one or more .raw.xz image files and
-    sends them off to cloud services for registration. """
+class TestUploader(unittest.TestCase):
+    """ This tests fedimg/uploader.py. """
 
-    log.info('Starting upload process')
+    def setUp(self):
+        pass
 
-    for url in urls:
-        # EC2 upload
-        ec2 = EC2Service()
-        ec2.upload(url)
+    def tearDown(self):
+        pass
 
-    log.info('Upload process finished')
+if __name__ == '__main__':
+    unittest.main()

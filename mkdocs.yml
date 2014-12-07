@@ -1,0 +1,10 @@
+site_name: Fedimg
+pages:
+- ['index.md', 'About']
+- ['installation.md', 'Installation']
+- ['configuration.md', 'Configuration']
+- ['consumer.md', 'Consumer']
+- ['messaging.md', 'Messaging']
+- ['services/ec2.md', 'Services', 'EC2']
+- ['development/testing.md', 'Development', 'Testing']
+theme: readthedocs

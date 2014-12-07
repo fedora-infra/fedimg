@@ -1,12 +1,6 @@
 [general]
-# LOCAL_DOWNLOAD_DIR should be changed as appropriate in production
-# in order to properly upload files to local shares for FTP access.
-local_download_dir = /mnt/alt.fedoraproject.org/pub/alt/cloud
-
-# Set DOWNLOAD_PROGRESS to False if you want to hide any the file
-# download progress indicator (might be a good idea on production systems
-# where fedmsg-hub has other regular outputs.
-download_progress = True
+clean_up_on_failure = True
+delete_image_on_failure = True
 
 [koji]
 server = https://koji.fedoraproject.org/kojihub
@@ -14,22 +8,42 @@ server = https://koji.fedoraproject.org/kojihub
 base_task_url = https://kojipkgs.fedoraproject.org//work/tasks
 
 [aws]
+util_username = ec2-user
+test_username = fedora
 access_id = secretaccessID
 secret_key = supersecretsecretkey
-iam_profile = oddshocks
-amis = ap-northeast-1|Fedora|20|i386|ami-7dd7b47c
-ap-northeast-1|Fedora|20|x86_64|ami-8fd0b38e
-ap-southeast-1|Fedora|20|i386|ami-bccd99ee
-ap-southeast-1|Fedora|20|x86_64|ami-92cd99c0
-ap-southeast-2|Fedora|20|i386|ami-374bd40d
-ap-southeast-2|Fedora|20|x86_64|ami-eb4cd3d1
-eu-west-1|Fedora|20|i386|ami-3401e843
-eu-west-1|Fedora|20|x86_64|ami-c00fe6b7
-sa-east-1|Fedora|20|i386|ami-6f6ecf72
-sa-east-1|Fedora|20|x86_64|ami-056ecf18
-us-east-1|Fedora|20|i386|ami-3b361952
-us-east-1|Fedora|20|x86_64|ami-1337187a
-us-west-1|Fedora|20|i386|ami-68e3d32d
-us-west-1|Fedora|20|x86_64|ami-54e3d311
-us-west-2|Fedora|20|i386|ami-56771366
-us-west-2|Fedora|20|x86_64|ami-ea7612da
+iam_profile = iamprofilename
+keyname = somekeyname
+keypath = /path/to/private/key
+pubkeypath = /path/to/public/key
+test = /bin/true
+amis = ap-northeast-1|RHEL|6.5|x86_64|ami-e7aee0e6|aki-176bf516
+       ap-southeast-1|RHEL|6.5|x86_64|ami-c683df94|aki-503e7402
+       ap-southeast-2|RHEL|6.5|x86_64|ami-41ra8f7b|aki-c362fff9
+       eu-west-1|RHEL|6.5|x86_64|ami-81f23cf6|aki-52a34525
+       sa-east-1|RHEL|6.5|x86_64|ami-b7ec43aa|aki-5553f448
+       us-east-1|RHEL|6.5|x86_64|ami-be6a98d6|aki-919dcaf8
+       us-west-1|RHEL|6.5|x86_64|ami-fc393eb9|aki-880531cd
+       us-west-2|RHEL|6.5|x86_64|ami-79daa849|aki-fc8f11cc
+       ap-northeast-1|RHEL|6.5|i386|ami-c7bff1c6|aki-136bf512
+       ap-southeast-1|RHEL|6.5|i386|ami-9eb8e4cc|aki-ae3973fc
+       ap-southeast-2|RHEL|6.5|i386|ami-87f194bd|aki-cd62fff7
+       eu-west-1|RHEL|6.5|i386|ami-7101cf06|aki-68a3451f
+       sa-east-1|RHEL|6.5|i386|ami-e9e847f4|aki-5b53f446
+       us-east-1|RHEL|6.5|i386|ami-acac51c4|aki-8f9dcae6
+       us-west-1|RHEL|6.5|i386|ami-eacfc8af|aki-8e0531cb
+       us-west-2|RHEL|6.5|i386|ami-25cab815|aki-f08f11c0
+
+[rackspace]
+username = someuser
+api_key = secretk3y
+
+[gce]
+email = someacct@provider.com
+keypath = /path/to/pem/file
+project_id = someprojectid
+
+[hp]
+username = aperson
+password = somecoolpassword
+tenant = theprojectname
