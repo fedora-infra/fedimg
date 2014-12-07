@@ -534,6 +534,9 @@ class EC2Service(object):
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
+
+                alt_dest = 'EC2 ({region})'.format(region=ami['region'])
+
                 # Need to wait until the copy finishes in order to make
                 # the AMI public.
                 while True:
