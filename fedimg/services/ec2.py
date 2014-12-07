@@ -125,19 +125,19 @@ class EC2Service(object):
 
         log.info('EC2 upload process started')
 
+        file_name = raw_url.split('/')[-1]
+        self.build_name = file_name.replace('.raw.xz', '')
+        self.image_desc = "Created from build {0}".format(self.build_name)
+        image_arch = get_file_arch(file_name)
+        # no EBS-enabled instance types offer a 32 bit architecture
+        self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
+        ami = self.amis[0]
+        self.destination = 'EC2 ({region})'.format(region=ami['region'])
+
         fedimg.messenger.message('image.upload', self.build_name,
                                  self.destination, 'started')
 
         try:
-            file_name = raw_url.split('/')[-1]
-            self.build_name = file_name.replace('.raw.xz', '')
-            self.image_desc = "Created from build {0}".format(self.build_name)
-            image_arch = get_file_arch(file_name)
-            # no EBS-enabled instance types offer a 32 bit architecture
-            self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
-            ami = self.amis[0]
-            self.destination = 'EC2 ({region})'.format(region=ami['region'])
-
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
