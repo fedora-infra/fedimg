@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.3.2
+
+-   use fedmsg logging utilities
+-   convert old print statements to logging
+
 ## 0.3.1
 
 -   cycle through and make copied AMIs public after uploads complete
