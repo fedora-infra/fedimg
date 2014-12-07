@@ -431,7 +431,7 @@ class EC2Service(object):
         except EC2UtilityException as e:
             fedimg.messenger.message('image.upload', self.build_name,
                                      self.destination, 'failed')
-            print "Failure:", e
+            log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
@@ -439,7 +439,7 @@ class EC2Service(object):
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'failed')
-            print "Failure:", e
+            log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
@@ -447,7 +447,7 @@ class EC2Service(object):
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', self.build_name,
                                      self.destination, 'failed')
-            print "Problem deploying node: {0}".format(e.value)
+            log.exception("Problem deploying node: {0}".format(e.value))
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
@@ -456,7 +456,7 @@ class EC2Service(object):
             # Just give a general failure message.
             fedimg.messenger.message('image.upload', self.build_name,
                                      self.destination, 'failed')
-            print "Unexpected exception:", e
+            log.exception("Unexpected exception")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
@@ -483,8 +483,7 @@ class EC2Service(object):
                 image_name = "{0}-{1}-0".format(
                     self.build_name, ami['region'])
 
-                log.info('AMI copy to {0} started'.format(
-                    ami['region']))
+                log.info('AMI copy to {0} started'.format(ami['region']))
 
                 # Avoid duplicate image name by incrementing the number at the
                 # end of the image name if there is already an AMI with
