@@ -151,7 +151,7 @@ class EC2Service(object):
             # deploy node
             name = 'Fedimg AMI builder'
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
-                         'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
+                         'Ebs': {'VolumeSize': 3,  # 3 GB is the minimum for us
                                  'VolumeType': 'standard',
                                  'DeleteOnTermination': 'false'},
                          'DeviceName': '/dev/sdb'}]
@@ -317,7 +317,7 @@ class EC2Service(object):
             # Block device mapping for the AMI
             mapping = [{'DeviceName': reg_root_device_name,
                         'Ebs': {'SnapshotId': snap_id,
-                                'VolumeSize': 12,
+                                'VolumeSize': 3,
                                 'VolumeType': 'standard',
                                 'DeleteOnTermination': 'true'}}]
 
