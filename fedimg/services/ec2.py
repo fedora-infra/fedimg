@@ -58,6 +58,8 @@ class EC2Service(object):
     """ A class for interacting with an EC2 connection. """
 
     def __init__(self):
+        # All of these are set to appropriate values throughout
+        # the upload process.
         self.util_node = None
         self.util_volume = None
         self.snapshot = None
@@ -66,6 +68,8 @@ class EC2Service(object):
         self.test_node = None
         self.build_name = 'Fedimg build'
         self.destination = 'somewhere'
+
+        # It's possible that these values will never change
         self.test_success = False
         self.dup_count = 0  # counter: helps avoid duplicate AMI names
         self.amis = list()  # Will contain dicts. Dicts will contain AMI info.
