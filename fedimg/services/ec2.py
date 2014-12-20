@@ -72,7 +72,10 @@ class EC2Service(object):
         # It's possible that these values will never change
         self.test_success = False
         self.dup_count = 0  # counter: helps avoid duplicate AMI names
-        self.amis = list()  # Will contain dicts. Dicts will contain AMI info.
+
+        # Will be lists of dicts containing AMI info
+        self.util_amis = list()
+        self.test_amis = list()
 
         # Populate list of AMIs by reading the AMI details from the config
         # file.
@@ -94,7 +97,11 @@ class EC2Service(object):
                     'arch': attrs[3],
                     'ami': attrs[4],
                     'aki': attrs[5]}
-            self.amis.append(info)
+
+            # For now, read in all AMIs to these lists, and narrow
+            # down later. TODO: This could be made a bit nicer...
+            self.util_amis.append(info)
+            self.test_amis.append(info)
 
     def _clean_up(self, driver, delete_image=False):
         """ Cleans up resources via a libcloud driver. """
@@ -133,9 +140,13 @@ class EC2Service(object):
         self.build_name = file_name.replace('.raw.xz', '')
         self.image_desc = "Created from build {0}".format(self.build_name)
         image_arch = get_file_arch(file_name)
-        # no EBS-enabled instance types offer a 32 bit architecture
-        self.amis = [a for a in self.amis if a['arch'] == 'x86_64']
-        ami = self.amis[0]
+
+        # Filter the AMI lists appropriately
+        # (no EBS-enabled instance types offer a 32 bit architecture)
+        self.util_amis = [a for a in self.util_amis if a['arch'] == 'x86_64']
+        self.test_amis = [a for a in self.test_amis if a['arch'] == image_arch]
+
+        ami = self.util_amis[0]  # Select the starting AMI to begin
         self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
         fedimg.messenger.message('image.upload', self.build_name,
@@ -471,7 +482,9 @@ class EC2Service(object):
         if self.test_success:
             # Copy the AMI to every other region if tests passed
             copied_images = list()  # completed image copies (ami: image)
-            for ami in self.amis[1:]:
+
+            # Use the AMI list as a way to cycle through the regions
+            for ami in self.test_amis[1:]:
 
                 alt_dest = 'EC2 ({region})'.format(
                     region=ami['region'])
@@ -502,7 +515,7 @@ class EC2Service(object):
 
                         image_copy = alt_driver.copy_image(
                             self.image,
-                            self.amis[0]['region'],
+                            self.test_amis[0]['region'],
                             name=image_name,
                             description=self.image_desc)
 
@@ -531,10 +544,11 @@ class EC2Service(object):
                     break
 
             # Now cycle through and make all of the copied AMIs public
-            # once the copy process has completed.
-            amis = self.amis[1:]
+            # once the copy process has completed. Again, use the test
+            # AMI list as a way to have region and arch data.
+            test_amis = self.test_amis[1:]
             for image in copied_images:
-                ami = amis[copied_images.index(image)]
+                ami = test_amis[copied_images.index(image)]
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
