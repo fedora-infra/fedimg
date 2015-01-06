@@ -248,6 +248,7 @@ class EC2Service(object):
             client.connect(self.util_node.public_ips[0],
                            username=fedimg.AWS_UTIL_USER,
                            key_filename=fedimg.AWS_KEYPATH)
+            # curl with -L option, so we follow redirects
             cmd = "sudo sh -c 'curl -L {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
