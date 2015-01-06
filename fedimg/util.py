@@ -69,6 +69,11 @@ def get_virt_type(file_name):
         return 'hvm'
     else:
         # otherwise, use the default (paravirtual)
+        # Note: We want all images to be available in HVM, since
+        # HVM is required for some EC2 instance types. Therefore,
+        # returning 'paravirtual' will likely result in the upload
+        # code registering the image as both virtualization
+        # types (paravirtual and HVM).
         return 'paravirtual'
 
 
