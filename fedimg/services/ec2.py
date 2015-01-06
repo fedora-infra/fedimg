@@ -136,6 +136,8 @@ class EC2Service(object):
 
         log.info('EC2 upload process started')
 
+        # Get file name, build name, a description, and the image arch
+        # all from the .raw.xz file name.
         file_name = raw_url.split('/')[-1]
         self.build_name = file_name.replace('.raw.xz', '')
         self.image_desc = "Created from build {0}".format(self.build_name)
@@ -148,6 +150,7 @@ class EC2Service(object):
         self.util_amis = [a for a in self.util_amis if a['arch'] == 'x86_64']
         self.test_amis = [a for a in self.test_amis if a['arch'] == image_arch]
 
+        # Get a starting utility AMI in some region to use sa an origin
         ami = self.util_amis[0]  # Select the starting AMI to begin
         self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
@@ -155,25 +158,33 @@ class EC2Service(object):
                                  self.destination, 'started')
 
         try:
+            # Connect to the region through the appropriate libcloud driver
             cls = get_driver(ami['prov'])
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
             # select the desired node attributes
             sizes = driver.list_sizes()
             reg_size_id = 'm1.large'
+
             # check to make sure we have access to that size node
+            # TODO: Add try/except if for some reason the size isn't
+            # available?
             size = [s for s in sizes if s.id == reg_size_id][0]
             base_image = NodeImage(id=ami['ami'], name=None, driver=driver)
 
-            # deploy node
+            # Name the utility node
             name = 'Fedimg AMI builder'
+
+            # Block device mapping for the utility node
+            # (Requires this second volume to write the image to for
+            # future registration.)
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': 3,  # 3 GB is the minimum for us
                                  'VolumeType': 'standard',
                                  'DeleteOnTermination': 'false'},
                          'DeviceName': '/dev/sdb'}]
 
-            # read in ssh key
+            # Read in the SSH key
             with open(fedimg.AWS_PUBKEYPATH, 'rb') as f:
                 key_content = f.read()
 
@@ -182,15 +193,14 @@ class EC2Service(object):
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance
-            script = "touch test"
+            script = "touch test"  # this isn't so important for the util inst.
             step_2 = ScriptDeployment(script)
 
-            # Create deployment object
+            # Create deployment object (will set up SSH key and run script)
             msd = MultiStepDeployment([step_1, step_2])
 
             log.info('Deploying utility instance')
 
-            # Must be EBS-backed for AMI registration to work.
             while True:
                 try:
                     self.util_node = driver.deploy_node(
@@ -211,7 +221,7 @@ class EC2Service(object):
 
                 except KeyPairDoesNotExistError:
                     # The keypair is missing from the current region.
-                    # Let's install it.
+                    # Let's install it and try again.
                     log.exception('Adding missing keypair to region')
                     driver.ex_import_keypair(fedimg.AWS_KEYNAME,
                                              fedimg.AWS_PUBKEYPATH)
@@ -221,7 +231,7 @@ class EC2Service(object):
                     # We might have an invalid security group, aka the 'ssh'
                     # security group doesn't exist in the current region. The
                     # reason this is caught here is because the related
-                    # exception that prints `InvalidGroup.NotFound` is, for
+                    # exception that prints`InvalidGroup.NotFound is, for
                     # some reason, a base exception.
                     if 'InvalidGroup.NotFound' in e.message:
                         log.exception('Adding missing security'
@@ -243,16 +253,23 @@ class EC2Service(object):
 
             log.info('Utility node started with SSH running')
 
+            # Connect to the utility node via SSH
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
             client.connect(self.util_node.public_ips[0],
                            username=fedimg.AWS_UTIL_USER,
                            key_filename=fedimg.AWS_KEYPATH)
+
+            # Curl the .raw.xz file down from the web, decompressing it
+            # and writing it to the secondary volume defined earlier by
+            # the block device mapping.
             # curl with -L option, so we follow redirects
             cmd = "sudo sh -c 'curl -L {0} | xzcat > /dev/xvdb'".format(raw_url)
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
+            # Execute the init script defined earlier in the multi-step
+            # deployment.
             log.info('Executing utility script')
 
             chan.exec_command(cmd)
