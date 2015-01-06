@@ -14,6 +14,7 @@ message contains the following information:
 -   `destination`: where the image will be uploaded to (includes region if
     applicable)
 -   `status`: either 'started', 'completed', or 'failed'
+-   `extra`: a dictionary that may contain service-specific information, such as an AMI ID for EC2
 
 ## image.test
 
@@ -25,3 +26,4 @@ contains the following information:
 -   `destination`: where the image has been uploaded to (includes region if
     applicable)
 -   `status`: either 'started', 'completed', or 'failed'
+-   `extra`: a dictionary that may contain service-specific information, such as an AMI ID for EC2
