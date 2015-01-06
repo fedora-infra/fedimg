@@ -142,7 +142,9 @@ class EC2Service(object):
         image_arch = get_file_arch(file_name)
 
         # Filter the AMI lists appropriately
-        # (no EBS-enabled instance types offer a 32 bit architecture)
+        # (no EBS-enabled instance types offer a 32 bit architecture, and we
+        # need EBS for registration on the utility instance, so they must be
+        # x86_64)
         self.util_amis = [a for a in self.util_amis if a['arch'] == 'x86_64']
         self.test_amis = [a for a in self.test_amis if a['arch'] == image_arch]
 
