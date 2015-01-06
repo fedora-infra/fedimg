@@ -546,9 +546,9 @@ class EC2Service(object):
             # Now cycle through and make all of the copied AMIs public
             # once the copy process has completed. Again, use the test
             # AMI list as a way to have region and arch data.
-            test_amis = self.test_amis[1:]
+            self.test_amis = self.test_amis[1:]
             for image in copied_images:
-                ami = test_amis[copied_images.index(image)]
+                ami = self.test_amis[copied_images.index(image)]
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
