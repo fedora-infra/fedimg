@@ -322,14 +322,14 @@ class EC2Service(object):
 
             if virt_type == 'paravirtual':
                 test_size_id = 'm1.medium'
-                registration_aki = ami['aki']
-                test_aki = ami['aki']
+                # test_amis will include AKIs of the appropriate arch
+                registration_aki = [a['aki'] for a in self.test_amis
+                                    if a['region'] == ami['region']][0]
                 reg_root_device_name = '/dev/sda'
             else:  # HVM
                 test_size_id = 'm3.medium'
                 # Can't supply a kernel image with HVM
                 registration_aki = None
-                test_aki = None
                 reg_root_device_name = '/dev/sda1'
 
             # Block device mapping for the AMI
@@ -395,7 +395,7 @@ class EC2Service(object):
                 ssh_alternate_usernames=['root'],
                 ssh_key=fedimg.AWS_KEYPATH,
                 deploy=msd,
-                kernel_id=test_aki,
+                kernel_id=registration_aki,
                 ex_metadata={'build': self.build_name},
                 ex_keyname=fedimg.AWS_KEYNAME,
                 ex_security_groups=['ssh'],
