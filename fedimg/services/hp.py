@@ -53,15 +53,4 @@ class HPService(object):
 
         # create image from offical Fedora image on HP
 
-        # deploy node
-        name = 'fedimg AMI builder'
-        # TODO: Make automatically-created /dev/sda be deleted on termination
-        mappings = [{'VirtualName': None,
-                     'Ebs': {'VolumeSize': 12,  # 12 GB should be enough
-                             'VolumeType': 'standard',
-                             'DeleteOnTermination': 'true'},
-                     'DeviceName': '/dev/sdb'}]
-
-        # register that volume as an image
-
         # emit a fedmsg, etc
