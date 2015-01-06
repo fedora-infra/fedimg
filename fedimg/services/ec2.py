@@ -570,7 +570,7 @@ class EC2Service(object):
                             continue
                     break
 
-                log.info('Made image {0} public'.format(image.name))
+                log.info('Made AMI {0} public'.format(image.id))
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
