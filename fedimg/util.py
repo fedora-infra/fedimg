@@ -59,11 +59,10 @@ def get_rawxz_url(task_result):
     return full_file_location + "/{}".format(file_name)
 
 
-def virt_types_from_filename(file_name):
-    """ Takes a file name (probably of a .raw.xz image file) and returns
-    the suspected virtualization type that the image file should be
-    registered as. """
-    file_name = file_name.lower()
+def virt_types_from_url(url):
+    """ Takes a URL to a .raw.xz image file) and returns the suspected
+        virtualization type that the image file should be registered as. """
+    file_name = url.split('/')[-1].lower()
     if file_name.find('atomic') != -1:
         # hvm is required for atomic images
         return ['hvm']

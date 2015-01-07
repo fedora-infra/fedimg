@@ -23,6 +23,7 @@ import logging
 log = logging.getLogger("fedmsg")
 
 from fedimg.services.ec2 import EC2Service
+from fedimg.util import virt_types_from_url
 
 
 def upload(urls):
@@ -31,9 +32,12 @@ def upload(urls):
 
     log.info('Starting upload process')
 
+    services = []
+
+    # TODO: Thread this process
     for url in urls:
         # EC2 upload
-        ec2 = EC2Service()
-        ec2.upload(url)
+        for vt in virt_types_from_url(url):
+            services.append(EC2Service(url, virt_type=vt))
 
     log.info('Upload process finished')
