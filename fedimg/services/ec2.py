@@ -34,8 +34,8 @@ from libcloud.compute.types import KeyPairDoesNotExistError
 
 import fedimg
 import fedimg.messenger
-from fedimg.util import get_file_arch, get_virt_type, ssh_connection_works
-from fedimg.util import region_to_provider
+from fedimg.util import get_file_arch, virt_types_from_filename
+from fedimg.util import region_to_provider, ssh_connection_works
 
 
 class EC2ServiceException(Exception):
