@@ -268,10 +268,9 @@ class EC2Service(object):
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
-            # Execute the init script defined earlier in the multi-step
-            # deployment.
             log.info('Executing utility script')
 
+            # Run the above command and wait for its exit status
             chan.exec_command(cmd)
             status = chan.recv_exit_status()
             if status != 0:
@@ -317,7 +316,7 @@ class EC2Service(object):
             snap_id = str(self.snapshot.id)
 
             while self.snapshot.extra['state'] != 'completed':
-                # need to re-pull snapshot object to get updates
+                # Re-obtain snapshot object to get updates on its state
                 self.snapshot = [s for s in driver.list_snapshots()
                                  if s.id == snap_id][0]
                 sleep(10)
@@ -349,7 +348,8 @@ class EC2Service(object):
                 registration_aki = None
                 reg_root_device_name = '/dev/sda1'
 
-            # Block device mapping for the AMI
+            # For this block device mapping, we have our volume be
+            # based on the snapshot's ID
             mapping = [{'DeviceName': reg_root_device_name,
                         'Ebs': {'SnapshotId': snap_id,
                                 'VolumeSize': 3,
@@ -358,6 +358,7 @@ class EC2Service(object):
 
             # Avoid duplicate image name by incrementing the number at the
             # end of the image name if there is already an AMI with that name.
+            # TODO: This process could be written nicer.
             while True:
                 try:
                     if self.dup_count > 0:
@@ -391,7 +392,7 @@ class EC2Service(object):
                                      self.destination, 'completed',
                                      extra={'id': self.image.id})
 
-            # Spin up a node of the AMI to test
+            # Now, we'll spin up a node of the AMI to test:
 
             # Add script for deployment
             # Device becomes /dev/xvdb on instance
@@ -403,9 +404,13 @@ class EC2Service(object):
 
             log.info('Deploying test node')
 
+            # Pick a name for the test instance
             name = 'Fedimg AMI tester'
+            
+            # Select the appropriate size for the instance
             size = [s for s in sizes if s.id == test_size_id][0]
 
+            # Actually deploy the test instance
             self.test_node = driver.deploy_node(
                 name=name, image=self.image, size=size,
                 ssh_username=fedimg.AWS_TEST_USER,
@@ -435,13 +440,18 @@ class EC2Service(object):
             client.connect(self.test_node.public_ips[0],
                            username=fedimg.AWS_TEST_USER,
                            key_filename=fedimg.AWS_KEYPATH)
-            cmd = "true"
+
+            # Run /bin/true on the test instance as a simple "does it
+            # work" test
+            cmd = "/bin/true"
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
             log.info('Running AMI test script')
 
             chan.exec_command(cmd)
+
+            # Again, wait for the test command's exit status
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
                 log.error('Problem testing new AMI')
@@ -451,6 +461,9 @@ class EC2Service(object):
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
                                      extra={'id': self.image.id})
+
+            # Let this EC2Service know that the AMI test passed, so
+            # it knows how to proceed.
             self.test_success = True
 
             log.info('Destroying test node')
@@ -504,8 +517,9 @@ class EC2Service(object):
             copied_images = list()  # completed image copies (ami: image)
 
             # Use the AMI list as a way to cycle through the regions
-            for ami in self.test_amis[1:]:
+            for ami in self.test_amis[1:]:  # we don't need the origin region
 
+                # Choose an appropriate destination name for the copy
                 alt_dest = 'EC2 ({region})'.format(
                     region=ami['region'])
 
@@ -513,10 +527,13 @@ class EC2Service(object):
                                          self.build_name,
                                          alt_dest, 'started')
 
+                # Connect to the libcloud EC2 driver for the region we
+                # want to copy into
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
 
+                # Construct the full name for the image copy
                 image_name = "{0}-{1}-0".format(
                     self.build_name, ami['region'])
 
@@ -525,6 +542,7 @@ class EC2Service(object):
                 # Avoid duplicate image name by incrementing the number at the
                 # end of the image name if there is already an AMI with
                 # that name.
+                # TODO: Again, this could be written better
                 while True:
                     try:
                         if self.dup_count > 0:
@@ -533,12 +551,16 @@ class EC2Service(object):
                             # Re-add trailing dup number with new count
                             image_name += '-{0}'.format(self.dup_count)
 
+                        # Actually run the image copy from the origin region
+                        # to the current region.
                         image_copy = alt_driver.copy_image(
                             self.image,
                             self.test_amis[0]['region'],
                             name=image_name,
                             description=self.image_desc)
 
+                        # Add the image copy to a list so we can work with
+                        # it later.
                         copied_images.append(image_copy)
 
                         log.info('AMI {0} copied to AMI {1}'.format(
@@ -550,7 +572,7 @@ class EC2Service(object):
                             # This probably won't trigger, since it seems
                             # like EC2 doesn't mind duplicate AMI names
                             # when they are being copied, only registered.
-                            # Strange, but true.
+                            # Strange, but apprently true.
                             self.dup_count += 1
                             continue
                         else:
@@ -565,27 +587,32 @@ class EC2Service(object):
 
             # Now cycle through and make all of the copied AMIs public
             # once the copy process has completed. Again, use the test
-            # AMI list as a way to have region and arch data.
+            # AMI list as a way to have region and arch data:
+
+            # We don't need the origin region, since the AMI was made there:
             self.test_amis = self.test_amis[1:]
+
             for image in copied_images:
                 ami = self.test_amis[copied_images.index(image)]
                 alt_cls = get_driver(ami['prov'])
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
 
+                # Get an appropriate name for the region in question
                 alt_dest = 'EC2 ({region})'.format(region=ami['region'])
 
                 # Need to wait until the copy finishes in order to make
                 # the AMI public.
                 while True:
                     try:
+                        # Make the image public
                         alt_driver.ex_modify_image_attribute(
                             image,
                             {'LaunchPermission.Add.1.Group': 'all'})
                     except Exception as e:
                         if 'InvalidAMIID.Unavailable' in e.message:
-                            # Copy isn't done, so wait 20 seconds and try
-                            # again.
+                            # The copy isn't done, so wait 20 seconds
+                            # and try again.
                             sleep(20)
                             continue
                     break
