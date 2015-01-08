@@ -34,8 +34,8 @@ from libcloud.compute.types import KeyPairDoesNotExistError
 
 import fedimg
 import fedimg.messenger
-from fedimg.util import get_file_arch, get_virt_type, ssh_connection_works
-from fedimg.util import region_to_provider
+from fedimg.util import get_file_arch
+from fedimg.util import region_to_provider, ssh_connection_works
 
 
 class EC2ServiceException(Exception):
@@ -55,30 +55,32 @@ class EC2AMITestException(EC2ServiceException):
 
 
 class EC2Service(object):
-    """ A class for interacting with an EC2 connection. """
+    """ An object for interacting with an EC2 upload process.
+        Takes a URL to a raw.xz image. """
 
-    def __init__(self):
+    def __init__(self, raw_url, virt_type='hvm'):
+
+        self.raw_url = raw_url
+        self.virt_type = virt_type
         # All of these are set to appropriate values throughout
         # the upload process.
         self.util_node = None
         self.util_volume = None
-        self.snapshot = None
-        self.image = None
-        self.image_desc = None
+        self.snapshots = None
+        self.images = None
         self.test_node = None
-        self.build_name = 'Fedimg build'
-        self.destination = 'somewhere'
+
+        self.destination = ''
 
         # It's possible that these values will never change
         self.test_success = False
         self.dup_count = 0  # counter: helps avoid duplicate AMI names
 
         # Will be lists of dicts containing AMI info
-        self.util_amis = list()
-        self.test_amis = list()
+        self.util_amis = []
+        self.test_amis = []
 
-        # Populate list of AMIs by reading the AMI details from the config
-        # file.
+        # Populate list of AMIs by reading the AMI details from the config file
         for line in fedimg.AWS_AMIS.split('\n'):
             """ AWS_AMIS lines have pipe-delimited attrs at these indicies:
             0: region (ex. eu-west-1)
@@ -102,6 +104,22 @@ class EC2Service(object):
             # down later. TODO: This could be made a bit nicer...
             self.util_amis.append(info)
             self.test_amis.append(info)
+
+        # Get file name, build name, a description, and the image arch
+        # all from the .raw.xz file name.
+        self.file_name = self.raw_url.split('/')[-1]
+        self.build_name = self.file_name.replace('.raw.xz', '')
+        self.image_desc = "Created from build {0}".format(self.build_name)
+        self.image_arch = get_file_arch(self.file_name)
+
+        # Filter the AMI lists appropriately
+        # (no EBS-enabled instance types offer a 32 bit architecture, and we
+        # need EBS for registration on the utility instance, so they must be
+        # x86_64)
+        self.util_amis = [a for a in self.util_amis
+                          if a['arch'] == 'x86_64']
+        self.test_amis = [a for a in self.test_amis
+                          if a['arch'] == self.image_arch]
 
     def _clean_up(self, driver, delete_image=False):
         """ Cleans up resources via a libcloud driver. """
@@ -130,27 +148,12 @@ class EC2Service(object):
             driver.destroy_node(self.test_node)
             self.test_node = None
 
-    def upload(self, raw_url):
-        """ Takes a URL to a .raw.xz file and registers it as an AMI in each
-        EC2 region. """
+    def upload(self):
+        """ Registers the image in each EC2 region. """
 
         log.info('EC2 upload process started')
 
-        # Get file name, build name, a description, and the image arch
-        # all from the .raw.xz file name.
-        file_name = raw_url.split('/')[-1]
-        self.build_name = file_name.replace('.raw.xz', '')
-        self.image_desc = "Created from build {0}".format(self.build_name)
-        image_arch = get_file_arch(file_name)
-
-        # Filter the AMI lists appropriately
-        # (no EBS-enabled instance types offer a 32 bit architecture, and we
-        # need EBS for registration on the utility instance, so they must be
-        # x86_64)
-        self.util_amis = [a for a in self.util_amis if a['arch'] == 'x86_64']
-        self.test_amis = [a for a in self.test_amis if a['arch'] == image_arch]
-
-        # Get a starting utility AMI in some region to use sa an origin
+        # Get a starting utility AMI in some region to use as an origin
         ami = self.util_amis[0]  # Select the starting AMI to begin
         self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
@@ -235,7 +238,7 @@ class EC2Service(object):
                     # some reason, a base exception.
                     if 'InvalidGroup.NotFound' in e.message:
                         log.exception('Adding missing security'
-                                          'group to region')
+                                      'group to region')
                         # Create the ssh security group
                         driver.ex_create_security_group('ssh', 'ssh only')
                         driver.ex_authorize_security_group('ssh', '22', '22',
@@ -264,7 +267,8 @@ class EC2Service(object):
             # and writing it to the secondary volume defined earlier by
             # the block device mapping.
             # curl with -L option, so we follow redirects
-            cmd = "sudo sh -c 'curl -L {0} | xzcat > /dev/xvdb'".format(raw_url)
+            cmd = "sudo sh -c 'curl -L {0} | xzcat > /dev/xvdb'".format(
+                  self.raw_url)
             chan = client.get_transport().open_session()
             chan.get_pty()  # Request a pseudo-term to get around requiretty
 
@@ -332,17 +336,18 @@ class EC2Service(object):
 
             # Actually register image
             log.info('Registering image as an AMI')
-            image_name = "{0}-{1}-0".format(self.build_name, ami['region'])
 
-            virt_type = get_virt_type(image_name)
-
-            if virt_type == 'paravirtual':
+            if self.virt_type == 'paravirtual':
+                image_name = "{0}-{1}-PV-".format(self.build_name,
+                                                  ami['region'])
                 test_size_id = 'm1.medium'
                 # test_amis will include AKIs of the appropriate arch
                 registration_aki = [a['aki'] for a in self.test_amis
                                     if a['region'] == ami['region']][0]
                 reg_root_device_name = '/dev/sda'
             else:  # HVM
+                image_name = "{0}-{1}-HVM-0".format(self.build_name,
+                                                    ami['region'])
                 test_size_id = 'm3.medium'
                 # Can't supply a kernel image with HVM
                 registration_aki = None
@@ -372,9 +377,9 @@ class EC2Service(object):
                         description=self.image_desc,
                         root_device_name=reg_root_device_name,
                         block_device_mapping=mapping,
-                        virtualization_type=virt_type,
+                        virtualization_type=self.virt_type,
                         kernel_id=registration_aki,
-                        architecture=image_arch)
+                        architecture=self.image_arch)
                 except Exception as e:
                     # Check if the problem was a duplicate name
                     if 'InvalidAMIName.Duplicate' in e.message:
@@ -406,7 +411,7 @@ class EC2Service(object):
 
             # Pick a name for the test instance
             name = 'Fedimg AMI tester'
-            
+
             # Select the appropriate size for the instance
             size = [s for s in sizes if s.id == test_size_id][0]
 
@@ -483,6 +488,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', self.build_name,
@@ -491,6 +497,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', self.build_name,
@@ -499,6 +506,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except Exception as e:
             # Just give a general failure message.
@@ -508,6 +516,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         else:
             self._clean_up(driver)
@@ -623,3 +632,5 @@ class EC2Service(object):
                                          self.build_name,
                                          alt_dest, 'completed',
                                          extra={'id': image.id})
+
+                return 0
