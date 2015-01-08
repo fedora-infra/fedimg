@@ -338,7 +338,7 @@ class EC2Service(object):
             log.info('Registering image as an AMI')
 
             if self.virt_type == 'paravirtual':
-                image_name = "{0}-{1}-PV-".format(self.build_name,
+                image_name = "{0}-{1}-PV-0".format(self.build_name,
                                                   ami['region'])
                 test_size_id = 'm1.medium'
                 # test_amis will include AKIs of the appropriate arch
