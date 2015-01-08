@@ -543,8 +543,12 @@ class EC2Service(object):
                                      fedimg.AWS_SECRET_KEY)
 
                 # Construct the full name for the image copy
-                image_name = "{0}-{1}-0".format(
-                    self.build_name, ami['region'])
+                if self.virt_type = 'paravirtual':
+                    image_name = "{0}-{1}-PV-0".format(
+                        self.build_name, ami['region'])
+                else:  # HVM
+                    image_name = "{0}-{1}-HVM-0".format(
+                        self.build_name, ami['region'])
 
                 log.info('AMI copy to {0} started'.format(ami['region']))
 
