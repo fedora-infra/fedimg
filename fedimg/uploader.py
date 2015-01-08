@@ -8,7 +8,7 @@
 #
 # fedimg is distributed in the hope that it will be useful,
 # but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
 # Affero General Public License for more details.
 #
 # You should have received a copy of the GNU Affero General Public
@@ -22,6 +22,8 @@
 import logging
 log = logging.getLogger("fedmsg")
 
+import multiprocessing.pool
+
 from fedimg.services.ec2 import EC2Service
 from fedimg.util import virt_types_from_url
 
@@ -32,6 +34,9 @@ def upload(urls):
 
     log.info('Starting upload process')
 
+    # We're not going to have more that 2 services at this point
+    pool = multiprocessing.pool.ThreadPool(processes=2)
+
     services = []
 
     # TODO: Thread this process
@@ -39,5 +44,7 @@ def upload(urls):
         # EC2 upload
         for vt in virt_types_from_url(url):
             services.append(EC2Service(url, virt_type=vt))
+
+    results = pool.map(lambda s: s.upload(), services)
 
     log.info('Upload process finished')

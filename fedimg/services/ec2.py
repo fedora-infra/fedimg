@@ -121,9 +121,6 @@ class EC2Service(object):
         self.test_amis = [a for a in self.test_amis
                           if a['arch'] == self.image_arch]
 
-        # Run the upload
-        self.upload()
-
     def _clean_up(self, driver, delete_image=False):
         """ Cleans up resources via a libcloud driver. """
         log.info('Cleaning up resources')
@@ -491,6 +488,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except EC2AMITestException as e:
             fedimg.messenger.message('image.test', self.build_name,
@@ -499,6 +497,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except DeploymentException as e:
             fedimg.messenger.message('image.upload', self.build_name,
@@ -507,6 +506,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         except Exception as e:
             # Just give a general failure message.
@@ -516,6 +516,7 @@ class EC2Service(object):
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
                                delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+            return 1
 
         else:
             self._clean_up(driver)
@@ -631,3 +632,5 @@ class EC2Service(object):
                                          self.build_name,
                                          alt_dest, 'completed',
                                          extra={'id': image.id})
+
+                return 0
