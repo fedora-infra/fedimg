@@ -182,7 +182,7 @@ class EC2Service(object):
             # (Requires this second volume to write the image to for
             # future registration.)
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
-                         'Ebs': {'VolumeSize': 3,  # 3 GB is the minimum for us
+                         'Ebs': {'VolumeSize': fedimg.AWS_UTIL_VOL_SIZE,
                                  'VolumeType': 'standard',
                                  'DeleteOnTermination': 'false'},
                          'DeviceName': '/dev/sdb'}]
@@ -357,7 +357,7 @@ class EC2Service(object):
             # based on the snapshot's ID
             mapping = [{'DeviceName': reg_root_device_name,
                         'Ebs': {'SnapshotId': snap_id,
-                                'VolumeSize': 3,
+                                'VolumeSize': fedimg.AWS_REG_VOL_SIZE,
                                 'VolumeType': 'standard',
                                 'DeleteOnTermination': 'true'}}]
 
