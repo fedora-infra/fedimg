@@ -67,7 +67,3 @@ HP_USER = config.get('hp', 'username')
 HP_PASSWORD = config.get('hp', 'password')
 HP_TENANT = config.get('hp', 'tenant')
 
-# Logging
-# This should just be called by calling scripts, daemons, etc...
-#import logging
-#logging.basicConfig(level=logging.DEBUG, filename='/tmp/fedimg.log', filemode='w')
