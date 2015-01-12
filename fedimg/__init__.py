@@ -30,7 +30,7 @@ config = ConfigParser.RawConfigParser()
 config.read('/etc/fedimg.cfg')
 
 CLEAN_UP_ON_FAILURE = config.get('general', 'clean_up_on_failure')
-DELETE_IMAGE_ON_FAILURE = config.get('general', 'delete_image_on_failure')
+DELETE_IMAGES_ON_FAILURE = config.get('general', 'delete_images_on_failure')
 
 # koji_server is the location of the Koji hub that should be used
 # to initialize the Koji connection.
