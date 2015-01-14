@@ -1,6 +1,6 @@
 [general]
 clean_up_on_failure = True
-delete_image_on_failure = True
+delete_images_on_failure = True
 
 [koji]
 server = https://koji.fedoraproject.org/kojihub

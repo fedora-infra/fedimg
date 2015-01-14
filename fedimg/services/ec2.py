@@ -121,14 +121,14 @@ class EC2Service(object):
         self.test_amis = [a for a in self.test_amis
                           if a['arch'] == self.image_arch]
 
-    def _clean_up(self, driver, delete_image=False):
+    def _clean_up(self, driver, delete_images=False):
         """ Cleans up resources via a libcloud driver. """
         log.info('Cleaning up resources')
-        if delete_image and self.image:
-            driver.delete_image(self.image)
-            self.image = None
+        if delete_images and len(self.images) > 0:
+            for image in self.images:
+                driver.delete_image(image)
 
-        if self.snapshot and not self.image:
+        if self.snapshot and len(self.image) == 0:
             driver.destroy_volume_snapshot(self.snapshot)
             self.snapshot = None
 
@@ -372,14 +372,14 @@ class EC2Service(object):
                         # Re-add trailing dup number with new count
                         image_name += '-{0}'.format(self.dup_count)
                     # Try to register with that name
-                    self.image = driver.ex_register_image(
+                    self.images.append(driver.ex_register_image(
                         image_name,
                         description=self.image_desc,
                         root_device_name=reg_root_device_name,
                         block_device_mapping=mapping,
                         virtualization_type=self.virt_type,
                         kernel_id=registration_aki,
-                        architecture=self.image_arch)
+                        architecture=self.image_arch))
                 except Exception as e:
                     # Check if the problem was a duplicate name
                     if 'InvalidAMIName.Duplicate' in e.message:
@@ -393,9 +393,10 @@ class EC2Service(object):
             log.info('Completed image registration')
 
             # Emit success fedmsg
-            fedimg.messenger.message('image.upload', self.build_name,
-                                     self.destination, 'completed',
-                                     extra={'id': self.image.id})
+            for image in self.images:
+                fedimg.messenger.message('image.upload', self.build_name,
+                                         self.destination, 'completed',
+                                         extra={'id': image.id})
 
             # Now, we'll spin up a node of the AMI to test:
 
@@ -417,7 +418,8 @@ class EC2Service(object):
 
             # Actually deploy the test instance
             self.test_node = driver.deploy_node(
-                name=name, image=self.image, size=size,
+                # TODO: Test all images
+                name=name, image=self.images[0], size=size,
                 ssh_username=fedimg.AWS_TEST_USER,
                 ssh_alternate_usernames=['root'],
                 ssh_key=fedimg.AWS_KEYPATH,
@@ -465,7 +467,9 @@ class EC2Service(object):
             log.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
-                                     extra={'id': self.image.id})
+                                     # TODO: Update this line when
+                                     # we test all images
+                                     extra={'id': self.images[0].id})
 
             # Let this EC2Service know that the AMI test passed, so
             # it knows how to proceed.
@@ -476,10 +480,11 @@ class EC2Service(object):
             # Destroy the test node
             driver.destroy_node(self.test_node)
 
-            # Make AMI public
-            driver.ex_modify_image_attribute(
-                self.image,
-                {'LaunchPermission.Add.1.Group': 'all'})
+            # Make AMIs public
+            for image in self.images:
+                driver.ex_modify_image_attribute(
+                    self.image,
+                    {'LaunchPermission.Add.1.Group': 'all'})
 
         except EC2UtilityException as e:
             fedimg.messenger.message('image.upload', self.build_name,
@@ -487,7 +492,7 @@ class EC2Service(object):
             log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
-                               delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                               delete_images=fedimg.DELETE_IMAGES_ON_FAILURE)
             return 1
 
         except EC2AMITestException as e:
@@ -496,7 +501,7 @@ class EC2Service(object):
             log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
-                               delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                               delete_images=fedimg.DELETE_IMAGES_ON_FAILURE)
             return 1
 
         except DeploymentException as e:
@@ -505,7 +510,7 @@ class EC2Service(object):
             log.exception("Problem deploying node: {0}".format(e.value))
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
-                               delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                               delete_images=fedimg.DELETE_IMAGES_ON_FAILURE)
             return 1
 
         except Exception as e:
@@ -515,7 +520,7 @@ class EC2Service(object):
             log.exception("Unexpected exception")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
-                               delete_image=fedimg.DELETE_IMAGE_ON_FAILURE)
+                               delete_images=fedimg.DELETE_IMAGES_ON_FAILURE)
             return 1
 
         else:
@@ -566,18 +571,19 @@ class EC2Service(object):
 
                         # Actually run the image copy from the origin region
                         # to the current region.
-                        image_copy = alt_driver.copy_image(
-                            self.image,
-                            self.test_amis[0]['region'],
-                            name=image_name,
-                            description=self.image_desc)
+                        for image in self.images:
+                            image_copy = alt_driver.copy_image(
+                                image,
+                                self.test_amis[0]['region'],
+                                name=image_name,
+                                description=self.image_desc)
+                            # Add the image copy to a list so we can work with
+                            # it later.
+                            copied_images.append(image_copy)
 
-                        # Add the image copy to a list so we can work with
-                        # it later.
-                        copied_images.append(image_copy)
+                            log.info('AMI {0} copied to AMI {1}'.format(
+                                image, image_name))
 
-                        log.info('AMI {0} copied to AMI {1}'.format(
-                            self.image, image_name))
                     except Exception as e:
                         # Check if the problem was a duplicate name
                         if 'InvalidAMIName.Duplicate' in e.message:
