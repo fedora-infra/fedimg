@@ -5,23 +5,21 @@ EC2 regions. This page explains the process, which takes place in
 ## AMI types
 
 At the time of this writing, it seems that we'll eventually want to provide
-potentially six different AMIs for each Fedora Cloud image processed. They
-are listed below, and **bolded** if they've been added to Fedimg so far.
+potentially six different AMIs for each Fedora Cloud image processed.
 
 <table>
 <tr><th>Virtualization</th><th>Storage</th><th>Result</th></tr>
 <tr><td>Paravirtual</td><td>Instance-Store</td><td>1 bundle</td></tr>
-<strong><tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
+<tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
 <tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
 <tr><td>HVM</td><td>Instance-Store</td><td>1 bundle</td></tr>
-<strong><tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
+<tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
 <tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
 </table>
-
-
-The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
+`*`: Not yet added to Fedimg
+*The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
-characteristics.
+characteristics.*
 
 ## Terminology
 
