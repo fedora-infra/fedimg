@@ -17,7 +17,7 @@ are listed below, and **bolded** if they've been added to Fedimg so far.
 <strong><tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
 <tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
 </table>
-
+<br />
 
 The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
