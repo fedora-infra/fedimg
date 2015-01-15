@@ -4,6 +4,26 @@ Fedimg is hooked into Amazon Web Services and registers images as public AMIs in
 EC2 regions. This page explains the process, which takes place in
 `fedimg/services/ec2.py`.
 
+## AMI types
+
+At the time of this writing, it seems that we'll eventually want to provide
+potentially six different AMIs for each Fedora Cloud image processed. They
+are listed below, and **bolded** if they've been added to Fedimg so far.
+
+<table>
+<tr><th>Virtualization</th><th>Storage</th><th>Result</th></tr>
+<tr><td>Paravirtual</td><td>Instance-Store</td><td>1 bundle</td></tr>
+<strong><tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
+<tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
+<tr><td>HVM</td><td>Instance-Store</td><td>1 bundle</td></tr>
+<strong><tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
+<tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
+</table>
+
+The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
+SSD-based type Amazon is encouraging. It has different pricing and performance
+characteristics.
+
 ## Terminology
 
 An **instance** is a virtual machine that exists on EC2. They are started from
