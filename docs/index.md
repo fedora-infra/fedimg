@@ -1,5 +1,3 @@
-# Fedimg
-
 Fedimg is a service that automatically uploads completed Fedora image builds to
 internal and external cloud services. By listening to the
 [Fedmsg](http://www.fedmsg.com/en/latest/) hub for

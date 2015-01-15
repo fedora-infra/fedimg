@@ -1,5 +1,3 @@
-# Configuration
-
 Fedimg pulls its configuration variables from the file located at
 `/etc/fedimg.cfg`. The file `fedimg.cfg.example` included with Fedimg can be
 used as a starting point for writing your own configuration file.

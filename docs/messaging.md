@@ -1,5 +1,3 @@
-# Messaging
-
 Just as it consumes messages from the Fedmsg bus, Fedimg emits messages of its
 own.  The two message topics currently used are `image.upload` and
 `image.test`. The modname for all Fedimg Fedmsgs is (appropriately) `fedimg`.

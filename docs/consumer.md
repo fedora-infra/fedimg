@@ -1,5 +1,3 @@
-# Consumer
-
 Fedimg makes use of a Fedmsg consumer that listens to the Fedmsg bus for
 completed Koji builds. It only cares about completed tasks of the method
 `createImage`. The filtering process works like this:
