@@ -49,7 +49,12 @@ currently unused.**
 `test` is the test script that should be run on the test instance.
 
 `amis` is a list of AMIs that Fedimg can use to start utility instances. There
-should be 16 entries, one for i386 and one for x86_64 in each region.
+should be 16 entries, one for i386 and one for x86_64 in each region. See
+`fedimg.cfg.example` for example entries.They are formatted as follows:
+
+```
+<region>|<os>|<version>|<architecture>|<ami_id>|<aki_id>
+```
 
 ## Rackspace options
 
