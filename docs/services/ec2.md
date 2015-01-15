@@ -1,5 +1,3 @@
-# EC2
-
 Fedimg is hooked into Amazon Web Services and registers images as public AMIs in all
 EC2 regions. This page explains the process, which takes place in
 `fedimg/services/ec2.py`.
@@ -19,6 +17,7 @@ are listed below, and **bolded** if they've been added to Fedimg so far.
 <strong><tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr></strong>
 <tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
 </table>
+
 
 The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
