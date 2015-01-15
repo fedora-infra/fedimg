@@ -17,6 +17,7 @@ potentially six different AMIs for each Fedora Cloud image processed.
 <tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types</td></tr>
 </table>
 `*`: Not yet added to Fedimg
+
 *The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
 characteristics.*
