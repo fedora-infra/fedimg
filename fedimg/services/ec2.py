@@ -464,6 +464,8 @@ class EC2Service(object):
                 log.error('Problem testing new AMI')
                 raise EC2AMITestException("Tests on AMI failed.")
 
+            client.close()
+
             log.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
