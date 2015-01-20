@@ -357,7 +357,7 @@ class EC2Service(object):
             # based on the snapshot's ID
             mapping = [{'DeviceName': reg_root_device_name,
                         'Ebs': {'SnapshotId': snap_id,
-                                'VolumeSize': fedimg.AWS_REG_VOL_SIZE,
+                                'VolumeSize': fedimg.AWS_TEST_VOL_SIZE,
                                 'VolumeType': 'standard',
                                 'DeleteOnTermination': 'true'}}]
 
