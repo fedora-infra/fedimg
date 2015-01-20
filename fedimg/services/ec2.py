@@ -66,8 +66,8 @@ class EC2Service(object):
         # the upload process.
         self.util_node = None
         self.util_volume = None
-        self.snapshots = None
-        self.images = None
+        self.images = []
+        self.snapshot = None
         self.test_node = None
 
         self.destination = ''
