@@ -128,7 +128,7 @@ class EC2Service(object):
             for image in self.images:
                 driver.delete_image(image)
 
-        if self.snapshot and len(self.image) == 0:
+        if self.snapshot and len(self.images) == 0:
             driver.destroy_volume_snapshot(self.snapshot)
             self.snapshot = None
 
