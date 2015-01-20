@@ -485,7 +485,7 @@ class EC2Service(object):
             # Make AMIs public
             for image in self.images:
                 driver.ex_modify_image_attribute(
-                    self.image,
+                    image,
                     {'LaunchPermission.Add.1.Group': 'all'})
 
         except EC2UtilityException as e:
