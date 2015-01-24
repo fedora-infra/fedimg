@@ -645,4 +645,4 @@ class EC2Service(object):
                                          alt_dest, 'completed',
                                          extra={'id': image.id})
 
-                return 0
+            return 0
