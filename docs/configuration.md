@@ -31,6 +31,12 @@ instance. It should be an account that already exists in the AMI.
 instance launched from the newly registered AMI. The test script will
 be executed by this account.
 
+`util_volume_size` is the size, in GB, that will be used for
+the volume that the utility instance writes the image to.
+
+`test_volume_size` is the size, in GB, that the AMI will be registered
+with. It will likely be the same as `util_volume_size`.
+
 `access_id` is the access ID for the AWS account that will be used.
 
 `secret_key` is the secret key of the AWS account that will be used.
