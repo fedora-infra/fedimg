@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.4
+
+**EC2Service**
+-   fix alternate destinations not being set properly during image copy
+-   split util and test AMIs into dedicated lists
+-   allow for URL redirection while curling raw.xz image
+-   simplified registration AKI selection process
+-   major refactoring to allow for future expansion into many different
+    types of AMIs
+-   uploads are now multithreaded
+-   volume size options added to config options
+-   better logging
+
+**Tests**
+-   fix broken consumer test
+-   committed `uploadtest.py` for doing EC2Service test runs during
+    development
+
+**Docs**
+-   update messaging docs
+
+**Misc**
+-   removed extraneous EC2Service-specific stuff from other service files
+-   better commenting
+
 ## 0.3.2
 
 -   use fedmsg logging utilities
