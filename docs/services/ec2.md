@@ -9,12 +9,12 @@ potentially six different AMIs for each Fedora Cloud image processed.
 
 <table>
 <tr><th>Virtualization</th><th>Storage</th><th>Result</th></tr>
-<tr><td>Paravirtual</td><td>Instance-Store</td><td>1 bundle`*`</td></tr>
+<tr><td>Paravirtual</td><td>Instance-Store</td><td>1 bundle * </td></tr>
 <tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
-<tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types`*`</td></tr>
-<tr><td>HVM</td><td>Instance-Store</td><td>1 bundle`*`</td></tr>
+<tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types * </td></tr>
+<tr><td>HVM</td><td>Instance-Store</td><td>1 bundle * </td></tr>
 <tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
-<tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types`*`</td></tr>
+<tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types * </td></tr>
 </table>
 `*`: Not yet added to Fedimg
 
