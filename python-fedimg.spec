@@ -59,7 +59,7 @@ rm -rf %{modname}.egg-info
 %{python_sitelib}/%{modname}-%{version}*
 
 %changelog
-* Mon Jan 26 2014 David Gay <dgay@redhat.com> - 0.4.0-1
+* Mon Jan 26 2015 David Gay <dgay@redhat.com> - 0.4.0-1
 - new release
 
 * Sun Dec 07 2014 David Gay <dgay@redhat.com> - 0.3.2-1
