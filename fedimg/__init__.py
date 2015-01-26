@@ -30,7 +30,7 @@ config = ConfigParser.RawConfigParser()
 config.read('/etc/fedimg.cfg')
 
 CLEAN_UP_ON_FAILURE = config.get('general', 'clean_up_on_failure')
-DELETE_IMAGE_ON_FAILURE = config.get('general', 'delete_image_on_failure')
+DELETE_IMAGES_ON_FAILURE = config.get('general', 'delete_images_on_failure')
 
 # koji_server is the location of the Koji hub that should be used
 # to initialize the Koji connection.
@@ -47,6 +47,8 @@ AWS_SECRET_KEY = config.get('aws', 'secret_key')
 AWS_KEYNAME = config.get('aws', 'keyname')
 AWS_KEYPATH = config.get('aws', 'keypath')
 AWS_PUBKEYPATH = config.get('aws', 'pubkeypath')
+AWS_UTIL_VOL_SIZE = config.get('aws', 'util_volume_size')
+AWS_TEST_VOL_SIZE = config.get('aws', 'test_volume_size')
 AWS_TEST = config.get('aws', 'test')
 AWS_AMIS = config.get('aws', 'amis')
 AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
@@ -65,7 +67,3 @@ HP_USER = config.get('hp', 'username')
 HP_PASSWORD = config.get('hp', 'password')
 HP_TENANT = config.get('hp', 'tenant')
 
-# Logging
-# This should just be called by calling scripts, daemons, etc...
-#import logging
-#logging.basicConfig(level=logging.DEBUG, filename='/tmp/fedimg.log', filemode='w')

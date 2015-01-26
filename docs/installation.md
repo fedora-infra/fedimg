@@ -1,5 +1,3 @@
-# Installation
-
 The Fedimg installation process is rather straightforward and has been
 successfully tested on Fedora 20.
 

@@ -65,7 +65,9 @@ class TestKojiConsumer(unittest.TestCase):
 
         # Need to wrap the message in a body dict to emulate how an actual
         # consumed fedmsg would come through.
-        msg = {'body': {'msg': resp.json()['msg']}}
+        msg = {'topic': 'org.fedoraproject.prod.buildsys.task.state.change',
+                'body': {'msg': resp.json()['msg'],
+                        'msg_id': 1}}
 
         self.consumer.consume(msg)
         # the list seems to always be newest task first, so:

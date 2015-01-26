@@ -59,17 +59,16 @@ def get_rawxz_url(task_result):
     return full_file_location + "/{}".format(file_name)
 
 
-def get_virt_type(file_name):
-    """ Takes a file name (probably of a .raw.xz image file) and returns
-    the suspected virtualization type that the image file should be
-    registered as. """
-    file_name = file_name.lower()
+def virt_types_from_url(url):
+    """ Takes a URL to a .raw.xz image file) and returns the suspected
+        virtualization type that the image file should be registered as. """
+    file_name = url.split('/')[-1].lower()
     if file_name.find('atomic') != -1:
         # hvm is required for atomic images
-        return 'hvm'
+        return ['hvm']
     else:
-        # otherwise, use the default (paravirtual)
-        return 'paravirtual'
+        # otherwise, build the AMIs with both virtualization types
+        return ['hvm', 'paravirtual']
 
 
 def region_to_provider(region):
