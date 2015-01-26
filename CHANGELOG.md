@@ -12,6 +12,8 @@
 -   uploads are now multithreaded
 -   volume size options added to config options
 -   better logging
+-   close a dangling SSH connection (thanks, threebean!)
+-   fix bug that caused only the first two AMIs to be made public
 
 **Tests**
 -   fix broken consumer test
@@ -20,6 +22,8 @@
 
 **Docs**
 -   update messaging docs
+-   add table of AMI types to EC2Service docs
+-   add AMI config format info
 
 **Misc**
 -   removed extraneous EC2Service-specific stuff from other service files

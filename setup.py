@@ -23,7 +23,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fedimg',
-    version='0.3.2',
+    version='0.4',
     description='A service that listens to the Fedmsg bus and'
                 ' automatically uploads built Fedora cloud images'
                 ' to internal and external cloud providers.',
