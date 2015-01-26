@@ -1,5 +1,5 @@
 The Fedimg installation process is rather straightforward and has been
-successfully tested on Fedora 20.
+successfully tested on Fedora 21.
 
 ## Install fedmsg components
 
