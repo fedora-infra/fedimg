@@ -24,9 +24,7 @@ from setuptools import setup, find_packages
 setup(
     name='fedimg',
     version='0.4',
-    description='A service that listens to the Fedmsg bus and'
-                ' automatically uploads built Fedora cloud images'
-                ' to internal and external cloud providers.',
+    description='Automatically upload Fedora Cloud images to cloud providers',
     classifiers=[
         "Programming Language :: Python :: 2.7",
         "License :: OSI Approved :: GNU Affero General Public License"
