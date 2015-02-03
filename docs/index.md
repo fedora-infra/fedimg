@@ -24,7 +24,7 @@ by Fedimg -- whether it's a development build or an official release.
 
 -   Works with AWS EC2, with additional services to be added in the future
 
--   Packaged for Fedora 21 (`yum install python-fedimg`) and available [on
+-   Packaged for EPEL 7 (`yum install python-fedimg`) and available [on
     PyPI](https://pypi.python.org/pypi/fedimg/)
 
 ## License
