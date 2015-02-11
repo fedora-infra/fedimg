@@ -58,10 +58,11 @@ class EC2Service(object):
     """ An object for interacting with an EC2 upload process.
         Takes a URL to a raw.xz image. """
 
-    def __init__(self, raw_url, virt_type='hvm'):
+    def __init__(self, raw_url, virt_type='hvm', vol_type='standard'):
 
         self.raw_url = raw_url
         self.virt_type = virt_type
+        self.vol_type = vol_type
         # All of these are set to appropriate values throughout
         # the upload process.
         self.util_node = None
@@ -183,7 +184,7 @@ class EC2Service(object):
             # future registration.)
             mappings = [{'VirtualName': None,  # cannot specify with Ebs
                          'Ebs': {'VolumeSize': fedimg.AWS_UTIL_VOL_SIZE,
-                                 'VolumeType': 'standard',
+                                 'VolumeType': self.vol_type,
                                  'DeleteOnTermination': 'false'},
                          'DeviceName': '/dev/sdb'}]
 
@@ -358,7 +359,7 @@ class EC2Service(object):
             mapping = [{'DeviceName': reg_root_device_name,
                         'Ebs': {'SnapshotId': snap_id,
                                 'VolumeSize': fedimg.AWS_TEST_VOL_SIZE,
-                                'VolumeType': 'standard',
+                                'VolumeType': self.vol_type,
                                 'DeleteOnTermination': 'true'}}]
 
             # Avoid duplicate image name by incrementing the number at the

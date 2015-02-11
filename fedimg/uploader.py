@@ -35,7 +35,7 @@ def upload(urls):
     log.info('Starting upload process')
 
     # We're not going to have more that 2 services at this point
-    pool = multiprocessing.pool.ThreadPool(processes=2)
+    pool = multiprocessing.pool.ThreadPool(processes=4)
 
     services = []
 
@@ -43,7 +43,10 @@ def upload(urls):
     for url in urls:
         # EC2 upload
         for vt in virt_types_from_url(url):
-            services.append(EC2Service(url, virt_type=vt))
+            services.append(EC2Service(url, virt_type=vt,
+                                       vol_type='standard'))
+            services.append(EC2Service(url, virt_type=vt,
+                                       vol_type='gp2'))
 
     results = pool.map(lambda s: s.upload(), services)
 
