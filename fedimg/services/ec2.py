@@ -339,16 +339,18 @@ class EC2Service(object):
             log.info('Registering image as an AMI')
 
             if self.virt_type == 'paravirtual':
-                image_name = "{0}-{1}-PV-0".format(self.build_name,
-                                                  ami['region'])
+                image_name = "{0}-{1}-PV-{2}-0".format(self.build_name,
+                                                  ami['region'],
+                                                  self.vol_type)
                 test_size_id = 'm1.medium'
                 # test_amis will include AKIs of the appropriate arch
                 registration_aki = [a['aki'] for a in self.test_amis
                                     if a['region'] == ami['region']][0]
                 reg_root_device_name = '/dev/sda'
             else:  # HVM
-                image_name = "{0}-{1}-HVM-0".format(self.build_name,
-                                                    ami['region'])
+                image_name = "{0}-{1}-HVM-{2}-0".format(self.build_name,
+                                                    ami['region'],
+                                                    self.vol_type)
                 test_size_id = 'm3.medium'
                 # Can't supply a kernel image with HVM
                 registration_aki = None
@@ -552,11 +554,11 @@ class EC2Service(object):
 
                 # Construct the full name for the image copy
                 if self.virt_type == 'paravirtual':
-                    image_name = "{0}-{1}-PV-0".format(
-                        self.build_name, ami['region'])
+                    image_name = "{0}-{1}-PV-{2}0".format(
+                        self.build_name, ami['region'], self.vol_type)
                 else:  # HVM
-                    image_name = "{0}-{1}-HVM-0".format(
-                        self.build_name, ami['region'])
+                    image_name = "{0}-{1}-HVM-{2}-0".format(
+                        self.build_name, ami['region'], self.vol_type)
 
                 log.info('AMI copy to {0} started'.format(ami['region']))
 
