@@ -69,14 +69,13 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         # Get rid of any image URLs for images we're not interested in
         for url in upload_files:
             # We only want to upload:
-            # 32 bit: base
             # 64 bit: base, atomic, bigdata
-            if (url.find('i386') > -1
-               and url.find('fedora-cloud-base') == -1) or \
-               (url.find('x86_64') > -1
-               and (url.find('fedora-cloud-base') == -1 and
-                    url.find('fedora-cloud-atomic') == -1 and
-                    url.find('fedora-cloud-bigdata') == -1)):
+            # Just not going to upload i368 for now, as the
+            # current method results in dud AMIs.
+            if (url.find('x86_64') > -1) and
+               and (url.find('fedora-cloud-base') > -1 or
+                    url.find('fedora-cloud-atomic') > -1 or
+                    url.find('fedora-cloud-bigdata') > -1):
                 upload_files.remove(url)
                 log.info('Image {0} will not be uploaded'.format(url))
 
