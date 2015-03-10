@@ -64,20 +64,17 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                 koji_session.getTaskResult(build)
             results = koji_session.multiCall()
             for result in results:
-                upload_files.append(get_rawxz_url(result[0]))
-
-        # Get rid of any image URLs for images we're not interested in
-        for url in upload_files:
-            # We only want to upload:
-            # 64 bit: base, atomic, bigdata
-            # Just not going to upload i368 for now, as the
-            # current method results in dud AMIs.
-            if (url.find('x86_64') > -1) and
-               and (url.find('fedora-cloud-base') > -1 or
-                    url.find('fedora-cloud-atomic') > -1 or
-                    url.find('fedora-cloud-bigdata') > -1):
-                upload_files.remove(url)
-                log.info('Image {0} will not be uploaded'.format(url))
+                url = get_rawxz_url(result[0])
+                # We only want to upload:
+                # 64 bit: base, atomic, bigdata
+                # Just not going to upload i368 for now, as the
+                # current method results in dud AMIs.
+                if url.find('x86_64') > -1:
+                    if (url.find('fedora-cloud-base') > -1
+                            or url.find('fedora-cloud-atomic') > -1
+                            or url.find('fedora-cloud-bigdata') > -1):
+                        upload_files.append(get_rawxz_url(result[0]))
+                        log.info('Image {0} will be uploaded'.format(url))
 
         return upload_files
 

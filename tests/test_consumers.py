@@ -70,12 +70,10 @@ class TestKojiConsumer(unittest.TestCase):
                         'msg_id': 1}}
 
         self.consumer.consume(msg)
-        # the list seems to always be newest task first, so:
-        url1 = ('https://kojipkgs.fedoraproject.org//work/tasks/7982/7577982/'
-                'fedora-cloud-base-20140915-21.i386.raw.xz')
-        url2 = ('https://kojipkgs.fedoraproject.org//work/tasks/7981/7577981/'
+        # the list seems to always be newest task first
+        url1 = ('https://kojipkgs.fedoraproject.org//work/tasks/7981/7577981/'
                 'fedora-cloud-base-20140915-21.x86_64.raw.xz')
-        upload.assert_called_with([url1, url2])
+        upload.assert_called_with([url1])
 
 if __name__ == '__main__':
     unittest.main()
