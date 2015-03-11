@@ -52,29 +52,31 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         # Create a Koji connection to the Fedora Koji instance
         koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
 
-        upload_files = list()  # list of full URLs of files
+        rawxz_files = []  # list of full URLs of files
 
         # Get all of the .raw.xz URLs for the builds
         if len(builds) == 1:
             task_result = koji_session.getTaskResult(builds[0])
-            upload_files.append(get_rawxz_url(task_result))
+            rawxz_files.append(get_rawxz_url(task_result))
         elif len(builds) >= 2:
             koji_session.multicall = True
             for build in builds:
                 koji_session.getTaskResult(build)
             results = koji_session.multiCall()
             for result in results:
-                url = get_rawxz_url(result[0])
-                # We only want to upload:
-                # 64 bit: base, atomic, bigdata
-                # Just not going to upload i368 for now, as the
-                # current method results in dud AMIs.
-                if url.find('x86_64') > -1:
-                    if (url.find('fedora-cloud-base') > -1
-                            or url.find('fedora-cloud-atomic') > -1
-                            or url.find('fedora-cloud-bigdata') > -1):
-                        upload_files.append(get_rawxz_url(result[0]))
-                        log.info('Image {0} will be uploaded'.format(url))
+                rawxz_files.append(get_rawxz_url(result[0]))
+        # We only want to upload:
+        # 64 bit: base, atomic, bigdata
+        # Not uploading 32 bit, vagrant, experimental, or other images.
+        upload_files = []  # files that will actually be uploaded
+        for url in rawxz_files:
+            u = url.lower()
+            if u.find('x86_64') > -1 and u.find('vagrant') == -1:
+                if (u.find('fedora-cloud-base') > -1
+                        or u.find('fedora-cloud-atomic') > -1
+                        or u.find('fedora-cloud-bigdata') > -1):
+                    upload_files.append(url)
+                    log.info('Image {0} will be uploaded'.format(url))
 
         return upload_files
 
