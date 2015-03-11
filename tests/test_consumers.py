@@ -62,11 +62,13 @@ class TestKojiConsumer(unittest.TestCase):
         koji_msg_id = '2014-e9065d79-8975-4b3d-897e-fcc807ba95dd'
         datagrepper_url = 'https://apps.fedoraproject.org/datagrepper/id?id={0}'.format(koji_msg_id)
         resp = requests.get(datagrepper_url)
+        resp_json = resp.json()
+        resp_msg = resp_json['msg']
 
         # Need to wrap the message in a body dict to emulate how an actual
         # consumed fedmsg would come through.
         msg = {'topic': 'org.fedoraproject.prod.buildsys.task.state.change',
-                'body': {'msg': resp.json()['msg'],
+                'body': {'msg': resp_msg,
                         'msg_id': 1}}
 
         self.consumer.consume(msg)
@@ -74,6 +76,13 @@ class TestKojiConsumer(unittest.TestCase):
         url1 = ('https://kojipkgs.fedoraproject.org//work/tasks/7981/7577981/'
                 'fedora-cloud-base-20140915-21.x86_64.raw.xz')
         upload.assert_called_with([url1])
+
+    #@mock.patch('fedimg.uploader.upload')
+    def test_get_upload_urls(self):
+        upload_files = self.consumer._get_upload_urls([9203308])
+        print "FILES: " + str(upload_files)
+        pass
+        
 
 if __name__ == '__main__':
     unittest.main()
