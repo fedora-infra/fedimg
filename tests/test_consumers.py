@@ -80,9 +80,25 @@ class TestKojiConsumer(unittest.TestCase):
     #@mock.patch('fedimg.uploader.upload')
     def test_get_upload_urls(self):
         upload_files = self.consumer._get_upload_urls([9203308])
-        print "FILES: " + str(upload_files)
-        pass
+        url = 'https://kojipkgs.fedoraproject.org//work/tasks/3308/9203308/Fedora-Cloud-Base-22_Beta_TC1-20150310.x86_64.raw.xz'
+        self.assertEquals(len(upload_files), 1)
+        self.assertEquals(upload_files[0], url)
+    
+    def test_get_upload_urls_atomic(self):
+        upload_files = self.consumer._get_upload_urls([9203313])
+        url = 'https://kojipkgs.fedoraproject.org//work/tasks/3313/9203313/Fedora-Cloud-Atomic-22_Beta_TC1-20150310.x86_64.raw.xz'
+        self.assertEquals(len(upload_files), 1)
+        self.assertEquals(upload_files[0], url)
         
+    def test_get_upload_urls_i386(self):
+        upload_files = self.consumer._get_upload_urls([9203309])
+        # we don't upload 32 bit images at this time
+        self.assertEquals(len(upload_files), 0)
+    
+    def test_get_upload_urls_vagrant(self):
+        upload_files = self.consumer._get_upload_urls([9203314])
+        # we don't upload vagrant images at this time
+        self.assertEquals(len(upload_files), 0)
 
 if __name__ == '__main__':
     unittest.main()
