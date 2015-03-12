@@ -399,7 +399,9 @@ class EC2Service(object):
             for image in self.images:
                 fedimg.messenger.message('image.upload', self.build_name,
                                          self.destination, 'completed',
-                                         extra={'id': image.id})
+                                         extra={'id': image.id,
+                                                'virt_type': self.virt_type,
+                                                'vol_type': self.vol_type})
 
             # Now, we'll spin up a node of the AMI to test:
 
@@ -474,7 +476,9 @@ class EC2Service(object):
                                      self.destination, 'completed',
                                      # TODO: Update this line when
                                      # we test all images
-                                     extra={'id': self.images[0].id})
+                                     extra={'id': self.images[0].id,
+                                            'virt_type': self.virt_type,
+                                            'vol_type': self.vol_type})
 
             # Let this EC2Service know that the AMI test passed, so
             # it knows how to proceed.
@@ -641,11 +645,16 @@ class EC2Service(object):
                             continue
                     break
 
-                log.info('Made {0} public'.format(image.id))
+                log.info('Made {0} public ({1}, {2}, {3})'.format(image.id,
+                                                                  self.build_name,
+                                                                  self.virt_type,
+                                                                  self.vol_type))
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
                                          alt_dest, 'completed',
-                                         extra={'id': image.id})
+                                         extra={'id': image.id,
+                                                'virt_type': self.virt_type,
+                                                'vol_type': self.vol_type})
 
             return 0
