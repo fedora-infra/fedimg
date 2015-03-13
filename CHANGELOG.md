@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.5
+
+**EC2Service**
+-   use 7 GB volume size rather than 3 GB for now, since atomic images come out
+    to be 6.1 GB
+-   implement gp2 volume type uploads
+-   image name now includes volume type
+-   simplify consumer filter code, eliminating 32 bit stuff for now
+-   add build name, virtualization type, and volume type to 'extra'
+    dict in fedmsgs
+
+**Tests**
+-   fix up consumer test code
+-   add additional consumer tests to test build filter code
+
+**Docs**
+-   add info about volume size configuration
+-   "tested on F21"
+-   improve index page
+-   bring installation info up-to-date
+
+**Misc**
+-   commit atomic test script, to go with base test script
+-   reduce description in setup.py
+
 ## 0.4
 
 **EC2Service**
