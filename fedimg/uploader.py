@@ -39,7 +39,6 @@ def upload(urls):
 
     services = []
 
-    # TODO: Thread this process
     for url in urls:
         # EC2 upload
         for vt in virt_types_from_url(url):
