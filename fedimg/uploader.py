@@ -48,5 +48,3 @@ def upload(urls):
                                        vol_type='gp2'))
 
     results = pool.map(lambda s: s.upload(), services)
-
-    log.info('Upload process finished')
