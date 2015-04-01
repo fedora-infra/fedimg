@@ -75,7 +75,7 @@ class TestKojiConsumer(unittest.TestCase):
         # the list seems to always be newest task first
         url1 = ('https://kojipkgs.fedoraproject.org//work/tasks/7981/7577981/'
                 'fedora-cloud-base-20140915-21.x86_64.raw.xz')
-        upload.assert_called_with([url1])
+        upload.assert_called_with(mock.ANY, [url1])
 
     #@mock.patch('fedimg.uploader.upload')
     def test_get_upload_urls(self):

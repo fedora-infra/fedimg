@@ -22,20 +22,16 @@
 import logging
 log = logging.getLogger("fedmsg")
 
-import multiprocessing.pool
-
 from fedimg.services.ec2 import EC2Service
 from fedimg.util import virt_types_from_url
 
 
-def upload(urls):
-    """ Takes a list of one or more .raw.xz image files and
-    sends them off to cloud services for registration. """
+def upload(pool, urls):
+    """ Takes a list (urls) of one or more .raw.xz image files and
+    sends them off to cloud services for registration. The upload
+    jobs threadpool must be passed as `pool`."""
 
     log.info('Starting upload process')
-
-    # We're not going to have more that 2 services at this point
-    pool = multiprocessing.pool.ThreadPool(processes=4)
 
     services = []
 

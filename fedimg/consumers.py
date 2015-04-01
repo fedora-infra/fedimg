@@ -22,6 +22,8 @@
 import logging
 log = logging.getLogger("fedmsg")
 
+import multiprocessing.pool
+
 import fedmsg.consumers
 import fedmsg.encoding
 import koji
@@ -40,6 +42,10 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
     def __init__(self, *args, **kwargs):
         super(KojiConsumer, self).__init__(*args, **kwargs)
+
+        # threadpool for upload jobs
+        self.upload_pool = multiprocessing.pool.ThreadPool(processes=4)
+
         log.info("Super happy fedimg ready and reporting for duty.")
 
     def _get_upload_urls(self, builds):
@@ -101,4 +107,5 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                             builds.append(child["id"])
 
         if len(builds) > 0:
-            fedimg.uploader.upload(self._get_upload_urls(builds))
+            fedimg.uploader.upload(self.upload_pool,
+                                   self._get_upload_urls(builds))
