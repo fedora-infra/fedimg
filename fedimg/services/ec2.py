@@ -558,7 +558,7 @@ class EC2Service(object):
 
                 # Construct the full name for the image copy
                 if self.virt_type == 'paravirtual':
-                    image_name = "{0}-{1}-PV-{2}0".format(
+                    image_name = "{0}-{1}-PV-{2}-0".format(
                         self.build_name, ami['region'], self.vol_type)
                 else:  # HVM
                     image_name = "{0}-{1}-HVM-{2}-0".format(
