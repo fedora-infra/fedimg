@@ -1,5 +1,3 @@
-# Testing
-
 Fedimg provides a growing suite of unittests that can be run with the
 `nosetests` command provided by the `nose` Python package.
 
