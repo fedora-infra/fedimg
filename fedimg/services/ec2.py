@@ -168,7 +168,7 @@ class EC2Service(object):
 
             # select the desired node attributes
             sizes = driver.list_sizes()
-            reg_size_id = 'm1.large'
+            reg_size_id = 'm1.xlarge'
 
             # check to make sure we have access to that size node
             # TODO: Add try/except if for some reason the size isn't
@@ -342,7 +342,7 @@ class EC2Service(object):
                 image_name = "{0}-{1}-PV-{2}-0".format(self.build_name,
                                                   ami['region'],
                                                   self.vol_type)
-                test_size_id = 'm1.medium'
+                test_size_id = 'm1.xlarge'
                 # test_amis will include AKIs of the appropriate arch
                 registration_aki = [a['aki'] for a in self.test_amis
                                     if a['region'] == ami['region']][0]
@@ -351,7 +351,7 @@ class EC2Service(object):
                 image_name = "{0}-{1}-HVM-{2}-0".format(self.build_name,
                                                     ami['region'],
                                                     self.vol_type)
-                test_size_id = 'm3.medium'
+                test_size_id = 'm3.2xlarge'
                 # Can't supply a kernel image with HVM
                 registration_aki = None
                 reg_root_device_name = '/dev/sda1'
