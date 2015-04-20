@@ -72,6 +72,7 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
                 koji_session.getTaskResult(build)
             results = koji_session.multiCall()
             for result in results:
+                if not result: continue
                 url = get_rawxz_url(result[0])
                 if url:
                     rawxz_files.append(url)
