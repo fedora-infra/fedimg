@@ -63,14 +63,20 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         # Get all of the .raw.xz URLs for the builds
         if len(builds) == 1:
             task_result = koji_session.getTaskResult(builds[0])
-            rawxz_files.append(get_rawxz_url(task_result))
+            url = get_rawxz_url(task_result)
+            if url:
+                rawxz_files.append(url)
         elif len(builds) >= 2:
             koji_session.multicall = True
             for build in builds:
                 koji_session.getTaskResult(build)
             results = koji_session.multiCall()
             for result in results:
-                rawxz_files.append(get_rawxz_url(result[0]))
+                if not result: continue
+                url = get_rawxz_url(result[0])
+                if url:
+                    rawxz_files.append(url)
+
         # We only want to upload:
         # 64 bit: base, atomic, bigdata
         # Not uploading 32 bit, vagrant, experimental, or other images.
