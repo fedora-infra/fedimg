@@ -6,5 +6,6 @@ pages:
 - ['consumer.md', 'Consumer']
 - ['messaging.md', 'Messaging']
 - ['services/ec2.md', 'Services', 'EC2']
+- ['contributing.md', 'Contributing']
 - ['development/testing.md', 'Development', 'Testing']
 theme: readthedocs
