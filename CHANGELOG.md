@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.6
+
+**General**
+-   use a single threadpool for all uploads to avoid leaking threads
+-   prevent major IndexError when checking Koji tasks that don't have raw.xz
+    outputs
+-   increase number of fedmsg endpoints
+
+**EC2Service**
+-   use larger and more powerful instance types for utility and test instances
+-   typofix when naming PV images
+
+**Docs**
+-   add some basic contributor docs
+
 ## 0.5
 
 **EC2Service**
