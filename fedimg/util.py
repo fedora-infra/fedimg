@@ -49,7 +49,7 @@ def get_rawxz_url(task_result):
     output files are passed as a list via the task_result argument. """
     # There should only be one item in this list
     rawxz_list = [f for f in task_result['files'] if f.endswith('.raw.xz')]
-    if len(rawxz_list) < 1:
+    if not rawxz_list:
         return None
     file_name = rawxz_list[0]
 
