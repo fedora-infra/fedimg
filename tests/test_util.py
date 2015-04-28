@@ -67,6 +67,30 @@ class TestUtil(unittest.TestCase):
         url = fedimg.util.get_rawxz_url(task_result)
         self.assertEquals(url, full_file_url)
 
+    def test_get_rawxz_url_empty(self):
+        task_result = {'arch': 'i386',
+                       'files': ['fedora-cloud-base-a89507d.ks',
+                                 'koji-f21-build-7577982-base.ks',
+                                 'tdl-i386.xml', 'qemu-img-qcow2-i386.log',
+                                 'xz-cp-raw-xz-i386.log', 'xz-raw-xz-i386.log',
+                                 'oz-i386.log', 'libvirt-qcow2-i386.xml',
+                                 'fedora-cloud-base-20140915-21.i386.qcow2',
+                                 'libvirt-raw-xz-i386.xml'],
+                       'name': 'fedora-cloud-base',
+                       'release': '21',
+                       'rpmlist': [],
+                       'task_id': 7577982,
+                       'version': '20140915'}
+
+        # extension to base URL to exact file directory
+        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
+        koji_url_extension = "/7982/7577982"
+        full_task_url = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
+        full_file_url = full_task_url + '/' + filename
+
+        url = fedimg.util.get_rawxz_url(task_result)
+        self.assertEquals(url, None)
+
     def test_virt_types(self):
         url = 'https://somepage.org/fedora-cloud-base-20140915-21.x86_64.raw.xz'
         vtypes = fedimg.util.virt_types_from_url(url)
