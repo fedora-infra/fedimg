@@ -281,6 +281,8 @@ class EC2Service(object):
             if status != 0:
                 # There was a problem with the SSH command
                 log.error('Problem writing volume with utility instance')
+                fedimg.messenger.message('image.upload', self.build_name,
+                                         self.destination, 'failed')
                 raise EC2UtilityException("Problem writing image to"
                                           " utility instance volume."
                                           " Command exited with"
@@ -396,6 +398,8 @@ class EC2Service(object):
             log.info('Completed image registration')
 
             # Emit success fedmsg
+            # TODO: Can probably move this into the above try/except,
+            # to avoid just dumping all the messages at once.
             for image in self.images:
                 fedimg.messenger.message('image.upload', self.build_name,
                                          self.destination, 'completed',
@@ -423,7 +427,6 @@ class EC2Service(object):
 
             # Actually deploy the test instance
             self.test_node = driver.deploy_node(
-                # TODO: Test all images
                 name=name, image=self.images[0], size=size,
                 ssh_username=fedimg.AWS_TEST_USER,
                 ssh_alternate_usernames=['root'],
@@ -445,7 +448,10 @@ class EC2Service(object):
 
             # Alert the fedmsg bus that an image test has started
             fedimg.messenger.message('image.test', self.build_name,
-                                     self.destination, 'started')
+                                     self.destination, 'started',
+                                     extra={'id': self.images[0].id,
+                                            'virt_type': self.virt_type,
+                                            'vol_type': self.vol_type})
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -467,6 +473,11 @@ class EC2Service(object):
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
                 log.error('Problem testing new AMI')
+                fedimg.messenger.message('image.test', self.build_name,
+                                         self.destination, 'failed',
+                                         extra={'id': self.images[0].id,
+                                                'virt_type': self.virt_type,
+                                                'vol_type': self.vol_type})
                 raise EC2AMITestException("Tests on AMI failed.")
 
             client.close()
@@ -474,8 +485,6 @@ class EC2Service(object):
             log.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
-                                     # TODO: Update this line when
-                                     # we test all images
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
                                             'vol_type': self.vol_type})
@@ -496,8 +505,6 @@ class EC2Service(object):
                     {'LaunchPermission.Add.1.Group': 'all'})
 
         except EC2UtilityException as e:
-            fedimg.messenger.message('image.upload', self.build_name,
-                                     self.destination, 'failed')
             log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
@@ -505,8 +512,6 @@ class EC2Service(object):
             return 1
 
         except EC2AMITestException as e:
-            fedimg.messenger.message('image.test', self.build_name,
-                                     self.destination, 'failed')
             log.exception("Failure")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
@@ -514,8 +519,6 @@ class EC2Service(object):
             return 1
 
         except DeploymentException as e:
-            fedimg.messenger.message('image.upload', self.build_name,
-                                     self.destination, 'failed')
             log.exception("Problem deploying node: {0}".format(e.value))
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,
@@ -524,8 +527,6 @@ class EC2Service(object):
 
         except Exception as e:
             # Just give a general failure message.
-            fedimg.messenger.message('image.upload', self.build_name,
-                                     self.destination, 'failed')
             log.exception("Unexpected exception")
             if fedimg.CLEAN_UP_ON_FAILURE:
                 self._clean_up(driver,

@@ -34,6 +34,8 @@ def message(topic, image_url, dest, status, extra=None):
     image registered to AWS EC2. Emits a fedmsg appropriate
     for each image task (an upload or a test). """
 
+    extra = extra or dict()
+
     image_name = image_url.split('/')[-1].replace('.raw.xz', '')
 
     fedmsg.publish(topic=topic, modname='fedimg', msg={
