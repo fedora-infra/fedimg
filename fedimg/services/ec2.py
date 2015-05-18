@@ -427,7 +427,6 @@ class EC2Service(object):
 
             # Actually deploy the test instance
             self.test_node = driver.deploy_node(
-                # TODO: Test all images
                 name=name, image=self.images[0], size=size,
                 ssh_username=fedimg.AWS_TEST_USER,
                 ssh_alternate_usernames=['root'],
@@ -486,8 +485,6 @@ class EC2Service(object):
             log.info('AMI test completed')
             fedimg.messenger.message('image.test', self.build_name,
                                      self.destination, 'completed',
-                                     # TODO: Update this line when
-                                     # we test all images
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
                                             'vol_type': self.vol_type})
