@@ -27,7 +27,7 @@ https://github.com/fedora-infra/fedmsg_meta_fedora_infrastructure/blob/develop/f
 """
 
 
-def message(topic, image_url, dest, status, extra=None):
+def message(topic, image_url, dest, status, extra=dict()):
     """ Takes a message topic, image name, an upload destination (ex.
     "EC2-eu-west-1"), and a status (ex. "failed"). Can also take an optional
     dictionary of addiitonal bits of information, such as an AMI ID for an
