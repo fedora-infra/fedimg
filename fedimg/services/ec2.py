@@ -398,6 +398,8 @@ class EC2Service(object):
             log.info('Completed image registration')
 
             # Emit success fedmsg
+            # TODO: Can probably move this into the above try/except,
+            # to avoid just dumping all the messages at once.
             for image in self.images:
                 fedimg.messenger.message('image.upload', self.build_name,
                                          self.destination, 'completed',
