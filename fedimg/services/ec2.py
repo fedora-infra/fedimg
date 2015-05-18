@@ -449,7 +449,10 @@ class EC2Service(object):
 
             # Alert the fedmsg bus that an image test has started
             fedimg.messenger.message('image.test', self.build_name,
-                                     self.destination, 'started')
+                                     self.destination, 'started',
+                                     extra={'id': self.images[0].id,
+                                            'virt_type': self.virt_type,
+                                            'vol_type': self.vol_type})
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
@@ -471,6 +474,11 @@ class EC2Service(object):
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
                 log.error('Problem testing new AMI')
+                fedimg.messenger.message('image.test', self.build_name,
+                                         self.destination, 'failed',
+                                         extra={'id': self.images[0].id,
+                                                'virt_type': self.virt_type,
+                                                'vol_type': self.vol_type})
                 raise EC2AMITestException("Tests on AMI failed.")
 
             client.close()
