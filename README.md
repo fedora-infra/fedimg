@@ -16,7 +16,7 @@ information needed to set up Fedimg.
 ### Requirements
 
 Besides the requirements listed in `setup.py` by `install_requires` is the
-`koji` module.  Koji is not available on PyPI. You must install the `koji`
+`koji` module. Koji is not available on PyPI. You must install the `koji`
 package to your system via `sudo yum install koji` before creating a
 virtualenv for fedimg, which you should do with `mkvirtualenv [name]
 --system-site-packages` so that your system install of `koji` is included with
@@ -31,6 +31,21 @@ the fedmsg bus as `fedmsg-hub` (currently installed separately) runs. You
 should also make sure that `fedmsg-relay` is installed with `yum` and
 started with `sudo systemctl start fedmsg-relay` so that Fedimg can
 emit its own fedmsgs.
+
+### Triggering jobs
+
+Fedimg is designed to perform automatically when it sees the appropriate
+fedmsg. However, sometimes, it's useful to be able to quickly trigger
+a job manually. If Fedimg is installed properly, the `bin/trigger_upload.py`
+script can be used for this purpose:
+
+```
+./bin/trigger_upload.py SOME_RAWXZ_URL
+```
+
+This script simply skips the part where Fedimg listens for the fedmsg, and
+allows you to directly provide a URL to a raw.xz image file that you'd like
+uploaded. Otherwise, Fedimg performs the same as during automatic operation.
 
 ### Providers
 
