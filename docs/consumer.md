@@ -10,7 +10,7 @@ completed Koji builds. It only cares about completed tasks of the method
 3.  If one of the message's children is of the `createImage` method, Fedimg
     checks that child's state.
 
-4.  If the state is `2` (completed), the Fedmsg ID of that `createImage
+4.  If the state is `2` (completed), the Fedmsg ID of that `createImage`
     task is passed to the Fedimg uploader, defined in `fedimg/uploader.py`.
 
 ## The fedmsg.d file
