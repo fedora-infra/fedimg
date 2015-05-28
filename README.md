@@ -16,7 +16,7 @@ information needed to set up Fedimg.
 ### Requirements
 
 Besides the requirements listed in `setup.py` by `install_requires` is the
-`koji` module.  Koji is not available on PyPI. You must install the `koji`
+`koji` module. Koji is not available on PyPI. You must install the `koji`
 package to your system via `sudo yum install koji` before creating a
 virtualenv for fedimg, which you should do with `mkvirtualenv [name]
 --system-site-packages` so that your system install of `koji` is included with
