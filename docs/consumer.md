@@ -16,7 +16,7 @@ completed Koji builds. It only cares about completed tasks of the method
 ## The fedmsg.d file
 
 In order for Fedmsg to make use of Fedimg's `KojiConsumer`, the file found at
-`fedmsg.d/fedimg.py` must have been copied into `/etc/fedmsg.d/`.  The correct
+`fedmsg.d/fedimg.py` must have been copied into `/etc/fedmsg.d/`. The correct
 Fedmsg endpoints must be configured as well, whether they are added to the
 default list found in `fedmsg.d/fedimg.py` or if they are added by some Ansible
 role or the like. We at the Fedora Infrastructure team make use of Ansible to
