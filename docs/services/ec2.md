@@ -43,6 +43,38 @@ Fedimg can be easily configured to perform tests on this instance to
 determine the health of the new AMI. It is the second instance that is created
 during the EC2 service.
 
+## Process
+
+When the uploader calls on the EC2 service, the following happens:
+
+1.  The AWS AMI list in `/etc/fedimg.cfg` is read in.
+
+2.  A utility instance is deployed using the properties from the first item
+    in the AMI list.
+
+3.  The utility instance uses `curl` to pull down the `.raw.xz` image file
+    and writes it to a blank volume. This volume is then snapshotted and
+    subsequently destroyed.
+
+4.  The volume snapshot is used to register the image as an AMI. Images
+    are registered with both standard and GP2 volume types, as well as
+    with both paravirtual and HVM virtualization.
+
+5.  The utility instance is shut down, and a test instance is started,
+    using the AMI that was just registered.
+
+6.  The test script (configured in `/etc/fedimg.cfg`) is executed on the
+    test node. If it exits with status code 0, the tests are considered
+    to have passed. (In the future, [Tunir](http://tunir.readthedocs.org/en/latest/)
+    will be used for testing.)
+
+7.  If the tests passed, the AMI is copied to all other EC2 regions.
+
+8.  All AMIs are made public.
+
+Fedmsgs are emitted throughout this process, notifying when an image upload
+or test is started, completed, or fails.
+
 ## Custom exceptions
 
 The EC2 service defines three custom exceptions that can be raised by the service.
