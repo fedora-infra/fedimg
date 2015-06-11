@@ -75,6 +75,30 @@ When the uploader calls on the EC2 service, the following happens:
 Fedmsgs are emitted throughout this process, notifying when an image upload
 or test is started, completed, or fails.
 
+## Getting AMI info
+
+The EC2 service produces publicly-available AMIs in a variety of flavors.
+You can get the IDs and other information about these AMIs in a few different
+ways:
+
+1.  The preferred way at the moment is to just check Datagrepper. You can
+    see the results of the latest image uploads by visiting a URL like
+    [this](https://apps.fedoraproject.org/datagrepper/raw/?topic=org.fedoraproject.prod.fedimg.image.upload).
+    Just click "Details" for any of the completed upload jobs, and you can
+    see the AMI ID, as well as other info.
+
+2.  AMI info is displayed on the [releng dashboard](https://apps.fedoraproject.org/releng-dash/),
+    though it's not quite complete yet. It only displays the very latest
+    upload jobs, and only a few of them at a time. The releng dash is currently
+    undergoing a rewrite, and this option for getting AMI info will be much
+    more useful in the future.
+
+3.  If you have access to the machine that Fedimg is running on, or if you've
+    triggered a manual upload job, Fedimg outputs AMI info to stdout as well
+    as in the logs, which can be accessed with `journalctl`. Fedimg logging
+    goes through fedmsg-hub, so you could check these logs with a command
+    like `journalctl -u fedmsg-hub`.
+
 ## Custom exceptions
 
 The EC2 service defines three custom exceptions that can be raised by the service.
