@@ -1,7 +1,7 @@
 %global modname fedimg
 
 Name:               python-fedimg
-Version:            0.6
+Version:            0.6.2
 Release:            1%{?dist}
 Summary:            Automatically upload Fedora Cloud images to cloud providers
 
@@ -59,6 +59,15 @@ rm -rf %{modname}.egg-info
 %{python_sitelib}/%{modname}-%{version}*
 
 %changelog
+* Thu Aug 06 2015 Ralph Bean <rbean@redhat.com> - 0.6.2-1
+- latest release fixes koji url bug.
+
+* Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 0.6.1-2
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
+
+* Wed May 20 2015 David Gay <dgay@redhat.com> - 0.6.1-1
+- new release
+
 * Fri Apr 24 2015 David Gay <dgay@redhat.com> - 0.6.0-1
 - new release
 
