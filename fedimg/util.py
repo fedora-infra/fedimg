@@ -56,7 +56,7 @@ def get_rawxz_url(task_result):
     task_id = task_result['task_id']
 
     # extension to base URL to exact file directory
-    koji_url_extension = "/{}/{}".format(str(task_id)[3:], str(task_id))
+    koji_url_extension = "/{}/{}".format(str(task_id)[-4:], str(task_id))
     full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
 
     return full_file_location + "/{}".format(file_name)
