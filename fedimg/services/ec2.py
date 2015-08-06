@@ -281,13 +281,21 @@ class EC2Service(object):
             if status != 0:
                 # There was a problem with the SSH command
                 log.error('Problem writing volume with utility instance')
+
+                data = "(no data)"
+                if chan.recv_ready():
+                    data = chan.recv(1024 * 32)
+
                 fedimg.messenger.message('image.upload', self.build_name,
-                                         self.destination, 'failed')
-                raise EC2UtilityException("Problem writing image to"
-                                          " utility instance volume."
-                                          " Command exited with"
-                                          " status {0}.\n"
-                                          "command: {1}".format(status, cmd))
+                                         self.destination, 'failed',
+                                         extra={'data': data})
+
+                raise EC2UtilityException(
+                    "Problem writing image to utility instance volume. "
+                    "Command exited with status {0}.\n"
+                    "command: {1}\n"
+                    "output: {2}".format(status, cmd, data))
+
             client.close()
 
             # Get volume name that image was written to
@@ -473,12 +481,20 @@ class EC2Service(object):
             if chan.recv_exit_status() != 0:
                 # There was a problem with the SSH command
                 log.error('Problem testing new AMI')
+
+                data = "(no data)"
+                if chan.recv_ready():
+                    data = chan.recv(1024 * 32)
+
                 fedimg.messenger.message('image.test', self.build_name,
                                          self.destination, 'failed',
                                          extra={'id': self.images[0].id,
                                                 'virt_type': self.virt_type,
-                                                'vol_type': self.vol_type})
-                raise EC2AMITestException("Tests on AMI failed.")
+                                                'vol_type': self.vol_type,
+                                                'data': data})
+
+                raise EC2AMITestException("Tests on AMI failed.\n"
+                                          "output: %s" % data)
 
             client.close()
 
