@@ -433,18 +433,34 @@ class EC2Service(object):
             # Select the appropriate size for the instance
             size = [s for s in sizes if s.id == test_size_id][0]
 
+            # Alert the fedmsg bus that an image test is starting
+            fedimg.messenger.message('image.test', self.build_name,
+                                     self.destination, 'started',
+                                     extra={'id': self.images[0].id,
+                                            'virt_type': self.virt_type,
+                                            'vol_type': self.vol_type})
+
             # Actually deploy the test instance
-            self.test_node = driver.deploy_node(
-                name=name, image=self.images[0], size=size,
-                ssh_username=fedimg.AWS_TEST_USER,
-                ssh_alternate_usernames=['root'],
-                ssh_key=fedimg.AWS_KEYPATH,
-                deploy=msd,
-                kernel_id=registration_aki,
-                ex_metadata={'build': self.build_name},
-                ex_keyname=fedimg.AWS_KEYNAME,
-                ex_security_groups=['ssh'],
-                )
+            try:
+                self.test_node = driver.deploy_node(
+                    name=name, image=self.images[0], size=size,
+                    ssh_username=fedimg.AWS_TEST_USER,
+                    ssh_alternate_usernames=['root'],
+                    ssh_key=fedimg.AWS_KEYPATH,
+                    deploy=msd,
+                    kernel_id=registration_aki,
+                    ex_metadata={'build': self.build_name},
+                    ex_keyname=fedimg.AWS_KEYNAME,
+                    ex_security_groups=['ssh'],
+                    )
+            except Exception as e:
+                fedimg.messenger.message('image.test', self.build_name,
+                                         self.destination, 'failed',
+                                         extra={'id': self.images[0].id,
+                                                'virt_type': self.virt_type,
+                                                'vol_type': self.vol_type})
+
+                raise EC2AMITestException("Failed to boot test node %r." % e)
 
             # Wait until the test node has SSH running
             while not ssh_connection_works(fedimg.AWS_TEST_USER,
@@ -453,13 +469,6 @@ class EC2Service(object):
                 sleep(10)
 
             log.info('Starting AMI tests')
-
-            # Alert the fedmsg bus that an image test has started
-            fedimg.messenger.message('image.test', self.build_name,
-                                     self.destination, 'started',
-                                     extra={'id': self.images[0].id,
-                                            'virt_type': self.virt_type,
-                                            'vol_type': self.vol_type})
 
             client = paramiko.SSHClient()
             client.set_missing_host_key_policy(paramiko.AutoAddPolicy())
