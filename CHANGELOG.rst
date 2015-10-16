@@ -1,4 +1,12 @@
 
+0.6.4
+-----
+
+Commits
+
+- f94ade23f Typofix.
+  https://github.com/fedora-infra/fedimg/commit/f94ade23f
+
 0.6.3
 -----
 
