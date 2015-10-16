@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2015 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,6 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
+#           Ralph Bean <rbean@redhat.com>
 #
 
 import logging
@@ -35,7 +36,7 @@ from libcloud.compute.types import KeyPairDoesNotExistError
 import fedimg
 import fedimg.messenger
 from fedimg.util import get_file_arch
-from fedimg.util import region_to_provider, ssh_connection_works
+from fedimg.util import region_to_driver, ssh_connection_works
 
 
 class EC2ServiceException(Exception):
@@ -94,7 +95,7 @@ class EC2Service(object):
             attrs = line.strip().split('|')
 
             info = {'region': attrs[0],
-                    'prov': region_to_provider(attrs[0]),
+                    'driver': region_to_driver(attrs[0]),
                     'os': attrs[1],
                     'ver': attrs[2],
                     'arch': attrs[3],
@@ -163,7 +164,7 @@ class EC2Service(object):
 
         try:
             # Connect to the region through the appropriate libcloud driver
-            cls = get_driver(ami['prov'])
+            cls = ami['driver']
             driver = cls(fedimg.AWS_ACCESS_ID, fedimg.AWS_SECRET_KEY)
 
             # select the desired node attributes
@@ -578,7 +579,7 @@ class EC2Service(object):
 
                 # Connect to the libcloud EC2 driver for the region we
                 # want to copy into
-                alt_cls = get_driver(ami['prov'])
+                alt_cls = ami['driver']
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
 
@@ -648,7 +649,7 @@ class EC2Service(object):
 
             for image in copied_images:
                 ami = self.test_amis[copied_images.index(image)]
-                alt_cls = get_driver(ami['prov'])
+                alt_cls = ami['driver']
                 alt_driver = alt_cls(fedimg.AWS_ACCESS_ID,
                                      fedimg.AWS_SECRET_KEY)
 
