@@ -80,6 +80,7 @@ def region_to_provider(region):
     providers = {'ap-northeast-1': Provider.EC2_AP_NORTHEAST,
                  'ap-southeast-1': Provider.EC2_AP_SOUTHEAST,
                  'ap-southeast-2': Provider.EC2_AP_SOUTHEAST2,
+                 'eu-central-1': Provider.EC2_EU_CENTRAL,  # See fedimg.haxx
                  'eu-west-1': Provider.EC2_EU_WEST,
                  'sa-east-1': Provider.EC2_SA_EAST,
                  'us-east-1': Provider.EC2_US_EAST,
