@@ -77,7 +77,7 @@ def virt_types_from_url(url):
         return ['hvm', 'paravirtual']
 
 
-def region_to_provider(region):
+def region_to_driver(region):
     """ Takes a region name (ex. 'eu-west-1') and returns
     the appropriate libcloud provider value. """
     cls = get_driver(Provider.EC2)
