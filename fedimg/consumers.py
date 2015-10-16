@@ -41,6 +41,10 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
     config_key = 'kojiconsumer'
 
     def __init__(self, *args, **kwargs):
+        # Patch libcloud to give it support for the ec2 eu-central-1 region
+        import fedimg.haxx
+        fedimg.haxx.monkeypatch_libcloud()
+
         super(KojiConsumer, self).__init__(*args, **kwargs)
 
         # threadpool for upload jobs

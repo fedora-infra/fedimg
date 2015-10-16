@@ -25,6 +25,10 @@ if len(sys.argv) != 2:
 logging.config.dictConfig(fedmsg.config.load_config()['logging'])
 log = logging.getLogger('fedmsg')
 
+# Patch libcloud to give it support for the ec2 eu-central-1 region
+import fedimg.haxx
+fedimg.haxx.monkeypatch_libcloud()
+
 upload_pool = multiprocessing.pool.ThreadPool(processes=4)
 
 url = sys.argv[1]
