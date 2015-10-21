@@ -1,6 +1,9 @@
 #!/bin/env python
 # -*- coding: utf8 -*-
 
+import logging
+logging.basicConfig()
+
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
 import datetime
