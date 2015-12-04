@@ -51,6 +51,6 @@ class HPService(object):
                      tenant_name=fedimg.HP_TENANT,
                      region=self.regions[0])
 
-        # create image from offical Fedora image on HP
+        # create image from official Fedora image on HP
 
         # emit a fedmsg, etc
