@@ -51,6 +51,6 @@ class GCEService(object):
                      project=fedimg.GCE_PROJECT_ID,
                      datacenter=self.datacenters[0])
 
-        # create image from offical Fedora image on GCE
+        # create image from official Fedora image on GCE
 
         # emit a fedmsg, etc
