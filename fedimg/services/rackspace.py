@@ -51,6 +51,6 @@ class RackspaceService(object):
         driver = cls(fedimg.RACKSPACE_USER, fedimg.RACKSPACE_API_KEY,
                      region=self.regions[0])
 
-        # create image from offical Fedora image on Rackspace
+        # create image from official Fedora image on Rackspace
 
         # emit a fedmsg, etc
