@@ -96,8 +96,6 @@ class EC2Service(object):
 
             info = {'region': attrs[0],
                     'driver': region_to_driver(attrs[0]),
-                    'os': attrs[1],
-                    'ver': attrs[2],
                     'arch': attrs[3],
                     'ami': attrs[4],
                     'aki': attrs[5]}
