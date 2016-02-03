@@ -94,13 +94,27 @@ class EC2Service(object):
             # strip line to avoid any newlines or spaces from sneaking in
             attrs = line.strip().split('|')
 
-            info = {'region': attrs[0],
-                    'driver': region_to_driver(attrs[0]),
-                    'os': attrs[1],
-                    'ver': attrs[2],
-                    'arch': attrs[3],
-                    'ami': attrs[4],
-                    'aki': attrs[5]}
+            # old configuration
+            if len(attrs)==6:     
+
+                info = {'region': attrs[0],
+                        'driver': region_to_driver(attrs[0]),
+                        'os': attrs[1],
+                        'ver': attrs[2],
+                        'arch': attrs[3],
+                        'ami': attrs[4],
+                        'aki': attrs[5]}
+            
+            # new configuration
+            elif len(attrs)==4:
+                
+                info = {'region': attrs[0],
+                        'driver': region_to_driver(attrs[0]),
+                        'arch': attrs[1],
+                        'ami': attrs[2],
+                        'aki': attrs[3]}
+
+
 
             # For now, read in all AMIs to these lists, and narrow
             # down later. TODO: This could be made a bit nicer...
