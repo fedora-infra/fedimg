@@ -35,9 +35,17 @@ from fedimg.util import get_rawxz_url
 class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
     """ Listens for image Koji task completion and sends image files
         produced by the child createImage tasks to the uploader. """
-    # To my knowledge, all *image* builds appear under this
-    # exact topic, along with scratch builds.
-    topic = 'org.fedoraproject.prod.buildsys.task.state.change'
+
+    # It used to be that all *image* builds appeared as scratch builds on the
+    # task.state.change topic.  However, with the switch to pungi4, some of
+    # them (and all of them in the future) appear as full builds under the
+    # build.state.change topic.  That means we have to handle both cases like
+    # this, at least for now.
+    topic = [
+        'org.fedoraproject.prod.buildsys.task.state.change',  # scratch tasks
+        'org.fedoraproject.prod.buildsys.build.state.change', # full builds (pungi4)
+    ]
+
     config_key = 'kojiconsumer'
 
     def __init__(self, *args, **kwargs):
@@ -93,13 +101,60 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         return upload_files
 
     def consume(self, msg):
-        """ This is called when we receive a message matching the topic. """
-
-        builds = list()  # These will be the Koji build IDs to upload, if any.
-
-        msg_info = msg["body"]["msg"]["info"]
+        """ This is called when we receive a message matching our topics. """
 
         log.info('Received %r %r' % (msg['topic'], msg['body']['msg_id']))
+
+        if msg['topic'].endswith('.task.state.change'):
+            # Scratch tasks.. the old way.
+            return self._consume_scratch_task(msg)
+        elif msg['topic'].endswith('.build.state.change'):
+            # Full builds from pungi4.. the new way.
+            return self._consume_full_build(msg)
+        else:
+            log.error("Unhandled message type received:  %r %r" % (
+                msg['topic'], msg['body']['msg_id']))
+
+    def _consume_full_build(self, msg):
+        """ This is called when we receive a message matching the newer pungi4
+        full build topic.
+        """
+
+        builds = list()  # These will be the Koji task IDs to upload, if any.
+
+        msg = msg['body']['msg']
+        if msg['owner'] != 'releng':
+            log.debug("Dropping message.  Owned by %r" % msg['owner'])
+            return
+
+        if msg['instance'] != 'primary':
+            log.info("Dropping message.  From %r instance." % msg['instance'])
+            return
+
+        # Don't upload *any* images if one of them fails.
+        if msg['new'] != 1:
+            log.info("Dropping message.  State is %r" % msg['new'])
+            return
+
+        # Create a Koji connection to the Fedora Koji instance to query.
+        koji_session = koji.ClientSession(fedimg.KOJI_SERVER)
+        children = koji_session.getTaskChildren(msg['task_id'])
+        for child in children:
+            if child["method"] == "createImage":
+                builds.append(child["id"])
+
+        if len(builds) > 0:
+            fedimg.uploader.upload(self.upload_pool,
+                                   self._get_upload_urls(builds))
+
+    def _consume_scratch_task(self, msg):
+        """ This is called when we receive a message matching the older scratch
+        build topic.
+        """
+
+        builds = list()  # These will be the Koji task IDs to upload, if any.
+
+        msg_info = msg["body"]["msg"]["info"]
 
         # If the build method is "image", we check to see if the child
         # task's method is "createImage".
