@@ -1,7 +1,7 @@
 #!/usr/bin/python
 """ List the AMIs uploaded by fedimg in the last N days.
 
-Deps:  $ sudo yum install python-requests
+Deps:  $ sudo dnf install python-requests
 
 Author:     Ralph Bean <rbean@redhat.com>
 License:    LGPLv2+
