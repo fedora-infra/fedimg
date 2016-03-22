@@ -37,6 +37,7 @@ def upload(pool, urls):
 
     for url in urls:
         # EC2 upload
+        log.info("  Preparing to upload %r" % url)
         for vt in virt_types_from_url(url):
             services.append(EC2Service(url, virt_type=vt,
                                        vol_type='standard'))
