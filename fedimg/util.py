@@ -55,7 +55,7 @@ def get_rawxz_urls(location, images):
     if not rawxz_list:
         return []
 
-    return map((lambda path: location+path), rawxz_list)
+    return map((lambda path: '{}/{}'.format(location, path)), rawxz_list)
 
 
 def virt_types_from_url(url):

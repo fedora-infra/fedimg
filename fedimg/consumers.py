@@ -65,17 +65,17 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
 
         msg_info = msg['body']['msg']
         if msg_info['status'] not in STATUS_F:
-            continue
+            return
 
         location = msg_info['location']
         compose_id = msg_info['compose_id']
-        cmetadata = fedfind.release.get_release_cid(compose_id)
+        cmetadata = fedfind.release.get_release_cid(compose_id).metadata
 
         images_meta = safeget(cmetadata, 'images', 'payload', 'images',
                               'CloudImages', 'x86_64')
 
         if images_meta is None:
-            continue
+            return
 
         self.upload_urls = get_rawxz_urls(location, images_meta)
         compose_meta = {
@@ -83,6 +83,7 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         }
 
         if len(self.upload_urls) > 0:
+            log.info("Processing compose id: %s" % compose_id)
             fedimg.uploader.upload(self.upload_pool,
                                    self.upload_urls,
                                    compose_meta)
