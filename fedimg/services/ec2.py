@@ -95,7 +95,7 @@ class EC2Service(object):
             attrs = line.strip().split('|')
 
             # old configuration
-            if len(attrs)==6:     
+            if len(attrs)==6:
 
                 info = {'region': attrs[0],
                         'driver': region_to_driver(attrs[0]),
@@ -104,10 +104,10 @@ class EC2Service(object):
                         'arch': attrs[3],
                         'ami': attrs[4],
                         'aki': attrs[5]}
-            
+
             # new configuration
             elif len(attrs)==4:
-                
+
                 info = {'region': attrs[0],
                         'driver': region_to_driver(attrs[0]),
                         'arch': attrs[1],
@@ -164,7 +164,7 @@ class EC2Service(object):
             driver.destroy_node(self.test_node)
             self.test_node = None
 
-    def upload(self):
+    def upload(self, compose_meta):
         """ Registers the image in each EC2 region. """
 
         log.info('EC2 upload process started')
@@ -174,7 +174,8 @@ class EC2Service(object):
         self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
         fedimg.messenger.message('image.upload', self.build_name,
-                                 self.destination, 'started')
+                                 self.destination, 'started',
+                                 compose=compose_meta)
 
         try:
             # Connect to the region through the appropriate libcloud driver
@@ -303,7 +304,8 @@ class EC2Service(object):
 
                 fedimg.messenger.message('image.upload', self.build_name,
                                          self.destination, 'failed',
-                                         extra={'data': data})
+                                         extra={'data': data},
+                                         compose=compose_meta)
 
                 raise EC2UtilityException(
                     "Problem writing image to utility instance volume. "
@@ -428,7 +430,8 @@ class EC2Service(object):
                                          self.destination, 'completed',
                                          extra={'id': image.id,
                                                 'virt_type': self.virt_type,
-                                                'vol_type': self.vol_type})
+                                                'vol_type': self.vol_type},
+                                         compose=compose_meta)
 
             # Now, we'll spin up a node of the AMI to test:
 
@@ -453,7 +456,8 @@ class EC2Service(object):
                                      self.destination, 'started',
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
-                                            'vol_type': self.vol_type})
+                                            'vol_type': self.vol_type},
+                                     compose=compose_meta)
 
             # Actually deploy the test instance
             try:
@@ -473,7 +477,8 @@ class EC2Service(object):
                                          self.destination, 'failed',
                                          extra={'id': self.images[0].id,
                                                 'virt_type': self.virt_type,
-                                                'vol_type': self.vol_type})
+                                                'vol_type': self.vol_type},
+                                         compose=compose_meta)
 
                 raise EC2AMITestException("Failed to boot test node %r." % e)
 
@@ -515,7 +520,8 @@ class EC2Service(object):
                                          extra={'id': self.images[0].id,
                                                 'virt_type': self.virt_type,
                                                 'vol_type': self.vol_type,
-                                                'data': data})
+                                                'data': data},
+                                         compose=compose_meta)
 
                 raise EC2AMITestException("Tests on AMI failed.\n"
                                           "output: %s" % data)
@@ -527,7 +533,8 @@ class EC2Service(object):
                                      self.destination, 'completed',
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
-                                            'vol_type': self.vol_type})
+                                            'vol_type': self.vol_type},
+                                     compose=compose_meta)
 
             # Let this EC2Service know that the AMI test passed, so
             # it knows how to proceed.
@@ -589,7 +596,8 @@ class EC2Service(object):
 
                 fedimg.messenger.message('image.upload',
                                          self.build_name,
-                                         alt_dest, 'started')
+                                         alt_dest, 'started',
+                                         compose=compose_meta)
 
                 # Connect to the libcloud EC2 driver for the region we
                 # want to copy into
@@ -651,7 +659,8 @@ class EC2Service(object):
                                     ami['region']))
                             fedimg.messenger.message('image.upload',
                                                      self.build_name,
-                                                     alt_dest, 'failed')
+                                                     alt_dest, 'failed',
+                                                     compose=compose_meta)
                     break
 
             # Now cycle through and make all of the copied AMIs public
@@ -696,6 +705,7 @@ class EC2Service(object):
                                          alt_dest, 'completed',
                                          extra={'id': image.id,
                                                 'virt_type': self.virt_type,
-                                                'vol_type': self.vol_type})
+                                                'vol_type': self.vol_type},
+                                         compose=compose_meta)
 
             return 0

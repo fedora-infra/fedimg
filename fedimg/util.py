@@ -47,22 +47,15 @@ def get_file_arch(file_name):
         return None
 
 
-def get_rawxz_url(task_result):
-    """ Returns the URL of the raw.xz file produced by the Koji task whose
-    output files are passed as a list via the task_result argument. """
-    # There should only be one item in this list
-    rawxz_list = [f for f in task_result['files'] if f.endswith('.raw.xz')]
+def get_rawxz_urls(location, images):
+    """ Iterates through all the images metadata and returns the url of .raw.xz
+    files.
+    """
+    rawxz_list = [f['path'] for f in images if f['path'].endswith('.raw.xz')]
     if not rawxz_list:
-        return None
-    file_name = rawxz_list[0]
+        return []
 
-    task_id = task_result['task_id']
-
-    # extension to base URL to exact file directory
-    koji_url_extension = "/{}/{}".format(str(task_id)[-4:], str(task_id))
-    full_file_location = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
-
-    return full_file_location + "/{}".format(file_name)
+    return map((lambda path: location+path), rawxz_list)
 
 
 def virt_types_from_url(url):
@@ -99,3 +92,12 @@ def ssh_connection_works(username, ip, keypath):
         pass
     ssh.close()
     return works
+
+
+def safeget(dct, *keys):
+    for key in keys:
+        try:
+            dct = dct[key]
+        except KeyError:
+            return None
+    return dct
