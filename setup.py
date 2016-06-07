@@ -45,6 +45,6 @@ setup(
     packages=find_packages(),
     entry_points="""
     [moksha.consumer]
-    kojiconsumer = fedimg.consumers:KojiConsumer
+    fedimgconsumer = fedimg.consumers:FedimgConsumer
     """,
 )

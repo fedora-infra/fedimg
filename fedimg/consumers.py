@@ -27,13 +27,12 @@ import multiprocessing.pool
 import fedmsg.consumers
 import fedmsg.encoding
 import fedfind.release
-import koji
 
 import fedimg.uploader
 from fedimg.util import get_rawxz_urls, safeget
 
 
-class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
+class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
     """ Listens for image Koji task completion and sends image files
         produced by the child createImage tasks to the uploader. """
 
@@ -46,10 +45,10 @@ class KojiConsumer(fedmsg.consumers.FedmsgConsumer):
         'org.fedoraproject.prod.pungi.compose.status.change',
     ]
 
-    config_key = 'kojiconsumer'
+    config_key = 'fedimgconsumer'
 
     def __init__(self, *args, **kwargs):
-        super(KojiConsumer, self).__init__(*args, **kwargs)
+        super(FedimgConsumer, self).__init__(*args, **kwargs)
 
         # threadpool for upload jobs
         self.upload_pool = multiprocessing.pool.ThreadPool(processes=4)
