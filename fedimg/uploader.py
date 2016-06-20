@@ -44,4 +44,4 @@ def upload(pool, urls, compose_meta):
             services.append(EC2Service(url, virt_type=vt,
                                        vol_type='gp2'))
 
-        results = pool.map(lambda s: s.upload(compose_meta), services)
+    results = pool.map(lambda s: s.upload(compose_meta), services)
