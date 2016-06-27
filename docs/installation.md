@@ -15,10 +15,10 @@ docs](configuration.md) for more info.
 
 ## Installing to a virtualenv
 
-Make sure koji is installed on your system:
+Make sure koji and fedfind is installed on your system:
 
 ```
-sudo dnf install koji
+sudo dnf install koji fedfind
 ```
 
 Create a virtualenv that includes the system install of koji:

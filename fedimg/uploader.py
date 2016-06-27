@@ -26,7 +26,7 @@ from fedimg.services.ec2 import EC2Service
 from fedimg.util import virt_types_from_url
 
 
-def upload(pool, urls):
+def upload(pool, urls, compose_meta):
     """ Takes a list (urls) of one or more .raw.xz image files and
     sends them off to cloud services for registration. The upload
     jobs threadpool must be passed as `pool`."""
@@ -44,4 +44,4 @@ def upload(pool, urls):
             services.append(EC2Service(url, virt_type=vt,
                                        vol_type='gp2'))
 
-    results = pool.map(lambda s: s.upload(), services)
+    results = pool.map(lambda s: s.upload(compose_meta), services)
