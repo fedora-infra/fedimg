@@ -173,7 +173,7 @@ class EC2Service(object):
         ami = self.util_amis[0]  # Select the starting AMI to begin
         self.destination = 'EC2 ({region})'.format(region=ami['region'])
 
-        fedimg.messenger.message('image.upload', self.build_name,
+        fedimg.messenger.message('image.upload', self.raw_url,
                                  self.destination, 'started',
                                  compose=compose_meta)
 
@@ -302,7 +302,7 @@ class EC2Service(object):
                 if chan.recv_ready():
                     data = chan.recv(1024 * 32)
 
-                fedimg.messenger.message('image.upload', self.build_name,
+                fedimg.messenger.message('image.upload', self.raw_url,
                                          self.destination, 'failed',
                                          extra={'data': data},
                                          compose=compose_meta)
@@ -426,7 +426,7 @@ class EC2Service(object):
             # TODO: Can probably move this into the above try/except,
             # to avoid just dumping all the messages at once.
             for image in self.images:
-                fedimg.messenger.message('image.upload', self.build_name,
+                fedimg.messenger.message('image.upload', self.raw_url,
                                          self.destination, 'completed',
                                          extra={'id': image.id,
                                                 'virt_type': self.virt_type,
@@ -452,7 +452,7 @@ class EC2Service(object):
             size = [s for s in sizes if s.id == test_size_id][0]
 
             # Alert the fedmsg bus that an image test is starting
-            fedimg.messenger.message('image.test', self.build_name,
+            fedimg.messenger.message('image.test', self.raw_url,
                                      self.destination, 'started',
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
@@ -473,7 +473,7 @@ class EC2Service(object):
                     ex_security_groups=['ssh'],
                     )
             except Exception as e:
-                fedimg.messenger.message('image.test', self.build_name,
+                fedimg.messenger.message('image.test', self.raw_url,
                                          self.destination, 'failed',
                                          extra={'id': self.images[0].id,
                                                 'virt_type': self.virt_type,
@@ -515,7 +515,7 @@ class EC2Service(object):
                 if chan.recv_ready():
                     data = chan.recv(1024 * 32)
 
-                fedimg.messenger.message('image.test', self.build_name,
+                fedimg.messenger.message('image.test', self.raw_url,
                                          self.destination, 'failed',
                                          extra={'id': self.images[0].id,
                                                 'virt_type': self.virt_type,
@@ -529,7 +529,7 @@ class EC2Service(object):
             client.close()
 
             log.info('AMI test completed')
-            fedimg.messenger.message('image.test', self.build_name,
+            fedimg.messenger.message('image.test', self.raw_url,
                                      self.destination, 'completed',
                                      extra={'id': self.images[0].id,
                                             'virt_type': self.virt_type,
@@ -595,7 +595,7 @@ class EC2Service(object):
                     region=ami['region'])
 
                 fedimg.messenger.message('image.upload',
-                                         self.build_name,
+                                         self.raw_url,
                                          alt_dest, 'started',
                                          compose=compose_meta)
 
@@ -658,7 +658,7 @@ class EC2Service(object):
                                 'Image copy to {0} failed'.format(
                                     ami['region']))
                             fedimg.messenger.message('image.upload',
-                                                     self.build_name,
+                                                     self.raw_url,
                                                      alt_dest, 'failed',
                                                      compose=compose_meta)
                     break
@@ -701,7 +701,7 @@ class EC2Service(object):
                                                                   self.vol_type))
 
                 fedimg.messenger.message('image.upload',
-                                         self.build_name,
+                                         self.raw_url,
                                          alt_dest, 'completed',
                                          extra={'id': image.id,
                                                 'virt_type': self.virt_type,
