@@ -22,8 +22,6 @@
 import argparse
 import ConfigParser
 
-from fedimg.consumers import KojiConsumer
-
 
 # Read in config file
 config = ConfigParser.RawConfigParser()
