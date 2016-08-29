@@ -1,4 +1,61 @@
 
+0.7
+---
+
+Pull Requests
+
+- (@ralphbean)      #41, Setup logging for cronjob
+  https://github.com/fedora-infra/fedimg/pull/41
+- (@coolsvap)       #44, Update typos
+  https://github.com/fedora-infra/fedimg/pull/44
+- (@nishant-mor)    #46,  Dropped 'os' and 'ver' from the AWS_AMIS config
+  https://github.com/fedora-infra/fedimg/pull/46
+- (@ralphbean)      #47, Pungi4 fixes.
+  https://github.com/fedora-infra/fedimg/pull/47
+- (@ralphbean)      #49, Add a nice log statement at the beginning stating what we're going to upload.
+  https://github.com/fedora-infra/fedimg/pull/49
+- (@sayanchowdhury) #50, Fix to include nightly atomic uploads
+  https://github.com/fedora-infra/fedimg/pull/50
+- (@sayanchowdhury) #51, Migrate fedimg to compose based
+  https://github.com/fedora-infra/fedimg/pull/51
+- (@sayanchowdhury) #52, Send image raw_url to fedmsg instead of the build_name
+  https://github.com/fedora-infra/fedimg/pull/52
+
+Commits
+
+- 60aa36b2a Setup logging for cronjob
+  https://github.com/fedora-infra/fedimg/commit/60aa36b2a
+- 511497384 Update typo in GCE service
+  https://github.com/fedora-infra/fedimg/commit/511497384
+- 6b9c3210d Update typo in rackspace service
+  https://github.com/fedora-infra/fedimg/commit/6b9c3210d
+- f470cebef Update typo in hp service
+  https://github.com/fedora-infra/fedimg/commit/f470cebef
+- 5a1c7ab51 Dropped 'os' and 'ver' from the AWS_AMIS config
+  https://github.com/fedora-infra/fedimg/commit/5a1c7ab51
+- 05452ed71 ex2.py : Added new format of AWS_AMIS config
+  https://github.com/fedora-infra/fedimg/commit/05452ed71
+- 20805fdd9 s/yum/dnf/
+  https://github.com/fedora-infra/fedimg/commit/20805fdd9
+- aec998075 Pungi4 fixes.
+  https://github.com/fedora-infra/fedimg/commit/aec998075
+- 9d4873858 Add a nice log statement at the beginning stating what we're going to upload.
+  https://github.com/fedora-infra/fedimg/commit/9d4873858
+- 156190880 Fix to include F24 nightly atomic uploads
+  https://github.com/fedora-infra/fedimg/commit/156190880
+- 335d2236a Migrate fedimg from koji-based to compose-based
+  https://github.com/fedora-infra/fedimg/commit/335d2236a
+- 7ae44d715 Minor fixes in the fedmsg consumer
+  https://github.com/fedora-infra/fedimg/commit/7ae44d715
+- a3a2300ab Change KojiConsumer to FedimgConsumer
+  https://github.com/fedora-infra/fedimg/commit/a3a2300ab
+- 1d0af12c1 Update the documenation to install fedfind while setting up
+  https://github.com/fedora-infra/fedimg/commit/1d0af12c1
+- 0e199c95d An small indentation typo resulting into major issue
+  https://github.com/fedora-infra/fedimg/commit/0e199c95d
+- 4f9e932f3 Send image raw_url to fedimg instead of the build_name
+  https://github.com/fedora-infra/fedimg/commit/4f9e932f3
+
 0.6.4
 -----
 
