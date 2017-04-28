@@ -353,6 +353,11 @@ class EC2Service(object):
                                  if s.id == snap_id][0]
                 sleep(10)
 
+            # Make the snapshot public, so that the AMIs can be copied
+            driver.ex_modify_snapshot_attribute(self.snapshot, {
+                'CreateVolumePermission.Add.1.Group': 'all'
+            })
+
             log.info('Snapshot taken')
 
             # Delete the volume now that we've got the snapshot
@@ -412,7 +417,7 @@ class EC2Service(object):
                         architecture=self.image_arch))
                 except Exception as e:
                     # Check if the problem was a duplicate name
-                    if 'InvalidAMIName.Duplicate' in e.message:
+                    if 'InvalidAMIName.Duplicate' in str(e):
                         # Keep trying until an unused name is found
                         self.dup_count += 1
                         continue
