@@ -1,4 +1,21 @@
 
+0.7.1
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #53, Drop the 'os' and 'ver' from the configuration file. Related to #46
+  https://github.com/fedora-infra/fedimg/pull/53
+- (@sayanchowdhury) #55, Make the snapshots public so that AMIs can be copied to different accounts
+  https://github.com/fedora-infra/fedimg/pull/55
+
+Commits
+
+- 985f9d8de Drop the 'os' and 'ver' from the configuration file. Related to #46
+  https://github.com/fedora-infra/fedimg/commit/985f9d8de
+- b25cc4f14 Make the snapshots public so that AMIs can be copied to different accounts
+  https://github.com/fedora-infra/fedimg/commit/b25cc4f14
+
 0.7
 ---
 
