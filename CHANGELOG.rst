@@ -1,4 +1,17 @@
 
+0.7.2
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #57, cron: Update the cron according to the upgrade notes
+  https://github.com/fedora-infra/fedimg/pull/57
+
+Commits
+
+- a0de6182f cron: Update the cron according to the upgrade notes
+  https://github.com/fedora-infra/fedimg/commit/a0de6182f
+
 0.7.1
 -----
 
