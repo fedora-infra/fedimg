@@ -1,4 +1,17 @@
 
+0.7.3
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #58, services.ec2: Log if the image was successfully made public
+  https://github.com/fedora-infra/fedimg/pull/58
+
+Commits
+
+- 1acc5904d services.ec2: Log if the image was successfully made public
+  https://github.com/fedora-infra/fedimg/commit/1acc5904d
+
 0.7.2
 -----
 
