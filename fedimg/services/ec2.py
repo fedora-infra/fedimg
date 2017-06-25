@@ -220,7 +220,6 @@ class EC2Service(object):
             msd = MultiStepDeployment([step_1, step_2])
 
             log.info('Deploying utility instance')
-
             while True:
                 try:
                     self.util_node = driver.deploy_node(
@@ -287,7 +286,7 @@ class EC2Service(object):
             cmd = "sudo sh -c 'curl -L {0} | xzcat > /dev/xvdb'".format(
                   self.raw_url)
             chan = client.get_transport().open_session()
-            chan.get_pty()  # Request a pseudo-term to get around requiretty
+            chan.get_pty()  # Request a pseudo-term to get around require tty
 
             log.info('Executing utility script')
 
@@ -689,9 +688,10 @@ class EC2Service(object):
                 while True:
                     try:
                         # Make the image public
-                        alt_driver.ex_modify_image_attribute(
+                        is_image_public = alt_driver.ex_modify_image_attribute(
                             image,
-                            {'LaunchPermission.Add.1.Group': 'all'})
+                            {'LaunchPermission.Add.1.Group': 'all'}
+                        )
                     except Exception as e:
                         if 'InvalidAMIID.Unavailable' in e.message:
                             # The copy isn't done, so wait 20 seconds
@@ -700,10 +700,14 @@ class EC2Service(object):
                             continue
                     break
 
-                log.info('Made {0} public ({1}, {2}, {3})'.format(image.id,
-                                                                  self.build_name,
-                                                                  self.virt_type,
-                                                                  self.vol_type))
+                if is_image_public:
+                    log.info('Made {0} public ({1}, {2}, {3}, {4})'.format(
+                        image.id, self.build_name, self.virt_type,
+                        self.vol_type, ami['region']))
+                else:
+                    log.info('{0} is private ({1}, {2}, {3}, {4})'.format(
+                        image.id, self.build_name, self.virt_type,
+                        self.vol_type, ami['region']))
 
                 fedimg.messenger.message('image.upload',
                                          self.raw_url,
