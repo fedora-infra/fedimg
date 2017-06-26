@@ -1,4 +1,19 @@
 
+0.7.4
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #59, Retry till snapshot is public & Fix error handling.
+  https://github.com/fedora-infra/fedimg/pull/59
+
+Commits
+
+- 0b3e6a0ca services.ec2: Fix the error handling in the EC2 Service
+  https://github.com/fedora-infra/fedimg/commit/0b3e6a0ca
+- d1f2d873e services.ec2: Keep retrying for making the snapshot public
+  https://github.com/fedora-infra/fedimg/commit/d1f2d873e
+
 0.7.3
 -----
 
