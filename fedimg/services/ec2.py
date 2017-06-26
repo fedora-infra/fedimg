@@ -353,11 +353,18 @@ class EC2Service(object):
                 sleep(10)
 
             # Make the snapshot public, so that the AMIs can be copied
-            driver.ex_modify_snapshot_attribute(self.snapshot, {
-                'CreateVolumePermission.Add.1.Group': 'all'
-            })
+            is_snapshot_public = False
+            while True:
+                is_snapshot_public = driver.ex_modify_snapshot_attribute(self.snapshot, {
+                    'CreateVolumePermission.Add.1.Group': 'all'
+                })
+                if is_snapshot_public:
+                    break
 
-            log.info('Snapshot taken')
+                log.info('Snapshot is not public yet. Retry in 20')
+                sleep(20)
+
+            log.info('Snapshot taken & made public')
 
             # Delete the volume now that we've got the snapshot
             driver.destroy_volume(self.util_volume)
