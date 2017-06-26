@@ -252,7 +252,7 @@ class EC2Service(object):
                     # reason this is caught here is because the related
                     # exception that prints`InvalidGroup.NotFound is, for
                     # some reason, a base exception.
-                    if 'InvalidGroup.NotFound' in e.message:
+                    if 'InvalidGroup.NotFound' in str(e):
                         log.exception('Adding missing security'
                                       'group to region')
                         # Create the ssh security group
@@ -648,7 +648,7 @@ class EC2Service(object):
 
                     except Exception as e:
                         # Check if the problem was a duplicate name
-                        if 'InvalidAMIName.Duplicate' in e.message:
+                        if 'InvalidAMIName.Duplicate' in str(e):
                             # Keep trying until an unused name is found.
                             # This probably won't trigger, since it seems
                             # like EC2 doesn't mind duplicate AMI names
@@ -685,6 +685,7 @@ class EC2Service(object):
 
                 # Need to wait until the copy finishes in order to make
                 # the AMI public.
+                is_image_public = False
                 while True:
                     try:
                         # Make the image public
@@ -693,7 +694,7 @@ class EC2Service(object):
                             {'LaunchPermission.Add.1.Group': 'all'}
                         )
                     except Exception as e:
-                        if 'InvalidAMIID.Unavailable' in e.message:
+                        if 'InvalidAMIID.Unavailable' in str(e):
                             # The copy isn't done, so wait 20 seconds
                             # and try again.
                             sleep(20)
