@@ -717,6 +717,31 @@ class EC2Service(object):
                         image.id, self.build_name, self.virt_type,
                         self.vol_type, ami['region']))
 
+                # Make the snapshot for the image public.
+                is_snapshot_public = False
+                blk_device_mapping = image.extra['block_device_mapping']
+                if blk_device_mapping & len(blk_device_mapping) != 1:
+                    is_snapshot_public = False
+                else:
+                    snapshot_id = blk_device_mapping[0]['ebs']['snapshot_id']
+                    snapshot = driver.list_snapshots(snapshot=[snapshot_id])
+
+                    while is_snapshot_public:
+                        is_snapshot_public = (
+                            driver.ex_modify_snapshot_attribute(
+                                snapshot, {
+                                    'CreateVolumePermission.Add.1.Group': 'all'
+                                })
+                            )
+                        if is_snapshot_public:
+                            break
+
+                        log.info('Snapshot is not public yet. Retry in 20')
+                        sleep(20)
+
+                    log.info('Snapshot (%s, %s) taken & made public' % (
+                        snapshot_id, ami['region']))
+
                 fedimg.messenger.message('image.upload',
                                          self.raw_url,
                                          alt_dest, 'completed',
