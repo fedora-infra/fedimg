@@ -717,6 +717,50 @@ class EC2Service(object):
                         image.id, self.build_name, self.virt_type,
                         self.vol_type, ami['region']))
 
+                # Make the snapshot for the image public.
+                is_snapshot_public = False
+                snapshot = None
+
+                alt_ami = alt_driver.get_image(image.id)
+                blk_device_mapping = alt_ami.extra['block_device_mapping']
+                if len(blk_device_mapping) == 1:
+                    snapshot_id = blk_device_mapping[0]['ebs']['snapshot_id']
+
+                    # The `list_snapshots` method requires a snapshot object.
+                    # which then fetches the id of the snapshot and fetches the
+                    # detail of the snapshot. So, I am making an empty snapshot
+                    # object here and attaching the value to the `id` attribute
+                    # so that the list_snapshots method just works
+                    snapshot_obj = type('', (), {})()
+                    snapshot_obj.id = snapshot_id
+                    snapshot = alt_driver.list_snapshots(snapshot=snapshot_obj)
+
+                if snapshot is not None:
+                    snapshot = snapshot[0]
+                    while True:
+                        is_snapshot_public = (
+                            alt_driver.ex_modify_snapshot_attribute(
+                                snapshot, {
+                                    'CreateVolumePermission.Add.1.Group': 'all'
+                                })
+                            )
+                        if is_snapshot_public:
+                            break
+
+                        log.info('Snapshot is not public yet. Retry in 20')
+                        sleep(20)
+                else:
+                    is_snapshot_public = False
+                    log.info('Search (%s, %s) returned no results' % (
+                        snapshot_id, ami['region']))
+
+                if is_snapshot_public:
+                    log.info('Snapshot (%s, %s) made public' % (
+                        snapshot_id, ami['region']))
+                else:
+                    log.info('Snapshot (%s, %s) still private' % (
+                        snapshot_id, ami['region']))
+
                 fedimg.messenger.message('image.upload',
                                          self.raw_url,
                                          alt_dest, 'completed',
