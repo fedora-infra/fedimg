@@ -1,4 +1,21 @@
 
+0.7.5
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #60, Snapshots in non us-east-1 don't get public
+  https://github.com/fedora-infra/fedimg/pull/60
+
+Commits
+
+- d6f5457ff services.ec2: Make the snapshots in other regions public after run
+  https://github.com/fedora-infra/fedimg/commit/d6f5457ff
+- c5d6d2820 services.ec2: Use the alternate driver to query the regions
+  https://github.com/fedora-infra/fedimg/commit/c5d6d2820
+- 646a037a2 services.ec2: Add comment for the hack done for snapshots
+  https://github.com/fedora-infra/fedimg/commit/646a037a2
+
 0.7.4
 -----
 
