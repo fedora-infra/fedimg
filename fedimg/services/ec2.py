@@ -725,6 +725,12 @@ class EC2Service(object):
                 blk_device_mapping = alt_ami.extra['block_device_mapping']
                 if len(blk_device_mapping) == 1:
                     snapshot_id = blk_device_mapping[0]['ebs']['snapshot_id']
+
+                    # The `list_snapshots` method requires a snapshot object.
+                    # which then fetches the id of the snapshot and fetches the
+                    # detail of the snapshot. So, I am making an empty snapshot
+                    # object here and attaching the value to the `id` attribute
+                    # so that the list_snapshots method just works
                     snapshot_obj = type('', (), {})()
                     snapshot_obj.id = snapshot_id
                     snapshot = alt_driver.list_snapshots(snapshot=snapshot_obj)
