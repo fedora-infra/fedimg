@@ -167,3 +167,186 @@ Commits
   https://github.com/fedora-infra/fedimg/commit/f891dccc9
 - ddbb82523 Remove the spec file.  We keep it in Fedora dist-git.
   https://github.com/fedora-infra/fedimg/commit/ddbb82523
+
+
+0.6
+---
+
+General
+
+- Use a single threadpool for all uploads to avoid leaking threads
+- Prevent major IndexError when checking Koji tasks that don't have raw.xz outputs
+- Increase number of fedmsg endpoints
+
+EC2Service
+
+- Use larger and more powerful instance types for utility and test instances
+- Typofix when naming PV images
+
+Docs
+
+- Add some basic contributor docs
+
+
+0.5
+---
+
+EC2Service
+
+- Use 7 GB volume size rather than 3 GB for now, since atomic images come out
+  to be 6.1 GB
+- Implement gp2 volume type uploads
+- Image name now includes volume type
+- Simplify consumer filter code, eliminating 32 bit stuff for now
+- Add build name, virtualization type, and volume type to 'extra'
+  dict in fedmsgs
+
+Tests
+
+- Fix up consumer test code
+- Add additional consumer tests to test build filter code
+
+Docs
+
+- Add info about volume size configuration
+- Tested on F21
+- Improve index page
+- Bring installation info up-to-date
+
+Misc
+- Commit atomic test script, to go with base test script
+- Reduce description in setup.py
+
+
+0.4
+---
+
+EC2Service
+
+- Fix alternate destinations not being set properly during image copy
+- Split util and test AMIs into dedicated lists
+- Allow for URL redirection while curling raw.xz image
+- Simplified registration AKI selection process
+- Major refactoring to allow for future expansion into many different types of AMIs
+- Uploads are now multithreaded
+- Volume size options added to config options
+- Better logging
+- Close a dangling SSH connection (thanks, threebean!)
+- Fix bug that caused only the first two AMIs to be made public
+
+Tests
+
+- Fix broken consumer test
+- Committed `uploadtest.py` for doing EC2Service test runs during development
+
+Docs
+
+- Update messaging docs
+- Add table of AMI types to EC2Service docs
+- Add AMI config format info
+
+Misc
+
+- Removed extraneous EC2Service-specific stuff from other service files
+- Better commenting
+
+
+0.3.2
+-----
+
+- Use fedmsg logging utilities
+- Convert old print statements to logging
+
+
+0.3.1
+-----
+
+- Cycle through and make copied AMIs public after uploads complete
+- Register AMI with description containing build name of source image file
+- Report AMI Ids when emitting related fedmsgs
+- Make sure all AMIs have a matching numerical extension across regions
+- Clean up a little EC2Service code
+- Typofixes, etc
+
+
+0.3
+---
+
+- Add utility function to get virtualization type for EC2 AMI registration
+- Make AMIs public after being tested and cpied
+- Tweaks to layout of config file
+- Only use 64 bit EBS utility instances
+- Remove hardcoded username
+- Rename some variables to be clearer
+- add clean_up_on_failure and delete_image_on_failure config options
+- Improve exception handling
+- Make sure snapshot is deleted on cleanup if no image has been registered
+- Add some starter tests
+- Move around some processes to more appropriate files
+- Don't attempt to provide an AKI when registering an image as HVM
+- Fix root device name for PV vs. HVM
+- Serious PEP 8 fixes
+- Fix up duplicate image name prevention code
+- Various typofixes and code cleanup
+
+
+0.2.6
+-----
+
+- Use proper buildroot macro in spec file
+- Preserve file timestamps when copying in spec file
+- Do not make library files executable, and don't give them shebangs
+- Add license headers to all Python files
+
+
+0.2.5
+-----
+
+- Remove coding from fedmsg.d/fedimg.py since it seems to make it executable
+- Make init file executable in spec install section, as well
+
+
+0.2.4
+-----
+
+- Shorten spec summary and remove trailing dot
+- Add shebang and coding to top of fedimg init file
+- Remove shebang from fedmsg.d/fedimg.py
+- Make all necessary fedimg files executable in spec install section
+
+
+0.2.3
+-----
+
+- Better IAM profile name example in the config
+- Addition to docs: section about setting up the config file
+- Fix strange saces and add missing comma to setup.py classifiers section
+
+
+0.2.2
+-----
+
+- Include .pyc and .pyo files for consumer in /etc/fedmsg.d/
+- Add missing comma
+
+
+0.2.1
+-----
+
+- Fix `packages` argument in setup.py to take `find_packages()`
+
+
+0.2.0
+-----
+
+- Initial RPM release to Fedora
+- setup.py improvements
+- Config file is now read from /etc/fedimg.cfg
+- PEP 8 fixes
+
+
+0.1.0
+-----
+
+- Initial PyPI release
+
