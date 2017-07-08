@@ -27,6 +27,13 @@ import ConfigParser
 config = ConfigParser.RawConfigParser()
 config.read('/etc/fedimg.cfg')
 
+# Fedimg Consumer configurations
+PROCESS_COUNT =
+STATUS_FILTER = ('FINISHED_INCOMPLETE', 'FINISHED',)
+
+
+
+
 CLEAN_UP_ON_FAILURE = config.get('general', 'clean_up_on_failure')
 DELETE_IMAGES_ON_FAILURE = config.get('general', 'delete_images_on_failure')
 

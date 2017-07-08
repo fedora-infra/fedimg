@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
 import logging
 log = logging.getLogger("fedmsg")
@@ -28,61 +28,52 @@ import fedmsg.consumers
 import fedmsg.encoding
 import fedfind.release
 
-import fedimg.uploader
+from fedimg import PROCESS_COUNT, STATUS_FILTER
 from fedimg.util import get_rawxz_urls, safeget
+from fedimg.uploader import upload
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
     """ Listens for image Koji task completion and sends image files
         produced by the child createImage tasks to the uploader. """
-
-    # It used to be that all *image* builds appeared as scratch builds on the
-    # task.state.change topic.  However, with the switch to pungi4, some of
-    # them (and all of them in the future) appear as full builds under the
-    # build.state.change topic.  That means we have to handle both cases like
-    # this, at least for now.
-    topic = [
-        'org.fedoraproject.prod.pungi.compose.status.change',
-    ]
-
-    config_key = 'fedimgconsumer'
+    topic = ['org.fedoraproject.prod.pungi.compose.status.change']
+    config_key = "fedimgconsumer.prod.enabled"
 
     def __init__(self, *args, **kwargs):
         super(FedimgConsumer, self).__init__(*args, **kwargs)
 
-        # threadpool for upload jobs
-        self.upload_pool = multiprocessing.pool.ThreadPool(processes=4)
-
+        # Threadpool for upload jobs
+        self.upload_pool = multiprocessing.pool.ThreadPool(processes=PROCESS_COUNT)
         log.info("Super happy fedimg ready and reporting for duty.")
 
     def consume(self, msg):
         """ This is called when we receive a message matching our topics. """
-
         log.info('Received %r %r' % (msg['topic'], msg['body']['msg_id']))
 
-        STATUS_F = ('FINISHED_INCOMPLETE', 'FINISHED',)
-
         msg_info = msg['body']['msg']
-        if msg_info['status'] not in STATUS_F:
+        if msg_info['status'] not in STATUS_FILTER:
             return
 
         location = msg_info['location']
         compose_id = msg_info['compose_id']
-        cmetadata = fedfind.release.get_release_cid(compose_id).metadata
-
-        images_meta = safeget(cmetadata, 'images', 'payload', 'images',
+        compose_metadata = fedfind.release.get_release_cid(compose_id).metadata
+        images_meta = safeget(compose_metadata, 'images', 'payload', 'images',
                               'CloudImages', 'x86_64')
 
         if images_meta is None:
             return
 
-        self.upload_urls = get_rawxz_urls(location, images_meta)
-        compose_meta = {
-            'compose_id': compose_id,
-        }
-
-        if len(self.upload_urls) > 0:
+        upload_urls = get_rawxz_urls(location, images_meta)
+        if len(upload_urls) > 0:
             log.info("Processing compose id: %s" % compose_id)
-            fedimg.uploader.upload(self.upload_pool,
-                                   self.upload_urls,
-                                   compose_meta)
+            upload(self.upload_pool, upload_urls, compose_id)
+
+
+class FedimgStagingConsumer(FedimgConsumer):
+    topic = ['org.fedoraproject.stg.pungi.compose.status.change']
+    config_key = "fedimgconsumer.stg.enabled"
+
+
+class FedimgDevConsumer(FedimgConsumer):
+    topic = ['org.fedoraproject.dev.pungi.compose.status.change']
+    config_key = "fedimgconsumer.dev.enabled"
