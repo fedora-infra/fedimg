@@ -52,6 +52,10 @@ class EC2ImagePublisher(EC2Base):
 
     def publish_images(self, image_ids=None):
         """ Comment goes here """
+
+        if image_ids is None:
+            return
+
         driver = self._connect()
         images = driver.list_images(ex_image_ids=image_ids)
 
@@ -62,3 +66,16 @@ class EC2ImagePublisher(EC2Base):
             snapshot = self.get_snapshot_from_image_id(image.id)
             driver.ex_modify_snapshot_attribute(snapshot, {
                 'CreateVolumePermission.Add.1.Group': 'all'})
+
+    def deprecate_images(self, image_ids=None, snapshot_perm='all'):
+        """ Comment goes here """
+
+        if image_ids is None:
+            return
+
+    def delete_images(self, image_ids=None, snapshot_perm='all'):
+
+        if image_ids is None:
+            return
+
+
