@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
 import mock
 import unittest
@@ -34,71 +34,112 @@ class TestUtil(unittest.TestCase):
     def tearDown(self):
         pass
 
-    def test_get_file_arch(self):
-        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
+    def test_get_file_arch_x86_64(self):
+        filename = 'Fedora-Atomic-26-1.5.x86_64.raw.xz'
         arch = fedimg.util.get_file_arch(filename)
-        self.assertEquals(arch, 'i386')
-        filename = 'fedora-cloud-base-20140915-21.x86_64.raw.xz'
+        assert arch == 'x86_64'
+
+    def test_get_file_arch_aarch64(self):
+        filename = 'Fedora-Cloud-Base-26-1.5.aarch64.raw.xz'
         arch = fedimg.util.get_file_arch(filename)
-        self.assertEquals(arch, 'x86_64')
+        assert arch == None
 
-    def test_get_rawxz_url(self):
-        task_result = {'arch': 'i386',
-                       'files': ['fedora-cloud-base-a89507d.ks',
-                                 'koji-f21-build-7577982-base.ks',
-                                 'tdl-i386.xml', 'qemu-img-qcow2-i386.log',
-                                 'xz-cp-raw-xz-i386.log', 'xz-raw-xz-i386.log',
-                                 'oz-i386.log', 'libvirt-qcow2-i386.xml',
-                                 'fedora-cloud-base-20140915-21.i386.qcow2',
-                                 'libvirt-raw-xz-i386.xml',
-                                 'fedora-cloud-base-20140915-21.i386.raw.xz'],
-                       'name': 'fedora-cloud-base',
-                       'release': '21',
-                       'rpmlist': [],
-                       'task_id': 7577982,
-                       'version': '20140915'}
+    def test_get_rawxz_urls(self):
+        images = [
+                    {
+                        "arch": "x86_64",
+                        "format": "qcow2",
+                        "implant_md5": None,
+                        "mtime": 1499295621,
+                        "path": "CloudImages/x86_64/images/Fedora-Atomic-26-1.5.x86_64.qcow2",
+                        "size": 702779904,
+                        "subvariant": "Atomic",
+                        "type": "qcow2",
+                        "volume_id": None
+                    },
+                    {
+                        "arch": "x86_64",
+                        "format": "raw.xz",
+                        "implant_md5": None,
+                        "mtime": 1499295718,
+                        "path": "CloudImages/x86_64/images/Fedora-Atomic-26-1.5.x86_64.raw.xz",
+                        "size": 529608216,
+                        "subvariant": "Atomic",
+                        "type": "raw-xz",
+                        "volume_id": None
+                    },
+                    {
+                        "arch": "x86_64",
+                        "bootable": False,
+                        "disc_count": 1,
+                        "disc_number": 1,
+                        "format": "raw.xz",
+                        "implant_md5": None,
+                        "mtime": 1499291771,
+                        "path": "CloudImages/x86_64/images/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz",
+                        "size": 154897200,
+                        "subvariant": "Cloud_Base",
+                        "type": "raw-xz",
+                        "volume_id": None
+                    },
+                    {
+                        "arch": "x86_64",
+                        "format": "vagrant-libvirt.box",
+                        "implant_md5": None,
+                        "mtime": 1499291717,
+                        "path": "CloudImages/x86_64/images/Fedora-Cloud-Base-Vagrant-26-1.5.x86_64.vagrant-libvirt.box",
+                        "size": 229231805,
+                        "subvariant": "Cloud_Base",
+                        "type": "vagrant-libvirt",
+                        "volume_id": None
+                    },
+                ]
 
-        # extension to base URL to exact file directory
-        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
-        koji_url_extension = "/7982/7577982"
-        full_task_url = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
-        full_file_url = full_task_url + '/' + filename
+        urls = fedimg.util.get_rawxz_urls('https://somepage.org', images)
+        atomic_url = 'https://somepage.org/CloudImages/x86_64/images/Fedora-Atomic-26-1.5.x86_64.raw.xz'
+        cloud_base_url = 'https://somepage.org/CloudImages/x86_64/images/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
 
-        url = fedimg.util.get_rawxz_url(task_result)
-        self.assertEquals(url, full_file_url)
+        assert len(urls) == 2
+        assert atomic_url in urls
+        assert cloud_base_url in urls
 
-    def test_get_rawxz_url_empty(self):
-        task_result = {'arch': 'i386',
-                       'files': ['fedora-cloud-base-a89507d.ks',
-                                 'koji-f21-build-7577982-base.ks',
-                                 'tdl-i386.xml', 'qemu-img-qcow2-i386.log',
-                                 'xz-cp-raw-xz-i386.log', 'xz-raw-xz-i386.log',
-                                 'oz-i386.log', 'libvirt-qcow2-i386.xml',
-                                 'fedora-cloud-base-20140915-21.i386.qcow2',
-                                 'libvirt-raw-xz-i386.xml'],
-                       'name': 'fedora-cloud-base',
-                       'release': '21',
-                       'rpmlist': [],
-                       'task_id': 7577982,
-                       'version': '20140915'}
+    def test_get_rawxz_urls_empty(self):
+        images = [
+                    {
+                        "arch": "x86_64",
+                        "format": "qcow2",
+                        "implant_md5": None,
+                        "mtime": 1499295621,
+                        "path": "CloudImages/x86_64/images/Fedora-Atomic-26-1.5.x86_64.qcow2",
+                        "size": 702779904,
+                        "subvariant": "Atomic",
+                        "type": "qcow2",
+                        "volume_id": None
+                    },
+                    {
+                        "arch": "x86_64",
+                        "format": "vagrant-libvirt.box",
+                        "implant_md5": None,
+                        "mtime": 1499291717,
+                        "path": "CloudImages/x86_64/images/Fedora-Cloud-Base-Vagrant-26-1.5.x86_64.vagrant-libvirt.box",
+                        "size": 229231805,
+                        "subvariant": "Cloud_Base",
+                        "type": "vagrant-libvirt",
+                        "volume_id": None
+                    },
+                ]
 
-        # extension to base URL to exact file directory
-        filename = 'fedora-cloud-base-20140915-21.i386.raw.xz'
-        koji_url_extension = "/7982/7577982"
-        full_task_url = fedimg.BASE_KOJI_TASK_URL + koji_url_extension
-        full_file_url = full_task_url + '/' + filename
-
-        url = fedimg.util.get_rawxz_url(task_result)
-        self.assertEquals(url, None)
+        urls = fedimg.util.get_rawxz_urls('https://somepage.org', images)
+        self.assertEquals(urls, [])
 
     def test_virt_types(self):
-        url = 'https://somepage.org/fedora-cloud-base-20140915-21.x86_64.raw.xz'
+        url = 'https://somepage.org/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
         vtypes = fedimg.util.virt_types_from_url(url)
-        self.assertEqual(vtypes, ['hvm', 'paravirtual'])
+        assert vtypes == ['hvm', 'paravirtual']
 
-        url = 'https://somepage.org/fedora-cloud-atomic-20140915-21.x86_64.raw.xz'
+        url = 'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz'
         vtypes = fedimg.util.virt_types_from_url(url)
-        self.assertEqual(vtypes, ['hvm'])
+        assert vtypes == ['hvm']
 
 
 if __name__ == '__main__':

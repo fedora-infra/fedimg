@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014-2015 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -18,7 +18,7 @@
 #
 # Authors:  David Gay <dgay@redhat.com>
 #           Ralph Bean <rbean@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
 """
 Utility functions for fedimg.
@@ -39,13 +39,10 @@ def get_file_arch(file_name):
     """ Takes a file name (probably of a .raw.xz image file) and returns
     the suspected architecture of the contained image. If it doesn't look
     like a 32-bit or 64-bit image, None is returned. """
-    if file_name.find('i386') != -1:
-        return 'i386'
-    elif file_name.find('x86_64') != -1:
+    if file_name.find('x86_64') != -1:
         return 'x86_64'
     else:
         return None
-
 
 def get_rawxz_urls(location, images):
     """ Iterates through all the images metadata and returns the url of .raw.xz
