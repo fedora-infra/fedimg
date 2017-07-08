@@ -28,9 +28,10 @@ import fedmsg.consumers
 import fedmsg.encoding
 import fedfind.release
 
+import fedimg.uploader
+
 from fedimg import PROCESS_COUNT, STATUS_FILTER
 from fedimg.util import get_rawxz_urls, safeget
-from fedimg.uploader import upload
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
@@ -66,7 +67,7 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         upload_urls = get_rawxz_urls(location, images_meta)
         if len(upload_urls) > 0:
             log.info("Processing compose id: %s" % compose_id)
-            upload(self.upload_pool, upload_urls, compose_id)
+            fedimg.uploader.upload(self.upload_pool, upload_urls, compose_id)
 
 
 class FedimgStagingConsumer(FedimgConsumer):

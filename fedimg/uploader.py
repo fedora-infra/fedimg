@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,7 +17,7 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
 import logging
 log = logging.getLogger("fedmsg")
@@ -26,22 +26,8 @@ from fedimg.services.ec2 import EC2Service
 from fedimg.util import virt_types_from_url
 
 
-def upload(pool, urls, compose_meta):
+def upload(pool, urls, compose_id):
     """ Takes a list (urls) of one or more .raw.xz image files and
     sends them off to cloud services for registration. The upload
     jobs threadpool must be passed as `pool`."""
-
-    log.info('Starting upload process')
-
-    services = []
-
-    for url in urls:
-        # EC2 upload
-        log.info("  Preparing to upload %r" % url)
-        for vt in virt_types_from_url(url):
-            services.append(EC2Service(url, virt_type=vt,
-                                       vol_type='standard'))
-            services.append(EC2Service(url, virt_type=vt,
-                                       vol_type='gp2'))
-
-    results = pool.map(lambda s: s.upload(compose_meta), services)
+    pass
