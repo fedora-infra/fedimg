@@ -21,10 +21,10 @@
 
 from itertools import product as itertools_product
 
-from fedimg.ec2.config import ACCESS_ID, SECRET_KEY, REGIONS
-from fedimg.ec2.config import VOLUME_TYPES, VOLUME_VIA_S3
-from fedimg.services.ec2.ec2imageuploader import EC2ImageUploader
-from fedimg.services.ec2.ec2imagepublisher import EC2ImagePublisher
+from fedimg.services.ec2.config import ACCESS_ID, SECRET_KEY, REGIONS
+from fedimg.services.ec2.config import VOLUME_TYPES, VOLUME_VIA_S3
+from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
+from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_for_image
 
 

@@ -30,8 +30,8 @@ import fedfind.release
 
 import fedimg.uploader
 
-from fedimg import PROCESS_COUNT, STATUS_FILTER
-from fedimg.util import get_rawxz_urls, safeget
+from fedimg.config import PROCESS_COUNT, STATUS_FILTER
+from fedimg.utils import get_rawxz_urls, safeget
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
