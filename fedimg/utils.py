@@ -55,7 +55,7 @@ def get_rawxz_urls(location, images):
     return map((lambda path: '{}/{}'.format(location, path)), rawxz_list)
 
 
-def virt_types_from_url(url):
+def get_virt_types_from_url(url):
     """ Takes a URL to a .raw.xz image file) and returns the suspected
         virtualization type that the image file should be registered as. """
     file_name = url.split('/')[-1].lower()
@@ -98,3 +98,14 @@ def safeget(dct, *keys):
         except KeyError:
             return None
     return dct
+
+def external_run_command(command):
+    raise NotImplementedError
+
+
+def get_item_from_regex(regex, output):
+    raise NotImplementedError
+
+
+def get_source_for_image(image_url):
+    raise NotImplementedError

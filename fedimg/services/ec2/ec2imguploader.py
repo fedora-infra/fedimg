@@ -22,7 +22,7 @@
 import re
 
 from fedimg.utils import external_run_command, get_item_from_regex
-from fedimg.ec2.ec2base import EC2Base
+from fedimg.services.ec2.ec2base import EC2Base
 
 
 class EC2ImageUploader(EC2Base):
