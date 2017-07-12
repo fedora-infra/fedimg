@@ -67,7 +67,7 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         upload_urls = get_rawxz_urls(location, images_meta)
         if len(upload_urls) > 0:
             log.info("Processing compose id: %s" % compose_id)
-            fedimg.uploader.upload(self.upload_pool, upload_urls, compose_id)
+            fedimg.uploader.upload(self.upload_pool, upload_urls)
 
 
 class FedimgStagingConsumer(FedimgConsumer):

@@ -28,7 +28,7 @@ from fedimg.ec2.ec2base import EC2Base
 class EC2ImageUploader(EC2Base):
     """ Comment goes here """
 
-    def __init__(self, **kwargs):
+    def __init__(self, *args, **kwargs):
         defaults = {
             'access_key': None,
             'image_name': 'Fedora-AMI',
