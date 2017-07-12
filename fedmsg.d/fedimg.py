@@ -26,12 +26,12 @@ NUM_BASE_THREADS = 4
 NUM_ATOMIC_THREADS = 2
 NUM_PORTS = 2 * ((NUM_BASE_THREADS + NUM_ATOMIC_THREADS) + 1)
 
-config = dict(
-    fedimgconsumer=True,
-    endpoints={
+config = {
+    'fedimgconsumer.dev.enabled': True,
+    'endpoints': {
         "fedimg.%s" % hostname: [
             "tcp://127.0.0.1:60%0.2i" % (i)
             for i in range(NUM_PORTS)
         ],
     },
-)
+}
