@@ -25,7 +25,7 @@ log = logging.getLogger("fedmsg")
 from fedimg.config import ACTIVE_SERVICES
 from fedimg.services.ec2.ec2initiate import main as ec2main
 
-def upload(pool, urls):
+def upload(pool, urls, *args, **kwargs):
     """ Takes a list (urls) of one or more .raw.xz image files and
     sends them off to cloud services for registration. The upload
     jobs threadpool must be passed as `pool`."""

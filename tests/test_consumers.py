@@ -76,7 +76,11 @@ class TestFedimgConsumer(unittest.TestCase):
 
         self.consumer.consume(msg)
         url = 'http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20170708.n.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-Rawhide-20170708.n.0.x86_64.raw.xz'
-        upload.assert_called_with(mock.ANY, [url], 'Fedora-Rawhide-20170708.n.0')
+        upload.assert_called_with(
+            pool=mock.ANY,
+            urls=[url],
+            compose_id='Fedora-Rawhide-20170708.n.0'
+        )
 
 if __name__ == '__main__':
     unittest.main()
