@@ -26,9 +26,9 @@ with open("/etc/fedimg/fedimg-conf.toml") as conffile:
     config = toml.loads(conffile.read())
 
 # Fedimg Consumer configurations
-PROCESS_COUNT = 4
+PROCESS_COUNT = config['general']['process_count']
 STATUS_FILTER = ('FINISHED_INCOMPLETE', 'FINISHED')
 
-ACTIVE_SERVICES = config.get('general', 'active_services')
-CLEAN_UP_ON_FAILURE = config.get('general', 'clean_up_on_failure')
-DELETE_IMAGES_ON_FAILURE = config.get('general', 'delete_images_on_failure')
+ACTIVE_SERVICES = config['general']['active_services']
+CLEAN_UP_ON_FAILURE = config['general']['clean_up_on_failure']
+DELETE_IMAGES_ON_FAILURE = config['general']['delete_images_on_failure']
