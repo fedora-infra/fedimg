@@ -24,6 +24,8 @@ log = logging.getLogger("fedmsg")
 
 from fedimg.config import ACTIVE_SERVICES
 from fedimg.services.ec2.ec2initiate import main as ec2main
+from fedimg.services.ec2.config import AWS_ACCESS_ID, AWS_SECRET_KEY
+from fedimg.services.ec2.config import AWS_REGIONS
 
 def upload(pool, urls, *args, **kwargs):
     """ Takes a list (urls) of one or more .raw.xz image files and
@@ -33,4 +35,5 @@ def upload(pool, urls, *args, **kwargs):
     active_services = ACTIVE_SERVICES
 
     if 'aws' in active_services:
-        ec2main(urls)
+        log.info('Starting to process AWS EC2Service.')
+        ec2main(urls, AWS_ACCESS_ID, AWS_SECRET_KEY, AWS_REGIONS)

@@ -19,6 +19,9 @@
 # Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 
+import logging
+log = logging.getLogger("fedmsg")
+
 import re
 
 from fedimg.utils import external_run_command, get_item_from_regex
@@ -49,6 +52,9 @@ class EC2ImageUploader(EC2Base):
         if self.image_virt_type == 'hvm':
             root_device_name = '/dev/sda1'
 
+        log.debug('Root device name is set to %r for %r' % (
+            root_device_name, self.image_virt_type))
+
         return root_device_name
 
     def _create_block_device_map(self, snapshot):
@@ -62,6 +68,9 @@ class EC2ImageUploader(EC2Base):
                 'DeleteOnTermination': True,
             }
         }
+
+        log.debug('Block device map created for %s' % snapshot.id)
+
         return [block_device_map]
 
     def _retry_and_get_volume_id(self, task_id):
@@ -74,11 +83,23 @@ class EC2ImageUploader(EC2Base):
             ])
 
             if 'completed' in output:
+                log.debug('Task %r complete. Fetching volume id...' % task_id)
                 match = re.search('\s(vol-\w{17})', output)
                 volume_id = match.group(1)
+
+                log.debug('The id of the created volume: %r' % volume_id)
+
                 return volume_id
 
+            log.debug('Failed to find complete. Task %r still running. '
+                      'Sleeping for 10 seconds.' % task_id)
+
     def get_volume_from_volume_id(self, volume_id):
+        """ Comment goes here
+        """
+        #FIXME: This is not a optimized way of get all the volumes. Rather
+        # send a patch to libcloud to filter the volume based on the volume_id
+
         volumes = self._connect().list_volumes()
 
         for volume in volumes:
@@ -100,13 +121,23 @@ class EC2ImageUploader(EC2Base):
                 self.availability_zone
             ])
 
+            log.debug('Initiate task to upload the image via S3. '
+                      'Fetching task id...')
+
             task_id = get_item_from_regex(output, regex='\s(import-vol-\w{8})')
+            log.info('Fetched task_id: %r. Listening to the task.' % task_id)
+
             volume_id = self._retry_and_get_volume_id(task_id)
+
             volume = self.get_volume_from_volume_id(volume_id)
+            log.info('Finish fetching volume object using volume_id')
 
             return volume
 
     def _retry_and_get_snapshot(self, snapshot_id):
+
+        #FIXME: Rather that listing all snapshot. Add a patch to libcloud to
+        # pull the snapshot using the snapshot id.
         snapshots = self._connect().list_snapshots()
         for snapshot in snapshots:
             if snapshot.id == snapshot_id:
@@ -136,6 +167,9 @@ class EC2ImageUploader(EC2Base):
                                          lambda x: str(int(x.group(0))+1),
                                          self.image_name)
             try:
+                log.info('Registering the image in %r (snapshot id: %r) with '
+                         'name %r' % (self.region, snapshot.id,
+                                      self.image_name))
                 image = self._connect().ex_register_image(
                     name=self.image_name,
                     description=self.image_description,
@@ -146,23 +180,29 @@ class EC2ImageUploader(EC2Base):
                 return image
 
             except Exception as e:
+                log.info('Could not register with name: %r' % self.image_name)
                 if 'InvalidAMIName.Duplicate' in str(e):
                     counter = counter + 1
                 else:
                     raise
 
     def _remove_volume(self, volume):
+        log.info('[CLEAN] Destroying volume: %r' % volume.id)
         self._connect().destroy_volume(volume)
 
     def _clean_up(self):
         pass
 
     def create_volume(self, source):
+        log.info('Start creating the volume from source: %r' % source)
         return self._create_volume(source)
 
     def create_snapshot(self, source):
         volume = self._create_volume(source)
-        snapshot = self._create_snapshot(source)
+
+        log.info('Start creating snapshot from volume: %r' % volume.id)
+        snapshot = self._create_snapshot(volume)
+
         self._remove_volume(volume)
 
         return snapshot
@@ -173,7 +213,13 @@ class EC2ImageUploader(EC2Base):
         return image
 
     def create_image(self, source):
+
         snapshot = self.create_snapshot(source)
+        log.debug('Finished create snapshot: %r' % snapshot.id)
+
+        log.info('Start to register the image '
+                 'from the snapshot: %r' % snapshot.id)
         image = self.register_image(snapshot)
+        log.debug('Finish registering the image with id: %r' % image.id)
 
         return image

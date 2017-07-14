@@ -19,20 +19,7 @@
 # Authors:  David Gay <dgay@redhat.com>
 #           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
-import mock
 import unittest
-
-import fedimg.uploader
-
-
-class TestUploader(unittest.TestCase):
-    """ This tests fedimg/uploader.py. """
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
 
 if __name__ == '__main__':
     unittest.main()

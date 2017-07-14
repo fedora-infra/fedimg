@@ -62,11 +62,12 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
                               'CloudImages', 'x86_64')
 
         if images_meta is None:
+            log.debug('No compatible image found to process')
             return
 
         upload_urls = get_rawxz_urls(location, images_meta)
         if len(upload_urls) > 0:
-            log.info("Processing compose id: %s" % compose_id)
+            log.info("Start processing compose id: %s" % compose_id)
             fedimg.uploader.upload(
                 pool=self.upload_pool,
                 urls=upload_urls,

@@ -19,42 +19,60 @@
 # Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 
+import logging
+log = logging.getLogger("fedmsg")
+
 from itertools import product as itertools_product
 
-from fedimg.services.ec2.config import ACCESS_ID, SECRET_KEY, REGIONS
-from fedimg.services.ec2.config import VOLUME_TYPES, VOLUME_VIA_S3
+from fedimg.services.ec2.config import AWS_VOLUME_TYPES
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_for_image
 
 
-def main(image_url):
-    access_id = ACCESS_ID
-    secret_key = SECRET_KEY
-    regions = REGIONS
-    volume_types = VOLUME_TYPES
-    volume_via_s3 = VOLUME_VIA_S3
-    virt_types = get_virt_types_from_url(image_url)
+def main(image_urls,
+         access_id,
+         secret_key,
+         regions,
+         volume_types=None,
+         volume_via_s3=True,
+         ex_virt_types=None):
 
-    source = get_source_for_image(image_url)
+    if volume_types is None:
+        volume_types = AWS_VOLUME_TYPES
 
-    uploader = EC2ImageUploader(
-            access_key=access_id,
-            secret_key=secret_key,
-            volume_via_s3=volume_via_s3)
+    for image_url in image_urls:
 
-    publisher = EC2ImagePublisher(
-            access_key=access_id,
-            secret_key=secret_key)
+        if ex_virt_types is None:
+            virt_types = get_virt_types_from_url(image_url)
+        else:
+            virt_types = ex_virt_types
 
-    combinations = itertools_product(*[regions, virt_types, volume_types])
-    for region, virt_type, volume_type in combinations:
-        uploader.set_region(region)
-        uploader.set_image_virt_type(virt_type)
-        uploader.set_image_volume_type(volume_type)
+        source = get_source_for_image(image_url)
 
-        publisher.set_region(region)
+        uploader = EC2ImageUploader(
+                access_key=access_id,
+                secret_key=secret_key,
+                volume_via_s3=volume_via_s3)
 
-        image = uploader.create_image(source)
+        publisher = EC2ImagePublisher(
+                access_key=access_id,
+                secret_key=secret_key)
 
-        publisher.publish_images(image_ids=[image.id])
+        combinations = itertools_product(*[regions, virt_types, volume_types])
+        for region, virt_type, volume_type in combinations:
+            uploader.set_region(region)
+            log.debug('(uploader) Region is set to: %r' % region)
+
+            uploader.set_image_virt_type(virt_type)
+            log.debug('(uploader) Virtualization type is set to: %r' % virt_type)
+
+            uploader.set_image_volume_type(volume_type)
+            log.debug('(uploader) Volume type to: %r' % volume_type)
+
+            publisher.set_region(region)
+            log.debug('(publisher) Region is set to: %r' % region)
+
+            image = uploader.create_image(source)
+
+            publisher.publish_images(image_ids=[image.id])
