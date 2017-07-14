@@ -23,16 +23,17 @@
 """
 Utility functions for fedimg.
 """
+import logging
+log = logging.getLogger("fedmsg")
 
 import functools
 import socket
 import subprocess
+import tempfile
 
 import paramiko
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
-
-import fedimg
 
 
 def get_file_arch(file_name):
@@ -43,6 +44,7 @@ def get_file_arch(file_name):
         return 'x86_64'
     else:
         return None
+
 
 def get_rawxz_urls(location, images):
     """ Iterates through all the images metadata and returns the url of .raw.xz
@@ -85,7 +87,7 @@ def ssh_connection_works(username, ip, keypath):
         works = True
     except (paramiko.BadHostKeyException,
             paramiko.AuthenticationException,
-            paramiko.SSHException, socket.error) as e:
+            paramiko.SSHException, socket.error):
         pass
     ssh.close()
     return works
@@ -99,8 +101,13 @@ def safeget(dct, *keys):
             return None
     return dct
 
+
 def external_run_command(command):
-    raise NotImplementedError
+    ret = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE,
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                           close_fds=True)
+    out, err = ret.communicate()
+    return out, err
 
 
 def get_item_from_regex(regex, output):
@@ -108,4 +115,13 @@ def get_item_from_regex(regex, output):
 
 
 def get_source_for_image(image_url):
-    raise NotImplementedError
+    tmpdir = tempfile.mkdtemp()
+    log.info(" Preparing temporary directory for download: %r" % tmpdir)
+    output, error = external_run_command(
+        'wget',
+        image_url,
+        '-P',
+        tmpdir
+    )
+
+    return output, error
