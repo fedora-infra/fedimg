@@ -104,14 +104,14 @@ class EC2ImagePublisher(EC2Base):
             if snapshot.id == snapshot_id:
                 return snapshot
 
-    def publish_images(self, image_region_mapping=None):
+    def publish_images(self, region_image_mapping=None):
         """ Comment goes here """
 
         published_images = []
-        if image_region_mapping is None:
+        if region_image_mapping is None:
             return published_images
 
-        for image_id, region in image_region_mapping:
+        for region, image_id in region_image_mapping:
 
             image = self.get_image(image_ids=image_id)
             is_image_public = self._retry_till_image_is_public(image)
@@ -137,14 +137,13 @@ class EC2ImagePublisher(EC2Base):
 
         counter = 0
         copied_images = []
-        driver = self._connect()
-        image = driver.list_images(ex_image_ids=image_id)
-
+        image = self._connect().get_image(ex_image_ids=image_id)
         if not image:
             return []
-        image = image[0]
 
         for region in regions:
+            self.set_region(region)
+
             while True:
                 if counter > 0:
                     self.image_name = re.sub(

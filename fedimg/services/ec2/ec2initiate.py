@@ -24,7 +24,7 @@ log = logging.getLogger("fedmsg")
 
 from itertools import product as itertools_product
 
-from fedimg.services.ec2.config import AWS_VOLUME_TYPES
+from fedimg.services.ec2.config import AWS_VOLUME_TYPES, BASE_REGION
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_for_image
@@ -55,24 +55,27 @@ def main(image_urls,
                 secret_key=secret_key,
                 volume_via_s3=volume_via_s3)
 
-        publisher = EC2ImagePublisher(
-                access_key=access_id,
-                secret_key=secret_key)
-
-        combinations = itertools_product(*[regions, virt_types, volume_types])
-        for region, virt_type, volume_type in combinations:
-            uploader.set_region(region)
-            log.debug('(uploader) Region is set to: %r' % region)
+        base_region = BASE_REGION
+        combinations = itertools_product(*[virt_types, volume_types])
+        for virt_type, volume_type in combinations:
+            uploader.set_region(base_region)
+            log.debug('(uploader) Region is set to: %r' % base_region)
 
             uploader.set_image_virt_type(virt_type)
             log.debug('(uploader) Virtualization type is set to: %r' % virt_type)
 
             uploader.set_image_volume_type(volume_type)
-            log.debug('(uploader) Volume type to: %r' % volume_type)
-
-            publisher.set_region(region)
-            log.debug('(publisher) Region is set to: %r' % region)
+            log.debug('(uploader) Volume type is set to: %r' % volume_type)
 
             image = uploader.create_image(source)
 
-            publisher.publish_images(image_ids=[image.id])
+        publisher = EC2ImagePublisher(
+            access_key=access_id,
+            secret_key=secret_key)
+
+        remaining_regions = set(regions) - set(base_region)
+        copied_images = publisher.copy_images_to_other_regions(
+            image_id=image.id,
+            regions=remaining_regions)
+        published_images = publisher.publis_images(
+            region_image_mapping=copied_images)
