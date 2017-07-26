@@ -41,7 +41,8 @@ class EC2ImagePublisher(EC2Base):
             'image_description': 'Fedora AMI Description',
             'region': None,
             'secret_key': None,
-            'visibility': 'all'
+            'visibility': 'all',
+            'push_notifications': False,
         }
 
         for (prop, default) in defaults.iteritems():

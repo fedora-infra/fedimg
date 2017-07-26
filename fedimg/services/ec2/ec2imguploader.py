@@ -43,6 +43,7 @@ class EC2ImageUploader(EC2Base):
             'secret_key': None,
             's3_bucket_name': 'Fedora-S3-Bucket',
             'volume_via_s3': True,
+            'push_notifications': False, 
         }
 
         for (prop, default) in defaults.iteritems():

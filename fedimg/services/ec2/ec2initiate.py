@@ -51,9 +51,11 @@ def main(image_urls,
         source = get_source_for_image(image_url)
 
         uploader = EC2ImageUploader(
-                access_key=access_id,
-                secret_key=secret_key,
-                volume_via_s3=volume_via_s3)
+            access_key=access_id,
+            secret_key=secret_key,
+            volume_via_s3=volume_via_s3,
+            push_notifications=True,
+        )
 
         base_region = BASE_REGION
         combinations = itertools_product(*[virt_types, volume_types])
@@ -71,11 +73,13 @@ def main(image_urls,
 
         publisher = EC2ImagePublisher(
             access_key=access_id,
-            secret_key=secret_key)
+            secret_key=secret_key,
+            push_notifications=True,
+        )
 
         remaining_regions = set(regions) - set(base_region)
         copied_images = publisher.copy_images_to_other_regions(
             image_id=image.id,
             regions=remaining_regions)
-        published_images = publisher.publis_images(
+        published_images = publisher.publish_images(
             region_image_mapping=copied_images)
