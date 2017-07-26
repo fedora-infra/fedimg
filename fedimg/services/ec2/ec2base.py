@@ -38,4 +38,3 @@ class EC2Base(object):
     def set_region(self, region):
         """ Comment goes here """
         self.region = region
-

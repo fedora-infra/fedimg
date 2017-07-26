@@ -35,7 +35,8 @@ class EC2ImageUploader(EC2Base):
         defaults = {
             'access_key': None,
             'image_name': 'Fedora-AMI',
-            'image_virt_type': 'hvm',
+            'image_description': 'Fedora AMI Description',
+            'image_virtualization_type': 'hvm',
             'image_volume_type': 'gp2',
             'image_format': 'raw',
             'region': None,

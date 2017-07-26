@@ -31,7 +31,7 @@ import fedfind.release
 import fedimg.uploader
 
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
-from fedimg.utils import get_rawxz_urls, safeget
+from fedimg.utils import get_rawxz_urls, get_value_from_dict
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
@@ -44,7 +44,9 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         super(FedimgConsumer, self).__init__(*args, **kwargs)
 
         # Threadpool for upload jobs
-        self.upload_pool = multiprocessing.pool.ThreadPool(processes=PROCESS_COUNT)
+        self.upload_pool = multiprocessing.pool.ThreadPool(
+            processes=PROCESS_COUNT
+        )
         log.info("Super happy fedimg ready and reporting for duty.")
 
     def consume(self, msg):
@@ -58,8 +60,14 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         location = msg_info['location']
         compose_id = msg_info['compose_id']
         compose_metadata = fedfind.release.get_release_cid(compose_id).metadata
-        images_meta = safeget(compose_metadata, 'images', 'payload', 'images',
-                              'CloudImages', 'x86_64')
+        images_meta = get_value_from_dict(
+            compose_metadata,
+            'images',
+            'payload',
+            'images',
+            'CloudImages',
+            'x86_64'
+        )
 
         if images_meta is None:
             log.debug('No compatible image found to process')

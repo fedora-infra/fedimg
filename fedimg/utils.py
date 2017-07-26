@@ -93,13 +93,13 @@ def ssh_connection_works(username, ip, keypath):
     return works
 
 
-def safeget(dct, *keys):
+def get_value_from_dict(_dict, *keys):
     for key in keys:
         try:
-            dct = dct[key]
+            _dict = _dict[key]
         except KeyError:
             return None
-    return dct
+    return _dict
 
 
 def external_run_command(command):

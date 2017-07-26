@@ -19,6 +19,13 @@
 # Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 
+import logging
+log = logging.getLogger("fedmsg")
+
+import re
+
+from time import sleep
+
 from fedimg.utils import external_run_command, get_item_from_regex
 from fedimg.services.ec2.ec2base import EC2Base
 
@@ -30,6 +37,8 @@ class EC2ImagePublisher(EC2Base):
         defaults = {
             'access_key': None,
             'image_id': None,
+            'image_name': 'Fedora-AMI',
+            'image_description': 'Fedora AMI Description',
             'region': None,
             'secret_key': None,
             'visibility': 'all'
@@ -37,6 +46,51 @@ class EC2ImagePublisher(EC2Base):
 
         for (prop, default) in defaults.iteritems():
             setattr(self, prop, kwargs.get(prop, default))
+
+    def _retry_till_image_is_public(self, image):
+        """ Comment goes here """
+
+        driver = self._connect()
+
+        is_image_public = False
+        while True:
+            try:
+                is_image_public = driver.ex_modify_image_attribute(
+                    image,
+                    {'LaunchPermission.Add.1.Group': 'all'})
+            except Exception as e:
+                if 'InvalidAMIID.Unavailable' in str(e):
+                    # The copy isn't completed yet, so wait for 20 seconds
+                    # more.
+                    sleep(20)
+                    continue
+            break
+
+        return is_image_public
+
+    def _retry_till_snapshot_is_public(self, snapshot):
+
+        driver = self._connect()
+
+        while True:
+            is_snapshot_public = driver.ex_modify_snapshot_attribute(
+                snapshot,
+                {'CreateVolumePermission.Add.1.Group': 'all'})
+
+            if is_snapshot_public:
+                break
+
+        return is_snapshot_public
+
+    def _generate_dummy_snapshot_object(self, snapshot_id):
+
+        driver = self._connect()
+
+        snapshot_obj = type('', (), {})()
+        snapshot_obj.id = snapshot_id
+        snapshot = driver.list_snapshots(snapshot=snapshot_obj)
+
+        return snapshot
 
     def get_snapshot_from_image_id(self, image):
         """ Comment goes here """
@@ -50,22 +104,72 @@ class EC2ImagePublisher(EC2Base):
             if snapshot.id == snapshot_id:
                 return snapshot
 
-    def publish_images(self, image_ids=None):
+    def publish_images(self, image_region_mapping=None):
         """ Comment goes here """
 
-        if image_ids is None:
+        published_images = []
+        if image_region_mapping is None:
+            return published_images
+
+        for image_id, region in image_region_mapping:
+
+            image = self.get_image(image_ids=image_id)
+            is_image_public = self._retry_till_image_is_public(image)
+
+            snapshot = self.get_snapshot_from_image_id(image)
+            is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
+
+            published_images.append((
+                image.id,
+                is_image_public,
+                snapshot.id,
+                is_snapshot_public,
+                self.region
+            ))
+
+        return published_images
+
+    def copy_images_to_other_regions(self, image_id=None, regions=None):
+        """ Comment goes here """
+
+        if (image_id is None) or (regions is None):
             return
 
+        counter = 0
+        copied_images = []
         driver = self._connect()
-        images = driver.list_images(ex_image_ids=image_ids)
+        image = driver.list_images(ex_image_ids=image_id)
 
-        for image in images:
-            driver.ex_modify_image_attribute(image, {
-                'LaunchPermission.Add.1.Group': 'all'})
+        if not image:
+            return []
+        image = image[0]
 
-            snapshot = self.get_snapshot_from_image_id(image.id)
-            driver.ex_modify_snapshot_attribute(snapshot, {
-                'CreateVolumePermission.Add.1.Group': 'all'})
+        for region in regions:
+            while True:
+                if counter > 0:
+                    self.image_name = re.sub(
+                        '\d(?!\d)',
+                        lambda x: str(int(x.group(0))+1),
+                        self.image_name
+                    )
+                try:
+                    image = self._connect().copy_image(
+                        image,
+                        name=self.image_name,
+                        description=self.image_description)
+
+                    copied_images.append((region, image.id))
+                    break
+
+                except Exception as e:
+                    log.info('Could not register'
+                             ' with name: %r' % self.image_name)
+                    if 'InvalidAMIName.Duplicate' in str(e):
+                        counter = counter + 1
+                    else:
+                        raise
+
+        return copied_images
 
     def deprecate_images(self, image_ids=None, snapshot_perm='all'):
         """ Comment goes here """
@@ -77,5 +181,3 @@ class EC2ImagePublisher(EC2Base):
 
         if image_ids is None:
             return
-
-
