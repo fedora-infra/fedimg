@@ -24,6 +24,8 @@ log = logging.getLogger("fedmsg")
 
 import re
 
+import fedimg.messenger
+
 from fedimg.utils import external_run_command, get_item_from_regex
 from fedimg.services.ec2.ec2base import EC2Base
 
@@ -178,6 +180,24 @@ class EC2ImageUploader(EC2Base):
                     virtualization_type=self.virtualization_type,
                     architecture=self.image_architecture,
                     block_device_mapping=block_device_map)
+
+                if self.push_notifications:
+                    fedimg.messenger.notify(
+                        topic='image.upload',
+                        msg=dict(
+                            image_url=self.image_url,
+                            image_name=self.image_name,
+                            destination=self.region,
+                            service=self.service,
+                            status='completed',
+                            compose=self.compose_id,
+                            extra=dict(
+                                id=image.id,
+                                virt_type=self.image_virtualization_type,
+                                vol_type=self.image_volume_type
+                            )
+                        )
+                    )
 
                 return image
 

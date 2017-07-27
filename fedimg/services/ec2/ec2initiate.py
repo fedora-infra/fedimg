@@ -24,10 +24,13 @@ log = logging.getLogger("fedmsg")
 
 from itertools import product as itertools_product
 
+import fedimg.messenger
+
 from fedimg.services.ec2.config import AWS_VOLUME_TYPES, BASE_REGION
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_for_image
+from fedimg.utils import get_image_name_for_image
 
 
 def main(image_urls,
@@ -36,7 +39,9 @@ def main(image_urls,
          regions,
          volume_types=None,
          volume_via_s3=True,
-         ex_virt_types=None):
+         ex_virt_types=None,
+         push_notifications=False,
+         compose_id=None):
 
     if volume_types is None:
         volume_types = AWS_VOLUME_TYPES
@@ -49,8 +54,10 @@ def main(image_urls,
             virt_types = ex_virt_types
 
         source = get_source_for_image(image_url)
+        image_name = get_image_name_for_image(image_url)
 
         uploader = EC2ImageUploader(
+            image_name=image_name,
             access_key=access_id,
             secret_key=secret_key,
             volume_via_s3=volume_via_s3,
@@ -64,11 +71,28 @@ def main(image_urls,
             log.debug('(uploader) Region is set to: %r' % base_region)
 
             uploader.set_image_virt_type(virt_type)
-            log.debug('(uploader) Virtualization type is set to: %r' % virt_type)
+            log.debug('(uploader) Virtualization type '
+                      'is set to: %r' % virt_type)
 
             uploader.set_image_volume_type(volume_type)
             log.debug('(uploader) Volume type is set to: %r' % volume_type)
 
+            if push_notifications:
+                fedimg.messenger.notify(
+                    topic='image.upload',
+                    msg=dict(
+                        image_url=image_url,
+                        image_name=image_name,
+                        destination=base_region,
+                        service='EC2',
+                        status='started',
+                        compose=compose_id,
+                        extra=dict(
+                            virt_type=virt_type,
+                            vol_type=volume_type
+                        )
+                    )
+                )
             image = uploader.create_image(source)
 
         publisher = EC2ImagePublisher(
@@ -76,7 +100,6 @@ def main(image_urls,
             secret_key=secret_key,
             push_notifications=True,
         )
-
         remaining_regions = set(regions) - set(base_region)
         copied_images = publisher.copy_images_to_other_regions(
             image_id=image.id,

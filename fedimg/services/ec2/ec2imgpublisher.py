@@ -26,6 +26,8 @@ import re
 
 from time import sleep
 
+import fedimg.messenger
+
 from fedimg.utils import external_run_command, get_item_from_regex
 from fedimg.services.ec2.ec2base import EC2Base
 
@@ -120,6 +122,24 @@ class EC2ImagePublisher(EC2Base):
             snapshot = self.get_snapshot_from_image_id(image)
             is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
 
+            virt_type = image.virt_type
+            volume_type = image.volume_type
+
+            if self.push_notifications:
+                fedimg.messenger.notify(
+                    topic='image.pull',
+                    msg=dict(
+                        image_name=image.name,
+                        destination=self.region,
+                        service='EC2',
+                        compose=self.compose_id,
+                        extra=dict(
+                            virt_type=virt_type,
+                            vol_type=volume_type
+                        )
+                    )
+                )
+
             published_images.append((
                 image.id,
                 is_image_public,
@@ -153,17 +173,35 @@ class EC2ImagePublisher(EC2Base):
                         self.image_name
                     )
                 try:
-                    image = self._connect().copy_image(
+                    copied_image = self._connect().copy_image(
                         image,
                         name=self.image_name,
                         description=self.image_description)
 
-                    copied_images.append((region, image.id))
+                    virt_type = copied_image.virt_type
+                    volume_type = copied_image.volume_type
+
+                    if self.push_notifications:
+                        fedimg.messenger.notify(
+                            topic='image.copy',
+                            msg=dict(
+                                image_name=copied_image.name,
+                                destination=self.region,
+                                service='EC2',
+                                compose=self.compose_id,
+                                extra=dict(
+                                    virt_type=virt_type,
+                                    vol_type=volume_type
+                                )
+                            )
+                        )
+
+                    copied_images.append((region, copied_image.id))
                     break
 
                 except Exception as e:
-                    log.info('Could not register'
-                             ' with name: %r' % self.image_name)
+                    log.info('Could not register '
+                             'with name: %r' % self.image_name)
                     if 'InvalidAMIName.Duplicate' in str(e):
                         counter = counter + 1
                     else:
