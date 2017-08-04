@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
 # Copyright (C) 2014-2017 Red Hat, Inc.
 #
@@ -18,22 +19,35 @@
 #
 # Authors:  David Gay <dgay@redhat.com>
 #           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
+"""
+This module checks for the active services (configured through the fedimg
+configuration file) and call the main method for the service.
+"""
 
 import logging
-log = logging.getLogger("fedmsg")
 
 from fedimg.config import ACTIVE_SERVICES
 from fedimg.services.ec2.ec2initiate import main as ec2main
 from fedimg.services.ec2.config import AWS_ACCESS_ID, AWS_SECRET_KEY
 from fedimg.services.ec2.config import AWS_REGIONS
 
+LOG = logging.getLogger("fedmsg")
+
+
 def upload(pool, urls, *args, **kwargs):
-    """ Takes a list (urls) of one or more .raw.xz image files and
+    """
+    Takes a list (urls) of one or more .raw.xz image files and
     sends them off to cloud services for registration. The upload
-    jobs threadpool must be passed as `pool`."""
+    jobs threadpool must be passed as `pool`.
+
+    Args:
+        pool (multithreading.pool.ThreadPool): The thread pool to parallelize
+        the uploads.
+        urls (list): List of cloud image urls.
+    """
 
     active_services = ACTIVE_SERVICES
 
     if 'aws' in active_services:
-        log.info('Starting to process AWS EC2Service.')
+        LOG.info('Starting to process AWS EC2Service.')
         ec2main(urls, AWS_ACCESS_ID, AWS_SECRET_KEY, AWS_REGIONS)
