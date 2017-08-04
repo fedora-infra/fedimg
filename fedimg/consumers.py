@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
 # Copyright (C) 2014-2017 Red Hat, Inc.
 #
@@ -18,10 +19,13 @@
 #
 # Authors:  David Gay <dgay@redhat.com>
 #           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
+"""
+This is the `fedmsg consumer`_ that subscribes to the topic emitted after the
+completion of the nightly and production compose. The consumer on receving the
+message uploads the image using the API of the cloud providers.
+"""
 
 import logging
-log = logging.getLogger("fedmsg")
-
 import multiprocessing.pool
 
 import fedmsg.consumers
@@ -33,25 +37,42 @@ import fedimg.uploader
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
 from fedimg.utils import get_rawxz_urls, get_value_from_dict
 
+LOG = logging.getLogger("fedmsg")
+
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
-    """ Listens for image Koji task completion and sends image files
-        produced by the child createImage tasks to the uploader. """
+    """
+    A `fedmsg consumer`_ that listens to the pungi compose topics and kicks
+    of the process to upload the images to various cloud providers.
+
+    Attributes:
+        topic (str): The topics this consumer is subscribed to. Set to
+            ``org.fedoraproject.prod.pungi.compose.status.change``.
+        config_key (str): The key to set to ``True`` in the fedmsg config to
+            enable this consumer. The key is ``fedimgconsumer.prod.enabled``.
+    """
     topic = ['org.fedoraproject.prod.pungi.compose.status.change']
     config_key = "fedimgconsumer.prod.enabled"
 
     def __init__(self, *args, **kwargs):
+        LOG.info("FedimgConsumer initializing")
         super(FedimgConsumer, self).__init__(*args, **kwargs)
 
         # Threadpool for upload jobs
+        LOG.info("Creating thread pool of %s process", PROCESS_COUNT)
         self.upload_pool = multiprocessing.pool.ThreadPool(
             processes=PROCESS_COUNT
         )
-        log.info("Super happy fedimg ready and reporting for duty.")
+        LOG.info("FedimgConsumer initialized")
 
     def consume(self, msg):
-        """ This is called when we receive a message matching our topics. """
-        log.info('Received %r %r' % (msg['topic'], msg['body']['msg_id']))
+        """
+        This is called when we receive a message matching our topics.
+
+        Args:
+            msg (dict): The raw message from fedmsg.
+        """
+        LOG.info('Received %r %r', msg['topic'], msg['body']['msg_id'])
 
         msg_info = msg['body']['msg']
         if msg_info['status'] not in STATUS_FILTER:
@@ -70,12 +91,12 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         )
 
         if images_meta is None:
-            log.debug('No compatible image found to process')
+            LOG.debug('No compatible image found to process')
             return
 
         upload_urls = get_rawxz_urls(location, images_meta)
         if len(upload_urls) > 0:
-            log.info("Start processing compose id: %s" % compose_id)
+            LOG.info("Start processing compose id: %s", compose_id)
             fedimg.uploader.upload(
                 pool=self.upload_pool,
                 urls=upload_urls,
@@ -84,10 +105,30 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
 
 
 class FedimgStagingConsumer(FedimgConsumer):
+    """
+    A `fedmsg consumer`_ that listens to the staging pungi compose topics and
+    kicks of the process to upload the images to various cloud providers.
+
+    Attributes:
+        topic (str): The topics this consumer is subscribed to. Set to
+            ``org.fedoraproject.stg.pungi.compose.status.change``.
+        config_key (str): The key to set to ``True`` in the fedmsg config to
+            enable this consumer. The key is ``fedimgconsumer.stg.enabled``.
+    """
     topic = ['org.fedoraproject.stg.pungi.compose.status.change']
     config_key = "fedimgconsumer.stg.enabled"
 
 
 class FedimgDevConsumer(FedimgConsumer):
+    """
+    A `fedmsg consumer`_ that listens to the dev pungi compose topics and
+    kicks of the process to upload the images to various cloud providers.
+
+    Attributes:
+        topic (str): The topics this consumer is subscribed to. Set to
+            ``org.fedoraproject.dev.pungi.compose.status.change``.
+        config_key (str): The key to set to ``True`` in the fedmsg config to
+            enable this consumer. The key is ``fedimgconsumer.dev.enabled``.
+    """
     topic = ['org.fedoraproject.dev.pungi.compose.status.change']
     config_key = "fedimgconsumer.dev.enabled"
