@@ -29,7 +29,7 @@ import logging
 from fedimg.config import ACTIVE_SERVICES
 from fedimg.services.ec2.ec2initiate import main as ec2main
 from fedimg.services.ec2.config import AWS_ACCESS_ID, AWS_SECRET_KEY
-from fedimg.services.ec2.config import AWS_REGIONS
+from fedimg.services.ec2.config import BASE_REGION
 
 LOG = logging.getLogger("fedmsg")
 
@@ -50,4 +50,4 @@ def upload(pool, urls, *args, **kwargs):
 
     if 'aws' in active_services:
         LOG.info('Starting to process AWS EC2Service.')
-        ec2main(urls, AWS_ACCESS_ID, AWS_SECRET_KEY, AWS_REGIONS)
+        ec2main(urls, AWS_ACCESS_ID, AWS_SECRET_KEY, [BASE_REGION])

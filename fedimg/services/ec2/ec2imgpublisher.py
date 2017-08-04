@@ -116,7 +116,9 @@ class EC2ImagePublisher(EC2Base):
 
         for region, image_id in region_image_mapping:
 
-            image = self.get_image(image_ids=image_id)
+            self.set_region(region)
+
+            image = self._connect().get_image(image_ids=image_id)
             is_image_public = self._retry_till_image_is_public(image)
 
             snapshot = self.get_snapshot_from_image_id(image)
@@ -150,7 +152,7 @@ class EC2ImagePublisher(EC2Base):
 
         return published_images
 
-    def copy_images_to_other_regions(self, image_id=None, regions=None):
+    def copy_images_to_regions(self, image_id=None, regions=None):
         """ Comment goes here """
 
         if (image_id is None) or (regions is None):
