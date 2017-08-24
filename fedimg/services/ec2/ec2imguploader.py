@@ -51,6 +51,12 @@ class EC2ImageUploader(EC2Base):
         for (prop, default) in defaults.iteritems():
             setattr(self, prop, kwargs.get(prop, default))
 
+    def set_image_virt_type(self, virt_type):
+        self.image_virtualization_type = virt_type
+
+    def set_image_name(self, image_name):
+        self.image_name = image_name
+
     def _determine_root_device_name(self):
         root_device_name = '/dev/sda'
         if self.image_virt_type == 'hvm':

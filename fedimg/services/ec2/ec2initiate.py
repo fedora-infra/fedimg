@@ -29,11 +29,11 @@ from itertools import product as itertools_product
 
 import fedimg.messenger
 
-from fedimg.services.ec2.config import AWS_VOLUME_TYPES, BASE_REGION
+from fedimg.services.ec2.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
-from fedimg.utils import get_virt_types_from_url, get_source_for_image
-from fedimg.utils import get_image_name_for_image
+from fedimg.utils import get_virt_types_from_url, get_source_from_image
+from fedimg.utils import get_image_name_from_image
 
 LOG = logging.getLogger("fedmsg")
 
@@ -71,7 +71,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         volume_types = AWS_VOLUME_TYPES
 
     if regions is None:
-        regions = [BASE_REGION]
+        regions = [AWS_BASE_REGION]
 
     for image_url in image_urls:
 
@@ -82,11 +82,9 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         else:
             virt_types = ex_virt_types
 
-        source = get_source_for_image(image_url)
-        image_name = get_image_name_for_image(image_url)
+        source = get_source_from_image(image_url)
 
         uploader = EC2ImageUploader(
-            image_name=image_name,
             access_key=access_id,
             secret_key=secret_key,
             volume_via_s3=volume_via_s3,
@@ -107,6 +105,14 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
             uploader.set_image_virt_type(virt_type)
             LOG.debug('(uploader) Virtualization type '
                       'is set to: %r' % virt_type)
+
+            image_name = get_image_name_from_image(
+                image_url=image_url,
+                virt_type=virt_type,
+                region=region,
+                volume_type=volume_type
+            )
+            uploader.set_image_name(image_name)
 
             uploader.set_image_volume_type(volume_type)
             LOG.debug('(uploader) Volume type is set to: %r' % volume_type)

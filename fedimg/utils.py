@@ -114,7 +114,11 @@ def get_item_from_regex(regex, output):
     raise NotImplementedError
 
 
-def get_source_for_image(image_url):
+def get_file_name_image(image_url):
+    return image_url.split('/')[-1]
+
+
+def get_source_from_image(image_url):
     tmpdir = tempfile.mkdtemp()
     log.info(" Preparing temporary directory for download: %r" % tmpdir)
     output, error = external_run_command(
@@ -125,3 +129,18 @@ def get_source_for_image(image_url):
     )
 
     return output, error
+
+
+def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
+                              volume_type=''):
+
+    file_name = get_file_name_image(image_url)
+    build_name = file_name.replace('.raw.xz', '')
+
+    return '-'.join(filter(lambda x: x, [
+        build_name,
+        virt_type,
+        region,
+        volume_type,
+        respin]
+    ))
