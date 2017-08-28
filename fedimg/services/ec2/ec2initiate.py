@@ -117,6 +117,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
             uploader.set_image_volume_type(volume_type)
             LOG.debug('(uploader) Volume type is set to: %r' % volume_type)
 
+            uploader.set_availability_zone_for_region()
+
             if push_notifications:
                 fedimg.messenger.notify(
                     topic='image.upload',

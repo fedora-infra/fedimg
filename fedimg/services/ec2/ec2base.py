@@ -29,9 +29,10 @@ class EC2Base(object):
     def _connect(self):
         cls = get_driver(Provider.EC2)
         driver = cls(
-                access_id=self.access_id,
-                secret_key=self.secret_key,
-                region=self.region)
+            self.access_key,
+            self.secret_key,
+            region=self.region
+        )
 
         return driver
 

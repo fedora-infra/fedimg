@@ -27,6 +27,8 @@ import logging
 log = logging.getLogger("fedmsg")
 
 import functools
+import os
+import re
 import socket
 import subprocess
 import tempfile
@@ -103,15 +105,20 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    ret = subprocess.Popen(command, shell=True, stdin=subprocess.PIPE,
+    ret = subprocess.Popen(' '.join(command), shell=True, stdin=subprocess.PIPE,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
-    return out, err
+    retcode = ret.returncode
+    return out, err, retcode
 
 
-def get_item_from_regex(regex, output):
-    raise NotImplementedError
+def get_item_from_regex(output, regex):
+    match = re.search(regex, output)
+    if match is None:
+        return ''
+    else:
+        return match.group(1)
 
 
 def get_file_name_image(image_url):
@@ -120,16 +127,18 @@ def get_file_name_image(image_url):
 
 def get_source_from_image(image_url):
     tmpdir = tempfile.mkdtemp()
-    log.info(" Preparing temporary directory for download: %r" % tmpdir)
-    output, error = external_run_command(
+    file_name = get_file_name_image(image_url)
+    file_path = os.path.join(tmpdir, file_name)
+
+    log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
+    output, error, retcode = external_run_command([
         'wget',
         image_url,
         '-P',
         tmpdir
-    )
+    ])
 
-    return output, error
-
+    return file_path
 
 def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
                               volume_type=''):

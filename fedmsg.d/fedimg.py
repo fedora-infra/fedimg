@@ -28,6 +28,8 @@ NUM_PORTS = 2 * ((NUM_BASE_THREADS + NUM_ATOMIC_THREADS) + 1)
 
 config = {
     'fedimgconsumer.dev.enabled': True,
+    'fedimgconsumer.prod.enabled': False,
+    'fedimgconsumer.stg.enabled': False,
     'endpoints': {
         "fedimg.%s" % hostname: [
             "tcp://127.0.0.1:60%0.2i" % (i)

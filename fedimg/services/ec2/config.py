@@ -22,17 +22,18 @@
 
 import toml
 
+
 # Read in config file
 with open("/etc/fedimg/fedimg-conf.toml") as conffile:
     config = toml.loads(conffile.read())
 
-AWS_UTIL_USER = config.get('aws', 'util_username')
-AWS_TEST_USER = config.get('aws', 'test_username')
-AWS_ACCESS_ID = config.get('aws', 'access_id')
-AWS_SECRET_KEY = config.get('aws', 'secret_key')
-AWS_VOLUME_SIZE = config.get('aws', 'volume_size')
-AWS_VOLUME_TYPES = config.get('aws', 'volume_types')
-AWS_VOLUME_VIA_S3 = config.get('aws', 'volume_via_s3')
-AWS_IAM_PROFILE = config.get('aws', 'iam_profile')
-AWS_REGIONS = config.get('aws', 'regions')
-AWS_BASE_REGION = config.get('aws', 'base_region')
+AWS_UTIL_USER = config.get('aws', {}).get('util_username', {})
+AWS_TEST_USER = config.get('aws', {}).get('test_username', {})
+AWS_ACCESS_ID = config.get('aws', {}).get('access_id')
+AWS_SECRET_KEY = config.get('aws', {}).get('secret_key')
+AWS_VOLUME_SIZE = config.get('aws', {}).get('volume_size')
+AWS_VOLUME_TYPES = config.get('aws', {}).get('volume_types')
+AWS_VOLUME_VIA_S3 = config.get('aws', {}).get('volume_via_s3')
+AWS_IAM_PROFILE = config.get('aws', {}).get('iam_profile')
+AWS_REGIONS = config.get('aws', {}).get('regions', {})
+AWS_BASE_REGION = config.get('aws', {}).get('base_region', {})

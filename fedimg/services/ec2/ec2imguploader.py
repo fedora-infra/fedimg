@@ -36,6 +36,7 @@ class EC2ImageUploader(EC2Base):
     def __init__(self, *args, **kwargs):
         defaults = {
             'access_key': None,
+            'availability_zone': None,
             'image_name': 'Fedora-AMI',
             'image_description': 'Fedora AMI Description',
             'image_virtualization_type': 'hvm',
@@ -45,7 +46,7 @@ class EC2ImageUploader(EC2Base):
             'secret_key': None,
             's3_bucket_name': 'Fedora-S3-Bucket',
             'volume_via_s3': True,
-            'push_notifications': False, 
+            'push_notifications': False,
         }
 
         for (prop, default) in defaults.iteritems():
@@ -56,6 +57,9 @@ class EC2ImageUploader(EC2Base):
 
     def set_image_name(self, image_name):
         self.image_name = image_name
+
+    def set_image_volume_type(self, volume_type):
+        self.volume_type = volume_type
 
     def _determine_root_device_name(self):
         root_device_name = '/dev/sda'
@@ -116,6 +120,12 @@ class EC2ImageUploader(EC2Base):
             if volume.id == volume_id:
                 return volume
 
+    def set_availability_zone_for_region(self):
+        """ Returns a availability zone for the region
+        """
+        self.availability_zone = self._connect().ex_list_availability_zones(
+            only_available=True)[0].name
+
     def _create_volume(self, source):
         if self.volume_via_s3:
             output, err, retcode = external_run_command([
@@ -153,7 +163,7 @@ class EC2ImageUploader(EC2Base):
             if snapshot.id == snapshot_id:
                 break
 
-        while snapshot['extra'] != 'completed':
+        while snapshot.extra['state'] != 'completed':
             snapshots = self._connect().list_snapshots()
             for snapshot in snapshots:
                 if snapshot.id == snapshot_id:
@@ -162,7 +172,7 @@ class EC2ImageUploader(EC2Base):
     def _create_snapshot(self, volume):
         snapshot_id = self._connect().create_volume_snapshot(
                 volume=volume,
-                name=self.snapshot_name
+                name=self.image_name
         )
         snapshot = self._retry_and_get_snapshot(snapshot_id)
 
