@@ -37,15 +37,20 @@ class EC2ImageUploader(EC2Base):
         defaults = {
             'access_key': None,
             'availability_zone': None,
+            'compose_id': None,
             'image_name': 'Fedora-AMI',
             'image_description': 'Fedora AMI Description',
             'image_virtualization_type': 'hvm',
+            'image_architecture': 'x86_64',
+            'image_url': None,
             'image_volume_type': 'gp2',
             'image_format': 'raw',
             'region': None,
+            'service': 'EC2',
             'secret_key': None,
             's3_bucket_name': 'Fedora-S3-Bucket',
             'volume_via_s3': True,
+            'root_volume_size': 7,
             'push_notifications': False,
         }
 
@@ -55,6 +60,9 @@ class EC2ImageUploader(EC2Base):
     def set_image_virt_type(self, virt_type):
         self.image_virtualization_type = virt_type
 
+    def set_image_url(self, image_url):
+        self.image_url = image_url
+
     def set_image_name(self, image_name):
         self.image_name = image_name
 
@@ -63,11 +71,11 @@ class EC2ImageUploader(EC2Base):
 
     def _determine_root_device_name(self):
         root_device_name = '/dev/sda'
-        if self.image_virt_type == 'hvm':
+        if self.image_virtualization_type == 'hvm':
             root_device_name = '/dev/sda1'
 
         log.debug('Root device name is set to %r for %r' % (
-            root_device_name, self.image_virt_type))
+            root_device_name, self.image_virtualization_type))
 
         return root_device_name
 
@@ -169,11 +177,14 @@ class EC2ImageUploader(EC2Base):
                 if snapshot.id == snapshot_id:
                     break
 
+        return snapshot
+
     def _create_snapshot(self, volume):
-        snapshot_id = self._connect().create_volume_snapshot(
+        snapshot = self._connect().create_volume_snapshot(
                 volume=volume,
                 name=self.image_name
         )
+        snapshot_id = snapshot.id
         snapshot = self._retry_and_get_snapshot(snapshot_id)
 
         return snapshot
@@ -181,9 +192,10 @@ class EC2ImageUploader(EC2Base):
     def _register_image(self, snapshot):
         counter = 0
         block_device_map = self._create_block_device_map(snapshot)
+        root_device_name = self._determine_root_device_name()
         while True:
             if counter > 0:
-                self.image_name = re.sub('\d(?!\d)',
+                self.image_name = re.sub('\d(?!\d)$',
                                          lambda x: str(int(x.group(0))+1),
                                          self.image_name)
             try:
@@ -193,9 +205,11 @@ class EC2ImageUploader(EC2Base):
                 image = self._connect().ex_register_image(
                     name=self.image_name,
                     description=self.image_description,
-                    virtualization_type=self.virtualization_type,
+                    virtualization_type=self.image_virtualization_type,
                     architecture=self.image_architecture,
-                    block_device_mapping=block_device_map)
+                    block_device_mapping=block_device_map,
+                    root_device_name=root_device_name
+                )
 
                 if self.push_notifications:
                     fedimg.messenger.notify(

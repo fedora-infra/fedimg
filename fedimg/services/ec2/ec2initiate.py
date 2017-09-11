@@ -30,10 +30,11 @@ from itertools import product as itertools_product
 import fedimg.messenger
 
 from fedimg.services.ec2.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
+from fedimg.services.ec2.config import AWS_ROOT_VOLUME_SIZE
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
-from fedimg.utils import get_image_name_from_image
+from fedimg.utils import get_image_name_from_image, get_file_arch
 
 LOG = logging.getLogger("fedmsg")
 
@@ -67,6 +68,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         compose_id: id of the current compose in process.
     """
 
+    root_volume_size = AWS_ROOT_VOLUME_SIZE
+
     if volume_types is None:
         volume_types = AWS_VOLUME_TYPES
 
@@ -83,12 +86,16 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
             virt_types = ex_virt_types
 
         source = get_source_from_image(image_url)
+        image_architecture = get_file_arch(image_url)
 
         uploader = EC2ImageUploader(
             access_key=access_id,
             secret_key=secret_key,
+            root_volume_size=root_volume_size,
+            image_architecture=image_architecture,
             volume_via_s3=volume_via_s3,
             push_notifications=True,
+            image_url=image_url
         )
 
         publisher = EC2ImagePublisher(
