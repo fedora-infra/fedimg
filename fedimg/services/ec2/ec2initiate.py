@@ -89,6 +89,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         image_architecture = get_file_arch(image_url)
 
         uploader = EC2ImageUploader(
+            compose_id=compose_id,
             access_key=access_id,
             secret_key=secret_key,
             root_volume_size=root_volume_size,
@@ -99,6 +100,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         )
 
         publisher = EC2ImagePublisher(
+            compose_id=compose_id,
             access_key=access_id,
             secret_key=secret_key,
             push_notifications=True,

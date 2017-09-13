@@ -29,6 +29,8 @@ from time import sleep
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
+from fedimg.utils import get_volume_type_from_image
+from fedimg.utils import get_virt_type_from_image
 from fedimg.services.ec2.ec2base import EC2Base
 
 
@@ -38,9 +40,11 @@ class EC2ImagePublisher(EC2Base):
     def __init__(self, **kwargs):
         defaults = {
             'access_key': None,
+            'compose_id': None,
             'image_id': None,
             'image_name': 'Fedora-AMI',
             'image_description': 'Fedora AMI Description',
+            'service': 'EC2',
             'region': None,
             'secret_key': None,
             'visibility': 'all',
@@ -101,7 +105,7 @@ class EC2ImagePublisher(EC2Base):
             image_id = image
             image = self._connect().get_image(image_id)
 
-        snapshot_id = image.extra['block_device_mapping']['snapshot_id']
+        snapshot_id = image.extra['block_device_mapping'][0]['ebs']['snapshot_id']
         snapshots = self._connect().list_snapshots()
         for snapshot in snapshots:
             if snapshot.id == snapshot_id:
@@ -118,14 +122,14 @@ class EC2ImagePublisher(EC2Base):
 
             self.set_region(region)
 
-            image = self._connect().get_image(image_ids=image_id)
+            image = self._connect().get_image(image_id=image_id)
             is_image_public = self._retry_till_image_is_public(image)
 
             snapshot = self.get_snapshot_from_image_id(image)
             is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
 
-            virt_type = image.virt_type
-            volume_type = image.volume_type
+            volume_type = get_volume_type_from_image(image)
+            virt_type = get_virt_type_from_image(image)
 
             if self.push_notifications:
                 fedimg.messenger.notify(
@@ -133,9 +137,10 @@ class EC2ImagePublisher(EC2Base):
                     msg=dict(
                         image_name=image.name,
                         destination=self.region,
-                        service='EC2',
+                        service=self.service,
                         compose=self.compose_id,
                         extra=dict(
+                            id=image.id,
                             virt_type=virt_type,
                             vol_type=volume_type
                         )
