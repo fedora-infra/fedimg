@@ -194,8 +194,8 @@ class EC2ImagePublisher(EC2Base):
                             msg=dict(
                                 image_name=copied_image.name,
                                 destination=self.region,
-                                service='EC2',
-                                compose=self.compose_id,
+                                service=self.service,
+                                compose_id=self.compose_id,
                                 extra=dict(
                                     virt_type=virt_type,
                                     vol_type=volume_type

@@ -48,7 +48,6 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
     `access_id`, and `regions` are the required params. `volume_types`,
     `ex_virt_types` are optional arguments, if not passed the values are picked
     up from the fedimg configuration.
-
     `volume_via_s3`, `push_notifications`, and `compose_id` are optional params
     with default values.
 
@@ -106,6 +105,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
             push_notifications=True,
         )
 
+        published_images = []
         combinations = itertools_product(*[regions, virt_types, volume_types])
         for region, virt_type, volume_type in combinations:
             uploader.set_region(region)
@@ -146,6 +146,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 )
             image = uploader.create_image(source)
 
-            publisher.publish_images(region_image_mapping=[
+            published_images.extend(publisher.publish_images(region_image_mapping=[
                 (region, image.id)
-            ])
+            ]))
+
+    return published_images

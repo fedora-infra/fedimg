@@ -37,6 +37,7 @@ def main(regions, access_id, secret_key, images=None,
         raise
 
     publisher = EC2ImagePublisher(
+        compose_id=compose_id,
         access_key=access_id,
         secret_key=secret_key,
         push_notifications=True,

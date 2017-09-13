@@ -28,8 +28,9 @@ import logging
 
 from fedimg.config import ACTIVE_SERVICES
 from fedimg.services.ec2.ec2initiate import main as ec2main
+from fedimg.services.ec2.ec2copy import main as ec2copy
 from fedimg.services.ec2.config import AWS_ACCESS_ID, AWS_SECRET_KEY
-from fedimg.services.ec2.config import AWS_BASE_REGION
+from fedimg.services.ec2.config import AWS_BASE_REGION, AWS_REGIONS
 
 LOG = logging.getLogger("fedmsg")
 
@@ -47,7 +48,25 @@ def upload(pool, urls, *args, **kwargs):
     """
 
     active_services = ACTIVE_SERVICES
+    compose_id = kwargs.get('compose_id')
 
     if 'aws' in active_services:
         LOG.info('Starting to process AWS EC2Service.')
-        ec2main(urls, AWS_ACCESS_ID, AWS_SECRET_KEY, [AWS_BASE_REGION])
+        images_metadata = ec2main(
+            urls,
+            AWS_ACCESS_ID,
+            AWS_SECRET_KEY,
+            [AWS_BASE_REGION],
+            compose_id=compose_id
+        )
+        for image_metadata in images_metadata:
+            image_id = image_metadata['id']
+            aws_regions = list(set(AWS_REGIONS) - set([AWS_BASE_REGION]))
+            ec2copy(
+                aws_regions,
+                AWS_ACCESS_ID,
+                AWS_SECRET_KEY,
+                image_ids=[image_id],
+                push_notifications=True,
+                compose_id=compose_id
+            )
