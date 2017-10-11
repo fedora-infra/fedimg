@@ -27,11 +27,34 @@ import re
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
+from fedimg.ec2.config import AWS_DELETE_RESOURCES
 from fedimg.services.ec2.ec2base import EC2Base
 
 
 class EC2ImageUploader(EC2Base):
-    """ Comment goes here """
+    """
+    The 'ec2.ec2imguploader.EC2ImageUploader` creates the Amazon Machine Image
+    (AMI) from the source.
+
+    Args:
+        access_key (str): Access key for the account.
+        availability_zone (str): Availa
+        compose_id (str):
+        image_name (str):
+        image_description (str):
+        image_virtualization_type (str):
+        image_architecture (str):
+        image_url (str):
+        image_volume_type (str):
+        image_format (str):
+        region (str):
+        service (str):
+        secret_key (str):
+        s3_bucket_name (str):
+        volume_via_s3 (str):
+        root_volume_size (str):
+        push_notifications (str):
+    """
 
     def __init__(self, *args, **kwargs):
         defaults = {
@@ -56,18 +79,6 @@ class EC2ImageUploader(EC2Base):
 
         for (prop, default) in defaults.iteritems():
             setattr(self, prop, kwargs.get(prop, default))
-
-    def set_image_virt_type(self, virt_type):
-        self.image_virtualization_type = virt_type
-
-    def set_image_url(self, image_url):
-        self.image_url = image_url
-
-    def set_image_name(self, image_name):
-        self.image_name = image_name
-
-    def set_image_volume_type(self, volume_type):
-        self.volume_type = volume_type
 
     def _determine_root_device_name(self):
         root_device_name = '/dev/sda'
@@ -116,23 +127,31 @@ class EC2ImageUploader(EC2Base):
             log.debug('Failed to find complete. Task %r still running. '
                       'Sleeping for 10 seconds.' % task_id)
 
-    def get_volume_from_volume_id(self, volume_id):
-        """ Comment goes here
-        """
-        #FIXME: This is not a optimized way of get all the volumes. Rather
-        # send a patch to libcloud to filter the volume based on the volume_id
+    def _create_snapshot(self, volume):
+        snapshot = self._connect().create_volume_snapshot(
+                volume=volume,
+                name=self.image_name
+        )
+        snapshot_id = snapshot.id
+        snapshot = self._retry_and_get_snapshot(snapshot_id)
 
-        volumes = self._connect().list_volumes()
+        return snapshot
 
-        for volume in volumes:
-            if volume.id == volume_id:
-                return volume
+    def _retry_and_get_snapshot(self, snapshot_id):
+        #FIXME: Rather that listing all snapshot. Add a patch to libcloud to
+        # pull the snapshot using the snapshot id.
+        snapshots = self._connect().list_snapshots()
+        for snapshot in snapshots:
+            if snapshot.id == snapshot_id:
+                break
 
-    def set_availability_zone_for_region(self):
-        """ Returns a availability zone for the region
-        """
-        self.availability_zone = self._connect().ex_list_availability_zones(
-            only_available=True)[0].name
+        while snapshot.extra['state'] != 'completed':
+            snapshots = self._connect().list_snapshots()
+            for snapshot in snapshots:
+                if snapshot.id == snapshot_id:
+                    break
+
+        return snapshot
 
     def _create_volume(self, source):
         if self.volume_via_s3:
@@ -161,33 +180,6 @@ class EC2ImageUploader(EC2Base):
             log.info('Finish fetching volume object using volume_id')
 
             return volume
-
-    def _retry_and_get_snapshot(self, snapshot_id):
-
-        #FIXME: Rather that listing all snapshot. Add a patch to libcloud to
-        # pull the snapshot using the snapshot id.
-        snapshots = self._connect().list_snapshots()
-        for snapshot in snapshots:
-            if snapshot.id == snapshot_id:
-                break
-
-        while snapshot.extra['state'] != 'completed':
-            snapshots = self._connect().list_snapshots()
-            for snapshot in snapshots:
-                if snapshot.id == snapshot_id:
-                    break
-
-        return snapshot
-
-    def _create_snapshot(self, volume):
-        snapshot = self._connect().create_volume_snapshot(
-                volume=volume,
-                name=self.image_name
-        )
-        snapshot_id = snapshot.id
-        snapshot = self._retry_and_get_snapshot(snapshot_id)
-
-        return snapshot
 
     def _register_image(self, snapshot):
         counter = 0
@@ -242,8 +234,70 @@ class EC2ImageUploader(EC2Base):
         log.info('[CLEAN] Destroying volume: %r' % volume.id)
         self._connect().destroy_volume(volume)
 
-    def _clean_up(self):
-        pass
+    def _clean_up(self, resources='all', force=False):
+        if not DELETE_RESOURCES and force:
+            log.info('Deleting resource is disabled by config.'
+                     'Override by passing force=True.')
+            return False
+
+    def set_image_virt_type(self, virt_type):
+        """ 
+        Set the `image_virtualization_type` attribute of the `EC2ImageUploader`
+        object.
+
+        Args:
+            virt_type (str): virtualization type to set for the object.
+        """
+        self.image_virtualization_type = virt_type
+
+    def set_image_url(self, image_url):
+        """
+        Set the `image_url` attribute of the `EC2ImageUploader` object.
+
+        Args:
+            image_url (str): image_url to set for the object.
+        """
+        self.image_url = image_url
+
+    def set_image_name(self, image_name):
+        """
+        Set the `image_name` attribute of the `EC2ImageUploader` object.
+
+        Args:
+            image_name (str): image_name to set for the object.
+        """
+        self.image_name = image_name
+
+    def set_image_volume_type(self, volume_type):
+        """
+        Set the `volume_type` attribute of the `EC2ImageUploader` object.
+
+        Args:
+            volume_type (str): volume_type to set for the object.
+        """
+        self.volume_type = volume_type
+
+    def get_volume_from_volume_id(self, volume_id):
+        """ Get the `` object from the volume_id.
+
+        Args:
+            volume_id (str): volume_id for the object
+        """
+        #FIXME: This is not a optimized way of get all the volumes. Rather
+        # send a patch to libcloud to filter the volume based on the volume_id
+
+        volumes = self._connect().list_volumes()
+
+        for volume in volumes:
+            if volume.id == volume_id:
+                return volume
+
+    def set_availability_zone_for_region(self):
+        """ 
+        Returns a availability zone for the region
+        """
+        self.availability_zone = self._connect().ex_list_availability_zones(
+            only_available=True)[0].name
 
     def create_volume(self, source):
         log.info('Start creating the volume from source: %r' % source)
@@ -260,11 +314,29 @@ class EC2ImageUploader(EC2Base):
         return snapshot
 
     def register_image(self, snapshot):
+        """
+        Register the image for the given `` object,
+
+        Args:
+            snapshot: `VolumeSnapshot` object
+
+        Returns:
+            image: `NodeImage` object
+        """
         image = self._register_image(snapshot)
 
         return image
 
     def create_image(self, source):
+        """
+        Create Amazon machin image out of the given source
+
+        Args:
+            source (str): path of the source cloud image file.
+
+        Returns:
+            image: returns the `NodeImage` object.
+        """
 
         snapshot = self.create_snapshot(source)
         log.debug('Finished create snapshot: %r' % snapshot.id)

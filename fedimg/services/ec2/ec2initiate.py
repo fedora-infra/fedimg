@@ -146,8 +146,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 )
             image = uploader.create_image(source)
 
-            published_images.extend(publisher.publish_images(region_image_mapping=[
-                (region, image.id)
-            ]))
+            published_images.extend(publisher.publish_images(
+                region_image_mapping=[(region, image.id)]
+            ))
 
     return published_images
