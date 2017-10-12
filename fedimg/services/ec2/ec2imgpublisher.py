@@ -147,13 +147,13 @@ class EC2ImagePublisher(EC2Base):
                     )
                 )
 
-            published_images.append((
-                image.id,
-                is_image_public,
-                snapshot.id,
-                is_snapshot_public,
-                self.region
-            ))
+            published_images.append({
+                'image_id': image.id,
+                'is_image_public': is_image_public,
+                'snapshot_id': snapshot.id,
+                'is_snapshot_public': is_snapshot_public,
+                'regions': self.region
+            })
 
         return published_images
 
