@@ -175,3 +175,15 @@ def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
         volume_type,
         respin]
     ))
+
+def get_image_name_from_ami_name(image_name, region):
+    name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
+    name_vt = name_vt_region.rsplit('-', 3)[:-3][0]
+
+    return '-'.join(filter(lambda x: x, [
+        name_vt,
+        region,
+        volume_type,
+        respin]
+    ))
+

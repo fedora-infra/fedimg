@@ -24,6 +24,7 @@ I don't know what to write here for documentation.
 """
 import logging
 
+from fedimg.services.ec2.config import AWS_BASE_REGION
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 
 LOG = logging.getLogger("fedmsg")
@@ -49,5 +50,7 @@ def main(regions, access_id, secret_key, images=None,
     for image_id in image_ids:
         copied_images = publisher.copy_images_to_regions(
             image_id=image_id,
-            regions=regions)
+            regions=regions,
+            base_region=AWS_BASE_REGION)
+        copied_images = [elem.values() for elem in copied_images]
         publisher.publish_images(region_image_mapping=copied_images)

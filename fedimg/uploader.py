@@ -60,7 +60,7 @@ def upload(pool, urls, *args, **kwargs):
             compose_id=compose_id
         )
         for image_metadata in images_metadata:
-            image_id = image_metadata['id']
+            image_id = image_metadata['image_id']
             aws_regions = list(set(AWS_REGIONS) - set([AWS_BASE_REGION]))
             ec2copy(
                 aws_regions,
@@ -70,3 +70,4 @@ def upload(pool, urls, *args, **kwargs):
                 push_notifications=True,
                 compose_id=compose_id
             )
+        LOG.info('AWS EC2Service process is completed.')
