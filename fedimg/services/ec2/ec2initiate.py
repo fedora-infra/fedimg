@@ -20,10 +20,12 @@
 # Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 """
-I don't know what to write here for documentation  
+I don't know what to write here for documentation
 """
 
 import logging
+import os
+import shutil
 
 from itertools import product as itertools_product
 
@@ -68,6 +70,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
     """
 
     root_volume_size = AWS_ROOT_VOLUME_SIZE
+    published_images = []
 
     if volume_types is None:
         volume_types = AWS_VOLUME_TYPES
@@ -84,70 +87,75 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         else:
             virt_types = ex_virt_types
 
-        source = get_source_from_image(image_url)
-        image_architecture = get_file_arch(image_url)
+        try:
+            source = get_source_from_image(image_url)
+            image_architecture = get_file_arch(image_url)
 
-        uploader = EC2ImageUploader(
-            compose_id=compose_id,
-            access_key=access_id,
-            secret_key=secret_key,
-            root_volume_size=root_volume_size,
-            image_architecture=image_architecture,
-            volume_via_s3=volume_via_s3,
-            push_notifications=True,
-            image_url=image_url
-        )
-
-        publisher = EC2ImagePublisher(
-            compose_id=compose_id,
-            access_key=access_id,
-            secret_key=secret_key,
-            push_notifications=True,
-        )
-
-        published_images = []
-        combinations = itertools_product(*[regions, virt_types, volume_types])
-        for region, virt_type, volume_type in combinations:
-            uploader.set_region(region)
-            LOG.debug('(uploader) Region is set to: %r' % region)
-
-            uploader.set_image_virt_type(virt_type)
-            LOG.debug('(uploader) Virtualization type '
-                      'is set to: %r' % virt_type)
-
-            image_name = get_image_name_from_image(
-                image_url=image_url,
-                virt_type=virt_type,
-                region=region,
-                volume_type=volume_type
+            uploader = EC2ImageUploader(
+                compose_id=compose_id,
+                access_key=access_id,
+                secret_key=secret_key,
+                root_volume_size=root_volume_size,
+                image_architecture=image_architecture,
+                volume_via_s3=volume_via_s3,
+                push_notifications=push_notifications,
+                image_url=image_url
             )
-            uploader.set_image_name(image_name)
 
-            uploader.set_image_volume_type(volume_type)
-            LOG.debug('(uploader) Volume type is set to: %r' % volume_type)
+            publisher = EC2ImagePublisher(
+                compose_id=compose_id,
+                access_key=access_id,
+                secret_key=secret_key,
+                push_notifications=push_notifications,
+            )
 
-            uploader.set_availability_zone_for_region()
+            combinations = itertools_product(
+                    *[regions, virt_types, volume_types])
+            for region, virt_type, volume_type in combinations:
+                uploader.set_region(region)
+                LOG.debug('(uploader) Region is set to: %r' % region)
 
-            if push_notifications:
-                fedimg.messenger.notify(
-                    topic='image.upload',
-                    msg=dict(
-                        image_url=image_url,
-                        image_name=image_name,
-                        destination=region,
-                        service='EC2',
-                        status='started',
-                        compose=compose_id,
-                        extra=dict(
-                            virt_type=virt_type,
-                            vol_type=volume_type
+                uploader.set_image_virt_type(virt_type)
+                LOG.debug('(uploader) Virtualization type '
+                          'is set to: %r' % virt_type)
+
+                image_name = get_image_name_from_image(
+                    image_url=image_url,
+                    virt_type=virt_type,
+                    region=region,
+                    volume_type=volume_type
+                )
+                uploader.set_image_name(image_name)
+
+                uploader.set_image_volume_type(volume_type)
+                LOG.debug('(uploader) Volume type is set to: %r' % volume_type)
+
+                uploader.set_availability_zone_for_region()
+
+                if push_notifications:
+                    fedimg.messenger.notify(
+                        topic='image.upload',
+                        msg=dict(
+                            image_url=image_url,
+                            image_name=image_name,
+                            destination=region,
+                            service='EC2',
+                            status='started',
+                            compose=compose_id,
+                            extra=dict(
+                                virt_type=virt_type,
+                                vol_type=volume_type
+                            )
                         )
                     )
-                )
-            image = uploader.create_image(source)
+                image = uploader.create_image(source)
 
-            published_images.extend(publisher.publish_images(
-                region_image_mapping=[(region, image.id)]
-            ))
+                published_images.extend(publisher.publish_images(
+                    region_image_mapping=[(region, image.id)]
+                ))
+        except Exception as e:
+            LOG.debug(e.message)
+            uploader.clean_up(image_id=image.id, delete_snapshot=True)
 
+    shutil.rmtree(os.path.dirname(source))
     return published_images

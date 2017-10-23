@@ -38,22 +38,22 @@ class EC2ImageUploader(EC2Base):
 
     Args:
         access_key (str): Access key for the account.
-        availability_zone (str): Availa
-        compose_id (str):
-        image_name (str):
-        image_description (str):
-        image_virtualization_type (str):
-        image_architecture (str):
-        image_url (str):
-        image_volume_type (str):
-        image_format (str):
-        region (str):
-        service (str):
-        secret_key (str):
-        s3_bucket_name (str):
-        volume_via_s3 (str):
-        root_volume_size (str):
-        push_notifications (str):
+        availability_zone (str): Availability zone to use
+        compose_id (str): ID of the Compose
+        image_name (str): Name of the Image
+        image_description (str): Description of the image
+        image_virtualization_type (str): Virtulization Type of the Image
+        image_architecture (str): Architecture of the Image
+        image_url (str): URL of the the Image
+        image_volume_type (str): Volume Type of the Image
+        image_format (str): Format of the Image
+        region (str): Region to upload
+        service (str): Name of the Fedimg service.
+        secret_key (str): Secret Key for the account
+        s3_bucket_name (str): Name of the S3 bucket
+        volume_via_s3 (bool): Bool to control AMI using S3-method
+        root_volume_size (str): Size of the AWS volume
+        push_notifications (bool): Push notifications to fedmsg
     """
 
     def __init__(self, *args, **kwargs):
@@ -234,14 +234,36 @@ class EC2ImageUploader(EC2Base):
         log.info('[CLEAN] Destroying volume: %r' % volume.id)
         self._connect().destroy_volume(volume)
 
-    def _clean_up(self, resources='all', force=False):
-        if not DELETE_RESOURCES and force:
+    def clean_up(self, image_id, delete_snapshot=True, force=False):
+        """
+        Clean the resources created during the upload process
+
+        Args:
+            image_id (str): ID of the AMI
+            delete_snapshot (bool): Bool to control snapshot deletion along
+                                    with AMI.
+            force: Override AWS_DELETE_RESOURCES config value
+
+        Returns:
+            Boolean: True, if resources are deleted else False
+        """
+        if not AWS_DELETE_RESOURCES and force:
             log.info('Deleting resource is disabled by config.'
                      'Override by passing force=True.')
             return False
 
+        if self.volume:
+            self._connect().destroy_volume(self.volume)
+
+        self._connect().deregister_image(
+            image_id,
+            delete_snapshot=delete_snapshot
+        )
+
+        return True
+
     def set_image_virt_type(self, virt_type):
-        """ 
+        """
         Set the `image_virtualization_type` attribute of the `EC2ImageUploader`
         object.
 
@@ -281,7 +303,7 @@ class EC2ImageUploader(EC2Base):
         """ Get the `` object from the volume_id.
 
         Args:
-            volume_id (str): volume_id for the object
+            volume_id (str): volume_id for the `EC2ImageUploader` object
         """
         #FIXME: This is not a optimized way of get all the volumes. Rather
         # send a patch to libcloud to filter the volume based on the volume_id
@@ -293,23 +315,38 @@ class EC2ImageUploader(EC2Base):
                 return volume
 
     def set_availability_zone_for_region(self):
-        """ 
+        """
         Returns a availability zone for the region
         """
         self.availability_zone = self._connect().ex_list_availability_zones(
             only_available=True)[0].name
 
     def create_volume(self, source):
+        """
+        Create a AWS volume out of the given source file
+
+        Args:
+            source (str): File path of the source file
+        """
         log.info('Start creating the volume from source: %r' % source)
         return self._create_volume(source)
 
     def create_snapshot(self, source):
-        volume = self._create_volume(source)
+        """
+        Creates a AWS snapshot out of the given source file
 
-        log.info('Start creating snapshot from volume: %r' % volume.id)
-        snapshot = self._create_snapshot(volume)
+        Args:
+            source (str): File path of the source file
 
-        self._remove_volume(volume)
+        Returns:
+            snapshot: `VolumeSnapshot` object
+        """
+        self.volume = self._create_volume(source)
+
+        log.info('Start creating snapshot from volume: %r' % self.volume.id)
+        snapshot = self._create_snapshot(self.volume)
+
+        self._remove_volume(self.volume)
 
         return snapshot
 
