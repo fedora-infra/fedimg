@@ -141,19 +141,11 @@ def get_source_from_image(image_url):
     return file_path
 
 
-def get_volume_type_from_image(image):
-    if isinstance(image, str):
-        image_id = image
-        image = self._connect().get_image(image_id)
-
+def get_volume_type_from_image(image, region):
     return image.extra['block_device_mapping'][0]['ebs']['volume_type']
 
 
 def get_virt_type_from_image(image):
-    if isinstance(image, str):
-        image_id = image
-        image = self._connect().get_image(image_id)
-
     device_name = image.extra['block_device_mapping'][0]['device_name']
 
     if device_name.endswith('sda1'):

@@ -71,7 +71,7 @@ class EC2ImageUploader(EC2Base):
             'region': None,
             'service': 'EC2',
             'secret_key': None,
-            's3_bucket_name': 'fedora-s3-bucket',
+            's3_bucket_name': 'Fedora-S3-bucket',
             'volume_via_s3': True,
             'root_volume_size': 7,
             'push_notifications': False,

@@ -113,19 +113,59 @@ class EC2ImagePublisher(EC2Base):
 
         return snapshot
 
-    def get_snapshot_from_image_id(self, image):
+    def _retry_till_blk_mapping_is_available(self, image):
+
+        while True:
+            image = self._connect().get_image(image_id=image.id)
+            blk_mapping = image.extra['block_device_mapping']
+
+            if blk_mapping:
+                return blk_mapping
+
+    def get_snapshot_from_image(self, image):
         """ Comment goes here """
         if isinstance(image, str):
             image_id = image
             image = self._connect().get_image(image_id)
 
-        snapshot_id = image.extra['block_device_mapping'][0]['ebs']['snapshot_id']
+        blk_mapping = image.extra['block_device_mapping']
+        if not blk_mapping:
+            blk_mapping = self._retry_till_blk_mapping_is_available(image)
+
+        snapshot_id = blk_mapping[0]['ebs']['snapshot_id']
         if snapshot_id is None:
             snapshot_id = self._retry_till_snapshot_is_available(image)
 
         snapshot = self._generate_dummy_snapshot_object(snapshot_id)[0]
 
         return snapshot
+
+    def get_volume_type_from_image(self, image):
+        if isinstance(image, str):
+            image_id = image
+            image = self._connect().get_image(image_id)
+
+        blk_mapping = image.extra['block_device_mapping']
+        if not blk_mapping:
+            blk_mapping = self._retry_till_blk_mapping_is_available(image)
+    
+        return blk_mapping[0]['ebs']['volume_type']
+
+    def get_virt_type_from_image(self, image):
+        if isinstance(image, str):
+            image_id = image
+            image = self._connect().get_image(image_id)
+
+        blk_mapping = image.extra['block_device_mapping']
+        if not blk_mapping:
+            blk_mapping = self._retry_till_blk_mapping_is_available(image)
+    
+        device_name = blk_mapping[0]['ebs']['volume_type']
+
+        if device_name.endswith('sda1'):
+            return 'hvm'
+        else:
+            return 'paravirtual'
 
     def publish_images(self, region_image_mapping=None):
         """ Comment goes here """
@@ -143,13 +183,13 @@ class EC2ImagePublisher(EC2Base):
             log.info('Publish image (%s) in %s completed' % (image_id, region))
 
             log.info('Publish snaphsot for image (%s) in %s started' % (image_id, region))
-            snapshot = self.get_snapshot_from_image_id(image)
+            snapshot = self.get_snapshot_from_image(image)
             log.info('Fetched snapshot for image (%s): %s' % (image_id, snapshot.id))
             is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
             log.info('Publish snaphsot for image (%s) in %s completed' % (image_id, region))
 
-            volume_type = get_volume_type_from_image(image)
-            virt_type = get_virt_type_from_image(image)
+            volume_type = self.get_volume_type_from_image(image)
+            virt_type = self.get_virt_type_from_image(image)
 
             if self.push_notifications:
                 fedimg.messenger.notify(
