@@ -287,12 +287,7 @@ class EC2ImagePublisher(EC2Base):
         return copied_images
 
     def deprecate_images(self, image_ids=None, snapshot_perm='all'):
-        """ Comment goes here """
-
-        if image_ids is None:
-            return
+        raise NotImplementedError
 
     def delete_images(self, image_ids=None, snapshot_perm='all'):
-
-        if image_ids is None:
-            return
+        raise NotImplementedError

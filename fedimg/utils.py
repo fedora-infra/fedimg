@@ -105,7 +105,7 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    ret = subprocess.Popen(' '.join(command), shell=True, stdin=subprocess.PIPE,
+    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
@@ -167,6 +167,7 @@ def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
         volume_type,
         respin]
     ))
+
 
 def get_image_name_from_ami_name(image_name, region):
     name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
