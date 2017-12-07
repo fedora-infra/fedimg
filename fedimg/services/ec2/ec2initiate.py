@@ -38,7 +38,7 @@ from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
 from fedimg.utils import get_image_name_from_image, get_file_arch
 
-LOG = logging.getLogger("fedmsg")
+LOG = logging.getLogger(__name__)
 
 
 def main(image_urls, access_id, secret_key, regions, volume_types=None,

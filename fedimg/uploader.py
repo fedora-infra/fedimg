@@ -32,7 +32,7 @@ from fedimg.services.ec2.ec2copy import main as ec2copy
 from fedimg.services.ec2.config import AWS_ACCESS_ID, AWS_SECRET_KEY
 from fedimg.services.ec2.config import AWS_BASE_REGION, AWS_REGIONS
 
-LOG = logging.getLogger("fedmsg")
+LOG = logging.getLogger(__name__)
 
 
 def upload(pool, urls, *args, **kwargs):

@@ -27,7 +27,7 @@ import logging
 from fedimg.services.ec2.config import AWS_BASE_REGION
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 
-LOG = logging.getLogger("fedmsg")
+LOG = logging.getLogger(__name__)
 
 
 def main(regions, access_id, secret_key, images=None,

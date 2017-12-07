@@ -37,7 +37,7 @@ import fedimg.uploader
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
 from fedimg.utils import get_rawxz_urls, get_value_from_dict
 
-LOG = logging.getLogger("fedmsg")
+LOG = logging.getLogger(__name__)
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
