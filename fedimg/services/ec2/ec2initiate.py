@@ -89,6 +89,9 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
 
         try:
             source = get_source_from_image(image_url)
+            if not source:
+                raise ValueError
+
             image_architecture = get_file_arch(image_url)
 
             uploader = EC2ImageUploader(
@@ -155,7 +158,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 ))
         except Exception as e:
             LOG.debug(e.message)
-            uploader.clean_up(image_id=image.id, delete_snapshot=True)
+            #TODO: Implement the clean up of the images if failed.
+            # uploader.clean_up(image_id=image.id, delete_snapshot=True)
 
     shutil.rmtree(os.path.dirname(source))
     return published_images

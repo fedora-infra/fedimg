@@ -138,6 +138,9 @@ def get_source_from_image(image_url):
         tmpdir
     ])
 
+    if retcode != 0:
+        return ''
+
     return file_path
 
 
