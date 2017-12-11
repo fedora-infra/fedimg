@@ -163,23 +163,13 @@ def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
     file_name = get_file_name_image(image_url)
     build_name = file_name.replace('.raw.xz', '')
 
-    return '-'.join(filter(lambda x: x, [
-        build_name,
-        virt_type,
-        region,
-        volume_type,
-        respin]
-    ))
+    return '-'.join(
+        [x for x in [build_name, virt_type, region, volume_type, respin] if x])
 
 
 def get_image_name_from_ami_name(image_name, region):
     name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
     name_vt = name_vt_region.rsplit('-', 3)[:-3][0]
 
-    return '-'.join(filter(lambda x: x, [
-        name_vt,
-        region,
-        volume_type,
-        respin]
-    ))
-
+    return '-'.join(
+        [x for x in [name_vt, region, volume_type, respin] if x])
