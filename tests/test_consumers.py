@@ -21,7 +21,6 @@
 
 import os
 import mock
-import requests
 import unittest
 
 import vcr
