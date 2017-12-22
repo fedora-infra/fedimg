@@ -31,8 +31,8 @@ from itertools import product as itertools_product
 
 import fedimg.messenger
 
-from fedimg.services.ec2.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
-from fedimg.services.ec2.config import AWS_ROOT_VOLUME_SIZE
+from fedimg.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
+from fedimg.config import AWS_ROOT_VOLUME_SIZE
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image

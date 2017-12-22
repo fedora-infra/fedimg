@@ -24,7 +24,7 @@ I don't know what to write here for documentation.
 """
 import logging
 
-from fedimg.services.ec2.config import AWS_BASE_REGION
+from fedimg.config import AWS_BASE_REGION
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 
 LOG = logging.getLogger(__name__)

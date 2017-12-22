@@ -148,7 +148,7 @@ class EC2ImagePublisher(EC2Base):
         blk_mapping = image.extra['block_device_mapping']
         if not blk_mapping:
             blk_mapping = self._retry_till_blk_mapping_is_available(image)
-    
+
         return blk_mapping[0]['ebs']['volume_type']
 
     def get_virt_type_from_image(self, image):
@@ -159,7 +159,7 @@ class EC2ImagePublisher(EC2Base):
         blk_mapping = image.extra['block_device_mapping']
         if not blk_mapping:
             blk_mapping = self._retry_till_blk_mapping_is_available(image)
-    
+ 
         device_name = blk_mapping[0]['ebs']['volume_type']
 
         if device_name.endswith('sda1'):

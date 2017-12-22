@@ -32,3 +32,16 @@ STATUS_FILTER = ('FINISHED_INCOMPLETE', 'FINISHED')
 ACTIVE_SERVICES = config['general']['active_services']
 CLEAN_UP_ON_FAILURE = config['general']['clean_up_on_failure']
 DELETE_IMAGES_ON_FAILURE = config['general']['delete_images_on_failure']
+
+AWS_UTIL_USER = config.get('aws', {}).get('util_username', {})
+AWS_TEST_USER = config.get('aws', {}).get('test_username', {})
+AWS_ACCESS_ID = config.get('aws', {}).get('access_id')
+AWS_SECRET_KEY = config.get('aws', {}).get('secret_key')
+AWS_VOLUME_SIZE = config.get('aws', {}).get('volume_size')
+AWS_VOLUME_TYPES = config.get('aws', {}).get('volume_types')
+AWS_VOLUME_VIA_S3 = config.get('aws', {}).get('volume_via_s3')
+AWS_IAM_PROFILE = config.get('aws', {}).get('iam_profile')
+AWS_REGIONS = config.get('aws', {}).get('regions', {})
+AWS_ROOT_VOLUME_SIZE = config.get('aws', {}).get('root_volume_size', {})
+AWS_BASE_REGION = config.get('aws', {}).get('base_region', {})
+AWS_DELETE_RESOURCES = config.get('aws', {}).get('delete_resources', True)

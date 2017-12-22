@@ -27,7 +27,7 @@ import re
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
-from fedimg.services.ec2.config import AWS_DELETE_RESOURCES
+from fedimg.config import AWS_DELETE_RESOURCES
 from fedimg.services.ec2.ec2base import EC2Base
 
 
