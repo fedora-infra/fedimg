@@ -23,11 +23,7 @@ import os
 import mock
 import unittest
 
-import vcr
-
 import fedimg.consumers
-
-cassette_dir = os.path.join(os.path.dirname(__file__), 'vcr-request-data')
 
 
 class TestFedimgConsumer(unittest.TestCase):
@@ -43,10 +39,6 @@ class TestFedimgConsumer(unittest.TestCase):
         cls.fedmsg_config = config
 
     def setUp(self):
-        vcr_filename = os.path.join(cassette_dir, self.id())
-        self.vcr = vcr.use_cassette(vcr_filename, record_mode='new_episodes')
-        self.vcr.__enter__()
-
         class FakeHub(object):
             config = self.fedmsg_config
 
