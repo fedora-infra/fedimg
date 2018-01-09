@@ -16,24 +16,26 @@
 # or write to the Free Software Foundation, Inc.,
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
-# Authors:  David Gay <dgay@redhat.com>
+# Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 
-import socket
-hostname = socket.gethostname()
+from libcloud.compute.types import Provider
+from libcloud.compute.providers import get_driver
 
-NUM_BASE_THREADS = 4
-NUM_ATOMIC_THREADS = 2
-NUM_PORTS = 2 * ((NUM_BASE_THREADS + NUM_ATOMIC_THREADS) + 1)
 
-config = {
-    'fedimgconsumer.dev.enabled': True,
-    'fedimgconsumer.prod.enabled': False,
-    'fedimgconsumer.stg.enabled': False,
-    'endpoints': {
-        "fedimg.%s" % hostname: [
-            "tcp://127.0.0.1:60%0.2i" % (i)
-            for i in range(NUM_PORTS)
-        ],
-    },
-}
+class EC2Base(object):
+    """ Comment goes here """
+
+    def _connect(self):
+        cls = get_driver(Provider.EC2)
+        driver = cls(
+            self.access_key,
+            self.secret_key,
+            region=self.region
+        )
+
+        return driver
+
+    def set_region(self, region):
+        """ Comment goes here """
+        self.region = region

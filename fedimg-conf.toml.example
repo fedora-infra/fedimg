@@ -1,0 +1,29 @@
+[general]
+clean_up_on_failure = true
+delete_images_on_failure = true
+process_count = 1
+active_services = ['aws']
+
+
+[aws]
+volume_size = 7
+access_id = "secretaccessID"
+secret_key = "supersecretsecretkey"
+base_region = 'us-east-1'
+regions = ['ap-northeast-2', 'us-east-2', 'ap-southeast-1', 'ap-southeast-2',
+           'ap-south-1', 'eu-west-1', 'sa-east-1', 'us-east-1', 'us-west-2',
+           'us-gov-west-1', 'us-west-1', 'eu-central-1', 'ap-northeast-1']
+
+[rackspace]
+username = "someuser"
+api_key = "secretk3y"
+
+[gce]
+email = "someacct@provider.com"
+keypath = "/path/to/pem/file"
+project_id = "someprojectid"
+
+[hp]
+username = "aperson"
+password = "somecoolpassword"
+tenant = "theprojectname"

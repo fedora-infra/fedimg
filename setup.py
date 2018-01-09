@@ -45,6 +45,8 @@ setup(
     packages=find_packages(),
     entry_points="""
     [moksha.consumer]
-    fedimgconsumer = fedimg.consumers:FedimgConsumer
+    fedimgconsumer.prod = fedimg.consumers:FedimgConsumer
+    fedimgconsumer.stg = fedimg.consumers:FedimgStagingConsumer
+    fedimgconsumer.dev = fedimg.consumers:FedimgDevConsumer
     """,
 )

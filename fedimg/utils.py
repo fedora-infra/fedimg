@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014-2015 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -18,30 +18,31 @@
 #
 # Authors:  David Gay <dgay@redhat.com>
 #           Ralph Bean <rbean@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
 """
 Utility functions for fedimg.
 """
+import logging
+log = logging.getLogger("fedmsg")
 
 import functools
+import os
+import re
 import socket
 import subprocess
+import tempfile
 
 import paramiko
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
-
-import fedimg
 
 
 def get_file_arch(file_name):
     """ Takes a file name (probably of a .raw.xz image file) and returns
     the suspected architecture of the contained image. If it doesn't look
     like a 32-bit or 64-bit image, None is returned. """
-    if file_name.find('i386') != -1:
-        return 'i386'
-    elif file_name.find('x86_64') != -1:
+    if file_name.find('x86_64') != -1:
         return 'x86_64'
     else:
         return None
@@ -58,7 +59,7 @@ def get_rawxz_urls(location, images):
     return map((lambda path: '{}/{}'.format(location, path)), rawxz_list)
 
 
-def virt_types_from_url(url):
+def get_virt_types_from_url(url):
     """ Takes a URL to a .raw.xz image file) and returns the suspected
         virtualization type that the image file should be registered as. """
     file_name = url.split('/')[-1].lower()
@@ -88,16 +89,87 @@ def ssh_connection_works(username, ip, keypath):
         works = True
     except (paramiko.BadHostKeyException,
             paramiko.AuthenticationException,
-            paramiko.SSHException, socket.error) as e:
+            paramiko.SSHException, socket.error):
         pass
     ssh.close()
     return works
 
 
-def safeget(dct, *keys):
+def get_value_from_dict(_dict, *keys):
     for key in keys:
         try:
-            dct = dct[key]
+            _dict = _dict[key]
         except KeyError:
             return None
-    return dct
+    return _dict
+
+
+def external_run_command(command):
+    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True
+                           stdout=subprocess.PIPE, stderr=subprocess.PIPE,
+                           close_fds=True)
+    out, err = ret.communicate()
+    retcode = ret.returncode
+    return out, err, retcode
+
+
+def get_item_from_regex(output, regex):
+    match = re.search(regex, output)
+    if match is None:
+        return ''
+    else:
+        return match.group(1)
+
+
+def get_file_name_image(image_url):
+    return image_url.split('/')[-1]
+
+
+def get_source_from_image(image_url):
+    tmpdir = tempfile.mkdtemp()
+    file_name = get_file_name_image(image_url)
+    file_path = os.path.join(tmpdir, file_name)
+
+    log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
+    output, error, retcode = external_run_command([
+        'wget',
+        image_url,
+        '-P',
+        tmpdir
+    ])
+
+    if retcode != 0:
+        return ''
+
+    return file_path
+
+
+def get_volume_type_from_image(image, region):
+    return image.extra['block_device_mapping'][0]['ebs']['volume_type']
+
+
+def get_virt_type_from_image(image):
+    device_name = image.extra['block_device_mapping'][0]['device_name']
+
+    if device_name.endswith('sda1'):
+        return 'hvm'
+    else:
+        return 'paravirtual'
+
+
+def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
+                              volume_type=''):
+
+    file_name = get_file_name_image(image_url)
+    build_name = file_name.replace('.raw.xz', '')
+
+    return '-'.join(
+        [x for x in [build_name, virt_type, region, volume_type, respin] if x])
+
+
+def get_image_name_from_ami_name(image_name, region):
+    name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
+    name_vt = name_vt_region.rsplit('-', 3)[:-3][0]
+
+    return '-'.join(
+        [x for x in [name_vt, region, volume_type, respin] if x])

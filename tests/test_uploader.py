@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,22 +17,9 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
-import mock
 import unittest
-
-import fedimg.uploader
-
-
-class TestUploader(unittest.TestCase):
-    """ This tests fedimg/uploader.py. """
-
-    def setUp(self):
-        pass
-
-    def tearDown(self):
-        pass
 
 if __name__ == '__main__':
     unittest.main()

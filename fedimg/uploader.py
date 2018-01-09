@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -17,31 +18,57 @@
 # 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
-#
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
+"""
+This module checks for the active services (configured through the fedimg
+configuration file) and call the main method for the service.
+"""
 
 import logging
-log = logging.getLogger("fedmsg")
 
-from fedimg.services.ec2 import EC2Service
-from fedimg.util import virt_types_from_url
+from fedimg.config import ACTIVE_SERVICES
+from fedimg.services.ec2.ec2initiate import main as ec2main
+from fedimg.services.ec2.ec2copy import main as ec2copy
+from fedimg.config import AWS_ACCESS_ID, AWS_SECRET_KEY
+from fedimg.config import AWS_BASE_REGION, AWS_REGIONS
 
 
-def upload(pool, urls, compose_meta):
-    """ Takes a list (urls) of one or more .raw.xz image files and
+LOG = logging.getLogger(__name__)
+
+
+def upload(pool, urls, *args, **kwargs):
+    """
+    Takes a list (urls) of one or more .raw.xz image files and
     sends them off to cloud services for registration. The upload
-    jobs threadpool must be passed as `pool`."""
+    jobs threadpool must be passed as `pool`.
 
-    log.info('Starting upload process')
+    Args:
+        pool (multithreading.pool.ThreadPool): The thread pool to parallelize
+        the uploads.
+        urls (list): List of cloud image urls.
+    """
 
-    services = []
+    active_services = ACTIVE_SERVICES
+    compose_id = kwargs.get('compose_id')
 
-    for url in urls:
-        # EC2 upload
-        log.info("  Preparing to upload %r" % url)
-        for vt in virt_types_from_url(url):
-            services.append(EC2Service(url, virt_type=vt,
-                                       vol_type='standard'))
-            services.append(EC2Service(url, virt_type=vt,
-                                       vol_type='gp2'))
-
-    results = pool.map(lambda s: s.upload(compose_meta), services)
+    if 'aws' in active_services:
+        LOG.info('Starting to process AWS EC2Service.')
+        images_metadata = ec2main(
+            urls,
+            AWS_ACCESS_ID,
+            AWS_SECRET_KEY,
+            [AWS_BASE_REGION],
+            compose_id=compose_id
+        )
+        for image_metadata in images_metadata:
+            image_id = image_metadata['image_id']
+            aws_regions = list(set(AWS_REGIONS) - set([AWS_BASE_REGION]))
+            ec2copy(
+                aws_regions,
+                AWS_ACCESS_ID,
+                AWS_SECRET_KEY,
+                image_ids=[image_id],
+                push_notifications=True,
+                compose_id=compose_id
+            )
+        LOG.info('AWS EC2Service process is completed.')
