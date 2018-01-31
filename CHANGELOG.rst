@@ -1,4 +1,109 @@
 
+1.0.0
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #61, fedimg: Migrate the CHANGELOG to rst from markdown
+  https://github.com/fedora-infra/fedimg/pull/61
+- (@sayanchowdhury) #62, Break fedimg into multiple components so that it is easier to maintain the AMIs
+  https://github.com/fedora-infra/fedimg/pull/62
+
+Commits
+
+- f1d54ee2f fedimg: Migrate the CHANGELOG to rst from md
+  https://github.com/fedora-infra/fedimg/commit/f1d54ee2f
+- 2b7b49f8e ec2: Modularize the the structure of the ec2
+  https://github.com/fedora-infra/fedimg/commit/2b7b49f8e
+- a52001442 ec2: Write a publisher that would make the images & the snapshot public
+  https://github.com/fedora-infra/fedimg/commit/a52001442
+- ebda1518f ec2: Add a few methods to manage the AMI/Snapshots.
+  https://github.com/fedora-infra/fedimg/commit/ebda1518f
+- 8a5fa90e3 ec2: Remove the code from the __init__.py file.
+  https://github.com/fedora-infra/fedimg/commit/8a5fa90e3
+- 542ff1239 consumers: Add three different consumers for prod, stg & dev
+  https://github.com/fedora-infra/fedimg/commit/542ff1239
+- c794d79fe config: Migrate to mange the configuration using toml
+  https://github.com/fedora-infra/fedimg/commit/c794d79fe
+- 6852eb6c2 tests: Start fixing the tests using pytest
+  https://github.com/fedora-infra/fedimg/commit/6852eb6c2
+- 897e55db3 tests: Fix the tests for fedimg.util
+  https://github.com/fedora-infra/fedimg/commit/897e55db3
+- 952845601 fedimg: Modify setup according to dev, prod, and staging consumers
+  https://github.com/fedora-infra/fedimg/commit/952845601
+- 13d13ee6a ec2: Create a script to initiate the complete process
+  https://github.com/fedora-infra/fedimg/commit/13d13ee6a
+- b0b356966 ec2: Move util to utils, and fix the imports
+  https://github.com/fedora-infra/fedimg/commit/b0b356966
+- 4a081a7b6 consumer: Implement the util methods (they raise NotImplementError now)
+  https://github.com/fedora-infra/fedimg/commit/4a081a7b6
+- dbf341266 tests: Fix the test cases for the consumer
+  https://github.com/fedora-infra/fedimg/commit/dbf341266
+- ea14ae1ef fedimg: Add logging statements to the source
+  https://github.com/fedora-infra/fedimg/commit/ea14ae1ef
+- 829bfbc70 fedimg: Fix the config parsing for the general configurations
+  https://github.com/fedora-infra/fedimg/commit/829bfbc70
+- ad2c85df6 utils: Implement the methods `external_run_command` & `get_source_from_image`
+  https://github.com/fedora-infra/fedimg/commit/ad2c85df6
+- a54150605 services.ec2: Add methods to publish and copy the images to other regions
+  https://github.com/fedora-infra/fedimg/commit/a54150605
+- b1edcbb84 services.ec2: Update ec2initiate with the publisher code
+  https://github.com/fedora-infra/fedimg/commit/b1edcbb84
+- a1cf41b0d serices.ec2: Add a push_notifications flag to control msg bus push
+  https://github.com/fedora-infra/fedimg/commit/a1cf41b0d
+- 7283f2e2c services.ec2: Update the publisher to send messages to fedmsg
+  https://github.com/fedora-infra/fedimg/commit/7283f2e2c
+- f05c59c26 consumers: Add documentation to FedimgConsumer
+  https://github.com/fedora-infra/fedimg/commit/f05c59c26
+- 6050d2cf4 uploader: Add documentation to the fedimg uploader
+  https://github.com/fedora-infra/fedimg/commit/6050d2cf4
+- 9d885c461 services.ec2: Change the initiate to just handle upload of the images
+  https://github.com/fedora-infra/fedimg/commit/9d885c461
+- 580759f29 services.ec2: Fix the sample config file
+  https://github.com/fedora-infra/fedimg/commit/580759f29
+- 150a475c5 services.ec2: Create a utility method to create get the image_name
+  https://github.com/fedora-infra/fedimg/commit/150a475c5
+- fff538fe6 uploader: Fix the BASE_REGION in the uploader method
+  https://github.com/fedora-infra/fedimg/commit/fff538fe6
+- d5acfe690 services.ec2: Fix the downloading and uploading of the source
+  https://github.com/fedora-infra/fedimg/commit/d5acfe690
+- 84826fa57 messenger: Change the name of the method that pushes fedmsg messages
+  https://github.com/fedora-infra/fedimg/commit/84826fa57
+- c0cab6176 services.ec2: Fix the issues with the EC2ImgUploader
+  https://github.com/fedora-infra/fedimg/commit/c0cab6176
+- 600cc7c7b services.ec2: Fix the issues in the EC2ImagePublisher
+  https://github.com/fedora-infra/fedimg/commit/600cc7c7b
+- 9b37e0dd9 services.ec2: Attach EC2 copy to other regions into uploader
+  https://github.com/fedora-infra/fedimg/commit/9b37e0dd9
+- 211787e6f services.ec2: Add documentation for EC2ImgUploader
+  https://github.com/fedora-infra/fedimg/commit/211787e6f
+- dfd752a3c services.ec2: Change the return data from published images
+  https://github.com/fedora-infra/fedimg/commit/dfd752a3c
+- 9f3eb7dfd services.ec2: Fix the ec2 image publisher
+  https://github.com/fedora-infra/fedimg/commit/9f3eb7dfd
+- cd6a85fdb services.ec2: Change the bucket name according to Amazon S3 guidelines
+  https://github.com/fedora-infra/fedimg/commit/cd6a85fdb
+- d56d74447 services.ec2: Delete the resources when failed or completed
+  https://github.com/fedora-infra/fedimg/commit/d56d74447
+- 71cd44d05 services.ec2: Add the retry logic to fetch the snapshot details
+  https://github.com/fedora-infra/fedimg/commit/71cd44d05
+- 0b826f42a config: Change the config to multiple lines
+  https://github.com/fedora-infra/fedimg/commit/0b826f42a
+- 952500c8f fedimg: Replace the logger name to __name__
+  https://github.com/fedora-infra/fedimg/commit/952500c8f
+- 38f53f878 services.ec2: Fix the utility methods
+  https://github.com/fedora-infra/fedimg/commit/38f53f878
+- e42754240 services.ec2: Return empty if the download fails
+  https://github.com/fedora-infra/fedimg/commit/e42754240
+- 1df64ecc6 utils: @pypingou suggested to simplify the lambda statement
+  https://github.com/fedora-infra/fedimg/commit/1df64ecc6
+- f39c64a23 utils: Add the shell=True params for the shell params
+  https://github.com/fedora-infra/fedimg/commit/f39c64a23
+- db17bb599 config: Move the config in a single configuration file
+  https://github.com/fedora-infra/fedimg/commit/db17bb599
+- 6855d49ae tests: Remove the code related to vcr
+  https://github.com/fedora-infra/fedimg/commit/6855d49ae
+
 0.7.5
 -----
 
