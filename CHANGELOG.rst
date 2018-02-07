@@ -1,4 +1,17 @@
 
+1.0.1
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #65, Fix the invalid syntax issue
+  https://github.com/fedora-infra/fedimg/pull/65
+
+Commits
+
+- 8f0a92d4d utils: Fix the invalid syntax issue
+  https://github.com/fedora-infra/fedimg/commit/8f0a92d4d
+
 1.0.0
 -----
 
