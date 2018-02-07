@@ -105,7 +105,7 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True
+    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
