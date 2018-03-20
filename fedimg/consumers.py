@@ -80,7 +80,8 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
 
         location = msg_info['location']
         compose_id = msg_info['compose_id']
-        compose_metadata = fedfind.release.get_release_cid(compose_id).metadata
+        compose_metadata = fedfind.release.get_release(cid=compose_id).metadata
+
         images_meta = get_value_from_dict(
             compose_metadata,
             'images',
