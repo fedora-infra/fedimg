@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2017 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -23,54 +23,123 @@ import os
 import mock
 import unittest
 
+import vcr
+
 import fedimg.consumers
+
+import utils
+
+
+cassette_dir = os.path.join(os.path.dirname(__file__), 'vcr-request-data')
 
 
 class TestFedimgConsumer(unittest.TestCase):
-    """ Comment goes here """
-
-    @classmethod
-    def setUpClass(cls):
-        import fedmsg.config
-        import fedmsg.meta
-
-        config = fedmsg.config.load_config([], None)
-        fedmsg.meta.make_processors(**config)
-        cls.fedmsg_config = config
 
     def setUp(self):
-        class FakeHub(object):
-            config = self.fedmsg_config
+        hub = utils.MockHub()
+        self.consumer = fedimg.consumers.FedimgConsumer(hub)
 
-            def subscribe(*args, **kwargs):
-                pass
-
-        fedimg.consumers.FedimgConsumer._initialized = True  # a lie
-        self.consumer = fedimg.consumers.FedimgConsumer(FakeHub())
+        vcr_filename = os.path.join(cassette_dir, self.id())
+        self.vcr = vcr.use_cassette(vcr_filename, record_mode='new_episodes')
+        self.vcr.__enter__()
 
     def tearDown(self):
-        pass
+        self.vcr.__exit__()
+
+    @mock.patch('fedimg.consumers.LOG.debug')
+    @mock.patch('fedimg.uploader.upload')
+    def test_invalid_status(self, mock_upload, mock_log):
+        msg = {
+            "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+            "body":  {
+                "username": "root",
+                "i": 1,
+                "timestamp": 1521703054.0,
+                "msg_id": "2018-6de5ec39-0e28-46aa-a359-99142682fdd9",
+                "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+                "msg": {
+                    "status": "STARTED",
+                    "release_type": "ga",
+                    "compose_label": None,
+                    "compose_respin": 0,
+                    "compose_date": "20180321",
+                    "release_version": "28",
+                    "location": "http://kojipkgs.fedoraproject.org/compose/branched/Fedora-28-20180321.n.0/compose",
+                    "compose_type": "nightly",
+                    "release_is_layered": False,
+                    "release_name": "Fedora",
+                    "release_short": "Fedora",
+                    "compose_id": "Fedora-28-20180321.n.0"
+                }
+            }
+        }
+        self.consumer.consume(msg)
+        mock_log.assert_called_with('STARTED is not valid status')
+
+    @mock.patch('fedimg.consumers.LOG.debug')
+    @mock.patch('fedimg.uploader.upload')
+    def test_incompatible_images(self, mock_upload, mock_log):
+        msg = {
+            "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+            "body":  {
+                "username": "root",
+                "i": 1,
+                "timestamp": 1521648937.0,
+                "msg_id": "2018-31162ce8-69ec-417e-bc7f-01653f4dcedf",
+                "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+                "msg": {
+                    "status": "FINISHED_INCOMPLETE",
+                    "release_type": "ga",
+                    "compose_label": None,
+                    "compose_respin": 0,
+                    "compose_date": "20180321",
+                    "release_version": "28",
+                    "location": "http://kojipkgs.fedoraproject.org/compose/branched/Fedora-28-20180321.n.0/compose",
+                    "compose_type": "nightly",
+                    "release_is_layered": False,
+                    "release_name": "Fedora",
+                    "release_short": "Fedora",
+                    "compose_id": "Fedora-28-20180321.n.0"
+                }
+            }
+        }
+        self.consumer.consume(msg)
+        mock_log.assert_called_with('No compatible image found to process')
+
 
     @mock.patch('fedimg.uploader.upload')
-    def test_send_to_uploader(self, upload):
+    def test_success_upload(self, upload):
         msg = {
-            'topic': 'org.fedoraproject.prod.pungi.compose.status.change',
-            'body': {
-                'msg_id': 1,
-                'msg': {
-                    'status': 'FINISHED_INCOMPLETE',
-                    'location': 'http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20170708.n.0/compose', 
-                    'compose_id': 'Fedora-Rawhide-20170708.n.0'
+            "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+            "body":  {
+                "username": "root",
+                "i": 1,
+                "timestamp": 1521271546.0,
+                "msg_id": "2018-8c8c2c46-e5f8-4fe3-8f8b-80dd18b21947",
+                "topic": "org.fedoraproject.prod.pungi.compose.status.change",
+                "msg": {
+                    "status": "FINISHED",
+                    "release_type": "ga",
+                    "compose_label": "RC-20180317.0",
+                    "compose_respin": 0,
+                    "compose_date": "20180317",
+                    "release_version": "27",
+                    "location": "http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose",
+                    "compose_type": "production",
+                    "release_is_layered": False,
+                    "release_name": "Fedora-Cloud",
+                    "release_short": "Fedora-Cloud",
+                    "compose_id": "Fedora-Cloud-27-20180317.0"
                 }
             }
         }
 
         self.consumer.consume(msg)
-        url = 'http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20170708.n.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-Rawhide-20170708.n.0.x86_64.raw.xz'
+        url = 'http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'
         upload.assert_called_with(
             pool=mock.ANY,
             urls=[url],
-            compose_id='Fedora-Rawhide-20170708.n.0'
+            compose_id='Fedora-Cloud-27-20180317.0'
         )
 
 if __name__ == '__main__':
