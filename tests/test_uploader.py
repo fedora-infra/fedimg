@@ -19,7 +19,65 @@
 # Authors:  David Gay <dgay@redhat.com>
 #           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
+import mock
+import multiprocessing.pool
 import unittest
+
+import fedimg.uploader
+
+
+class TestUploader(unittest.TestCase):
+
+    @mock.patch('fedimg.uploader.ec2main', return_value=[])
+    @mock.patch('fedimg.uploader.ec2copy')
+    @mock.patch('fedimg.uploader.ACTIVE_SERVICES', return_value=['hp'])
+    def test_inactive_aws(self, active_services, ec2copy, ec2main):
+
+        thread_pool = multiprocessing.pool.ThreadPool(processes=1)
+
+        fedimg.uploader.upload(
+            thread_pool,
+            ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
+            compose_id='Fedora-Cloud-27-20180317.0'
+        )
+
+        assert ec2main.called == False
+        assert ec2copy.called == False
+
+    @mock.patch('fedimg.uploader.ec2main', return_value=[])
+    @mock.patch('fedimg.uploader.ec2copy')
+    def test_active_aws_no_images(self, ec2copy, ec2main):
+        thread_pool = multiprocessing.pool.ThreadPool(processes=1)
+
+        fedimg.uploader.upload(
+            thread_pool,
+            ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
+            compose_id='Fedora-Cloud-27-20180317.0'
+        )
+
+        assert ec2main.called == True
+        assert ec2copy.called == False
+
+    @mock.patch('fedimg.uploader.ec2main')
+    @mock.patch('fedimg.uploader.ec2copy')
+    def test_active_aws_with_images(self, ec2copy, ec2main):
+        thread_pool = multiprocessing.pool.ThreadPool(processes=1)
+        ec2main.return_value = [{
+            'image_id': 'i-abc1234',
+            'is_image_public': True,
+            'snapshot_id': 'snap-abc1234',
+            'is_snapshot_public': True,
+            'regions': 'us-east-1'
+        }]
+
+        fedimg.uploader.upload(
+            thread_pool,
+            ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
+            compose_id='Fedora-Cloud-27-20180317.0'
+        )
+
+        assert ec2main.called == True
+        assert ec2copy.called == True
 
 if __name__ == '__main__':
     unittest.main()
