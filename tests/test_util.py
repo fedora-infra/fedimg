@@ -23,7 +23,7 @@ import mock
 import unittest
 
 import fedimg
-import fedimg.util
+import fedimg.utils
 
 
 class TestUtil(unittest.TestCase):
@@ -36,12 +36,12 @@ class TestUtil(unittest.TestCase):
 
     def test_get_file_arch_x86_64(self):
         filename = 'Fedora-Atomic-26-1.5.x86_64.raw.xz'
-        arch = fedimg.util.get_file_arch(filename)
+        arch = fedimg.utils.get_file_arch(filename)
         assert arch == 'x86_64'
 
     def test_get_file_arch_aarch64(self):
         filename = 'Fedora-Cloud-Base-26-1.5.aarch64.raw.xz'
-        arch = fedimg.util.get_file_arch(filename)
+        arch = fedimg.utils.get_file_arch(filename)
         assert arch == None
 
     def test_get_rawxz_urls(self):
@@ -95,7 +95,7 @@ class TestUtil(unittest.TestCase):
                     },
                 ]
 
-        urls = fedimg.util.get_rawxz_urls('https://somepage.org', images)
+        urls = fedimg.utils.get_rawxz_urls('https://somepage.org', images)
         atomic_url = 'https://somepage.org/CloudImages/x86_64/images/Fedora-Atomic-26-1.5.x86_64.raw.xz'
         cloud_base_url = 'https://somepage.org/CloudImages/x86_64/images/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
 
@@ -129,16 +129,16 @@ class TestUtil(unittest.TestCase):
                     },
                 ]
 
-        urls = fedimg.util.get_rawxz_urls('https://somepage.org', images)
+        urls = fedimg.utils.get_rawxz_urls('https://somepage.org', images)
         self.assertEquals(urls, [])
 
     def test_virt_types(self):
         url = 'https://somepage.org/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
-        vtypes = fedimg.util.virt_types_from_url(url)
+        vtypes = fedimg.utils.get_virt_types_from_url(url)
         assert vtypes == ['hvm', 'paravirtual']
 
         url = 'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz'
-        vtypes = fedimg.util.virt_types_from_url(url)
+        vtypes = fedimg.utils.get_virt_types_from_url(url)
         assert vtypes == ['hvm']
 
 
