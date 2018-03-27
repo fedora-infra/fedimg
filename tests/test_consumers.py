@@ -19,7 +19,6 @@
 # Authors:  David Gay <dgay@redhat.com>
 #
 
-import os
 import mock
 import unittest
 
@@ -59,7 +58,7 @@ class TestFedimgConsumer(unittest.TestCase):
                 'msg_id': 1,
                 'msg': {
                     'status': 'FINISHED_INCOMPLETE',
-                    'location': 'http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20170708.n.0/compose', 
+                    'location': 'http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20170708.n.0/compose',
                     'compose_id': 'Fedora-Rawhide-20170708.n.0'
                 }
             }
