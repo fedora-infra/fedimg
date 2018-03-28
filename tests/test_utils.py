@@ -194,5 +194,85 @@ class TestFedimgUtils(unittest.TestCase):
         mock_popen.communicate.assert_called_once_with()
         mock_returncode.assert_called_once_with()
 
+    def test_get_item_from_regex(self):
+
+        result = fedimg.utils.get_item_from_regex(
+            'Task completed: import-vol-abc12345',
+            '\s(import-vol-\w{8})'
+        )
+
+        assert result == 'import-vol-abc12345'
+
+        negative_result = fedimg.utils.get_item_from_regex(
+            'Task completed: import-vol-1234',
+            '\s(import-vol-\w{8})'
+        )
+
+        assert negative_result == ''
+
+    def test_get_file_name_image(self):
+
+        result = fedimg.utils.get_file_name_image(
+            'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz'
+        )
+
+        assert result == 'Fedora-Atomic-26-1.5.x86_64.raw.xz'
+
+    @mock.patch('fedimg.utils.external_run_command')
+    def test_get_source_from_image(self, mock_erc):
+        mock_erc.return_value = (
+            "2018-03-27 00:00:00 (93 KB/s) 'Fedora-Atomic-26-1.5.x86_64.raw.xz' (1234569/123456789)",
+            "",
+            0
+        )
+        fedimg.utils.get_source_from_image('https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz')
+        mock_erc.assert_called_once_with([
+            'wget',
+            'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
+            '-P',
+            mock.ANY
+        ])
+
+    def test_get_volume_type_from_image(self):
+        mock_image = mock.Mock()
+        mock_image.extra = {
+            'block_device_mapping': [{
+                'ebs': {
+                    'volume_type': 'gp2'
+                }
+            }]
+        }
+        region = 'us-east-1'
+
+        volume_type = fedimg.utils.get_volume_type_from_image(
+                mock_image, region)
+
+        assert volume_type == 'gp2'
+
+    def test_get_virt_type_from_image_hvm(self):
+        mock_image = mock.Mock()
+        mock_image.extra = {
+            'block_device_mapping': [{
+                'device_name': '/dev/sda1'
+            }]
+        }
+
+        virt_type = fedimg.utils.get_virt_type_from_image(mock_image)
+
+        assert virt_type == 'hvm'
+
+    def test_get_virt_type_from_image_paravirtual(self):
+        mock_image = mock.Mock()
+        mock_image.extra = {
+            'block_device_mapping': [{
+                'device_name': '/dev/sda'
+            }]
+        }
+
+        virt_type = fedimg.utils.get_virt_type_from_image(mock_image)
+
+        assert virt_type == 'paravirtual'
+
+
 if __name__ == '__main__':
     unittest.main()
