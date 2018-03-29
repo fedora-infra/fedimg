@@ -22,18 +22,24 @@
 import mock
 import unittest
 import subprocess
+import paramiko
 
 import fedimg
 import fedimg.utils
 
+
+def mock_ssh_exception(*args, **kwargs):
+    raise paramiko.SSHException("Could not connect")
 
 class TestFedimgUtils(unittest.TestCase):
 
     class MockPopen(object):
         def __init(self):
             pass
+
         def communicate(self, input=None):
             pass
+
         @property
         def returncode(self):
             pass
@@ -226,12 +232,30 @@ class TestFedimgUtils(unittest.TestCase):
             0
         )
         fedimg.utils.get_source_from_image('https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz')
+
         mock_erc.assert_called_once_with([
             'wget',
             'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
             '-P',
             mock.ANY
         ])
+
+    @mock.patch('fedimg.utils.external_run_command')
+    def test_get_source_from_image_retcode_1(self, mock_erc):
+        mock_erc.return_value = (
+            "2018-03-27 00:00:00 (93 KB/s) 'Fedora-Atomic-26-1.5.x86_64.raw.xz' (1234569/123456789)",
+            "",
+            1
+        )
+        file_path = fedimg.utils.get_source_from_image('https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz')
+
+        mock_erc.assert_called_once_with([
+            'wget',
+            'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
+            '-P',
+            mock.ANY
+        ])
+        assert file_path == ''
 
     def test_get_volume_type_from_image(self):
         mock_image = mock.Mock()
@@ -273,6 +297,64 @@ class TestFedimgUtils(unittest.TestCase):
 
         assert virt_type == 'paravirtual'
 
+    def test_region_to_driver(self):
+        driver_1 = fedimg.utils.region_to_driver('us-east-1')
+        driver_2 = fedimg.utils.region_to_driver('eu-west-1')
+
+        assert driver_1.func == driver_2.func
+
+    @mock.patch('paramiko.SSHClient')
+    def test_ssh_connection_works_true(self, mocksshclient):
+        mocksshclient.connect.return_value = ''
+        result = fedimg.utils.ssh_connection_works(
+            'testuser',
+            '127.0.0.1',
+            '/path/to/key'
+        )
+
+        assert result == True
+
+    @mock.patch('paramiko.SSHClient')
+    def test_ssh_connection_works_false(self, mocksshclient):
+        mockssh = mock.Mock()
+        mocksshclient.return_value = mockssh
+        mockssh.connect.side_effect = mock_ssh_exception
+        result = fedimg.utils.ssh_connection_works(
+            'testuser',
+            '127.0.0.1',
+            '/path/to/key'
+        )
+
+        assert result == False
+
+    def test_get_image_name_from_image(self):
+        image_name = fedimg.utils.get_image_name_from_image(
+            'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
+            'hvm',
+            'us-east-1',
+            '0',
+            'gp2'
+        )
+
+        assert image_name == 'Fedora-Atomic-26-1.5.x86_64-hvm-us-east-1-gp2-0'
+
+    def test_get_image_name_from_image_without_vol_type(self):
+        image_name = fedimg.utils.get_image_name_from_image(
+            image_url='https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
+            virt_type='hvm',
+            region='us-east-1',
+            respin='0',
+        )
+
+        assert image_name == 'Fedora-Atomic-26-1.5.x86_64-hvm-us-east-1-0'
+
+    def test_get_image_name_from_ami_name(self):
+        image_name = fedimg.utils.get_image_name_from_ami_name(
+            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp2-0',
+            'eu-west-1'
+        )
+
+        assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-eu-west-1-gp2-0'
 
 if __name__ == '__main__':
     unittest.main()
