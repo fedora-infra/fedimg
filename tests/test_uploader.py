@@ -41,8 +41,8 @@ class TestUploader(unittest.TestCase):
             compose_id='Fedora-Cloud-27-20180317.0'
         )
 
-        assert ec2main.called == False
-        assert ec2copy.called == False
+        self.assertIs(ec2main.called, False)
+        self.assertIs(ec2main.called, False)
 
     @mock.patch('fedimg.uploader.ec2main', return_value=[])
     @mock.patch('fedimg.uploader.ec2copy')
@@ -55,8 +55,8 @@ class TestUploader(unittest.TestCase):
             compose_id='Fedora-Cloud-27-20180317.0'
         )
 
-        assert ec2main.called == True
-        assert ec2copy.called == False
+        self.assertIs(ec2main.called, True)
+        self.assertIs(ec2main.called, False)
 
     @mock.patch('fedimg.uploader.ec2main')
     @mock.patch('fedimg.uploader.ec2copy')
@@ -76,8 +76,8 @@ class TestUploader(unittest.TestCase):
             compose_id='Fedora-Cloud-27-20180317.0'
         )
 
-        assert ec2main.called == True
-        assert ec2copy.called == True
+        self.assertIs(ec2main.called, True)
+        self.assertIs(ec2main.called, True)
 
 if __name__ == '__main__':
     unittest.main()
