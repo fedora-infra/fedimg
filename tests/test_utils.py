@@ -111,8 +111,7 @@ class TestFedimgUtils(unittest.TestCase):
         cloud_base_url = 'https://fedoraproject.org/CloudImages/x86_64/images/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
 
         assert len(urls) == 2
-        assert atomic_url in urls
-        assert cloud_base_url in urls
+        self.assertEqual(set(urls), {atomic_url, cloud_base_url})
 
     def test_get_rawxz_urls_empty(self):
         images = [
