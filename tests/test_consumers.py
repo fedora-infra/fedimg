@@ -142,6 +142,3 @@ class TestFedimgConsumer(unittest.TestCase):
             urls=[url],
             compose_id='Fedora-Cloud-27-20180317.0'
         )
-
-if __name__ == '__main__':
-    unittest.main()

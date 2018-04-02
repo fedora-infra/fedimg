@@ -78,6 +78,3 @@ class TestUploader(unittest.TestCase):
 
         self.assertIs(ec2main.called, True)
         self.assertIs(ec2main.called, True)
-
-if __name__ == '__main__':
-    unittest.main()

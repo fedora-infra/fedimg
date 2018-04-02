@@ -356,6 +356,3 @@ class TestFedimgUtils(unittest.TestCase):
         )
 
         assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-eu-west-1-gp2-0'
-
-if __name__ == '__main__':
-    unittest.main()
