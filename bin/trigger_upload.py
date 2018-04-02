@@ -7,14 +7,8 @@ import logging.config
 import multiprocessing.pool
 import sys
 
-import fedmsg
 import fedmsg.config
-
-import fedimg
-import fedimg.services
-from fedimg.services.ec2 import EC2Service, EC2ServiceException
 import fedimg.uploader
-from fedimg.util import virt_types_from_url
 
 if len(sys.argv) != 3:
     print 'Usage: trigger_upload.py <rawxz_image_url> <compose_id>'
@@ -33,4 +27,3 @@ compose_meta = {
 }
 
 fedimg.uploader.upload(upload_pool, [url], compose_meta=compose_meta)
-
