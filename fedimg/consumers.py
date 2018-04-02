@@ -76,6 +76,7 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
 
         msg_info = msg['body']['msg']
         if msg_info['status'] not in STATUS_FILTER:
+            LOG.debug('%s is not valid status' % msg_info['status'])
             return
 
         location = msg_info['location']

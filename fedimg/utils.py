@@ -105,10 +105,12 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
+    log.debug("Starting the command: %r" % command)
     ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
+    log.debug("Finished executing the command: %r" % command)
     retcode = ret.returncode
     return out, err, retcode
 
