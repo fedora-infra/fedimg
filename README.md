@@ -21,7 +21,7 @@ a job manually. If Fedimg is installed properly, the `bin/trigger_upload.py`
 script can be used for this purpose:
 
 ```
-./bin/trigger_upload.py SOME_RAWXZ_URL
+./bin/trigger_upload.py SOME_RAWXZ_URL COMPOSE_ID
 ```
 
 This script simply skips the part where Fedimg listens for the fedmsg, and
@@ -39,5 +39,5 @@ to these providers.
 ## Contributors
 
 * David Gay <dgay@redhat.com>
-
 * Ralph Bean <rbean@redhat.com>
+* Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
