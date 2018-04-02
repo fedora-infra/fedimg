@@ -42,7 +42,7 @@ class TestUploader(unittest.TestCase):
         )
 
         self.assertIs(ec2main.called, False)
-        self.assertIs(ec2main.called, False)
+        self.assertIs(ec2copy.called, False)
 
     @mock.patch('fedimg.uploader.ec2main', return_value=[])
     @mock.patch('fedimg.uploader.ec2copy')
@@ -56,7 +56,7 @@ class TestUploader(unittest.TestCase):
         )
 
         self.assertIs(ec2main.called, True)
-        self.assertIs(ec2main.called, False)
+        self.assertIs(ec2copy.called, False)
 
     @mock.patch('fedimg.uploader.ec2main')
     @mock.patch('fedimg.uploader.ec2copy')

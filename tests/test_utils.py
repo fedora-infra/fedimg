@@ -312,7 +312,7 @@ class TestFedimgUtils(unittest.TestCase):
             '/path/to/key'
         )
 
-        assert result == True
+        self.assertIs(result, True)
 
     @mock.patch('paramiko.SSHClient')
     def test_ssh_connection_works_false(self, mocksshclient):
@@ -325,7 +325,7 @@ class TestFedimgUtils(unittest.TestCase):
             '/path/to/key'
         )
 
-        assert result == False
+        self.assertIs(result, False)
 
     def test_get_image_name_from_image(self):
         image_name = fedimg.utils.get_image_name_from_image(
