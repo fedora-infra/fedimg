@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -30,6 +30,7 @@ import fedimg.utils
 
 def mock_ssh_exception(*args, **kwargs):
     raise paramiko.SSHException("Could not connect")
+
 
 class TestFedimgUtils(unittest.TestCase):
 
