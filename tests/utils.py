@@ -23,6 +23,7 @@
 class MockHub(object):
     config = {
         "fedimgconsumer.prod.enabled": True,
+        "validate_signatures": False,
     }
 
     def subscribe(self, *args, **kwargs):
