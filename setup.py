@@ -43,6 +43,7 @@ setup(
     tests_require=['nose',
                    'mock',
                    'vcrpy'],
+    test_suite='nose.collector',
     packages=find_packages(),
     entry_points="""
     [moksha.consumer]
