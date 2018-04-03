@@ -41,7 +41,8 @@ setup(
                       "apache-libcloud",
                       "paramiko"],
     tests_require=['nose',
-                   'mock'],
+                   'mock',
+                   'vcrpy'],
     packages=find_packages(),
     entry_points="""
     [moksha.consumer]
