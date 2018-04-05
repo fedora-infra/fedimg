@@ -23,6 +23,7 @@ import logging
 _log = logging.getLogger(__name__)
 
 import re
+import time
 
 import fedimg.messenger
 
@@ -267,12 +268,15 @@ class EC2ImageUploader(EC2Base):
         if self.volume:
             self._connect().destroy_volume(self.volume)
 
-        self._connect().deregister_image(
-            image_id,
-            delete_snapshot=delete_snapshot
-        )
+        # self._connect().deregister_image(
+        #    image_id,
+        #    delete_snapshot=delete_snapshot
+        # )
 
-        return True
+        node_image = self._connect().get_image(image_id=image_id)
+        is_node_image_deleted = self._connect().delete_image(node_image)
+
+        return is_node_image_deleted
 
     def set_image_virt_type(self, virt_type):
         """
