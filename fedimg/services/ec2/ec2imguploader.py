@@ -27,7 +27,7 @@ import re
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
-from fedimg.config import AWS_DELETE_RESOURCES
+from fedimg.config import AWS_DELETE_RESOURCES, AWS_S3_BUCKET_NAME
 from fedimg.services.ec2.ec2base import EC2Base
 
 
@@ -71,7 +71,7 @@ class EC2ImageUploader(EC2Base):
             'region': None,
             'service': 'EC2',
             'secret_key': None,
-            's3_bucket_name': 'Fedora-S3-bucket',
+            's3_bucket_name': AWS_S3_BUCKET_NAME,
             'volume_via_s3': True,
             'root_volume_size': 7,
             'push_notifications': False,
