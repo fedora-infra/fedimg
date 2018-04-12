@@ -1,4 +1,105 @@
 
+1.1.0
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #66, consumer: fedfind has deprecated `get_release_cid` method.
+  https://github.com/fedora-infra/fedimg/pull/66
+- (@sayanchowdhury) #67, scripts: Fix the manual upload trigger script
+  https://github.com/fedora-infra/fedimg/pull/67
+- (@sayanchowdhury) #68, fedimg: Remove redundant ec2.py file
+  https://github.com/fedora-infra/fedimg/pull/68
+- (@sayanchowdhury) #76, scripts: Update the trigger_upload, and remove redundant code
+  https://github.com/fedora-infra/fedimg/pull/76
+- (@sayanchowdhury) #75, Initial tests for fedimg
+  https://github.com/fedora-infra/fedimg/pull/75
+- (@euank)          #77, Fix numerous dependency issues, fix broken unit tests, add travis ci config
+  https://github.com/fedora-infra/fedimg/pull/77
+- (@sayanchowdhury) #79, services.ec2: Change the bucket name to more related to fedimg
+  https://github.com/fedora-infra/fedimg/pull/79
+- (@puiterwijk)     #80, Error out if starting the task failed
+  https://github.com/fedora-infra/fedimg/pull/80
+- (@sayanchowdhury) #70, fedimg.ec2: Add metadata to the `image.copy` fedmsg message
+  https://github.com/fedora-infra/fedimg/pull/70
+- (@sayanchowdhury) #81, services.ec2: Deprecate the PV images
+  https://github.com/fedora-infra/fedimg/pull/81
+- (@sayanchowdhury) #69, fedimg.ec2: Add the support for Elastic Network Adapter
+  https://github.com/fedora-infra/fedimg/pull/69
+- (@sayanchowdhury) #82, uploader: Set push_notifications to True when automatic upload
+  https://github.com/fedora-infra/fedimg/pull/82
+- (@sayanchowdhury) #84, Update the trigger_upload.py script to add push_notifications
+  https://github.com/fedora-infra/fedimg/pull/84
+
+Commits
+
+- 84d0d69ef consumer: fedfind has deprecated `get_release_cid` method.
+  https://github.com/fedora-infra/fedimg/commit/84d0d69ef
+- 7bdd06f56 scripts: Fix the manual upload trigger script
+  https://github.com/fedora-infra/fedimg/commit/7bdd06f56
+- 33a86b79b fedimg: Remove redundant ec2.py file
+  https://github.com/fedora-infra/fedimg/commit/33a86b79b
+- b0fa1c4f9 tests: Fix the test for consumers
+  https://github.com/fedora-infra/fedimg/commit/b0fa1c4f9
+- e082ad464 tests: Add tests for the fedimg.uploader
+  https://github.com/fedora-infra/fedimg/commit/e082ad464
+- 1788e9e6c tests: Add the tests for the fedimg.utils
+  https://github.com/fedora-infra/fedimg/commit/1788e9e6c
+- ed5ddf5bf tests: Add a few more tests for utils. utils cov at 78%
+  https://github.com/fedora-infra/fedimg/commit/ed5ddf5bf
+- 57d4414c0 tests: Add tests for fedimg.utils, coverage 100%
+  https://github.com/fedora-infra/fedimg/commit/57d4414c0
+- 5ccc75652 scripts: Remove redundant imports in the trigger_upload script
+  https://github.com/fedora-infra/fedimg/commit/5ccc75652
+- 84cf48443 docs: Update the README.md for the trigger upload script
+  https://github.com/fedora-infra/fedimg/commit/84cf48443
+- 93e2358fc tests: Fix the copyright years in the test files
+  https://github.com/fedora-infra/fedimg/commit/93e2358fc
+- 0bcb54661 tests: Use assertIs method to check for boolean
+  https://github.com/fedora-infra/fedimg/commit/0bcb54661
+- b6b651f8a tests: Remove the redundant code
+  https://github.com/fedora-infra/fedimg/commit/b6b651f8a
+- 57a2eec93 tests: Make a stronger assertion if the urls is made to atomic and cloud base
+  https://github.com/fedora-infra/fedimg/commit/57a2eec93
+- 9b77f95f9 tests: Change the assertions to use self.assertIs
+  https://github.com/fedora-infra/fedimg/commit/9b77f95f9
+- 0f3056847 tests: include 'vcr' dependency in setup.py
+  https://github.com/fedora-infra/fedimg/commit/0f3056847
+- 1f29c9389 setup.py: specify test suite to use
+  https://github.com/fedora-infra/fedimg/commit/1f29c9389
+- 9c29204c1 setup.py: use consistent quoting for dependencies
+  https://github.com/fedora-infra/fedimg/commit/9c29204c1
+- 326ab9ef8 setup.py: add 'toml' dependency
+  https://github.com/fedora-infra/fedimg/commit/326ab9ef8
+- b206d76da setup.py: add 'fedfind' dependency
+  https://github.com/fedora-infra/fedimg/commit/b206d76da
+- 32533b038 tests: don't validate signatures for mockhub
+  https://github.com/fedora-infra/fedimg/commit/32533b038
+- 4dc97ac3f tests: add travis.yml
+  https://github.com/fedora-infra/fedimg/commit/4dc97ac3f
+- 5adef1a75 docs/devel: update test running instructions
+  https://github.com/fedora-infra/fedimg/commit/5adef1a75
+- 87f470edb fedimg.ec2: Add metadata to the `image.copy` fedmsg message
+  https://github.com/fedora-infra/fedimg/commit/87f470edb
+- 0ddfd41e9 fedimg.ec2: Add the support for Elastic Network Adapter
+  https://github.com/fedora-infra/fedimg/commit/0ddfd41e9
+- 44ac7b8b3 services.ec2: Change the bucket name to more related to fedimg
+  https://github.com/fedora-infra/fedimg/commit/44ac7b8b3
+- e5df4686f Error out if starting the task failed
+  https://github.com/fedora-infra/fedimg/commit/e5df4686f
+- 744b729ce services.ec2: Deprecate the PV images
+  https://github.com/fedora-infra/fedimg/commit/744b729ce
+- e1607cb5a uploader: Set push_notifications to True when automatic upload
+  https://github.com/fedora-infra/fedimg/commit/e1607cb5a
+- 82b63d886 fedimg: Fix the trigger_upload script to include push_notifications arg
+  https://github.com/fedora-infra/fedimg/commit/82b63d886
+- 0f8d6c08f readme: Update the trigger_upload usage in README file
+  https://github.com/fedora-infra/fedimg/commit/0f8d6c08f
+- 0dc560f13 scripts: Make the -p arg optional
+  https://github.com/fedora-infra/fedimg/commit/0dc560f13
+- 43103f59b scripts: Move logic inside the main function
+  https://github.com/fedora-infra/fedimg/commit/43103f59b
+
 1.0.1
 -----
 
