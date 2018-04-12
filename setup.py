@@ -14,7 +14,7 @@
 # You should have received a copy of the GNU Affero General Public
 # License along with fedimg; if not, see http://www.gnu.org/licenses,
 # or write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
+# 51 Franklin Street, Fifth Floor, Boston, MA 021.1.0301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
 #
@@ -23,7 +23,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fedimg',
-    version='1.0.1',
+    version='1.1.0',
     description='Automatically upload Fedora Cloud images to cloud providers',
     classifiers=[
         "Programming Language :: Python :: 2.7",
