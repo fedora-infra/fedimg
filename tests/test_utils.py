@@ -145,7 +145,7 @@ class TestFedimgUtils(unittest.TestCase):
     def test_get_virt_types_hvm_pv(self):
         url = 'https://somepage.org/Fedora-Cloud-Base-26-1.5.x86_64.raw.xz'
         vtypes = fedimg.utils.get_virt_types_from_url(url)
-        assert vtypes == ['hvm', 'paravirtual']
+        assert vtypes == ['hvm']
 
     def test_get_virt_types_only_hvm(self):
         url = 'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz'
@@ -284,18 +284,6 @@ class TestFedimgUtils(unittest.TestCase):
         virt_type = fedimg.utils.get_virt_type_from_image(mock_image)
 
         assert virt_type == 'hvm'
-
-    def test_get_virt_type_from_image_paravirtual(self):
-        mock_image = mock.Mock()
-        mock_image.extra = {
-            'block_device_mapping': [{
-                'device_name': '/dev/sda'
-            }]
-        }
-
-        virt_type = fedimg.utils.get_virt_type_from_image(mock_image)
-
-        assert virt_type == 'paravirtual'
 
     def test_region_to_driver(self):
         driver_1 = fedimg.utils.region_to_driver('us-east-1')

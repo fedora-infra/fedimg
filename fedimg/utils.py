@@ -62,13 +62,7 @@ def get_rawxz_urls(location, images):
 def get_virt_types_from_url(url):
     """ Takes a URL to a .raw.xz image file) and returns the suspected
         virtualization type that the image file should be registered as. """
-    file_name = url.split('/')[-1].lower()
-    if file_name.find('atomic') != -1:
-        # hvm is required for atomic images
-        return ['hvm']
-    else:
-        # otherwise, build the AMIs with both virtualization types
-        return ['hvm', 'paravirtual']
+    return ['hvm']
 
 
 def region_to_driver(region):
@@ -151,12 +145,7 @@ def get_volume_type_from_image(image, region):
 
 
 def get_virt_type_from_image(image):
-    device_name = image.extra['block_device_mapping'][0]['device_name']
-
-    if device_name.endswith('sda1'):
-        return 'hvm'
-    else:
-        return 'paravirtual'
+    return 'hvm'
 
 
 def get_image_name_from_image(image_url, virt_type='', region='', respin='0',
