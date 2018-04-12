@@ -168,6 +168,13 @@ class EC2ImageUploader(EC2Base):
                 self.availability_zone
             ])
 
+            if retcode != 0:
+                log.error('Unable to import volume. Out: %s, err: %s, ret: %s',
+                          output,
+                          err,
+                          retcode)
+                raise Exception('Creating the volume failed')
+
             log.debug('Initiate task to upload the image via S3. '
                       'Fetching task id...')
 
