@@ -207,7 +207,8 @@ class EC2ImageUploader(EC2Base):
                     virtualization_type=self.image_virtualization_type,
                     architecture=self.image_architecture,
                     block_device_mapping=block_device_map,
-                    root_device_name=root_device_name
+                    root_device_name=root_device_name,
+                    ena_support=True
                 )
 
                 if self.push_notifications:
