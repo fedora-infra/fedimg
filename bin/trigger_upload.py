@@ -30,9 +30,9 @@ def get_args():
         "-c", "--compose-id", type=str, help="compose id of the .raw.xz file",
         required=True)
     parser.add_argument(
-        "-p", "--push-notifications", type=bool,
+        "-p", "--push-notifications",
         help="Bool to check if we need to push fedmsg notifications",
-        required=False, default=False)
+        action="store_true", required=False)
     args = parser.parse_args()
 
     return args.url, args.compose_id, args.push_notifications
