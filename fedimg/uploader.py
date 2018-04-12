@@ -50,6 +50,7 @@ def upload(pool, urls, *args, **kwargs):
 
     active_services = ACTIVE_SERVICES
     compose_id = kwargs.get('compose_id')
+    push_notifications = kwargs.get('push_notifications')
 
     if 'aws' in active_services:
         LOG.info('Starting to process AWS EC2Service.')
@@ -58,7 +59,8 @@ def upload(pool, urls, *args, **kwargs):
             AWS_ACCESS_ID,
             AWS_SECRET_KEY,
             [AWS_BASE_REGION],
-            compose_id=compose_id
+            compose_id=compose_id,
+            push_notifications=push_notifications,
         )
         for image_metadata in images_metadata:
             image_id = image_metadata['image_id']
@@ -68,7 +70,7 @@ def upload(pool, urls, *args, **kwargs):
                 AWS_ACCESS_ID,
                 AWS_SECRET_KEY,
                 image_ids=[image_id],
-                push_notifications=True,
+                push_notifications=push_notifications,
                 compose_id=compose_id
             )
         LOG.info('AWS EC2Service process is completed.')

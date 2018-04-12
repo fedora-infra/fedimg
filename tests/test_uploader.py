@@ -38,7 +38,8 @@ class TestUploader(unittest.TestCase):
         fedimg.uploader.upload(
             thread_pool,
             ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
-            compose_id='Fedora-Cloud-27-20180317.0'
+            compose_id='Fedora-Cloud-27-20180317.0',
+            push_notifications=True,
         )
 
         self.assertIs(ec2main.called, False)
@@ -52,7 +53,8 @@ class TestUploader(unittest.TestCase):
         fedimg.uploader.upload(
             thread_pool,
             ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
-            compose_id='Fedora-Cloud-27-20180317.0'
+            compose_id='Fedora-Cloud-27-20180317.0',
+            push_notifications=True,
         )
 
         self.assertIs(ec2main.called, True)
@@ -73,7 +75,8 @@ class TestUploader(unittest.TestCase):
         fedimg.uploader.upload(
             thread_pool,
             ['http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'],
-            compose_id='Fedora-Cloud-27-20180317.0'
+            compose_id='Fedora-Cloud-27-20180317.0',
+            push_notifications=True,
         )
 
         self.assertIs(ec2main.called, True)
