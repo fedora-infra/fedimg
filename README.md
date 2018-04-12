@@ -21,7 +21,17 @@ a job manually. If Fedimg is installed properly, the `bin/trigger_upload.py`
 script can be used for this purpose:
 
 ```
-./bin/trigger_upload.py SOME_RAWXZ_URL COMPOSE_ID
+usage: trigger_upload.py [-h] -u URL -c COMPOSE_ID [-p PUSH_NOTIFICATIONS]
+
+Trigger a manual upload process with the specified raw.xz URL
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -u URL, --url URL     .raw.xz URL
+  -c COMPOSE_ID, --compose-id COMPOSE_ID
+                        compose id of the .raw.xz file
+  -p PUSH_NOTIFICATIONS, --push-notifications PUSH_NOTIFICATIONS
+                        Bool to check if we need to push fedmsg notifications
 ```
 
 This script simply skips the part where Fedimg listens for the fedmsg, and
