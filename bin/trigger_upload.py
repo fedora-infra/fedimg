@@ -37,5 +37,10 @@ def get_args():
 
     return args.url, args.compose_id, args.push_notifications
 
-url, compose_id, push_notifications = get_args()
-trigger_upload(url, compose_id, push_notifications)
+
+def main():
+    url, compose_id, push_notifications = get_args()
+    trigger_upload(url, compose_id, push_notifications)
+
+if __name__ == '__main__':
+    main()
