@@ -262,8 +262,10 @@ class EC2ImagePublisher(EC2Base):
                                 service=self.service,
                                 compose_id=self.compose_id,
                                 extra=dict(
+                                    id=copied_image.id,
                                     virt_type=virt_type,
-                                    vol_type=volume_type
+                                    vol_type=volume_type,
+                                    source_image_id=image.id
                                 )
                             )
                         )
