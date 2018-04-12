@@ -29,8 +29,6 @@ from time import sleep
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
-from fedimg.utils import get_volume_type_from_image
-from fedimg.utils import get_virt_type_from_image
 from fedimg.utils import get_image_name_from_ami_name
 from fedimg.services.ec2.ec2base import EC2Base
 
@@ -152,20 +150,7 @@ class EC2ImagePublisher(EC2Base):
         return blk_mapping[0]['ebs']['volume_type']
 
     def get_virt_type_from_image(self, image):
-        if isinstance(image, str):
-            image_id = image
-            image = self._connect().get_image(image_id)
-
-        blk_mapping = image.extra['block_device_mapping']
-        if not blk_mapping:
-            blk_mapping = self._retry_till_blk_mapping_is_available(image)
- 
-        device_name = blk_mapping[0]['ebs']['volume_type']
-
-        if device_name.endswith('sda1'):
-            return 'hvm'
-        else:
-            return 'paravirtual'
+        return 'hvm'
 
     def publish_images(self, region_image_mapping=None):
         """ Comment goes here """
