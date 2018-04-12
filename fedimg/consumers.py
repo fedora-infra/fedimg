@@ -102,7 +102,8 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
             fedimg.uploader.upload(
                 pool=self.upload_pool,
                 urls=upload_urls,
-                compose_id=compose_id
+                compose_id=compose_id,
+                push_notifications=True
             )
 
 

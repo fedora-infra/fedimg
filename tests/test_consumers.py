@@ -140,5 +140,6 @@ class TestFedimgConsumer(unittest.TestCase):
         upload.assert_called_with(
             pool=mock.ANY,
             urls=[url],
-            compose_id='Fedora-Cloud-27-20180317.0'
+            compose_id='Fedora-Cloud-27-20180317.0',
+            push_notifications=True
         )
