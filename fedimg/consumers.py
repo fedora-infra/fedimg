@@ -31,6 +31,7 @@ import multiprocessing.pool
 import fedmsg.consumers
 import fedmsg.encoding
 import fedfind.release
+import fedfind.exceptions
 
 import fedimg.uploader
 
@@ -81,7 +82,12 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
 
         location = msg_info['location']
         compose_id = msg_info['compose_id']
-        compose_metadata = fedfind.release.get_release(cid=compose_id).metadata
+        try:
+            compose_metadata = fedfind.release.get_release(cid=compose_id).metadata
+        except fedfind.exceptions.UnsupportedComposeError:
+            LOG.debug("%r is unsupported compose" % compose_id)
+            return
+
 
         # Till F27, both cloud-base and atomic images were available
         # under variant CloudImages. With F28 and onward releases,
