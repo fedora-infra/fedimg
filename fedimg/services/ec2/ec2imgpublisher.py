@@ -42,6 +42,7 @@ class EC2ImagePublisher(EC2Base):
             'compose_id': None,
             'image_id': None,
             'image_name': 'Fedora-AMI',
+            'image_url': None,
             'image_description': 'Fedora AMI Description',
             'service': 'EC2',
             'region': None,
@@ -181,6 +182,7 @@ class EC2ImagePublisher(EC2Base):
                     topic='image.publish',
                     msg=dict(
                         image_name=image.name,
+                        image_url=self.image_url,
                         destination=self.region,
                         service=self.service,
                         compose=self.compose_id,
@@ -196,6 +198,7 @@ class EC2ImagePublisher(EC2Base):
                     topic='image.upload',
                     msg=dict(
                         image_name=image.name,
+                        image_url=self.image_url,
                         destination=self.region,
                         service=self.service,
                         status='completed',
