@@ -20,11 +20,6 @@ config = dict(
             }
         ),
         loggers=dict(
-            fedimg={
-                "level": "DEBUG",
-                "propagate": False,
-                "handlers": ["console"],
-            },
             fedmsg={
                 "level": "INFO",
                 "propagate": False,

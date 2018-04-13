@@ -20,7 +20,7 @@
 #
 
 import logging
-_log = logging.getLogger(__name__)
+log = logging.getLogger("fedmsg")
 
 import re
 
@@ -85,7 +85,7 @@ class EC2ImageUploader(EC2Base):
         if self.image_virtualization_type == 'hvm':
             root_device_name = '/dev/sda1'
 
-        _log.debug('Root device name is set to %r for %r' % (
+        log.debug('Root device name is set to %r for %r' % (
             root_device_name, self.image_virtualization_type))
 
         return root_device_name
@@ -102,7 +102,7 @@ class EC2ImageUploader(EC2Base):
             }
         }
 
-        _log.debug('Block device map created for %s' % snapshot.id)
+        log.debug('Block device map created for %s' % snapshot.id)
 
         return [block_device_map]
 
@@ -116,15 +116,15 @@ class EC2ImageUploader(EC2Base):
             ])
 
             if 'completed' in output:
-                _log.debug('Task %r complete. Fetching volume id...' % task_id)
+                log.debug('Task %r complete. Fetching volume id...' % task_id)
                 match = re.search('\s(vol-\w{17})', output)
                 volume_id = match.group(1)
 
-                _log.debug('The id of the created volume: %r' % volume_id)
+                log.debug('The id of the created volume: %r' % volume_id)
 
                 return volume_id
 
-            _log.debug('Failed to find complete. Task %r still running. '
+            log.debug('Failed to find complete. Task %r still running. '
                       'Sleeping for 10 seconds.' % task_id)
 
     def _create_snapshot(self, volume):
@@ -169,22 +169,22 @@ class EC2ImageUploader(EC2Base):
             ])
 
             if retcode != 0:
-                _log.error('Unable to import volume. Out: %s, err: %s, ret: %s',
+                log.error('Unable to import volume. Out: %s, err: %s, ret: %s',
                           output,
                           err,
                           retcode)
                 raise Exception('Creating the volume failed')
 
-            _log.debug('Initiate task to upload the image via S3. '
+            log.debug('Initiate task to upload the image via S3. '
                       'Fetching task id...')
 
             task_id = get_item_from_regex(output, regex='\s(import-vol-\w{8})')
-            _log.info('Fetched task_id: %r. Listening to the task.' % task_id)
+            log.info('Fetched task_id: %r. Listening to the task.' % task_id)
 
             volume_id = self._retry_and_get_volume_id(task_id)
 
             volume = self.get_volume_from_volume_id(volume_id)
-            _log.info('Finish fetching volume object using volume_id')
+            log.info('Finish fetching volume object using volume_id')
 
             return volume
 
@@ -198,7 +198,7 @@ class EC2ImageUploader(EC2Base):
                                          lambda x: str(int(x.group(0))+1),
                                          self.image_name)
             try:
-                _log.info('Registering the image in %r (snapshot id: %r) with '
+                log.info('Registering the image in %r (snapshot id: %r) with '
                          'name %r' % (self.region, snapshot.id,
                                       self.image_name))
                 image = self._connect().ex_register_image(
@@ -232,14 +232,14 @@ class EC2ImageUploader(EC2Base):
                 return image
 
             except Exception as e:
-                _log.info('Could not register with name: %r' % self.image_name)
+                log.info('Could not register with name: %r' % self.image_name)
                 if 'InvalidAMIName.Duplicate' in str(e):
                     counter = counter + 1
                 else:
                     raise
 
     def _remove_volume(self, volume):
-        _log.info('[CLEAN] Destroying volume: %r' % volume.id)
+        log.info('[CLEAN] Destroying volume: %r' % volume.id)
         self._connect().destroy_volume(volume)
 
     def clean_up(self, image_id, delete_snapshot=True, force=False):
@@ -256,7 +256,7 @@ class EC2ImageUploader(EC2Base):
             Boolean: True, if resources are deleted else False
         """
         if not AWS_DELETE_RESOURCES and force:
-            _log.info('Deleting resource is disabled by config.'
+            log.info('Deleting resource is disabled by config.'
                      'Override by passing force=True.')
             return False
 
@@ -336,7 +336,7 @@ class EC2ImageUploader(EC2Base):
         Args:
             source (str): File path of the source file
         """
-        _log.info('Start creating the volume from source: %r' % source)
+        log.info('Start creating the volume from source: %r' % source)
         return self._create_volume(source)
 
     def create_snapshot(self, source):
@@ -351,7 +351,7 @@ class EC2ImageUploader(EC2Base):
         """
         self.volume = self._create_volume(source)
 
-        _log.info('Start creating snapshot from volume: %r' % self.volume.id)
+        log.info('Start creating snapshot from volume: %r' % self.volume.id)
         snapshot = self._create_snapshot(self.volume)
 
         self._remove_volume(self.volume)
@@ -384,11 +384,11 @@ class EC2ImageUploader(EC2Base):
         """
 
         snapshot = self.create_snapshot(source)
-        _log.debug('Finished create snapshot: %r' % snapshot.id)
+        log.debug('Finished create snapshot: %r' % snapshot.id)
 
-        _log.info('Start to register the image '
+        log.info('Start to register the image '
                  'from the snapshot: %r' % snapshot.id)
         image = self.register_image(snapshot)
-        _log.debug('Finish registering the image with id: %r' % image.id)
+        log.debug('Finish registering the image with id: %r' % image.id)
 
         return image

@@ -24,7 +24,7 @@
 Utility functions for fedimg.
 """
 import logging
-_log = logging.getLogger(__name__)
+log = logging.getLogger("fedmsg")
 
 import functools
 import os
@@ -99,12 +99,12 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    _log.debug("Starting the command: %r" % command)
+    log.debug("Starting the command: %r" % command)
     ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
-    _log.debug("Finished executing the command: %r" % command)
+    log.debug("Finished executing the command: %r" % command)
     retcode = ret.returncode
     return out, err, retcode
 
@@ -126,7 +126,7 @@ def get_source_from_image(image_url):
     file_name = get_file_name_image(image_url)
     file_path = os.path.join(tmpdir, file_name)
 
-    _log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
+    log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
     output, error, retcode = external_run_command([
         'wget',
         image_url,
