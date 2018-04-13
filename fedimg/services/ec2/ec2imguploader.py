@@ -305,7 +305,7 @@ class EC2ImageUploader(EC2Base):
         Args:
             volume_type (str): volume_type to set for the object.
         """
-        self.volume_type = volume_type
+        self.image_volume_type = volume_type
 
     def get_volume_from_volume_id(self, volume_id):
         """ Get the `` object from the volume_id.
