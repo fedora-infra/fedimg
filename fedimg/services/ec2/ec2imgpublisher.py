@@ -20,7 +20,7 @@
 #
 
 import logging
-_log = logging.getLogger(__name__)
+log = logging.getLogger("fedmsg")
 
 import re
 
@@ -163,16 +163,16 @@ class EC2ImagePublisher(EC2Base):
         for region, image_id in region_image_mapping:
             self.set_region(region)
 
-            _log.info('Publish image (%s) in %s started' % (image_id, region))
+            log.info('Publish image (%s) in %s started' % (image_id, region))
             image = self._connect().get_image(image_id=image_id)
             is_image_public = self._retry_till_image_is_public(image)
-            _log.info('Publish image (%s) in %s completed' % (image_id, region))
+            log.info('Publish image (%s) in %s completed' % (image_id, region))
 
-            _log.info('Publish snaphsot for image (%s) in %s started' % (image_id, region))
+            log.info('Publish snaphsot for image (%s) in %s started' % (image_id, region))
             snapshot = self.get_snapshot_from_image(image)
-            _log.info('Fetched snapshot for image (%s): %s' % (image_id, snapshot.id))
+            log.info('Fetched snapshot for image (%s): %s' % (image_id, snapshot.id))
             is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
-            _log.info('Publish snaphsot for image (%s) in %s completed' % (image_id, region))
+            log.info('Publish snaphsot for image (%s) in %s completed' % (image_id, region))
 
             volume_type = self.get_volume_type_from_image(image)
             virt_type = self.get_virt_type_from_image(image)
@@ -236,7 +236,7 @@ class EC2ImagePublisher(EC2Base):
             return []
 
         for region in regions:
-            _log.info('Copy %s to %s started' % (image_id, region))
+            log.info('Copy %s to %s started' % (image_id, region))
             self.set_region(region)
             self.image_name = get_image_name_from_ami_name(image.name, region)
 
@@ -274,7 +274,7 @@ class EC2ImagePublisher(EC2Base):
                             )
                         )
 
-                    _log.info('Copy %s to %s is completed.' % (image_id, region))
+                    log.info('Copy %s to %s is completed.' % (image_id, region))
                     copied_images.append({
                         'region': region,
                         'copied_image_id': copied_image.id
@@ -282,12 +282,12 @@ class EC2ImagePublisher(EC2Base):
                     break
 
                 except Exception as e:
-                    _log.info('Could not register '
+                    log.info('Could not register '
                              'with name: %r' % self.image_name)
                     if 'InvalidAMIName.Duplicate' in str(e):
                         counter = counter + 1
                     else:
-                        _log.info('Failed')
+                        log.info('Failed')
                         break
 
         return copied_images

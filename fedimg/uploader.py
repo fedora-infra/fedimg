@@ -33,7 +33,7 @@ from fedimg.config import AWS_ACCESS_ID, AWS_SECRET_KEY
 from fedimg.config import AWS_BASE_REGION, AWS_REGIONS
 
 
-_log = logging.getLogger(__name__)
+LOG = logging.getLogger(__name__)
 
 
 def upload(pool, urls, *args, **kwargs):
@@ -53,7 +53,7 @@ def upload(pool, urls, *args, **kwargs):
     push_notifications = kwargs.get('push_notifications')
 
     if 'aws' in active_services:
-        _log.info('Starting to process AWS EC2Service.')
+        LOG.info('Starting to process AWS EC2Service.')
         images_metadata = ec2main(
             urls,
             AWS_ACCESS_ID,
@@ -73,4 +73,4 @@ def upload(pool, urls, *args, **kwargs):
                 push_notifications=push_notifications,
                 compose_id=compose_id
             )
-        _log.info('AWS EC2Service process is completed.')
+        LOG.info('AWS EC2Service process is completed.')
