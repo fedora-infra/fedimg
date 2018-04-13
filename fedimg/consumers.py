@@ -37,7 +37,7 @@ import fedimg.uploader
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
 from fedimg.utils import get_rawxz_urls, get_value_from_dict
 
-LOG = logging.getLogger(__name__)
+_log = logging.getLogger(__name__)
 
 
 class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
@@ -55,15 +55,15 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
     config_key = "fedimgconsumer.prod.enabled"
 
     def __init__(self, *args, **kwargs):
-        LOG.info("FedimgConsumer initializing")
+        _log.info("FedimgConsumer initializing")
         super(FedimgConsumer, self).__init__(*args, **kwargs)
 
         # Threadpool for upload jobs
-        LOG.info("Creating thread pool of %s process", PROCESS_COUNT)
+        _log.info("Creating thread pool of %s process", PROCESS_COUNT)
         self.upload_pool = multiprocessing.pool.ThreadPool(
             processes=PROCESS_COUNT
         )
-        LOG.info("FedimgConsumer initialized")
+        _log.info("FedimgConsumer initialized")
 
     def consume(self, msg):
         """
@@ -72,11 +72,11 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         Args:
             msg (dict): The raw message from fedmsg.
         """
-        LOG.info('Received %r %r', msg['topic'], msg['body']['msg_id'])
+        _log.info('Received %r %r', msg['topic'], msg['body']['msg_id'])
 
         msg_info = msg['body']['msg']
         if msg_info['status'] not in STATUS_FILTER:
-            LOG.debug('%s is not valid status' % msg_info['status'])
+            _log.debug('%s is not valid status' % msg_info['status'])
             return
 
         location = msg_info['location']
@@ -93,12 +93,12 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         )
 
         if images_meta is None:
-            LOG.debug('No compatible image found to process')
+            _log.debug('No compatible image found to process')
             return
 
         upload_urls = get_rawxz_urls(location, images_meta)
         if len(upload_urls) > 0:
-            LOG.info("Start processing compose id: %s", compose_id)
+            _log.info("Start processing compose id: %s", compose_id)
             fedimg.uploader.upload(
                 pool=self.upload_pool,
                 urls=upload_urls,

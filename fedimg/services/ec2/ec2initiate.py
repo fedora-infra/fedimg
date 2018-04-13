@@ -38,7 +38,7 @@ from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
 from fedimg.utils import get_image_name_from_image, get_file_arch
 
-LOG = logging.getLogger(__name__)
+_log = logging.getLogger(__name__)
 
 
 def main(image_urls, access_id, secret_key, regions, volume_types=None,
@@ -116,10 +116,10 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                     *[regions, virt_types, volume_types])
             for region, virt_type, volume_type in combinations:
                 uploader.set_region(region)
-                LOG.debug('(uploader) Region is set to: %r' % region)
+                _log.debug('(uploader) Region is set to: %r' % region)
 
                 uploader.set_image_virt_type(virt_type)
-                LOG.debug('(uploader) Virtualization type '
+                _log.debug('(uploader) Virtualization type '
                           'is set to: %r' % virt_type)
 
                 image_name = get_image_name_from_image(
@@ -131,7 +131,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 uploader.set_image_name(image_name)
 
                 uploader.set_image_volume_type(volume_type)
-                LOG.debug('(uploader) Volume type is set to: %r' % volume_type)
+                _log.debug('(uploader) Volume type is set to: %r' % volume_type)
 
                 uploader.set_availability_zone_for_region()
 
@@ -157,7 +157,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                     region_image_mapping=[(region, image.id)]
                 ))
         except Exception as e:
-            LOG.debug(e.message)
+            _log.debug(e.message)
             #TODO: Implement the clean up of the images if failed.
             # uploader.clean_up(image_id=image.id, delete_snapshot=True)
 
