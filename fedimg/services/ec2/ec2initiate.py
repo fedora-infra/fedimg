@@ -37,6 +37,7 @@ from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
 from fedimg.utils import get_image_name_from_image, get_file_arch
+from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
 
 _log = logging.getLogger(__name__)
 
@@ -141,7 +142,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                         topic='image.upload',
                         msg=dict(
                             image_url=image_url,
-                            image_name=image_name,
+                            image_name=get_image_name_from_ami_name_for_fedmsg(image_name),
                             destination=region,
                             service='EC2',
                             status='started',
