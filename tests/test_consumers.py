@@ -47,7 +47,7 @@ class TestFedimgConsumer(unittest.TestCase):
     def tearDown(self):
         self.vcr.__exit__()
 
-    @mock.patch('fedimg.consumers.LOG.debug')
+    @mock.patch('fedimg.consumers._log.debug')
     @mock.patch('fedimg.uploader.upload')
     def test_invalid_status(self, mock_upload, mock_log):
         msg = {
@@ -77,7 +77,7 @@ class TestFedimgConsumer(unittest.TestCase):
         self.consumer.consume(msg)
         mock_log.assert_called_with('STARTED is not valid status')
 
-    @mock.patch('fedimg.consumers.LOG.debug')
+    @mock.patch('fedimg.consumers._log.debug')
     @mock.patch('fedimg.uploader.upload')
     def test_incompatible_images(self, mock_upload, mock_log):
         msg = {
