@@ -110,6 +110,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 access_key=access_id,
                 secret_key=secret_key,
                 push_notifications=push_notifications,
+                image_url=image_url
             )
 
             combinations = itertools_product(
