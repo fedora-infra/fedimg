@@ -184,7 +184,7 @@ class TestFedimgUtils(unittest.TestCase):
         assert 'aarch64' in valid_return
         assert invalid_return == None
 
-    @mock.patch('fedimg.utils.log.debug')
+    @mock.patch('fedimg.utils._log.debug')
     def test_external_run_command(self, mock_log):
         mock_popen = TestFedimgUtils.MockPopen()
         mock_popen.communicate = mock.Mock(return_value=(
