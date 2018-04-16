@@ -24,7 +24,7 @@
 Utility functions for fedimg.
 """
 import logging
-log = logging.getLogger("fedmsg")
+_log = logging.getLogger(__name__)
 
 import functools
 import os
@@ -99,12 +99,12 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    log.debug("Starting the command: %r" % command)
+    _log.debug("Starting the command: %r" % command)
     ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True,
                            stdout=subprocess.PIPE, stderr=subprocess.PIPE,
                            close_fds=True)
     out, err = ret.communicate()
-    log.debug("Finished executing the command: %r" % command)
+    _log.debug("Finished executing the command: %r" % command)
     retcode = ret.returncode
     return out, err, retcode
 
@@ -126,7 +126,7 @@ def get_source_from_image(image_url):
     file_name = get_file_name_image(image_url)
     file_path = os.path.join(tmpdir, file_name)
 
-    log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
+    _log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
     output, error, retcode = external_run_command([
         'wget',
         image_url,
@@ -164,3 +164,10 @@ def get_image_name_from_ami_name(image_name, region):
 
     return '-'.join(
         [x for x in [name_vt, region, volume_type, respin] if x])
+
+
+def get_image_name_from_ami_name_for_fedmsg(image_name):
+    name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
+    image_name = name_vt_region.rsplit('-', 4)[:-4][0]
+
+    return image_name
