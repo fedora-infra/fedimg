@@ -30,6 +30,7 @@ import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
 from fedimg.utils import get_image_name_from_ami_name
+from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
 from fedimg.services.ec2.ec2base import EC2Base
 
 
@@ -181,7 +182,7 @@ class EC2ImagePublisher(EC2Base):
                 fedimg.messenger.notify(
                     topic='image.publish',
                     msg=dict(
-                        image_name=image.name,
+                        image_name=get_image_name_from_ami_name_for_fedmsg(image.name),
                         image_url=self.image_url,
                         destination=self.region,
                         service=self.service,
@@ -197,7 +198,7 @@ class EC2ImagePublisher(EC2Base):
                 fedimg.messenger.notify(
                     topic='image.upload',
                     msg=dict(
-                        image_name=image.name,
+                        image_name=get_image_name_from_ami_name_for_fedmsg(image.name),
                         image_url=self.image_url,
                         destination=self.region,
                         service=self.service,
@@ -261,7 +262,7 @@ class EC2ImagePublisher(EC2Base):
                         fedimg.messenger.notify(
                             topic='image.copy',
                             msg=dict(
-                                image_name=copied_image.name,
+                                image_name=get_image_name_from_ami_name_for_fedmsg(copied_image.name),
                                 destination=self.region,
                                 service=self.service,
                                 compose_id=self.compose_id,

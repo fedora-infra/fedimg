@@ -343,3 +343,10 @@ class TestFedimgUtils(unittest.TestCase):
         )
 
         assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-eu-west-1-gp2-0'
+
+    def test_get_image_name_from_ami_name_for_fedmsg(self):
+        image_name = fedimg.utils.get_image_name_from_ami_name_for_fedmsg(
+            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp2-0',
+        )
+
+        assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64'

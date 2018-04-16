@@ -27,6 +27,7 @@ import re
 import fedimg.messenger
 
 from fedimg.utils import external_run_command, get_item_from_regex
+from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
 from fedimg.config import AWS_DELETE_RESOURCES, AWS_S3_BUCKET_NAME
 from fedimg.services.ec2.ec2base import EC2Base
 
@@ -216,7 +217,7 @@ class EC2ImageUploader(EC2Base):
                         topic='image.upload',
                         msg=dict(
                             image_url=self.image_url,
-                            image_name=self.image_name,
+                            image_name=get_image_name_from_ami_name_for_fedmsg(self.image_name),
                             destination=self.region,
                             service=self.service,
                             status='completed',

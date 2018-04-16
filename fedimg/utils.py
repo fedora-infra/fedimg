@@ -164,3 +164,10 @@ def get_image_name_from_ami_name(image_name, region):
 
     return '-'.join(
         [x for x in [name_vt, region, volume_type, respin] if x])
+
+
+def get_image_name_from_ami_name_for_fedmsg(image_name):
+    name_vt_region, volume_type, respin = image_name.rsplit('-', 2)
+    image_name = name_vt_region.rsplit('-', 4)[:-4][0]
+
+    return image_name
