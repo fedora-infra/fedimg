@@ -1,4 +1,59 @@
 
+1.2.0
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #85, consumer: Support F28 Atomic & Cloud messages
+  https://github.com/fedora-infra/fedimg/pull/85
+- (@sayanchowdhury) #86, services.ec2: Fix the volume_type attribute
+  https://github.com/fedora-infra/fedimg/pull/86
+- (@sayanchowdhury) #87, services.ec2: Add the missing push_notifications args
+  https://github.com/fedora-infra/fedimg/pull/87
+- (@sayanchowdhury) #89, scripts: Remove script to delete the ec2 nodes
+  https://github.com/fedora-infra/fedimg/pull/89
+- (@sayanchowdhury) #88, services.ec2: Send a image.upload message when completed
+  https://github.com/fedora-infra/fedimg/pull/88
+- (@sayanchowdhury) #90, consumers: Ignore the Unsupported releases
+  https://github.com/fedora-infra/fedimg/pull/90
+- (@sayanchowdhury) #92, fedimg: Include the image_url in fedmsg messages
+  https://github.com/fedora-infra/fedimg/pull/92
+- (@sayanchowdhury) #93, scripts: Fix the script to send proper format of compose id
+  https://github.com/fedora-infra/fedimg/pull/93
+- (@sayanchowdhury) #91, Change to use of consistent logging variables
+  https://github.com/fedora-infra/fedimg/pull/91
+- (@sayanchowdhury) #96, fedimg: Fix the script function argument order
+  https://github.com/fedora-infra/fedimg/pull/96
+- (@sayanchowdhury) #94, utils: Don't change the name of the image, breaks the get_ami.py layout
+  https://github.com/fedora-infra/fedimg/pull/94
+
+Commits
+
+- b252bc483 consumer: Support F28 Atomic & Cloud messages
+  https://github.com/fedora-infra/fedimg/commit/b252bc483
+- 15e41e51f logging: Change the source to consistent logging
+  https://github.com/fedora-infra/fedimg/commit/15e41e51f
+- 8e8f22dd9 tests: Fix the tests for the consistent logging change
+  https://github.com/fedora-infra/fedimg/commit/8e8f22dd9
+- 307ce0bb0 scripts: Remove script to delete the ec2 nodes
+  https://github.com/fedora-infra/fedimg/commit/307ce0bb0
+- 161a0e15c services.ec2: Fix the volume_type attribute
+  https://github.com/fedora-infra/fedimg/commit/161a0e15c
+- 7355a5cb7 services.ec2: Add the missing push_notifications args
+  https://github.com/fedora-infra/fedimg/commit/7355a5cb7
+- 6ac912293 services.ec2: Send a image.upload message when completed
+  https://github.com/fedora-infra/fedimg/commit/6ac912293
+- 7fc9c32c4 consumers: Ignore the Unsupported releases
+  https://github.com/fedora-infra/fedimg/commit/7fc9c32c4
+- e21f70dbc fedimg: Include the image_url in fedmsg messages
+  https://github.com/fedora-infra/fedimg/commit/e21f70dbc
+- 3b9a86bdb scripts: Fix the script to send proper format of compose id
+  https://github.com/fedora-infra/fedimg/commit/3b9a86bdb
+- de4af7935 fedimg: Fix the script function args
+  https://github.com/fedora-infra/fedimg/commit/de4af7935
+- 3946ed1c3 utils: Don't change the name of the image, breaks the get_ami.py layout
+  https://github.com/fedora-infra/fedimg/commit/3946ed1c3
+
 1.1.0
 -----
 
