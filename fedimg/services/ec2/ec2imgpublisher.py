@@ -213,23 +213,6 @@ class EC2ImagePublisher(EC2Base):
                     )
                 )
 
-                fedimg.messenger.notify(
-                    topic='image.upload',
-                    msg=dict(
-                        image_name=get_image_name_from_ami_name_for_fedmsg(image.name),
-                        image_url=self.image_url,
-                        destination=self.region,
-                        service=self.service,
-                        status='completed',
-                        compose=self.compose_id,
-                        extra=dict(
-                            id=image.id,
-                            virt_type=virt_type,
-                            vol_type=volume_type
-                        )
-                    )
-                )
-
             published_images.append({
                 'image_id': image.id,
                 'is_image_public': is_image_public,
