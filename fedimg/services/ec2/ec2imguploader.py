@@ -127,6 +127,7 @@ class EC2ImageUploader(EC2Base):
 
             _log.debug('Failed to find complete. Task %r still running. '
                       'Sleeping for 10 seconds.' % task_id)
+            sleep(10)
 
     def _create_snapshot(self, volume):
         snapshot = self._connect().create_volume_snapshot(
