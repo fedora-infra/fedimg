@@ -106,15 +106,6 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
                 compose_metadata, 'images', 'payload',
                 'images', 'AtomicHost', 'x86_64'))
 
-        images_meta = get_value_from_dict(
-            compose_metadata,
-            'images',
-            'payload',
-            'images',
-            'CloudImages',
-            'x86_64'
-        )
-
         if images_meta is None:
             _log.debug('No compatible image found to process')
             return
