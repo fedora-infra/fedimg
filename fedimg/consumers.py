@@ -85,7 +85,7 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         try:
             compose_metadata = fedfind.release.get_release(cid=compose_id).metadata
         except fedfind.exceptions.UnsupportedComposeError:
-            LOG.debug("%r is unsupported compose" % compose_id)
+            _log.debug("%r is unsupported compose" % compose_id)
             return
 
 
