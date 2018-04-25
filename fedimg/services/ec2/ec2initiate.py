@@ -91,7 +91,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
         try:
             source = get_source_from_image(image_url)
             if not source:
-                raise ValueError
+                _log.debug('Source not found.')
+                return []
 
             image_architecture = get_file_arch(image_url)
 
@@ -122,7 +123,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
 
                 uploader.set_image_virt_type(virt_type)
                 _log.debug('(uploader) Virtualization type '
-                          'is set to: %r' % virt_type)
+                           'is set to: %r' % virt_type)
 
                 image_name = get_image_name_from_image(
                     image_url=image_url,
@@ -160,8 +161,11 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 ))
         except Exception as e:
             _log.debug(e.message)
+            return []
             #TODO: Implement the clean up of the images if failed.
             # uploader.clean_up(image_id=image.id, delete_snapshot=True)
 
-    shutil.rmtree(os.path.dirname(source))
+        shutil.rmtree(os.path.dirname(source))
+        _log.debug("Cleaned up %r" % source)
+
     return published_images
