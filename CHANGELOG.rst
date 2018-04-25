@@ -1,4 +1,45 @@
 
+1.3.0
+-----
+
+Pull Requests
+
+- (@sayanchowdhury) #103, consumers: Fix the metadata handling for Rawhide messages
+  https://github.com/fedora-infra/fedimg/pull/103
+- (@dustymabe)      #104, fix trace for incorrect log function call
+  https://github.com/fedora-infra/fedimg/pull/104
+- (@sayanchowdhury) #100, services.ec2: Check if the AMI is complete before proceeding
+  https://github.com/fedora-infra/fedimg/pull/100
+- (@sayanchowdhury) #117, services.ec2: Fix the ImportError in ec2imguploader
+  https://github.com/fedora-infra/fedimg/pull/117
+- (@sayanchowdhury) #112, services.ec2: Delete the source for every image urls
+  https://github.com/fedora-infra/fedimg/pull/112
+- (@sinnykumari)    #116, Don't use extend() when object is NoneType
+  https://github.com/fedora-infra/fedimg/pull/116
+- (@sinnykumari)    #111, Include AMIs to missing AWS ec2 regions
+  https://github.com/fedora-infra/fedimg/pull/111
+- (@sayanchowdhury) #99, utils: Extract the raw first before processing
+  https://github.com/fedora-infra/fedimg/pull/99
+
+Commits
+
+- cf00cbedd consumers: Fix the metadata handling for Rawhide messages
+  https://github.com/fedora-infra/fedimg/commit/cf00cbedd
+- b3441f12f fix trace for incorrect log function call
+  https://github.com/fedora-infra/fedimg/commit/b3441f12f
+- 9170b0d60 services.ec2: Check if the AMI is complete before proceeding
+  https://github.com/fedora-infra/fedimg/commit/9170b0d60
+- d82da63f1 Include AMIs to missing AWS ec2 regions
+  https://github.com/fedora-infra/fedimg/commit/d82da63f1
+- 722151591 Don't use extend() when object is NoneType
+  https://github.com/fedora-infra/fedimg/commit/722151591
+- b3dd56e51 services.ec2: Fix the ImportError in ec2imguploader
+  https://github.com/fedora-infra/fedimg/commit/b3dd56e51
+- bf6450c7c services.ec2: Delete the source for every image urls
+  https://github.com/fedora-infra/fedimg/commit/bf6450c7c
+- 6ad790b65 utils: Extract the raw first before processing
+  https://github.com/fedora-infra/fedimg/commit/6ad790b65
+
 1.2.0
 -----
 

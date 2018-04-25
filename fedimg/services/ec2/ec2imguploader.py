@@ -26,6 +26,8 @@ import re
 
 import fedimg.messenger
 
+from time import sleep
+
 from fedimg.utils import external_run_command, get_item_from_regex
 from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
 from fedimg.config import AWS_DELETE_RESOURCES, AWS_S3_BUCKET_NAME
@@ -127,6 +129,7 @@ class EC2ImageUploader(EC2Base):
 
             _log.debug('Failed to find complete. Task %r still running. '
                       'Sleeping for 10 seconds.' % task_id)
+            sleep(10)
 
     def _create_snapshot(self, volume):
         snapshot = self._connect().create_volume_snapshot(
