@@ -88,7 +88,6 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
             _log.debug("%r is unsupported compose" % compose_id)
             return
 
-
         # Till F27, both cloud-base and atomic images were available
         # under variant CloudImages. With F28 and onward releases,
         # cloud-base image compose moved to cloud variant and atomic images
@@ -99,19 +98,20 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
                 compose_metadata, 'images', 'payload', 'images', 'CloudImages',
                 'x86_64')
         else:
-            images_meta = get_value_from_dict(
+            cloud_meta = get_value_from_dict(
                 compose_metadata, 'images', 'payload', 'images',
                 'Cloud', 'x86_64')
-            if images_meta is None:
-                images_meta = get_value_from_dict(
-                    compose_metadata, 'images', 'payload',
-                    'images', 'AtomicHost', 'x86_64')
-            else:
-                images_meta.extend(get_value_from_dict(
-                    compose_metadata, 'images', 'payload',
-                    'images', 'AtomicHost', 'x86_64'))
+            atomic_meta = get_value_from_dict(
+                compose_metadata, 'images', 'payload',
+                'images', 'AtomicHost', 'x86_64')
 
-        if images_meta is None:
+            images_meta = []
+            if cloud_meta:
+                images_meta.extend(cloud_meta)
+            if atomic_meta:
+                images_meta.extend(atomic_meta)
+
+        if not images_meta:
             _log.debug('No compatible image found to process')
             return
 
