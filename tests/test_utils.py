@@ -241,6 +241,20 @@ class TestFedimgUtils(unittest.TestCase):
         ])
 
     @mock.patch('fedimg.utils.external_run_command')
+    def test_unxz_source_file(self, mock_erc):
+        mock_erc.return_value = (
+            "/tmp/Fedora-Atomic-26-1.5.x86_64.raw",
+            "",
+            0
+        )
+        fedimg.utils.unxz_source_file('/tmp/Fedora-Atomic-26-1.5.x86_64.raw.xz')
+
+        mock_erc.assert_called_once_with([
+            'unxz',
+            '/tmp/Fedora-Atomic-26-1.5.x86_64.raw.xz',
+        ])
+
+    @mock.patch('fedimg.utils.external_run_command')
     def test_get_source_from_image_retcode_1(self, mock_erc):
         mock_erc.return_value = (
             "2018-03-27 00:00:00 (93 KB/s) 'Fedora-Atomic-26-1.5.x86_64.raw.xz' (1234569/123456789)",

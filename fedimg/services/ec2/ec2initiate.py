@@ -36,6 +36,7 @@ from fedimg.config import AWS_ROOT_VOLUME_SIZE
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
+from fedimg.utils import unxz_source_file
 from fedimg.utils import get_image_name_from_image, get_file_arch
 from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
 
@@ -89,9 +90,14 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
             virt_types = ex_virt_types
 
         try:
-            source = get_source_from_image(image_url)
-            if not source:
+            xz_file_path = get_source_from_image(image_url)
+            if not xz_file_path:
                 _log.debug('Source not found.')
+                return []
+
+            source = unxz_source_file(xz_file_path)
+            if not source:
+                _log.debug('Unable to uncompress raw file.')
                 return []
 
             image_architecture = get_file_arch(image_url)
