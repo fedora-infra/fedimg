@@ -93,20 +93,19 @@ class TestFedimgConsumer(unittest.TestCase):
                     "release_type": "ga",
                     "compose_label": None,
                     "compose_respin": 0,
-                    "compose_date": "20180321",
-                    "release_version": "28",
-                    "location": "http://kojipkgs.fedoraproject.org/compose/branched/Fedora-28-20180321.n.0/compose",
+                    "compose_date": "20180426",
+                    "release_version": "Rawhide",
+                    "location": "http://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose",
                     "compose_type": "nightly",
                     "release_is_layered": False,
                     "release_name": "Fedora",
                     "release_short": "Fedora",
-                    "compose_id": "Fedora-28-20180321.n.0"
+                    "compose_id": "Fedora-Rawhide-20180426.n.0"
                 }
             }
         }
         self.consumer.consume(msg)
         mock_log.assert_called_with('No compatible image found to process')
-
 
     @mock.patch('fedimg.uploader.upload')
     def test_success_upload(self, upload):
