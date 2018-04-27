@@ -121,6 +121,18 @@ def get_file_name_image(image_url):
     return image_url.split('/')[-1]
 
 
+def unxz_source_file(file_path):
+    output, error, retcode = external_run_command([
+        'unxz',
+        file_path
+    ])
+
+    if retcode != 0:
+        return ''
+
+    return file_path.rstrip('.xz')
+
+
 def get_source_from_image(image_url):
     tmpdir = tempfile.mkdtemp()
     file_name = get_file_name_image(image_url)
@@ -137,15 +149,7 @@ def get_source_from_image(image_url):
     if retcode != 0:
         return ''
 
-    output, error, retcode = external_run_command([
-        'unxz',
-        file_path
-    ])
-
-    if retcode != 0:
-        return ''
-
-    return file_path.rstrip('.xz')
+    return file_path
 
 
 def get_volume_type_from_image(image, region):
