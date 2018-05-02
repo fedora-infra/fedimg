@@ -3,7 +3,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose
@@ -22,7 +22,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy10.phx2.fedoraproject.org]
       apptime: [D=13359]
@@ -48,29 +48,34 @@ interactions:
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/
   response:
-    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2
-        Final//EN\">\n<html>\n <head>\n  <title>Index of /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose</title>\n
-        </head>\n <body>\n<h1>Index of /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose</h1>\n<pre><img
-        src=\"/icons/blank.gif\" alt=\"Icon \"> <a href=\"?C=N;O=D\">Name</a>                                          <a
-        href=\"?C=M;O=A\">Last modified</a>      <a href=\"?C=S;O=A\">Size</a>  <a
-        href=\"?C=D;O=A\">Description</a><hr><img src=\"/icons/back.gif\" alt=\"[PARENTDIR]\">
-        <a href=\"/compose/rawhide/Fedora-Rawhide-20180426.n.0/\">Parent Directory</a>
-        \                                                  -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\"> <a href=\"AtomicHost/\">AtomicHost/</a>                                   2018-04-26
-        11:02    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"AtomicWorkstation/\">AtomicWorkstation/</a>
-        \                           2018-04-26 11:02    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\"> <a href=\"Container/\">Container/</a>                                    2018-04-26
-        13:06    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Everything/\">Everything/</a>
-        \                                  2018-04-26 10:03    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\"> <a href=\"Labs/\">Labs/</a>                                         2018-04-26
-        11:22    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Modular/\">Modular/</a>
-        \                                     2018-04-26 10:06    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\"> <a href=\"Server/\">Server/</a>                                       2018-04-26
-        10:06    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Spins/\">Spins/</a>
-        \                                       2018-04-26 11:19    -   \n<img src=\"/icons/folder.gif\"
-        alt=\"[DIR]\"> <a href=\"Workstation/\">Workstation/</a>                                  2018-04-26
-        10:06    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"metadata/\">metadata/</a>
-        \                                    2018-04-26 10:18    -   \n<hr></pre>\n</body></html>\n"}
+    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2\
+        \ Final//EN\">\n<html>\n <head>\n  <title>Index of /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose</title>\n\
+        \ </head>\n <body>\n<h1>Index of /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose</h1>\n\
+        <pre><img src=\"/icons/blank.gif\" alt=\"Icon \"> <a href=\"?C=N;O=D\">Name</a>\
+        \                                          <a href=\"?C=M;O=A\">Last modified</a>\
+        \      <a href=\"?C=S;O=A\">Size</a>  <a href=\"?C=D;O=A\">Description</a><hr><img\
+        \ src=\"/icons/back.gif\" alt=\"[PARENTDIR]\"> <a href=\"/compose/rawhide/Fedora-Rawhide-20180426.n.0/\"\
+        >Parent Directory</a>                                                   -\
+        \   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"AtomicHost/\"\
+        >AtomicHost/</a>                                   2018-04-26 11:02    - \
+        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"AtomicWorkstation/\"\
+        >AtomicWorkstation/</a>                            2018-04-26 11:02    - \
+        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Container/\"\
+        >Container/</a>                                    2018-04-26 13:06    - \
+        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Everything/\"\
+        >Everything/</a>                                   2018-04-26 10:03    - \
+        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Labs/\">Labs/</a>\
+        \                                         2018-04-26 11:22    -   \n<img src=\"\
+        /icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Modular/\">Modular/</a>     \
+        \                                 2018-04-26 10:06    -   \n<img src=\"/icons/folder.gif\"\
+        \ alt=\"[DIR]\"> <a href=\"Server/\">Server/</a>                         \
+        \              2018-04-26 10:06    -   \n<img src=\"/icons/folder.gif\" alt=\"\
+        [DIR]\"> <a href=\"Spins/\">Spins/</a>                                   \
+        \     2018-04-26 11:19    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"\
+        > <a href=\"Workstation/\">Workstation/</a>                              \
+        \    2018-04-26 10:06    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"\
+        > <a href=\"metadata/\">metadata/</a>                                    \
+        \ 2018-04-26 10:18    -   \n<hr></pre>\n</body></html>\n"}
     headers:
       appserver: [proxy01.phx2.fedoraproject.org]
       apptime: [D=11408]
@@ -90,14 +95,14 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/STATUS
   response:
     body: {string: !!python/unicode 'DOOMED
 
-'}
+        '}
     headers:
       accept-ranges: [bytes]
       appserver: [proxy10.phx2.fedoraproject.org]
@@ -118,7 +123,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
@@ -138,7 +143,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy01.phx2.fedoraproject.org]
       apptime: [D=5382]
@@ -158,7 +163,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
@@ -178,7 +183,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy10.phx2.fedoraproject.org]
       apptime: [D=2398]
@@ -198,7 +203,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
@@ -218,7 +223,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy01.phx2.fedoraproject.org]
       apptime: [D=3168]
@@ -238,7 +243,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
@@ -258,7 +263,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy10.phx2.fedoraproject.org]
       apptime: [D=3385]
@@ -278,7 +283,7 @@ interactions:
     body: null
     headers:
       Connection: [close]
-      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
       User-Agent: [Python-urllib/2.7]
     method: GET
     uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
@@ -298,7 +303,7 @@ interactions:
 
         </body></html>
 
-'}
+        '}
     headers:
       appserver: [proxy01.phx2.fedoraproject.org]
       apptime: [D=2412]
@@ -306,6 +311,152 @@ interactions:
       content-length: ['275']
       content-type: [text/html; charset=iso-8859-1]
       date: ['Fri, 27 Apr 2018 10:56:18 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode 'Fedora-Rawhide-20180426.n.0'}
+    headers:
+      accept-ranges: [bytes]
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=4327]
+      connection: [close]
+      content-length: ['27']
+      date: ['Wed, 02 May 2018 13:11:45 GMT']
+      last-modified: ['Thu, 26 Apr 2018 05:17:37 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+        was not found on this server.</p>
+
+        </body></html>
+
+        '}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=7125]
+      connection: [close]
+      content-length: ['275']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Wed, 02 May 2018 13:11:47 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+        was not found on this server.</p>
+
+        </body></html>
+
+        '}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=6760]
+      connection: [close]
+      content-length: ['275']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Wed, 02 May 2018 13:11:48 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+        was not found on this server.</p>
+
+        </body></html>
+
+        '}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=1903]
+      connection: [close]
+      content-length: ['275']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Wed, 02 May 2018 13:11:50 GMT']
       referrer-policy: [same-origin]
       server: [Apache/2.4.33 (Fedora)]
       strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
