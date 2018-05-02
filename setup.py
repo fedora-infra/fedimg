@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -14,9 +14,10 @@
 # You should have received a copy of the GNU Affero General Public
 # License along with fedimg; if not, see http://www.gnu.org/licenses,
 # or write to the Free Software Foundation, Inc.,
-# 51 Franklin Street, Fifth Floor, Boston, MA 021.3.0301 USA
+# 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA
 #
 # Authors:  David Gay <dgay@redhat.com>
+#           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
 
 from setuptools import setup, find_packages
