@@ -24,8 +24,12 @@ import unittest
 import subprocess
 import paramiko
 
+import pytest
+
 import fedimg
 import fedimg.utils
+
+from fedimg.exceptions import CommandRunFailed
 
 
 def mock_ssh_exception(*args, **kwargs):
@@ -225,7 +229,8 @@ class TestFedimgUtils(unittest.TestCase):
         assert result == 'Fedora-Atomic-26-1.5.x86_64.raw.xz'
 
     @mock.patch('fedimg.utils.external_run_command')
-    def test_get_source_from_image(self, mock_erc):
+    @mock.patch('os.path.isfile', return_value=True)
+    def test_get_source_from_image(self, mock_isfile, mock_erc):
         mock_erc.return_value = (
             "2018-03-27 00:00:00 (93 KB/s) 'Fedora-Atomic-26-1.5.x86_64.raw.xz' (1234569/123456789)",
             "",
@@ -241,7 +246,8 @@ class TestFedimgUtils(unittest.TestCase):
         ])
 
     @mock.patch('fedimg.utils.external_run_command')
-    def test_unxz_source_file(self, mock_erc):
+    @mock.patch('os.path.isfile', return_value=True)
+    def test_unxz_source_file(self, mock_isfile, mock_erc):
         mock_erc.return_value = (
             "/tmp/Fedora-Atomic-26-1.5.x86_64.raw",
             "",
@@ -255,21 +261,16 @@ class TestFedimgUtils(unittest.TestCase):
         ])
 
     @mock.patch('fedimg.utils.external_run_command')
-    def test_get_source_from_image_retcode_1(self, mock_erc):
+    @mock.patch('os.path.isfile', return_value=True)
+    def test_get_source_from_image_retcode_1(self, mock_isfile, mock_erc):
         mock_erc.return_value = (
             "2018-03-27 00:00:00 (93 KB/s) 'Fedora-Atomic-26-1.5.x86_64.raw.xz' (1234569/123456789)",
             "",
             1
         )
-        file_path = fedimg.utils.get_source_from_image('https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz')
 
-        mock_erc.assert_called_once_with([
-            'wget',
-            'https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz',
-            '-P',
-            mock.ANY
-        ])
-        assert file_path == ''
+        with pytest.raises(CommandRunFailed):
+            fedimg.utils.get_source_from_image('https://somepage.org/Fedora-Atomic-26-1.5.x86_64.raw.xz')
 
     def test_get_volume_type_from_image(self):
         mock_image = mock.Mock()

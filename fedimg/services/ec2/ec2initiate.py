@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -33,6 +33,8 @@ import fedimg.messenger
 
 from fedimg.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
 from fedimg.config import AWS_ROOT_VOLUME_SIZE
+from fedimg.exceptions import SourceNotFound, CommandRunFailed
+from fedimg.exceptions import UnCompressFailed
 from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
 from fedimg.utils import get_virt_types_from_url, get_source_from_image
@@ -82,6 +84,9 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
 
     for image_url in image_urls:
 
+        xz_file_path = None
+        source = None
+
         # If the virt types is not provided then select the supported virt
         # types from the image.
         if ex_virt_types is None:
@@ -91,14 +96,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
 
         try:
             xz_file_path = get_source_from_image(image_url)
-            if not xz_file_path:
-                _log.debug('Source not found.')
-                return []
-
             source = unxz_source_file(xz_file_path)
-            if not source:
-                _log.debug('Unable to uncompress raw file.')
-                return []
 
             image_architecture = get_file_arch(image_url)
 
@@ -125,11 +123,10 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                     *[regions, virt_types, volume_types])
             for region, virt_type, volume_type in combinations:
                 uploader.set_region(region)
-                _log.debug('(uploader) Region is set to: %r' % region)
+                _log.info('Region is set to: %r' % region)
 
                 uploader.set_image_virt_type(virt_type)
-                _log.debug('(uploader) Virtualization type '
-                           'is set to: %r' % virt_type)
+                _log.info('Virtualization type is set to: %r' % virt_type)
 
                 image_name = get_image_name_from_image(
                     image_url=image_url,
@@ -138,9 +135,10 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                     volume_type=volume_type
                 )
                 uploader.set_image_name(image_name)
+                _log.info('Image name is set to: %r' % image_name)
 
                 uploader.set_image_volume_type(volume_type)
-                _log.debug('(uploader) Volume type is set to: %r' % volume_type)
+                _log.info('Volume type is set to: %r' % volume_type)
 
                 uploader.set_availability_zone_for_region()
 
@@ -165,13 +163,21 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                 published_images.extend(publisher.publish_images(
                     region_image_mapping=[(region, image.id)]
                 ))
+        except CommandRunFailed:
+            _log.error("Could not execute the command for the requested "
+                       "image_url: %r" % image_url)
+        except SourceNotFound:
+            _log.error("Could not find the source for the requested image_url"
+                       " : %r" % image_url)
+        except UnCompressFailed:
+            _log.error("Could not uncompress the request image: %r" %
+                       image_url)
         except Exception as e:
-            _log.debug(e.message)
-            return []
-            #TODO: Implement the clean up of the images if failed.
-            # uploader.clean_up(image_id=image.id, delete_snapshot=True)
-
-        shutil.rmtree(os.path.dirname(source))
-        _log.debug("Cleaned up %r" % source)
+            _log.error(e.message)
+        finally:
+            if xz_file_path:
+                xz_file_dirname = os.path.dirname(xz_file_path)
+                shutil.rmtree(xz_file_dirname)
+                _log.info("Cleaned up %r" % xz_file_dirname)
 
     return published_images

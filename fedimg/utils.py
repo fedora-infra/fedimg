@@ -1,5 +1,5 @@
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -36,6 +36,8 @@ import tempfile
 import paramiko
 from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
+
+from .exceptions import SourceNotFound, UnCompressFailed, CommandRunFailed
 
 
 def get_file_arch(file_name):
@@ -99,13 +101,20 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
-    _log.debug("Starting the command: %r" % command)
-    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE, shell=True,
-                           stdout=subprocess.PIPE, stderr=subprocess.PIPE,
-                           close_fds=True)
+    _log.info("Starting the command: %r" % command)
+    ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE,
+                           shell=True, stdout=subprocess.PIPE,
+                           stderr=subprocess.PIPE, close_fds=True)
     out, err = ret.communicate()
-    _log.debug("Finished executing the command: %r" % command)
     retcode = ret.returncode
+    _log.info("Finished executing the command: %r" % command)
+
+    if retcode != 0:
+        _log.error("Command failed during run")
+        _log.error("(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
+    else:
+        _log.debug("(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
+
     return out, err, retcode
 
 
@@ -128,9 +137,13 @@ def unxz_source_file(file_path):
     ])
 
     if retcode != 0:
-        return ''
+        raise CommandRunFailed
 
-    return file_path.rstrip('.xz')
+    raw_file_path = file_path.rstrip('.xz')
+    if not os.path.isfile(raw_file_path):
+        raise UnCompressFailed
+
+    return raw_file_path
 
 
 def get_source_from_image(image_url):
@@ -138,7 +151,7 @@ def get_source_from_image(image_url):
     file_name = get_file_name_image(image_url)
     file_path = os.path.join(tmpdir, file_name)
 
-    _log.info("[PREP] Preparing temporary directory for download: %r" % tmpdir)
+    _log.info("Preparing temporary directory for download: %r" % tmpdir)
     output, error, retcode = external_run_command([
         'wget',
         image_url,
@@ -147,7 +160,10 @@ def get_source_from_image(image_url):
     ])
 
     if retcode != 0:
-        return ''
+        raise CommandRunFailed
+
+    if not os.path.isfile(file_path):
+        raise SourceNotFound
 
     return file_path
 
