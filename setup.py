@@ -38,15 +38,22 @@ setup(
     license='AGPLv3+',
     include_package_data=True,
     zip_safe=False,
-    install_requires=['fedmsg',
-                      'fedfind',
-                      'apache-libcloud',
-                      'paramiko',
-                      'toml'],
-    tests_require=['nose',
-                   'mock',
-                   'vcrpy'],
-    test_suite='nose.collector',
+    setup_requires=[
+        'pytest-runner',
+    ],
+    install_requires=[
+        'fedmsg',
+        'fedfind',
+        'apache-libcloud',
+        'paramiko',
+        'toml'
+    ],
+    tests_require=[
+        'pytest',
+        'pytest-cov',
+        'mock',
+        'vcrpy'
+    ],
     packages=find_packages(),
     entry_points="""
     [moksha.consumer]
