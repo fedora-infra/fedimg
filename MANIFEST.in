@@ -1,6 +1,6 @@
 include LICENSE
 include README.md
-include CHANGELOG.md
+include CHANGELOG.rst
 include fedimg-conf.toml.example
 include mkdocs.yml
 recursive-include fedmsg.d *.py
