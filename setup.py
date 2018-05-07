@@ -24,7 +24,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='fedimg',
-    version='1.3.0',
+    version='2.0.0',
     description='Automatically upload Fedora Cloud images to cloud providers',
     classifiers=[
         "Programming Language :: Python :: 2.7",

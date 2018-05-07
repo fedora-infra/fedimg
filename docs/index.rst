@@ -34,6 +34,11 @@ Contents:
    development/contribution
    development/testing
 
+.. toctree::
+   :maxdepth: 1
+
+   release_notes
+
 Community
 =========
 
