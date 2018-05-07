@@ -58,3 +58,6 @@ docs/_build/
 # Config file (containing secret keys and whatnot)
 fedimg.cfg
 .eggs
+
+# pytest
+*pytest_cache
