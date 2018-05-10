@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -27,10 +27,10 @@ configuration file) and call the main method for the service.
 import logging
 
 from fedimg.config import ACTIVE_SERVICES
-from fedimg.services.ec2.ec2initiate import main as ec2main
-from fedimg.services.ec2.ec2copy import main as ec2copy
 from fedimg.config import AWS_ACCESS_ID, AWS_SECRET_KEY
 from fedimg.config import AWS_BASE_REGION, AWS_REGIONS
+from fedimg.services.ec2.ec2copy import main as ec2copy
+from fedimg.services.ec2.ec2initiate import main as ec2main
 
 _log = logging.getLogger(__name__)
 

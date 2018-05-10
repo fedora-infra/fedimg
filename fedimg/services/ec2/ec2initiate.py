@@ -26,21 +26,19 @@ I don't know what to write here for documentation
 import logging
 import os
 import shutil
-
 from itertools import product as itertools_product
 
 import fedimg.messenger
-
-from fedimg.config import AWS_VOLUME_TYPES, AWS_BASE_REGION
+from fedimg.config import AWS_BASE_REGION, AWS_VOLUME_TYPES
 from fedimg.config import AWS_ROOT_VOLUME_SIZE
-from fedimg.exceptions import SourceNotFound, CommandRunFailed
+from fedimg.exceptions import CommandRunFailed, SourceNotFound
 from fedimg.exceptions import UnCompressFailed
-from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
 from fedimg.services.ec2.ec2imgpublisher import EC2ImagePublisher
-from fedimg.utils import get_virt_types_from_url, get_source_from_image
-from fedimg.utils import unxz_source_file
-from fedimg.utils import get_image_name_from_image, get_file_arch
+from fedimg.services.ec2.ec2imguploader import EC2ImageUploader
+from fedimg.utils import get_file_arch, get_image_name_from_image
 from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
+from fedimg.utils import get_source_from_image, get_virt_types_from_url
+from fedimg.utils import unxz_source_file
 
 _log = logging.getLogger(__name__)
 
@@ -147,7 +145,8 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                         topic='image.upload',
                         msg=dict(
                             image_url=image_url,
-                            image_name=get_image_name_from_ami_name_for_fedmsg(image_name),
+                            image_name=get_image_name_from_ami_name_for_fedmsg(
+                                image_name),
                             destination=region,
                             service='EC2',
                             status='started',

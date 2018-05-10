@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -28,13 +28,13 @@ message uploads the image using the API of the cloud providers.
 import logging
 import multiprocessing.pool
 
+import fedfind.exceptions
+import fedfind.release
+
 import fedmsg.consumers
 import fedmsg.encoding
-import fedfind.release
-import fedfind.exceptions
 
 import fedimg.uploader
-
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
 from fedimg.utils import get_rawxz_urls, get_value_from_dict
 
@@ -83,7 +83,8 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         location = msg_info['location']
         compose_id = msg_info['compose_id']
         try:
-            compose_metadata = fedfind.release.get_release(cid=compose_id).metadata
+            compose_metadata = fedfind.release.get_release(
+                cid=compose_id).metadata
         except fedfind.exceptions.UnsupportedComposeError:
             _log.debug("%r is unsupported compose" % compose_id)
             return

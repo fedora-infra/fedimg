@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -18,20 +19,17 @@
 #
 # Authors:  Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 #
-
 import logging
-_log = logging.getLogger(__name__)
-
 import re
-
-import fedimg.messenger
-
 from time import sleep
 
-from fedimg.utils import external_run_command, get_item_from_regex
-from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
+import fedimg.messenger
 from fedimg.config import AWS_DELETE_RESOURCES, AWS_S3_BUCKET_NAME
 from fedimg.services.ec2.ec2base import EC2Base
+from fedimg.utils import external_run_command, get_item_from_regex
+from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
+
+_log = logging.getLogger(__name__)
 
 
 class EC2ImageUploader(EC2Base):
@@ -128,7 +126,7 @@ class EC2ImageUploader(EC2Base):
                 return volume_id
 
             _log.debug('Failed to find complete. Task %r still running. '
-                      'Sleeping for 10 seconds.' % task_id)
+                       'Sleeping for 10 seconds.' % task_id)
             sleep(10)
 
     def _create_snapshot(self, volume):
@@ -142,7 +140,7 @@ class EC2ImageUploader(EC2Base):
         return snapshot
 
     def _retry_and_get_snapshot(self, snapshot_id):
-        #FIXME: Rather that listing all snapshot. Add a patch to libcloud to
+        # FIXME: Rather that listing all snapshot. Add a patch to libcloud to
         # pull the snapshot using the snapshot id.
         snapshots = self._connect().list_snapshots()
         for snapshot in snapshots:
@@ -173,14 +171,13 @@ class EC2ImageUploader(EC2Base):
             ])
 
             if retcode != 0:
-                _log.error('Unable to import volume. Out: %s, err: %s, ret: %s',
-                          output,
-                          err,
-                          retcode)
+                _log.error(
+                    'Unable to import volume. Out: %s, err: %s, ret: %s',
+                    output, err, retcode)
                 raise Exception('Creating the volume failed')
 
             _log.debug('Initiate task to upload the image via S3. '
-                      'Fetching task id...')
+                       'Fetching task id...')
 
             task_id = get_item_from_regex(output, regex='\s(import-vol-\w{8})')
             _log.info('Fetched task_id: %r. Listening to the task.' % task_id)
@@ -203,8 +200,8 @@ class EC2ImageUploader(EC2Base):
                                          self.image_name)
             try:
                 _log.info('Registering the image in %r (snapshot id: %r) with '
-                         'name %r' % (self.region, snapshot.id,
-                                      self.image_name))
+                          'name %r' % (self.region, snapshot.id,
+                                       self.image_name))
                 image = self._connect().ex_register_image(
                     name=self.image_name,
                     description=self.image_description,
@@ -220,7 +217,8 @@ class EC2ImageUploader(EC2Base):
                         topic='image.upload',
                         msg=dict(
                             image_url=self.image_url,
-                            image_name=get_image_name_from_ami_name_for_fedmsg(self.image_name),
+                            image_name=get_image_name_from_ami_name_for_fedmsg(
+                                self.image_name),
                             destination=self.region,
                             service=self.service,
                             status='completed',
@@ -261,7 +259,7 @@ class EC2ImageUploader(EC2Base):
         """
         if not AWS_DELETE_RESOURCES and force:
             _log.info('Deleting resource is disabled by config.'
-                     'Override by passing force=True.')
+                      'Override by passing force=True.')
             return False
 
         if self.volume:
@@ -317,7 +315,7 @@ class EC2ImageUploader(EC2Base):
         Args:
             volume_id (str): volume_id for the `EC2ImageUploader` object
         """
-        #FIXME: This is not a optimized way of get all the volumes. Rather
+        # FIXME: This is not a optimized way of get all the volumes. Rather
         # send a patch to libcloud to filter the volume based on the volume_id
 
         volumes = self._connect().list_volumes()
@@ -390,8 +388,8 @@ class EC2ImageUploader(EC2Base):
         snapshot = self.create_snapshot(source)
         _log.debug('Finished create snapshot: %r' % snapshot.id)
 
-        _log.info('Start to register the image '
-                 'from the snapshot: %r' % snapshot.id)
+        _log.info('Start to register the image from the snapshot: %r',
+                  snapshot.id)
         image = self.register_image(snapshot)
         _log.debug('Finish registering the image with id: %r' % image.id)
 

@@ -1,5 +1,6 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
-# Copyright (C) 2014-2017 Red Hat, Inc.
+# Copyright (C) 2014-2018 Red Hat, Inc.
 #
 # fedimg is free software: you can redistribute it and/or modify
 # it under the terms of the GNU Affero General Public License as
@@ -20,18 +21,15 @@
 #
 
 import logging
-_log = logging.getLogger(__name__)
-
 import re
-
 from time import sleep
 
 import fedimg.messenger
-
-from fedimg.utils import external_run_command, get_item_from_regex
+from fedimg.services.ec2.ec2base import EC2Base
 from fedimg.utils import get_image_name_from_ami_name
 from fedimg.utils import get_image_name_from_ami_name_for_fedmsg
-from fedimg.services.ec2.ec2base import EC2Base
+
+_log = logging.getLogger(__name__)
 
 
 class EC2ImagePublisher(EC2Base):
@@ -114,7 +112,8 @@ class EC2ImagePublisher(EC2Base):
         driver = self._connect()
         while True:
             image = driver.get_image(image.id)
-            snapshot_id = image.extra['block_device_mapping'][0]['ebs']['snapshot_id']
+            blk_mapping = image.extra['block_device_mapping']
+            snapshot_id = blk_mapping[0]['ebs']['snapshot_id']
 
             if snapshot_id:
                 break
@@ -185,13 +184,17 @@ class EC2ImagePublisher(EC2Base):
             _log.info('Publish image (%s) in %s started' % (image_id, region))
             image = self._connect().get_image(image_id=image_id)
             is_image_public = self._retry_till_image_is_public(image)
-            _log.info('Publish image (%s) in %s completed' % (image_id, region))
+            _log.info('Publish image (%s) in %s completed',
+                      image_id, region)
 
-            _log.info('Publish snaphsot for image (%s) in %s started' % (image_id, region))
+            _log.info('Publish snaphsot for image (%s) in %s started',
+                      image_id, region)
             snapshot = self.get_snapshot_from_image(image)
-            _log.info('Fetched snapshot for image (%s): %s' % (image_id, snapshot.id))
+            _log.info('Fetched snapshot for image (%s): %s',
+                      image_id, snapshot.id)
             is_snapshot_public = self._retry_till_snapshot_is_public(snapshot)
-            _log.info('Publish snaphsot for image (%s) in %s completed' % (image_id, region))
+            _log.info('Publish snaphsot for image (%s) in %s completed',
+                      image_id, region)
 
             volume_type = self.get_volume_type_from_image(image)
             virt_type = self.get_virt_type_from_image(image)
@@ -200,7 +203,8 @@ class EC2ImagePublisher(EC2Base):
                 fedimg.messenger.notify(
                     topic='image.publish',
                     msg=dict(
-                        image_name=get_image_name_from_ami_name_for_fedmsg(image.name),
+                        image_name=get_image_name_from_ami_name_for_fedmsg(
+                            image.name),
                         image_url=self.image_url,
                         destination=self.region,
                         service=self.service,
@@ -223,7 +227,8 @@ class EC2ImagePublisher(EC2Base):
 
         return published_images
 
-    def copy_images_to_regions(self, image_id=None, base_region=None, regions=None):
+    def copy_images_to_regions(self, image_id=None, base_region=None,
+                               regions=None):
         """ Comment goes here """
 
         if (image_id is None) or (regions is None) or (base_region is None):
@@ -256,16 +261,21 @@ class EC2ImagePublisher(EC2Base):
                         name=self.image_name,
                         description=self.image_description)
 
-                    copied_image = self._retry_till_image_is_available(copied_image.id)
+                    copied_image = self._retry_till_image_is_available(
+                        copied_image.id)
 
                     virt_type = image.extra['virtualization_type']
-                    volume_type = image.extra['block_device_mapping'][0]['ebs']['volume_type']
+
+                    blk_mapping = image.extra['block_device_mapping']
+                    volume_type = blk_mapping[0]['ebs']['volume_type']
 
                     if self.push_notifications:
                         fedimg.messenger.notify(
                             topic='image.copy',
                             msg=dict(
-                                image_name=get_image_name_from_ami_name_for_fedmsg(copied_image.name),
+                                image_name=(
+                                    get_image_name_from_ami_name_for_fedmsg(
+                                        copied_image.name)),
                                 destination=self.region,
                                 service=self.service,
                                 compose_id=self.compose_id,
@@ -278,7 +288,7 @@ class EC2ImagePublisher(EC2Base):
                             )
                         )
 
-                    _log.info('Copy %s to %s is completed.' % (image_id, region))
+                    _log.info('Copy %s to %s is completed.', image_id, region)
                     copied_images.append({
                         'region': region,
                         'copied_image_id': copied_image.id
@@ -286,8 +296,8 @@ class EC2ImagePublisher(EC2Base):
                     break
 
                 except Exception as e:
-                    _log.info('Could not register '
-                             'with name: %r' % self.image_name)
+                    _log.info('Could not register with name: %r',
+                              self.image_name)
                     if 'InvalidAMIName.Duplicate' in str(e):
                         counter = counter + 1
                     else:
