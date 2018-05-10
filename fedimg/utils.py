@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # This file is part of fedimg.
 # Copyright (C) 2014-2018 Red Hat, Inc.
 #
@@ -23,21 +24,24 @@
 """
 Utility functions for fedimg.
 """
-import logging
-_log = logging.getLogger(__name__)
 
 import functools
+import logging
 import os
 import re
 import socket
 import subprocess
 import tempfile
 
-import paramiko
-from libcloud.compute.types import Provider
 from libcloud.compute.providers import get_driver
+from libcloud.compute.types import Provider
 
-from .exceptions import SourceNotFound, UnCompressFailed, CommandRunFailed
+import paramiko
+
+from fedimg.exceptions import CommandRunFailed, SourceNotFound
+from fedimg.exceptions import UnCompressFailed
+
+_log = logging.getLogger(__name__)
 
 
 def get_file_arch(file_name):
@@ -111,9 +115,11 @@ def external_run_command(command):
 
     if retcode != 0:
         _log.error("Command failed during run")
-        _log.error("(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
+        _log.error(
+            "(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
     else:
-        _log.debug("(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
+        _log.debug(
+            "(output) %s, (error) %s, (retcode) %s" % (out, err, retcode))
 
     return out, err, retcode
 

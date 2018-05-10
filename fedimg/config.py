@@ -22,11 +22,12 @@
 import toml
 
 # Read in config file
+config = {}
 with open("/etc/fedimg/fedimg-conf.toml") as conffile:
     config = toml.loads(conffile.read())
 
 # Fedimg Consumer configurations
-PROCESS_COUNT = config['general']['process_count']
+PROCESS_COUNT = config.get('general', {}).get('process_count', {})
 STATUS_FILTER = ('FINISHED_INCOMPLETE', 'FINISHED')
 
 ACTIVE_SERVICES = config['general']['active_services']
@@ -42,4 +43,5 @@ AWS_REGIONS = config.get('aws', {}).get('regions', {})
 AWS_ROOT_VOLUME_SIZE = config.get('aws', {}).get('root_volume_size', {})
 AWS_BASE_REGION = config.get('aws', {}).get('base_region', {})
 AWS_DELETE_RESOURCES = config.get('aws', {}).get('delete_resources', True)
-AWS_S3_BUCKET_NAME = config.get('aws', {}).get('bucket_name', 'fedora-s3-bucket-fedimg')
+AWS_S3_BUCKET_NAME = config.get('aws', {}).get('bucket_name',
+                                               'fedora-s3-bucket-fedimg')
