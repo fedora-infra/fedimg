@@ -49,6 +49,7 @@ setup(
         'toml'
     ],
     tests_require=[
+        'flake8',
         'pytest',
         'pytest-cov',
         'mock',
