@@ -182,7 +182,8 @@ class EC2ImageUploader(EC2Base):
             _log.debug('Initiate task to upload the image via S3. '
                       'Fetching task id...')
 
-            task_id = get_item_from_regex(output, regex='\s(import-vol-\w{8})')
+            task_id = get_item_from_regex(
+                output, regex='\s(import-vol-\w{17})')
             _log.info('Fetched task_id: %r. Listening to the task.' % task_id)
 
             volume_id = self._retry_and_get_volume_id(task_id)
