@@ -84,6 +84,7 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
 
         xz_file_path = None
         source = None
+        upload_failed = False
 
         # If the virt types is not provided then select the supported virt
         # types from the image.
@@ -163,17 +164,38 @@ def main(image_urls, access_id, secret_key, regions, volume_types=None,
                     region_image_mapping=[(region, image.id)]
                 ))
         except CommandRunFailed:
+            upload_failed = True
             _log.error("Could not execute the command for the requested "
                        "image_url: %r" % image_url)
         except SourceNotFound:
+            upload_failed = True
             _log.error("Could not find the source for the requested image_url"
                        " : %r" % image_url)
         except UnCompressFailed:
+            upload_failed = True
             _log.error("Could not uncompress the request image: %r" %
                        image_url)
         except Exception as e:
+            upload_failed = True
             _log.error(e.message)
         finally:
+            if upload_failed and push_notifications:
+                fedimg.messenger.notify(
+                    topic='image.upload',
+                    msg=dict(
+                        image_url=image_url,
+                        image_name=get_image_name_from_ami_name_for_fedmsg(
+                            image_name),
+                        destination=region,
+                        service='EC2',
+                        status='failed',
+                        compose=compose_id,
+                        extra=dict(
+                            virt_type=virt_type,
+                            vol_type=volume_type
+                        )
+                    )
+                )
             if xz_file_path:
                 xz_file_dirname = os.path.dirname(xz_file_path)
                 shutil.rmtree(xz_file_dirname)
