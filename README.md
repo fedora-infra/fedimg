@@ -13,6 +13,8 @@ information.
 Official Fedimg documentation can be [found at
 RTFD](https://fedimg.readthedocs.org) or in `docs/`.
 
+If you are interested in contributing to fedimg, you can [read the developer documentation](https://github.com/fedora-infra/fedimg/tree/develop/docs/development).
+
 ## Triggering jobs
 
 Fedimg is designed to perform automatically when it sees the appropriate

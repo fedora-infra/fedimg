@@ -61,3 +61,7 @@ fedimg.cfg
 
 # pytest
 *pytest_cache
+
+# vagrant
+.vagrant
+Vagrantfile

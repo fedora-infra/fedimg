@@ -2,6 +2,10 @@
 Development Guide
 =================
 
+A vagrant virtual machine is avalaible to make running the unit test easy. If you wish to use this virual machine as development environment
+you can check how to get started in the `testing documentation`_.
+
+
 Fedimg is application written in Python. It uses `libcloud`_ to connect with
 the external Cloud providers.
 
@@ -42,3 +46,4 @@ the external Cloud providers.
 Happy Hacking!
 
 .. _libcloud: https://libcloud.apache.org/
+.. _testing documentation:  https://github.com/fedora-infra/fedimg/blob/develop/docs/development/testing.rst
