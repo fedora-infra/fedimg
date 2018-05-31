@@ -120,8 +120,15 @@ class EC2ImageUploader(EC2Base):
 
             if 'completed' in output:
                 _log.debug('Task %r complete. Fetching volume id...' % task_id)
-                match = re.search('\s(vol-\w{17})', output)
-                volume_id = match.group(1)
+                volume_id = get_item_from_regex(output,
+                                                regex='\s(vol-\w{17})')
+                if not volume_id:
+                    volume_id = get_item_from_regex(output,
+                                                    regex='\s(vol-\w{8})')
+
+                if not volume_id:
+                    _log.error('Unable to fetch volume_id')
+                    raise Exception('Unable to fetch volume_id.')
 
                 _log.debug('The id of the created volume: %r' % volume_id)
 
@@ -182,8 +189,18 @@ class EC2ImageUploader(EC2Base):
             _log.debug('Initiate task to upload the image via S3. '
                       'Fetching task id...')
 
-            task_id = get_item_from_regex(
-                output, regex='\s(import-vol-\w{17})')
+            task_id = get_item_from_regex(output,
+                                          regex='\s(import-vol-\w{17})')
+
+            # Support the shorter task ids
+            if not task_id:
+                task_id = get_item_from_regex(output,
+                                              regex='\s(import-vol-\w{8})')
+
+            if not task_id:
+                _log.error('Unable to fetch task_id')
+                raise Exception('Unable to fetch task_id.')
+
             _log.info('Fetched task_id: %r. Listening to the task.' % task_id)
 
             volume_id = self._retry_and_get_volume_id(task_id)
