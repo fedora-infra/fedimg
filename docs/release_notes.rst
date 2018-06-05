@@ -2,28 +2,6 @@
 Release Notes
 =============
 
-2.1.0
-=====
-
-Bug fixes
----------
-* Fix the version and release number in sphinx conf
-  (`#133 <https://github.com/fedora-infra/fedimg/pull/133>`_).
-
-Developer Improvements
-----------------------
-
-* Support both type of resource ids (long & short)
-  (`#141 <https://github.com/fedora-infra/fedimg/pull/141>`_).
-* Migrate fedimg to support to longer resource ids
-  (`#137 <https://github.com/fedora-infra/fedimg/pull/137>`_).
-
-Contributors
-------------
-
-The following developers contributed patches to Fedimg 2.0.0:
-
-- Sayan Chowdhury
 
 2.0.0
 =====
