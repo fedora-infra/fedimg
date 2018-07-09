@@ -37,6 +37,7 @@ import fedimg.uploader
 
 from fedimg.config import PROCESS_COUNT, STATUS_FILTER
 from fedimg.utils import get_rawxz_urls, get_value_from_dict
+from fedimg.utils import cancel_stale_conversion_tasks
 
 _log = logging.getLogger(__name__)
 
@@ -79,6 +80,8 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
         if msg_info['status'] not in STATUS_FILTER:
             _log.debug('%s is not valid status' % msg_info['status'])
             return
+
+        cancel_stale_conversion_tasks()
 
         location = msg_info['location']
         compose_id = msg_info['compose_id']
