@@ -25,6 +25,7 @@
 Utility functions for fedimg.
 """
 
+import datetime
 import functools
 import logging
 import os
@@ -205,3 +206,39 @@ def get_image_name_from_ami_name_for_fedmsg(image_name):
     image_name = name_vt_region.rsplit('-', 4)[:-4][0]
 
     return image_name
+
+
+def cancel_stale_conversion_tasks():
+    _log.info("Preparing to cancel conversion tasks")
+    output, error, retcode = external_run_command([
+        'euca-describe-conversion-tasks --region us-east-1 | grep active',
+    ])
+
+    if retcode != 0:
+        return False
+
+    tasks = output.split('\n')[1:-1]
+
+    for task in tasks:
+        expiration_datetime = datetime.datetime.strptime(
+            task.split()[5],
+            '%Y-%m-%dT%H:%M:%Sz'
+        )
+        import_vol_task_id = task.split()[3]
+
+        start_datetime = expiration_datetime - datetime.timedelta(days=7)
+        now_datetime = datetime.datetime.now()
+
+        delta_time = now_datetime - start_datetime
+
+        if delta_time.total_seconds() >= 86400:
+            _log.info('This is a stale task. Canceling %r'% import_vol_task_id) 
+            output, error, retcode = external_run_command([
+                'euca-cancel-conversion-task --region us-east-1',
+                import_vol_task_id
+            ])
+
+            if retcode != 0:
+                _log.info('Could not cancel the task %r' % import_vol_task_id)
+
+    return True
