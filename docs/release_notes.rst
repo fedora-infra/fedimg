@@ -2,11 +2,28 @@
 Release Notes
 =============
 
+2.2.0
+=====
+
+Developer Improvements
+----------------------
+
+* utils: Cancel the conversion tasks if the are older then 24 hours
+  (`#146 <https://github.com/fedora-infra/fedimg/pull/146>`_).
+
+Contributors
+------------
+
+The following developers contributed patches to Fedimg 2.2.0:
+
+- Sayan Chowdhury
+
 2.1.0
 =====
 
 Bug fixes
 ---------
+
 * Fix the version and release number in sphinx conf
   (`#133 <https://github.com/fedora-infra/fedimg/pull/133>`_).
 
