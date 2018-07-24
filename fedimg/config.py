@@ -19,11 +19,18 @@
 # Authors:  David Gay <dgay@redhat.com>
 #           Sayan Chowdhury <sayanchowdhury@fedoraproject.org>
 
+import os.path
 import toml
+
+config_file = '/etc/fedimg/fedimg-conf.toml'
+if not os.path.isfile(config_file):
+    # Get the path of the configuration file
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    config_file = os.path.join(project_root, 'fedimg-conf.toml.example')
 
 # Read in config file
 config = {}
-with open("/etc/fedimg/fedimg-conf.toml") as conffile:
+with open(config_file) as conffile:
     config = toml.loads(conffile.read())
 
 # Fedimg Consumer configurations
