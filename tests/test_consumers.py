@@ -120,25 +120,26 @@ class TestFedimgConsumer(unittest.TestCase):
                 "msg": {
                     "status": "FINISHED",
                     "release_type": "ga",
-                    "compose_label": "RC-20180317.0",
+                    "compose_label": "RC-20180425.0",
                     "compose_respin": 0,
-                    "compose_date": "20180317",
-                    "release_version": "27",
-                    "location": "http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose",
+                    "compose_date": "20180425",
+                    "release_version": "28",
+                    "location": "https://kojipkgs.fedoraproject.org/compose/28/latest-Fedora-28/compose",
                     "compose_type": "production",
                     "release_is_layered": False,
                     "release_name": "Fedora-Cloud",
                     "release_short": "Fedora-Cloud",
-                    "compose_id": "Fedora-Cloud-27-20180317.0"
+                    "compose_id": "Fedora-28-20180425.0"
                 }
             }
         }
 
         self.consumer.consume(msg)
-        url = 'http://kojipkgs.fedoraproject.org/compose/Fedora-Cloud-27-20180317.0/compose/CloudImages/x86_64/images/Fedora-Cloud-Base-27-20180317.0.x86_64.raw.xz'
+        url = 'https://kojipkgs.fedoraproject.org/compose/28/latest-Fedora-28/compose/Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.raw.xz'
+        url1 = 'https://kojipkgs.fedoraproject.org/compose/28/latest-Fedora-28/compose/AtomicHost/x86_64/images/Fedora-AtomicHost-28-1.1.x86_64.raw.xz'
         upload.assert_called_with(
             pool=mock.ANY,
-            urls=[url],
-            compose_id='Fedora-Cloud-27-20180317.0',
+            urls=[url, url1],
+            compose_id='Fedora-28-20180425.0',
             push_notifications=True
         )
