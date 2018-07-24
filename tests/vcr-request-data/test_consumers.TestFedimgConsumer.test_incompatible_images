@@ -465,4 +465,84 @@ interactions:
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
     status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+        was not found on this server.</p>
+
+        </body></html>
+
+        '}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=14735]
+      connection: [close]
+      content-length: ['275']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:44:01 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode 'kojipkgs.fedoraproject.org']
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/rawhide/Fedora-Rawhide-20180426.n.0/compose/metadata/composeinfo.json
+        was not found on this server.</p>
+
+        </body></html>
+
+        '}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=3433]
+      connection: [close]
+      content-length: ['275']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:20 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
 version: 1

@@ -211,4 +211,1745 @@ interactions:
       x-frame-options: [SAMEORIGIN]
       x-xss-protection: [1; mode=block]
     status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/compose
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/compose was
+        not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=19243]
+      connection: [close]
+      content-length: ['246']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:26 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+        was not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=1727]
+      connection: [close]
+      content-length: ['249']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:33 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+        was not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=2128]
+      connection: [close]
+      content-length: ['249']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:39 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+        was not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=2345]
+      connection: [close]
+      content-length: ['249']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:45 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/compose
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/compose was
+        not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=2605]
+      connection: [close]
+      content-length: ['246']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:48:51 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+        was not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=9749]
+      connection: [close]
+      content-length: ['249']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:51:06 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/compose
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/compose was
+        not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=2254]
+      connection: [close]
+      content-length: ['246']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:51:12 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/COMPOSE_ID
+        was not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=3409]
+      connection: [close]
+      content-length: ['249']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:58:50 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/cloud/Fedora-Cloud-27-20180317.0/compose
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>404 Not Found</title>
+
+        </head><body>
+
+        <h1>Not Found</h1>
+
+        <p>The requested URL /compose/cloud/Fedora-Cloud-27-20180317.0/compose was
+        not found on this server.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy01.phx2.fedoraproject.org]
+      apptime: [D=1774]
+      connection: [close]
+      content-length: ['246']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 20:58:57 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 404, message: Not Found}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose
+  response:
+    body: {string: !!python/unicode '<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML 2.0//EN">
+
+        <html><head>
+
+        <title>301 Moved Permanently</title>
+
+        </head><body>
+
+        <h1>Moved Permanently</h1>
+
+        <p>The document has moved <a href="https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose/">here</a>.</p>
+
+        </body></html>
+
+'}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=4928]
+      connection: [close]
+      content-length: ['283']
+      content-type: [text/html; charset=iso-8859-1]
+      date: ['Tue, 24 Jul 2018 21:14:25 GMT']
+      location: ['https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose/']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 301, message: Moved Permanently}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose/
+  response:
+    body: {string: !!python/unicode "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 3.2
+        Final//EN\">\n<html>\n <head>\n  <title>Index of /compose/28/Fedora-28-20180425.0/compose</title>\n
+        </head>\n <body>\n<h1>Index of /compose/28/Fedora-28-20180425.0/compose</h1>\n<pre><img
+        src=\"/icons/blank.gif\" alt=\"Icon \"> <a href=\"?C=N;O=D\">Name</a>                              <a
+        href=\"?C=M;O=A\">Last modified</a>      <a href=\"?C=S;O=A\">Size</a>  <a
+        href=\"?C=D;O=A\">Description</a><hr><img src=\"/icons/back.gif\" alt=\"[PARENTDIR]\">
+        <a href=\"/compose/28/Fedora-28-20180425.0/\">Parent Directory</a>                                       -
+        \  \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"AtomicHost/\">AtomicHost/</a>
+        \                      2018-04-25 06:41    -   \n<img src=\"/icons/folder.gif\"
+        alt=\"[DIR]\"> <a href=\"AtomicWorkstation/\">AtomicWorkstation/</a>                2018-04-25
+        06:03    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Cloud/\">Cloud/</a>
+        \                           2018-04-25 06:40    -   \n<img src=\"/icons/folder.gif\"
+        alt=\"[DIR]\"> <a href=\"Container/\">Container/</a>                        2018-04-25
+        06:58    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Everything/\">Everything/</a>
+        \                      2018-04-25 04:14    -   \n<img src=\"/icons/folder.gif\"
+        alt=\"[DIR]\"> <a href=\"Labs/\">Labs/</a>                             2018-04-25
+        06:23    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Modular/\">Modular/</a>
+        \                         2018-04-25 04:17    -   \n<img src=\"/icons/folder.gif\"
+        alt=\"[DIR]\"> <a href=\"Server/\">Server/</a>                           2018-04-25
+        04:17    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"Spins/\">Spins/</a>
+        \                           2018-04-25 06:47    -   \n<img src=\"/icons/folder.gif\"
+        alt=\"[DIR]\"> <a href=\"Workstation/\">Workstation/</a>                      2018-04-25
+        04:17    -   \n<img src=\"/icons/folder.gif\" alt=\"[DIR]\"> <a href=\"metadata/\">metadata/</a>
+        \                        2018-04-25 11:48    -   \n<hr></pre>\n</body></html>\n"}
+    headers:
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=18779]
+      connection: [close]
+      content-length: ['1985']
+      content-type: [text/html;charset=ISO-8859-1]
+      date: ['Tue, 24 Jul 2018 21:14:25 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/STATUS
+  response:
+    body: {string: !!python/unicode 'FINISHED
+
+'}
+    headers:
+      accept-ranges: [bytes]
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=6866]
+      connection: [close]
+      content-length: ['9']
+      date: ['Tue, 24 Jul 2018 21:14:25 GMT']
+      last-modified: ['Wed, 25 Apr 2018 12:03:39 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose/metadata/composeinfo.json
+  response:
+    body: {string: !!python/unicode "{\n    \"header\": {\n        \"type\": \"productmd.composeinfo\",\n
+        \       \"version\": \"1.2\"\n    },\n    \"payload\": {\n        \"compose\":
+        {\n            \"date\": \"20180425\",\n            \"final\": true,\n            \"id\":
+        \"Fedora-28-20180425.0\",\n            \"label\": \"RC-1.1\",\n            \"respin\":
+        0,\n            \"type\": \"production\"\n        },\n        \"release\":
+        {\n            \"internal\": false,\n            \"name\": \"Fedora\",\n            \"short\":
+        \"Fedora\",\n            \"type\": \"ga\",\n            \"version\": \"28\"\n
+        \       },\n        \"variants\": {\n            \"AtomicHost\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"ppc64le\",\n                    \"x86_64\"\n
+        \               ],\n                \"id\": \"AtomicHost\",\n                \"name\":
+        \"AtomicHost\",\n                \"paths\": {},\n                \"type\":
+        \"variant\",\n                \"uid\": \"AtomicHost\"\n            },\n            \"AtomicWorkstation\":
+        {\n                \"arches\": [\n                    \"aarch64\",\n                    \"armhfp\",\n
+        \                   \"i386\",\n                    \"x86_64\"\n                ],\n
+        \               \"id\": \"AtomicWorkstation\",\n                \"name\":
+        \"AtomicWorkstation\",\n                \"paths\": {\n                    \"isos\":
+        {\n                        \"x86_64\": \"AtomicWorkstation/x86_64/iso\"\n
+        \                   },\n                    \"os_tree\": {\n                        \"x86_64\":
+        \"AtomicWorkstation/x86_64/os\"\n                    },\n                    \"repository\":
+        {\n                        \"x86_64\": \"AtomicWorkstation/x86_64/os\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"AtomicWorkstation\"\n            },\n            \"Cloud\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"ppc64\",\n                    \"ppc64le\",\n
+        \                   \"s390x\",\n                    \"x86_64\"\n                ],\n
+        \               \"id\": \"Cloud\",\n                \"name\": \"Cloud\",\n
+        \               \"paths\": {},\n                \"type\": \"variant\",\n                \"uid\":
+        \"Cloud\"\n            },\n            \"Container\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"armhfp\",\n                    \"ppc64\",\n
+        \                   \"ppc64le\",\n                    \"s390x\",\n                    \"x86_64\"\n
+        \               ],\n                \"id\": \"Container\",\n                \"name\":
+        \"Container\",\n                \"paths\": {},\n                \"type\":
+        \"variant\",\n                \"uid\": \"Container\"\n            },\n            \"Everything\":
+        {\n                \"arches\": [\n                    \"aarch64\",\n                    \"armhfp\",\n
+        \                   \"i386\",\n                    \"ppc64\",\n                    \"ppc64le\",\n
+        \                   \"s390x\",\n                    \"x86_64\"\n                ],\n
+        \               \"id\": \"Everything\",\n                \"name\": \"Everything\",\n
+        \               \"paths\": {\n                    \"debug_packages\": {\n
+        \                       \"aarch64\": \"Everything/aarch64/debug/tree/Packages\",\n
+        \                       \"armhfp\": \"Everything/armhfp/debug/tree/Packages\",\n
+        \                       \"i386\": \"Everything/i386/debug/tree/Packages\",\n
+        \                       \"ppc64\": \"Everything/ppc64/debug/tree/Packages\",\n
+        \                       \"ppc64le\": \"Everything/ppc64le/debug/tree/Packages\",\n
+        \                       \"s390x\": \"Everything/s390x/debug/tree/Packages\",\n
+        \                       \"x86_64\": \"Everything/x86_64/debug/tree/Packages\"\n
+        \                   },\n                    \"debug_repository\": {\n                        \"aarch64\":
+        \"Everything/aarch64/debug/tree\",\n                        \"armhfp\": \"Everything/armhfp/debug/tree\",\n
+        \                       \"i386\": \"Everything/i386/debug/tree\",\n                        \"ppc64\":
+        \"Everything/ppc64/debug/tree\",\n                        \"ppc64le\": \"Everything/ppc64le/debug/tree\",\n
+        \                       \"s390x\": \"Everything/s390x/debug/tree\",\n                        \"x86_64\":
+        \"Everything/x86_64/debug/tree\"\n                    },\n                    \"debug_tree\":
+        {\n                        \"aarch64\": \"Everything/aarch64/debug/tree\",\n
+        \                       \"armhfp\": \"Everything/armhfp/debug/tree\",\n                        \"i386\":
+        \"Everything/i386/debug/tree\",\n                        \"ppc64\": \"Everything/ppc64/debug/tree\",\n
+        \                       \"ppc64le\": \"Everything/ppc64le/debug/tree\",\n
+        \                       \"s390x\": \"Everything/s390x/debug/tree\",\n                        \"x86_64\":
+        \"Everything/x86_64/debug/tree\"\n                    },\n                    \"isos\":
+        {\n                        \"aarch64\": \"Everything/aarch64/iso\",\n                        \"i386\":
+        \"Everything/i386/iso\",\n                        \"ppc64\": \"Everything/ppc64/iso\",\n
+        \                       \"ppc64le\": \"Everything/ppc64le/iso\",\n                        \"s390x\":
+        \"Everything/s390x/iso\",\n                        \"x86_64\": \"Everything/x86_64/iso\"\n
+        \                   },\n                    \"os_tree\": {\n                        \"aarch64\":
+        \"Everything/aarch64/os\",\n                        \"armhfp\": \"Everything/armhfp/os\",\n
+        \                       \"i386\": \"Everything/i386/os\",\n                        \"ppc64\":
+        \"Everything/ppc64/os\",\n                        \"ppc64le\": \"Everything/ppc64le/os\",\n
+        \                       \"s390x\": \"Everything/s390x/os\",\n                        \"x86_64\":
+        \"Everything/x86_64/os\"\n                    },\n                    \"packages\":
+        {\n                        \"aarch64\": \"Everything/aarch64/os/Packages\",\n
+        \                       \"armhfp\": \"Everything/armhfp/os/Packages\",\n                        \"i386\":
+        \"Everything/i386/os/Packages\",\n                        \"ppc64\": \"Everything/ppc64/os/Packages\",\n
+        \                       \"ppc64le\": \"Everything/ppc64le/os/Packages\",\n
+        \                       \"s390x\": \"Everything/s390x/os/Packages\",\n                        \"x86_64\":
+        \"Everything/x86_64/os/Packages\"\n                    },\n                    \"repository\":
+        {\n                        \"aarch64\": \"Everything/aarch64/os\",\n                        \"armhfp\":
+        \"Everything/armhfp/os\",\n                        \"i386\": \"Everything/i386/os\",\n
+        \                       \"ppc64\": \"Everything/ppc64/os\",\n                        \"ppc64le\":
+        \"Everything/ppc64le/os\",\n                        \"s390x\": \"Everything/s390x/os\",\n
+        \                       \"x86_64\": \"Everything/x86_64/os\"\n                    },\n
+        \                   \"source_packages\": {\n                        \"aarch64\":
+        \"Everything/source/tree/Packages\",\n                        \"armhfp\":
+        \"Everything/source/tree/Packages\",\n                        \"i386\": \"Everything/source/tree/Packages\",\n
+        \                       \"ppc64\": \"Everything/source/tree/Packages\",\n
+        \                       \"ppc64le\": \"Everything/source/tree/Packages\",\n
+        \                       \"s390x\": \"Everything/source/tree/Packages\",\n
+        \                       \"x86_64\": \"Everything/source/tree/Packages\"\n
+        \                   },\n                    \"source_repository\": {\n                        \"aarch64\":
+        \"Everything/source/tree\",\n                        \"armhfp\": \"Everything/source/tree\",\n
+        \                       \"i386\": \"Everything/source/tree\",\n                        \"ppc64\":
+        \"Everything/source/tree\",\n                        \"ppc64le\": \"Everything/source/tree\",\n
+        \                       \"s390x\": \"Everything/source/tree\",\n                        \"x86_64\":
+        \"Everything/source/tree\"\n                    },\n                    \"source_tree\":
+        {\n                        \"aarch64\": \"Everything/source/tree\",\n                        \"armhfp\":
+        \"Everything/source/tree\",\n                        \"i386\": \"Everything/source/tree\",\n
+        \                       \"ppc64\": \"Everything/source/tree\",\n                        \"ppc64le\":
+        \"Everything/source/tree\",\n                        \"s390x\": \"Everything/source/tree\",\n
+        \                       \"x86_64\": \"Everything/source/tree\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"Everything\"\n            },\n            \"Labs\": {\n                \"arches\":
+        [\n                    \"armhfp\",\n                    \"i386\",\n                    \"x86_64\"\n
+        \               ],\n                \"id\": \"Labs\",\n                \"name\":
+        \"Labs\",\n                \"paths\": {\n                    \"isos\": {\n
+        \                       \"i386\": \"Labs/i386/iso\",\n                        \"x86_64\":
+        \"Labs/x86_64/iso\"\n                    }\n                },\n                \"type\":
+        \"variant\",\n                \"uid\": \"Labs\"\n            },\n            \"Modular\":
+        {\n                \"arches\": [\n                    \"aarch64\",\n                    \"armhfp\",\n
+        \                   \"i386\",\n                    \"ppc64\",\n                    \"ppc64le\",\n
+        \                   \"s390x\",\n                    \"x86_64\"\n                ],\n
+        \               \"id\": \"Modular\",\n                \"name\": \"Modular\",\n
+        \               \"paths\": {\n                    \"debug_packages\": {\n
+        \                       \"aarch64\": \"Modular/aarch64/debug/tree/Packages\",\n
+        \                       \"armhfp\": \"Modular/armhfp/debug/tree/Packages\",\n
+        \                       \"i386\": \"Modular/i386/debug/tree/Packages\",\n
+        \                       \"ppc64\": \"Modular/ppc64/debug/tree/Packages\",\n
+        \                       \"ppc64le\": \"Modular/ppc64le/debug/tree/Packages\",\n
+        \                       \"s390x\": \"Modular/s390x/debug/tree/Packages\",\n
+        \                       \"x86_64\": \"Modular/x86_64/debug/tree/Packages\"\n
+        \                   },\n                    \"debug_repository\": {\n                        \"aarch64\":
+        \"Modular/aarch64/debug/tree\",\n                        \"armhfp\": \"Modular/armhfp/debug/tree\",\n
+        \                       \"i386\": \"Modular/i386/debug/tree\",\n                        \"ppc64\":
+        \"Modular/ppc64/debug/tree\",\n                        \"ppc64le\": \"Modular/ppc64le/debug/tree\",\n
+        \                       \"s390x\": \"Modular/s390x/debug/tree\",\n                        \"x86_64\":
+        \"Modular/x86_64/debug/tree\"\n                    },\n                    \"debug_tree\":
+        {\n                        \"aarch64\": \"Modular/aarch64/debug/tree\",\n
+        \                       \"armhfp\": \"Modular/armhfp/debug/tree\",\n                        \"i386\":
+        \"Modular/i386/debug/tree\",\n                        \"ppc64\": \"Modular/ppc64/debug/tree\",\n
+        \                       \"ppc64le\": \"Modular/ppc64le/debug/tree\",\n                        \"s390x\":
+        \"Modular/s390x/debug/tree\",\n                        \"x86_64\": \"Modular/x86_64/debug/tree\"\n
+        \                   },\n                    \"os_tree\": {\n                        \"aarch64\":
+        \"Modular/aarch64/os\",\n                        \"armhfp\": \"Modular/armhfp/os\",\n
+        \                       \"i386\": \"Modular/i386/os\",\n                        \"ppc64\":
+        \"Modular/ppc64/os\",\n                        \"ppc64le\": \"Modular/ppc64le/os\",\n
+        \                       \"s390x\": \"Modular/s390x/os\",\n                        \"x86_64\":
+        \"Modular/x86_64/os\"\n                    },\n                    \"packages\":
+        {\n                        \"aarch64\": \"Modular/aarch64/os/Packages\",\n
+        \                       \"armhfp\": \"Modular/armhfp/os/Packages\",\n                        \"i386\":
+        \"Modular/i386/os/Packages\",\n                        \"ppc64\": \"Modular/ppc64/os/Packages\",\n
+        \                       \"ppc64le\": \"Modular/ppc64le/os/Packages\",\n                        \"s390x\":
+        \"Modular/s390x/os/Packages\",\n                        \"x86_64\": \"Modular/x86_64/os/Packages\"\n
+        \                   },\n                    \"repository\": {\n                        \"aarch64\":
+        \"Modular/aarch64/os\",\n                        \"armhfp\": \"Modular/armhfp/os\",\n
+        \                       \"i386\": \"Modular/i386/os\",\n                        \"ppc64\":
+        \"Modular/ppc64/os\",\n                        \"ppc64le\": \"Modular/ppc64le/os\",\n
+        \                       \"s390x\": \"Modular/s390x/os\",\n                        \"x86_64\":
+        \"Modular/x86_64/os\"\n                    },\n                    \"source_packages\":
+        {\n                        \"aarch64\": \"Modular/source/tree/Packages\",\n
+        \                       \"armhfp\": \"Modular/source/tree/Packages\",\n                        \"i386\":
+        \"Modular/source/tree/Packages\",\n                        \"ppc64\": \"Modular/source/tree/Packages\",\n
+        \                       \"ppc64le\": \"Modular/source/tree/Packages\",\n                        \"s390x\":
+        \"Modular/source/tree/Packages\",\n                        \"x86_64\": \"Modular/source/tree/Packages\"\n
+        \                   },\n                    \"source_repository\": {\n                        \"aarch64\":
+        \"Modular/source/tree\",\n                        \"armhfp\": \"Modular/source/tree\",\n
+        \                       \"i386\": \"Modular/source/tree\",\n                        \"ppc64\":
+        \"Modular/source/tree\",\n                        \"ppc64le\": \"Modular/source/tree\",\n
+        \                       \"s390x\": \"Modular/source/tree\",\n                        \"x86_64\":
+        \"Modular/source/tree\"\n                    },\n                    \"source_tree\":
+        {\n                        \"aarch64\": \"Modular/source/tree\",\n                        \"armhfp\":
+        \"Modular/source/tree\",\n                        \"i386\": \"Modular/source/tree\",\n
+        \                       \"ppc64\": \"Modular/source/tree\",\n                        \"ppc64le\":
+        \"Modular/source/tree\",\n                        \"s390x\": \"Modular/source/tree\",\n
+        \                       \"x86_64\": \"Modular/source/tree\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"Modular\"\n            },\n            \"Server\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"armhfp\",\n                    \"i386\",\n
+        \                   \"ppc64\",\n                    \"ppc64le\",\n                    \"s390x\",\n
+        \                   \"x86_64\"\n                ],\n                \"id\":
+        \"Server\",\n                \"name\": \"Server\",\n                \"paths\":
+        {\n                    \"debug_packages\": {\n                        \"aarch64\":
+        \"Server/aarch64/debug/tree/Packages\",\n                        \"armhfp\":
+        \"Server/armhfp/debug/tree/Packages\",\n                        \"i386\":
+        \"Server/i386/debug/tree/Packages\",\n                        \"ppc64\": \"Server/ppc64/debug/tree/Packages\",\n
+        \                       \"ppc64le\": \"Server/ppc64le/debug/tree/Packages\",\n
+        \                       \"s390x\": \"Server/s390x/debug/tree/Packages\",\n
+        \                       \"x86_64\": \"Server/x86_64/debug/tree/Packages\"\n
+        \                   },\n                    \"debug_repository\": {\n                        \"aarch64\":
+        \"Server/aarch64/debug/tree\",\n                        \"armhfp\": \"Server/armhfp/debug/tree\",\n
+        \                       \"i386\": \"Server/i386/debug/tree\",\n                        \"ppc64\":
+        \"Server/ppc64/debug/tree\",\n                        \"ppc64le\": \"Server/ppc64le/debug/tree\",\n
+        \                       \"s390x\": \"Server/s390x/debug/tree\",\n                        \"x86_64\":
+        \"Server/x86_64/debug/tree\"\n                    },\n                    \"debug_tree\":
+        {\n                        \"aarch64\": \"Server/aarch64/debug/tree\",\n                        \"armhfp\":
+        \"Server/armhfp/debug/tree\",\n                        \"i386\": \"Server/i386/debug/tree\",\n
+        \                       \"ppc64\": \"Server/ppc64/debug/tree\",\n                        \"ppc64le\":
+        \"Server/ppc64le/debug/tree\",\n                        \"s390x\": \"Server/s390x/debug/tree\",\n
+        \                       \"x86_64\": \"Server/x86_64/debug/tree\"\n                    },\n
+        \                   \"isos\": {\n                        \"aarch64\": \"Server/aarch64/iso\",\n
+        \                       \"armhfp\": \"Server/armhfp/iso\",\n                        \"i386\":
+        \"Server/i386/iso\",\n                        \"ppc64\": \"Server/ppc64/iso\",\n
+        \                       \"ppc64le\": \"Server/ppc64le/iso\",\n                        \"s390x\":
+        \"Server/s390x/iso\",\n                        \"x86_64\": \"Server/x86_64/iso\"\n
+        \                   },\n                    \"os_tree\": {\n                        \"aarch64\":
+        \"Server/aarch64/os\",\n                        \"armhfp\": \"Server/armhfp/os\",\n
+        \                       \"i386\": \"Server/i386/os\",\n                        \"ppc64\":
+        \"Server/ppc64/os\",\n                        \"ppc64le\": \"Server/ppc64le/os\",\n
+        \                       \"s390x\": \"Server/s390x/os\",\n                        \"x86_64\":
+        \"Server/x86_64/os\"\n                    },\n                    \"packages\":
+        {\n                        \"aarch64\": \"Server/aarch64/os/Packages\",\n
+        \                       \"armhfp\": \"Server/armhfp/os/Packages\",\n                        \"i386\":
+        \"Server/i386/os/Packages\",\n                        \"ppc64\": \"Server/ppc64/os/Packages\",\n
+        \                       \"ppc64le\": \"Server/ppc64le/os/Packages\",\n                        \"s390x\":
+        \"Server/s390x/os/Packages\",\n                        \"x86_64\": \"Server/x86_64/os/Packages\"\n
+        \                   },\n                    \"repository\": {\n                        \"aarch64\":
+        \"Server/aarch64/os\",\n                        \"armhfp\": \"Server/armhfp/os\",\n
+        \                       \"i386\": \"Server/i386/os\",\n                        \"ppc64\":
+        \"Server/ppc64/os\",\n                        \"ppc64le\": \"Server/ppc64le/os\",\n
+        \                       \"s390x\": \"Server/s390x/os\",\n                        \"x86_64\":
+        \"Server/x86_64/os\"\n                    },\n                    \"source_packages\":
+        {\n                        \"aarch64\": \"Server/source/tree/Packages\",\n
+        \                       \"armhfp\": \"Server/source/tree/Packages\",\n                        \"i386\":
+        \"Server/source/tree/Packages\",\n                        \"ppc64\": \"Server/source/tree/Packages\",\n
+        \                       \"ppc64le\": \"Server/source/tree/Packages\",\n                        \"s390x\":
+        \"Server/source/tree/Packages\",\n                        \"x86_64\": \"Server/source/tree/Packages\"\n
+        \                   },\n                    \"source_repository\": {\n                        \"aarch64\":
+        \"Server/source/tree\",\n                        \"armhfp\": \"Server/source/tree\",\n
+        \                       \"i386\": \"Server/source/tree\",\n                        \"ppc64\":
+        \"Server/source/tree\",\n                        \"ppc64le\": \"Server/source/tree\",\n
+        \                       \"s390x\": \"Server/source/tree\",\n                        \"x86_64\":
+        \"Server/source/tree\"\n                    },\n                    \"source_tree\":
+        {\n                        \"aarch64\": \"Server/source/tree\",\n                        \"armhfp\":
+        \"Server/source/tree\",\n                        \"i386\": \"Server/source/tree\",\n
+        \                       \"ppc64\": \"Server/source/tree\",\n                        \"ppc64le\":
+        \"Server/source/tree\",\n                        \"s390x\": \"Server/source/tree\",\n
+        \                       \"x86_64\": \"Server/source/tree\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"Server\"\n            },\n            \"Spins\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"armhfp\",\n                    \"i386\",\n
+        \                   \"x86_64\"\n                ],\n                \"id\":
+        \"Spins\",\n                \"name\": \"Spins\",\n                \"paths\":
+        {\n                    \"isos\": {\n                        \"i386\": \"Spins/i386/iso\",\n
+        \                       \"x86_64\": \"Spins/x86_64/iso\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"Spins\"\n            },\n            \"Workstation\": {\n                \"arches\":
+        [\n                    \"aarch64\",\n                    \"armhfp\",\n                    \"i386\",\n
+        \                   \"x86_64\"\n                ],\n                \"id\":
+        \"Workstation\",\n                \"name\": \"Workstation\",\n                \"paths\":
+        {\n                    \"debug_packages\": {\n                        \"aarch64\":
+        \"Workstation/aarch64/debug/tree/Packages\",\n                        \"armhfp\":
+        \"Workstation/armhfp/debug/tree/Packages\",\n                        \"i386\":
+        \"Workstation/i386/debug/tree/Packages\",\n                        \"x86_64\":
+        \"Workstation/x86_64/debug/tree/Packages\"\n                    },\n                    \"debug_repository\":
+        {\n                        \"aarch64\": \"Workstation/aarch64/debug/tree\",\n
+        \                       \"armhfp\": \"Workstation/armhfp/debug/tree\",\n                        \"i386\":
+        \"Workstation/i386/debug/tree\",\n                        \"x86_64\": \"Workstation/x86_64/debug/tree\"\n
+        \                   },\n                    \"debug_tree\": {\n                        \"aarch64\":
+        \"Workstation/aarch64/debug/tree\",\n                        \"armhfp\": \"Workstation/armhfp/debug/tree\",\n
+        \                       \"i386\": \"Workstation/i386/debug/tree\",\n                        \"x86_64\":
+        \"Workstation/x86_64/debug/tree\"\n                    },\n                    \"isos\":
+        {\n                        \"aarch64\": \"Workstation/aarch64/iso\",\n                        \"i386\":
+        \"Workstation/i386/iso\",\n                        \"x86_64\": \"Workstation/x86_64/iso\"\n
+        \                   },\n                    \"os_tree\": {\n                        \"aarch64\":
+        \"Workstation/aarch64/os\",\n                        \"armhfp\": \"Workstation/armhfp/os\",\n
+        \                       \"i386\": \"Workstation/i386/os\",\n                        \"x86_64\":
+        \"Workstation/x86_64/os\"\n                    },\n                    \"packages\":
+        {\n                        \"aarch64\": \"Workstation/aarch64/os/Packages\",\n
+        \                       \"armhfp\": \"Workstation/armhfp/os/Packages\",\n
+        \                       \"i386\": \"Workstation/i386/os/Packages\",\n                        \"x86_64\":
+        \"Workstation/x86_64/os/Packages\"\n                    },\n                    \"repository\":
+        {\n                        \"aarch64\": \"Workstation/aarch64/os\",\n                        \"armhfp\":
+        \"Workstation/armhfp/os\",\n                        \"i386\": \"Workstation/i386/os\",\n
+        \                       \"x86_64\": \"Workstation/x86_64/os\"\n                    },\n
+        \                   \"source_packages\": {\n                        \"aarch64\":
+        \"Workstation/source/tree/Packages\",\n                        \"armhfp\":
+        \"Workstation/source/tree/Packages\",\n                        \"i386\": \"Workstation/source/tree/Packages\",\n
+        \                       \"x86_64\": \"Workstation/source/tree/Packages\"\n
+        \                   },\n                    \"source_repository\": {\n                        \"aarch64\":
+        \"Workstation/source/tree\",\n                        \"armhfp\": \"Workstation/source/tree\",\n
+        \                       \"i386\": \"Workstation/source/tree\",\n                        \"x86_64\":
+        \"Workstation/source/tree\"\n                    },\n                    \"source_tree\":
+        {\n                        \"aarch64\": \"Workstation/source/tree\",\n                        \"armhfp\":
+        \"Workstation/source/tree\",\n                        \"i386\": \"Workstation/source/tree\",\n
+        \                       \"x86_64\": \"Workstation/source/tree\"\n                    }\n
+        \               },\n                \"type\": \"variant\",\n                \"uid\":
+        \"Workstation\"\n            }\n        }\n    }\n}"}
+    headers:
+      accept-ranges: [bytes]
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=23419]
+      connection: [close]
+      content-length: ['22576']
+      content-type: [application/json]
+      date: ['Tue, 24 Jul 2018 21:14:25 GMT']
+      last-modified: ['Wed, 25 Apr 2018 11:48:16 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
+- request:
+    body: null
+    headers:
+      Connection: [close]
+      Host: [!!python/unicode kojipkgs.fedoraproject.org]
+      User-Agent: [Python-urllib/2.7]
+    method: GET
+    uri: https://kojipkgs.fedoraproject.org/compose/28/Fedora-28-20180425.0/compose/metadata/images.json
+  response:
+    body: {string: !!python/unicode "{\n    \"header\": {\n        \"type\": \"productmd.images\",\n
+        \       \"version\": \"1.2\"\n    },\n    \"payload\": {\n        \"compose\":
+        {\n            \"date\": \"20180425\",\n            \"id\": \"Fedora-28-20180425.0\",\n
+        \           \"respin\": 0,\n            \"type\": \"production\"\n        },\n
+        \       \"images\": {\n            \"AtomicHost\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"6c8653b715f631eed88aed69672896c4b50e03898602cacfc296518c4d1c3e8f\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638378,\n                        \"path\":
+        \"AtomicHost/aarch64/images/Fedora-AtomicHost-28-1.1.aarch64.qcow2\",\n                        \"size\":
+        617848320,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"aarch64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b1537ba2d9667445288aa350d79860b4bd5e01f5a97a2e8251807193e72b67d5\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638421,\n                        \"path\":
+        \"AtomicHost/aarch64/images/Fedora-AtomicHost-28-1.1.aarch64.raw.xz\",\n                        \"size\":
+        436900340,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"ppc64le\": [\n                    {\n
+        \                       \"arch\": \"ppc64le\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"addd7453dc16b82042f70a437cfe6e8474731e1f2aef0dbfd4de75d6df860e2c\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637956,\n                        \"path\":
+        \"AtomicHost/ppc64le/images/Fedora-AtomicHost-28-1.1.ppc64le.qcow2\",\n                        \"size\":
+        638426624,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"ppc64le\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"ccc4a198287d5a857144352a01b3c619e611dd039bfdd5bef1a33417ae8631a2\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637992,\n                        \"path\":
+        \"AtomicHost/ppc64le/images/Fedora-AtomicHost-28-1.1.ppc64le.raw.xz\",\n                        \"size\":
+        441143264,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"x86_64\": [\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"a91e30ffc0126cecceaced79bb28ebfd5427d74236779e36419aa044b81cfda8\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637113,\n                        \"path\":
+        \"AtomicHost/x86_64/images/Fedora-AtomicHost-28-1.1.x86_64.qcow2\",\n                        \"size\":
+        642151936,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"92e49dccbe53d54724b5aa404f2a88d71cee2178312d48bd4a19b80e514643dc\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637150,\n                        \"path\":
+        \"AtomicHost/x86_64/images/Fedora-AtomicHost-28-1.1.x86_64.raw.xz\",\n                        \"size\":
+        464506420,\n                        \"subvariant\": \"AtomicHost\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"ebdf930ac3f350f977e009336de1857c7aebc6812eddc7d26ae49593aff77569\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-libvirt.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636971,\n                        \"path\":
+        \"AtomicHost/x86_64/images/Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-libvirt.box\",\n
+        \                       \"size\": 610327687,\n                        \"subvariant\":
+        \"AtomicHost\",\n                        \"type\": \"vagrant-libvirt\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"2ed7d5a8dd8cbc77eea146d055f4d573677d60579ae53d237c40b8e6ff858a63\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-virtualbox.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636940,\n                        \"path\":
+        \"AtomicHost/x86_64/images/Fedora-AtomicHost-Vagrant-28-1.1.x86_64.vagrant-virtualbox.box\",\n
+        \                       \"size\": 624721920,\n                        \"subvariant\":
+        \"AtomicHost\",\n                        \"type\": \"vagrant-virtualbox\",\n
+        \                       \"volume_id\": null\n                    }\n                ]\n
+        \           },\n            \"AtomicWorkstation\": {\n                \"x86_64\":
+        [\n                    {\n                        \"arch\": \"x86_64\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"3c57cef9cc85e73d6ecac1f7ebdb84cd9b6f2420da0667b112ce8cf20c5404b6\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"b6f5b3dd057f34b35df0c06ddaed16ff\",\n                        \"mtime\":
+        1524636195,\n                        \"path\": \"AtomicWorkstation/x86_64/iso/Fedora-AtomicWorkstation-ostree-x86_64-28-1.1.iso\",\n
+        \                       \"size\": 2090860544,\n                        \"subvariant\":
+        \"AtomicWorkstation\",\n                        \"type\": \"dvd-ostree\",\n
+        \                       \"volume_id\": \"Fedora-AW-ostree-x86_64-28\"\n                    }\n
+        \               ]\n            },\n            \"Cloud\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"784dc2c87f9e98d4a4391a1731077a2e6e24069fc67019227d4240443b52ff80\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638365,\n                        \"path\":
+        \"Cloud/aarch64/images/Fedora-Cloud-Base-28-1.1.aarch64.qcow2\",\n                        \"size\":
+        250085376,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"aarch64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"07e1ac7296b5003778d86528eee81d752615b9073d7a0f8afa0baef8d6cf4578\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638380,\n                        \"path\":
+        \"Cloud/aarch64/images/Fedora-Cloud-Base-28-1.1.aarch64.raw.xz\",\n                        \"size\":
+        155454936,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"ppc64\": [\n                    {\n
+        \                       \"arch\": \"ppc64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"1164e845c2c086177dde78cd1cb8c03eb2dc2c0199d67d2457c98ca418b0a7ef\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638218,\n                        \"path\":
+        \"Cloud/ppc64/images/Fedora-Cloud-Base-28-1.1.ppc64.qcow2\",\n                        \"size\":
+        295567360,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"ppc64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"e850251913a37db72c9d74d09833bde6878cd6a198286a79c3aece5f4ee959d6\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638225,\n                        \"path\":
+        \"Cloud/ppc64/images/Fedora-Cloud-Base-28-1.1.ppc64.raw.xz\",\n                        \"size\":
+        166074748,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"ppc64le\": [\n                    {\n
+        \                       \"arch\": \"ppc64le\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"e8860df867f5ae11af97f3eab168756742c25dad0db360826185dd182facf7a5\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638318,\n                        \"path\":
+        \"Cloud/ppc64le/images/Fedora-Cloud-Base-28-1.1.ppc64le.qcow2\",\n                        \"size\":
+        286720000,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"ppc64le\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"6260138eff2e50b986916409faa1d5aa3e4a9b66ddfb2038d65cbe5a0dc7a934\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638326,\n                        \"path\":
+        \"Cloud/ppc64le/images/Fedora-Cloud-Base-28-1.1.ppc64le.raw.xz\",\n                        \"size\":
+        166814972,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"x86_64\": [\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"d987209719fadaf81b8bff85c5d3590a1d3dac6357e4838fde8357086c49b5b4\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"qcow2\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637104,\n                        \"path\":
+        \"Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.qcow2\",\n                        \"size\":
+        262144000,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"qcow2\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b9b302ab6b7dd7143a15539c2eedff3d8a302f70e619a4e0895857fc9ad7f09d\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637116,\n                        \"path\":
+        \"Cloud/x86_64/images/Fedora-Cloud-Base-28-1.1.x86_64.raw.xz\",\n                        \"size\":
+        167017948,\n                        \"subvariant\": \"Cloud_Base\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"d60f52c9cb04bfd4c5e950410611c746641f0b5f76830a53d44a0f1a43ab3fac\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-libvirt.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637180,\n                        \"path\":
+        \"Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-28-1.1.x86_64.vagrant-libvirt.box\",\n
+        \                       \"size\": 242339474,\n                        \"subvariant\":
+        \"Cloud_Base\",\n                        \"type\": \"vagrant-libvirt\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"81b970a4852edee2d532a1ddbab0a8c6c912e2636423193196f1586e0b30949b\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-virtualbox.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637164,\n                        \"path\":
+        \"Cloud/x86_64/images/Fedora-Cloud-Base-Vagrant-28-1.1.x86_64.vagrant-virtualbox.box\",\n
+        \                       \"size\": 251586560,\n                        \"subvariant\":
+        \"Cloud_Base\",\n                        \"type\": \"vagrant-virtualbox\",\n
+        \                       \"volume_id\": null\n                    }\n                ]\n
+        \           },\n            \"Container\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"55c8070034b0a5b260c5bfad4d2b0939c205c830f32e8b02e4f395d1da79d44a\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636991,\n                        \"path\":
+        \"Container/aarch64/images/Fedora-Container-Base-28-1.1.aarch64.tar.xz\",\n
+        \                       \"size\": 42406776,\n                        \"subvariant\":
+        \"Container_Base\",\n                        \"type\": \"docker\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"aarch64\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"d0c0a24ca135bd6169b5739837799ea42725ff32169f85020e329d13bf32e1fa\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636925,\n                        \"path\":
+        \"Container/aarch64/images/Fedora-Container-Minimal-Base-28-1.1.aarch64.tar.xz\",\n
+        \                       \"size\": 22116168,\n                        \"subvariant\":
+        \"Container_Minimal_Base\",\n                        \"type\": \"docker\",\n
+        \                       \"volume_id\": null\n                    }\n                ],\n
+        \               \"armhfp\": [\n                    {\n                        \"arch\":
+        \"armhfp\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"b730d0871ac2e8a8e52581af1eb63b0c97160f57e0cb45c50a5983d063757333\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638072,\n                        \"path\":
+        \"Container/armhfp/images/Fedora-Container-Minimal-Base-28-1.1.armhfp.tar.xz\",\n
+        \                       \"size\": 20332824,\n                        \"subvariant\":
+        \"Container_Minimal_Base\",\n                        \"type\": \"docker\",\n
+        \                       \"volume_id\": null\n                    }\n                ],\n
+        \               \"ppc64le\": [\n                    {\n                        \"arch\":
+        \"ppc64le\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"0aba85e29bb5988338552fbf7b76d7379e254efdc8a8fdd8e87438f73d1c0dd8\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637000,\n                        \"path\":
+        \"Container/ppc64le/images/Fedora-Container-Base-28-1.1.ppc64le.tar.xz\",\n
+        \                       \"size\": 45591440,\n                        \"subvariant\":
+        \"Container_Base\",\n                        \"type\": \"docker\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"ppc64le\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"2faae00ba33b4f4d31c01e771d54d6716c566026378198482006449de024ad5d\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636932,\n                        \"path\":
+        \"Container/ppc64le/images/Fedora-Container-Minimal-Base-28-1.1.ppc64le.tar.xz\",\n
+        \                       \"size\": 24536404,\n                        \"subvariant\":
+        \"Container_Minimal_Base\",\n                        \"type\": \"docker\",\n
+        \                       \"volume_id\": null\n                    }\n                ],\n
+        \               \"s390x\": [\n                    {\n                        \"arch\":
+        \"s390x\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"daf1b6eaa7dfa47dac54c3d9ba24af923ddb8a51529621512259b5972bb29e6a\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524639451,\n                        \"path\":
+        \"Container/s390x/images/Fedora-Container-Minimal-Base-28-1.1.s390x.tar.xz\",\n
+        \                       \"size\": 21026576,\n                        \"subvariant\":
+        \"Container_Minimal_Base\",\n                        \"type\": \"docker\",\n
+        \                       \"volume_id\": null\n                    }\n                ],\n
+        \               \"x86_64\": [\n                    {\n                        \"arch\":
+        \"x86_64\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"dbf2049867b2f9a00f48632041f905d17db24d3c4e7135f0fce537b5c9faacfd\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636671,\n                        \"path\":
+        \"Container/x86_64/images/Fedora-Container-Base-28-1.1.x86_64.tar.xz\",\n
+        \                       \"size\": 44616804,\n                        \"subvariant\":
+        \"Container_Base\",\n                        \"type\": \"docker\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"x86_64\",\n                        \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"6be77088795c1cc77b7160742498eef30259604e7070af4c42ae18564c9b563b\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"tar.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524636672,\n                        \"path\":
+        \"Container/x86_64/images/Fedora-Container-Minimal-Base-28-1.1.x86_64.tar.xz\",\n
+        \                       \"size\": 23288816,\n                        \"subvariant\":
+        \"Container_Minimal_Base\",\n                        \"type\": \"docker\",\n
+        \                       \"volume_id\": null\n                    }\n                ]\n
+        \           },\n            \"Everything\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"f933475e255e8ba862899b071ab69705aff4ba31dcc1b413b375d180fa3b691b\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"bd79422a9cc2c899e18686daf31264e3\",\n                        \"mtime\":
+        1524626362,\n                        \"path\": \"Everything/aarch64/iso/Fedora-Everything-netinst-aarch64-28-1.1.iso\",\n
+        \                       \"size\": 548960256,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-E-dvd-aarch64-28\"\n                    }\n                ],\n                \"i386\":
+        [\n                    {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"65d16253cb33cf61778a633f918cd76573a6c4e6b66f017ae6a9092b293e7fb0\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"7cb959611d03df506825e026c9aa9074\",\n                        \"mtime\":
+        1524625777,\n                        \"path\": \"Everything/i386/iso/Fedora-Everything-netinst-i386-28-1.1.iso\",\n
+        \                       \"size\": 562036736,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-E-dvd-i386-28\"\n                    }\n                ],\n                \"ppc64\":
+        [\n                    {\n                        \"arch\": \"ppc64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"9dcb529fd8553a2de946403b8f4bd1809807d726f2b3910cd2c01bb1de3a7574\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"ad34c488a6d3f71875cdedd83eea734a\",\n                        \"mtime\":
+        1524626401,\n                        \"path\": \"Everything/ppc64/iso/Fedora-Everything-netinst-ppc64-28-1.1.iso\",\n
+        \                       \"size\": 625551360,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora_E_dvd_ppc64_28\"\n                    }\n                ],\n                \"ppc64le\":
+        [\n                    {\n                        \"arch\": \"ppc64le\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"c34247c1dc43344ce713bf4fd8e47775c82d06bf2f87cb8c8cc94c49a10cf7c1\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"d87f1ad13b8b497e5e5cf276844f9ec2\",\n                        \"mtime\":
+        1524626305,\n                        \"path\": \"Everything/ppc64le/iso/Fedora-Everything-netinst-ppc64le-28-1.1.iso\",\n
+        \                       \"size\": 591759360,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora_E_dvd_ppc64le_28\"\n                    }\n                ],\n                \"s390x\":
+        [\n                    {\n                        \"arch\": \"s390x\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"969340743555dade77dd345aebba22bd38adf06b673b3aa05c205a310bfe68e0\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"b10a55db6efa72e17308095688677e25\",\n                        \"mtime\":
+        1524629248,\n                        \"path\": \"Everything/s390x/iso/Fedora-Everything-netinst-s390x-28-1.1.iso\",\n
+        \                       \"size\": 529866752,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-E-dvd-s390x-28\"\n                    }\n                ],\n                \"x86_64\":
+        [\n                    {\n                        \"arch\": \"x86_64\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"92a1ab8f2c1ef24eadba7f84cb7e09ac911df13541eca1de239421e8f9e3adef\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"893fc051bdcd0fca67db80660c754e0d\",\n                        \"mtime\":
+        1524625783,\n                        \"path\": \"Everything/x86_64/iso/Fedora-Everything-netinst-x86_64-28-1.1.iso\",\n
+        \                       \"size\": 611319808,\n                        \"subvariant\":
+        \"Everything\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-E-dvd-x86_64-28\"\n                    }\n                ]\n            },\n
+        \           \"Labs\": {\n                \"armhfp\": [\n                    {\n
+        \                       \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"876e67b850a465960531accfd2c56b319a83e6e811923effd4546e4c9beb0015\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524644681,\n                        \"path\":
+        \"Labs/armhfp/images/Fedora-Python-Classroom-armhfp-28-1.1-sda.raw.xz\",\n
+        \                       \"size\": 1273922284,\n                        \"subvariant\":
+        \"Python_Classroom\",\n                        \"type\": \"raw-xz\",\n                        \"volume_id\":
+        null\n                    }\n                ],\n                \"i386\":
+        [\n                    {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b1c7e8b0fce1a75b28aa6b6f6e29b7bdb1c96d075d0eda1069b9a4d4730ddc94\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-libvirt.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638458,\n                        \"path\":
+        \"Labs/i386/images/Fedora-Python-Classroom-Vagrant-28-1.1.i386.vagrant-libvirt.box\",\n
+        \                       \"size\": 776810767,\n                        \"subvariant\":
+        \"Python_Classroom\",\n                        \"type\": \"vagrant-libvirt\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"i386\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"65305665a22ef0c442918b6233a32438e72fb8c7665025d76181583ee69cc1f3\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-virtualbox.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638388,\n                        \"path\":
+        \"Labs/i386/images/Fedora-Python-Classroom-Vagrant-28-1.1.i386.vagrant-virtualbox.box\",\n
+        \                       \"size\": 813301760,\n                        \"subvariant\":
+        \"Python_Classroom\",\n                        \"type\": \"vagrant-virtualbox\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b8c09ac00b760242a02d8400c02d1024f4ad18d3f56b53e9aebb25c6c83aedcb\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638708,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Astronomy_KDE-Live-i386-28-1.1.iso\",\n                        \"size\":
+        3575644160,\n                        \"subvariant\": \"Astronomy_KDE\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"i386\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"30352050e64b84e685e4e1af2b14ce0cc602afdc98800d9cc518d975336e39e5\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638137,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Design_suite-Live-i386-28-1.1.iso\",\n                        \"size\":
+        2203058176,\n                        \"subvariant\": \"Design_suite\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"e58299abad0f2d6c0879af7da48a5c03298671218566385981e4c991c10b34fb\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638347,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Games-Live-i386-28-1.1.iso\",\n                        \"size\":
+        4488953856,\n                        \"subvariant\": \"Games\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"0df09f5c3c9fc59f1fca6cb7133b399c8fca93f6cc238715565befa22e6005ab\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638225,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Jam_KDE-Live-i386-28-1.1.iso\",\n                        \"size\":
+        2627731456,\n                        \"subvariant\": \"Jam_KDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"332e1ff327d3622fe6be2cc6a6ce8b24203e032ff8fa56551fc0b7193ff37d4d\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637679,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Python-Classroom-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1621098496,\n                        \"subvariant\": \"Python_Classroom\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"i386\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"53d10e4ba4c9631d430833c4259547ded691c5e91ebe5d4b9e45b84de74319c2\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638472,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Robotics-Live-i386-28-1.1.iso\",\n                        \"size\":
+        2683305984,\n                        \"subvariant\": \"Robotics\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"afc42177eeaccc49faf29babc1ffaf809996647bf6601fac5b1d5dcb0f7893cf\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638842,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Scientific_KDE-Live-i386-28-1.1.iso\",\n                        \"size\":
+        3674210304,\n                        \"subvariant\": \"Scientific_KDE\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"i386\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"c119a6cabc64212851a66ac70814b9d9530ae5de156a3a4975feb78ba6a7dabd\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637333,\n                        \"path\":
+        \"Labs/i386/iso/Fedora-Security-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1422917632,\n                        \"subvariant\": \"Security\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"x86_64\": [\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"60236a6aa6c8fb96d85c9af10f8d3c8a519c8976eeacd9b812e21bfdf8e59eac\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-libvirt.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638481,\n                        \"path\":
+        \"Labs/x86_64/images/Fedora-Python-Classroom-Vagrant-28-1.1.x86_64.vagrant-libvirt.box\",\n
+        \                       \"size\": 807284363,\n                        \"subvariant\":
+        \"Python_Classroom\",\n                        \"type\": \"vagrant-libvirt\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"470c1570c18eb9bcfd0beab0a31761f119f2f6470298719e7d150228839b9bfd\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"vagrant-virtualbox.box\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638407,\n                        \"path\":
+        \"Labs/x86_64/images/Fedora-Python-Classroom-Vagrant-28-1.1.x86_64.vagrant-virtualbox.box\",\n
+        \                       \"size\": 844871680,\n                        \"subvariant\":
+        \"Python_Classroom\",\n                        \"type\": \"vagrant-virtualbox\",\n
+        \                       \"volume_id\": null\n                    },\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"9a08f442b9c97fd8639e0e5b334bc5018c56f6fc85bd28d84570de375792d90c\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638505,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Astronomy_KDE-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        3624927232,\n                        \"subvariant\": \"Astronomy_KDE\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"x86_64\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"37f52bea3a3e0b5bb083561248a4be47a90673b50d7515ad829023444d66111e\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637687,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Design_suite-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        2265972736,\n                        \"subvariant\": \"Design_suite\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b336063329184b075d70bed585b1da97e553bc3541b99bad09217b6448dfb737\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638128,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Games-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        4526702592,\n                        \"subvariant\": \"Games\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"0800813f5af9248ff5465768b55d2fda7a90d8d58e527ab3488b08cff7fa2dea\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637845,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Jam_KDE-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        2695888896,\n                        \"subvariant\": \"Jam_KDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"85c0619b0ef3f0ef03e307e4e18dae5c041cbdb2cf919fd10de68d1f4c295bb7\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637391,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Python-Classroom-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1671430144,\n                        \"subvariant\": \"Python_Classroom\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"x86_64\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"02b505403ff6bdfcff6463964464498abfb53f17d06c223ae99d44cf020c5622\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638119,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Robotics-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        2736783360,\n                        \"subvariant\": \"Robotics\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"99c05db82d74f100e4f69a9c250d552c16a604556845265c126b71d54dfbec03\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638703,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Scientific_KDE-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        3758096384,\n                        \"subvariant\": \"Scientific_KDE\",\n
+        \                       \"type\": \"live\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"x86_64\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"d2e11f9eeb4eae69db61c3d36f1ce063d45d9ab4a29827f3a0b77547039f382f\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637310,\n                        \"path\":
+        \"Labs/x86_64/iso/Fedora-Security-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1470103552,\n                        \"subvariant\": \"Security\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    }\n
+        \               ]\n            },\n            \"Server\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"0998225327f567fbed0d725f22b948be4d0e2108fa9b76f17e8b543e692caea1\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524639635,\n                        \"path\":
+        \"Server/aarch64/images/Fedora-Server-28-1.1.aarch64.raw.xz\",\n                        \"size\":
+        703742332,\n                        \"subvariant\": \"Server\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"aarch64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"9e9464031194fc64f7d7c8ce54aa0c6e110f772008bba386fb87a7d217bd4fe9\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"4cd285c8f483de98402afaa8d5dbefd2\",\n                        \"mtime\":
+        1524636703,\n                        \"path\": \"Server/aarch64/iso/Fedora-Server-dvd-aarch64-28-1.1.iso\",\n
+        \                       \"size\": 2740688896,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-aarch64-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"aarch64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"7a772720a731250622f89d1480b839261efe5934850ae1325d0137290f23c33e\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"643111d94c9708e3ae39460e2f685a1a\",\n                        \"mtime\":
+        1524626747,\n                        \"path\": \"Server/aarch64/iso/Fedora-Server-netinst-aarch64-28-1.1.iso\",\n
+        \                       \"size\": 548915200,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-aarch64-28\"\n                    }\n                ],\n                \"armhfp\":
+        [\n                    {\n                        \"arch\": \"armhfp\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"d3165806524dfa2a2c49bbdca2ef56e7340e6a93480934040e8cbbcd10d1a567\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524640241,\n                        \"path\":
+        \"Server/armhfp/images/Fedora-Server-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        516959868,\n                        \"subvariant\": \"Server\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"dc8e4edde180bdd1ad5d21007b62b40daac50b2781cedbef0b91e17155ba7d7d\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"bcc23aa50efdbca65f82d1cd365558ba\",\n                        \"mtime\":
+        1524636749,\n                        \"path\": \"Server/armhfp/iso/Fedora-Server-dvd-armhfp-28-1.1.iso\",\n
+        \                       \"size\": 2723655680,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-armhfp-28\"\n                    }\n                ],\n                \"i386\":
+        [\n                    {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"ec5bfb62fae5b46c4fec0910895bdd72b728e89e6103285b1202aaa7acfcbe75\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"5b05e59f175e7cff6450f9a9768e0965\",\n                        \"mtime\":
+        1524636595,\n                        \"path\": \"Server/i386/iso/Fedora-Server-dvd-i386-28-1.1.iso\",\n
+        \                       \"size\": 2744123392,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-i386-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"6507ddd1efc5f626dcc9e57e65e1868bcb4dbb06174bc7e7f8297b9b0162b498\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"0ef10d31ac59ceb79fe25c85df4f8e64\",\n                        \"mtime\":
+        1524626359,\n                        \"path\": \"Server/i386/iso/Fedora-Server-netinst-i386-28-1.1.iso\",\n
+        \                       \"size\": 562036736,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-i386-28\"\n                    }\n                ],\n                \"ppc64\":
+        [\n                    {\n                        \"arch\": \"ppc64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"a6b56b3bd871e4ca89afd7e46a157a0e54f33e2dbcec64c3e4833d88d111c5c6\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"9a5c29b81fb31b2ef932192ac0f29266\",\n                        \"mtime\":
+        1524636748,\n                        \"path\": \"Server/ppc64/iso/Fedora-Server-dvd-ppc64-28-1.1.iso\",\n
+        \                       \"size\": 2912546816,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-ppc64-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"ppc64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"2f8c17aa5563fa5289c91892c6834c661d8f277d709148b8bae1c4e0728374ab\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"6e70f0b998dbd1df5f87edfd723c025b\",\n                        \"mtime\":
+        1524626471,\n                        \"path\": \"Server/ppc64/iso/Fedora-Server-netinst-ppc64-28-1.1.iso\",\n
+        \                       \"size\": 625510400,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora_S_dvd_ppc64_28\"\n                    }\n                ],\n                \"ppc64le\":
+        [\n                    {\n                        \"arch\": \"ppc64le\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"9da4f482684fded2579003f6d6dedfda3634f96e82dcc0f572cc159722296850\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"7c13ef487565aa447d27f9e1f366993d\",\n                        \"mtime\":
+        1524636784,\n                        \"path\": \"Server/ppc64le/iso/Fedora-Server-dvd-ppc64le-28-1.1.iso\",\n
+        \                       \"size\": 2988396544,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-ppc64le-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"ppc64le\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"2ebe16331412b01ea9fb8c370897072bb3267279c1ee704671ddf869c5eb21d9\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"7bbf01354a5feabdf30721750ea0c938\",\n                        \"mtime\":
+        1524626346,\n                        \"path\": \"Server/ppc64le/iso/Fedora-Server-netinst-ppc64le-28-1.1.iso\",\n
+        \                       \"size\": 591810560,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora_S_dvd_ppc64le_28\"\n                    }\n                ],\n                \"s390x\":
+        [\n                    {\n                        \"arch\": \"s390x\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"7fc6d83b5202bbb41d14041d34c68ec8fc09c3c98c48421e0bfc7f9b51db9b29\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"9f1360ff7b413ad2e959f4b9f3a078f4\",\n                        \"mtime\":
+        1524639359,\n                        \"path\": \"Server/s390x/iso/Fedora-Server-dvd-s390x-28-1.1.iso\",\n
+        \                       \"size\": 2734628864,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-s390x-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"s390x\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"4454be4ea0c117254738701f29b7a21d0e150b2c6aa8cf85291026279c0c1d37\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"6be972f221202f2b2ec644783ca5b96e\",\n                        \"mtime\":
+        1524632792,\n                        \"path\": \"Server/s390x/iso/Fedora-Server-netinst-s390x-28-1.1.iso\",\n
+        \                       \"size\": 529686528,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-s390x-28\"\n                    }\n                ],\n                \"x86_64\":
+        [\n                    {\n                        \"arch\": \"x86_64\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"8d59a25052e05758c15fe9daa3bc472b5619791b442e752450bba7f1eeca9c1a\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"eda359f2819d012c72b4049c92842f95\",\n                        \"mtime\":
+        1524636633,\n                        \"path\": \"Server/x86_64/iso/Fedora-Server-dvd-x86_64-28-1.1.iso\",\n
+        \                       \"size\": 2903506944,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"dvd\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-x86_64-28\"\n                    },\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"ea1efdc692356b3346326f82e2f468903e8da59324fdee8b10eac4fea83f23fe\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"250dc2bc92035718240424f5856027c2\",\n                        \"mtime\":
+        1524625788,\n                        \"path\": \"Server/x86_64/iso/Fedora-Server-netinst-x86_64-28-1.1.iso\",\n
+        \                       \"size\": 611319808,\n                        \"subvariant\":
+        \"Server\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-S-dvd-x86_64-28\"\n                    }\n                ]\n            },\n
+        \           \"Spins\": {\n                \"aarch64\": [\n                    {\n
+        \                       \"arch\": \"aarch64\",\n                        \"bootable\":
+        false,\n                        \"checksums\": {\n                            \"sha256\":
+        \"e69fb20e859e94be564ad27888ac00b4cdb8ebdfb9294c7a04cc73d237048b3b\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638785,\n                        \"path\":
+        \"Spins/aarch64/images/Fedora-Minimal-28-1.1.aarch64.raw.xz\",\n                        \"size\":
+        429237208,\n                        \"subvariant\": \"Minimal\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"armhfp\": [\n                    {\n
+        \                       \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"c6861ebf2c8ce9c436e4608a4d986b90b9b8a7cab390b94628fa73bcb63781ae\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524644171,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-KDE-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        1582159116,\n                        \"subvariant\": \"KDE\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"7b793d32c14bbc2071da94857a38e7d24b698f123060e9eb6b80c682b158fb67\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524642325,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-LXDE-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        1024499908,\n                        \"subvariant\": \"LXDE\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"54f8319fc77c4a091a8860cf52609d1eab3fa9c9f8551fd21f873667576d697e\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524641908,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-LXQt-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        1026057904,\n                        \"subvariant\": \"LXQt\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"39e9ca838a7cdef4b9a2cf1fcc499d70f1c444965b14872504a0a03852fdb229\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524645513,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-Mate-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        1604333072,\n                        \"subvariant\": \"Mate\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"98a0b11cfc89a0bdbb4318b235ca944e868119e628b6f0730e65c15297311892\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638931,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-Minimal-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        343458040,\n                        \"subvariant\": \"Minimal\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"606e65ee11717bed528f20e0cb2ef0ea3a892a9f98ad32ed900888c1228a0b94\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524641056,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-SoaS-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        692016992,\n                        \"subvariant\": \"SoaS\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"armhfp\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"2431fc7e9587373b348e3f761cd125345e242cba70dc947fcf210b3bf28e3e0d\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524643131,\n                        \"path\":
+        \"Spins/armhfp/images/Fedora-Xfce-armhfp-28-1.1-sda.raw.xz\",\n                        \"size\":
+        1115620580,\n                        \"subvariant\": \"Xfce\",\n                        \"type\":
+        \"raw-xz\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"i386\": [\n                    {\n                        \"arch\":
+        \"i386\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"1ec3ae8d36c2b2e6d1cb1575eb92cc126a186edddb5ee062fbc76aaee9f32d2b\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638535,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-Cinnamon-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1790967808,\n                        \"subvariant\": \"Cinnamon\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"64a2da500d32dd23cd51760d449bdad16906345718bf57fb9350cfeac79a86a3\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637943,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-KDE-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1905262592,\n                        \"subvariant\": \"KDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"34f4792d056d681f583e12659feb27a1b5d92565107357a6798103d7ff1be940\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638500,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-LXDE-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1210056704,\n                        \"subvariant\": \"LXDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"cb02a298003c38901e15b4e315a42772540e863ce3a25e607cd7b4e5919d6281\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638644,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-LXQt-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1243611136,\n                        \"subvariant\": \"LXQt\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"adb739731cce0ee21f8f95524f714092dd5c1e47c7fa6744fdb8512ac144ceca\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638907,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-MATE_Compiz-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1920991232,\n                        \"subvariant\": \"Mate\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"01354e0eccdf3314cca7734aa5173530e1c4704c323e02a9e8f379b79d1a43a5\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637943,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-SoaS-Live-i386-28-1.1.iso\",\n                        \"size\":
+        904921088,\n                        \"subvariant\": \"SoaS\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"e3380d7fe53be578e01873c37e8f6c6a18bf929ddba11d134882c310c9d5a0e1\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638170,\n                        \"path\":
+        \"Spins/i386/iso/Fedora-Xfce-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1336934400,\n                        \"subvariant\": \"Xfce\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    }\n
+        \               ],\n                \"x86_64\": [\n                    {\n
+        \                       \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"b30ade4c02eea78f77297aab82ad51c6a8552ad78fbfebd4a443b8b8351529a9\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638347,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-Cinnamon-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1833959424,\n                        \"subvariant\": \"Cinnamon\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"a1a83e77f33ef7fff41d79b59089762f0caaa0040a65bc6b9607bb11a2319263\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637618,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-KDE-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1924136960,\n                        \"subvariant\": \"KDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"11b99bb469bc004c8d059c336af77a042aca789d9ba584efeb3b2fd5bf01fc49\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638587,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-LXDE-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1261436928,\n                        \"subvariant\": \"LXDE\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"7eff744d7f84b7678f8afa0530642717afbd8864513cad07e75c91bc9beb548d\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638582,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-LXQt-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1282408448,\n                        \"subvariant\": \"LXQt\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"5467f408cf341908003437fc4e4b7215c211ceae3394643410dcca079c2725f0\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638759,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-MATE_Compiz-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1960837120,\n                        \"subvariant\": \"Mate\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"3d82874b8587e8ee29b6350d7619fd4eb0b58ca76135fca539447a1b7a82a146\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637831,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-SoaS-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        963641344,\n                        \"subvariant\": \"SoaS\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"ca80a329a6e565aba3b83ccec73a5f8507c15d5a0813daaba168432582b44487\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524637712,\n                        \"path\":
+        \"Spins/x86_64/iso/Fedora-Xfce-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1385168896,\n                        \"subvariant\": \"Xfce\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    }\n
+        \               ]\n            },\n            \"Workstation\": {\n                \"aarch64\":
+        [\n                    {\n                        \"arch\": \"aarch64\",\n
+        \                       \"bootable\": false,\n                        \"checksums\":
+        {\n                            \"sha256\": \"d397dbb102ec3f8204ef6b569a6e83b31d881370d279c4b7e80a9be632fdc96a\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524641692,\n                        \"path\":
+        \"Workstation/aarch64/images/Fedora-Workstation-28-1.1.aarch64.raw.xz\",\n
+        \                       \"size\": 3091398076,\n                        \"subvariant\":
+        \"Workstation\",\n                        \"type\": \"raw-xz\",\n                        \"volume_id\":
+        null\n                    },\n                    {\n                        \"arch\":
+        \"aarch64\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"ba0b85fa2bfbf45298b5d4da94cf17204ec6dadcd47475d4b2eb5937f121cee2\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"ea0ac181351ec4c082ba1bf01b9e05aa\",\n                        \"mtime\":
+        1524626747,\n                        \"path\": \"Workstation/aarch64/iso/Fedora-Workstation-netinst-aarch64-28-1.1.iso\",\n
+        \                       \"size\": 548870144,\n                        \"subvariant\":
+        \"Workstation\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-WS-dvd-aarch64-28\"\n                    }\n                ],\n
+        \               \"armhfp\": [\n                    {\n                        \"arch\":
+        \"armhfp\",\n                        \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"f55e1a7e0d64bcade672226bd5b04bb8f17df98209fef5713f79466ada48fc5e\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"raw.xz\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524644184,\n                        \"path\":
+        \"Workstation/armhfp/images/Fedora-Workstation-armhfp-28-1.1-sda.raw.xz\",\n
+        \                       \"size\": 1379958748,\n                        \"subvariant\":
+        \"Workstation\",\n                        \"type\": \"raw-xz\",\n                        \"volume_id\":
+        null\n                    }\n                ],\n                \"i386\":
+        [\n                    {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"51cf8fc04e127bd65bfe33c4f636fc7f3a162353c06b36fe24dca145f4b52514\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638968,\n                        \"path\":
+        \"Workstation/i386/iso/Fedora-Workstation-Live-i386-28-1.1.iso\",\n                        \"size\":
+        1747976192,\n                        \"subvariant\": \"Workstation\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"i386\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"5d348031498482e92140da0f4850f83f616dcbf3f511c81e4d81edb9701c7994\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"d8de5510ec71e9b54fd23d6aa4d3e0f7\",\n                        \"mtime\":
+        1524626360,\n                        \"path\": \"Workstation/i386/iso/Fedora-Workstation-netinst-i386-28-1.1.iso\",\n
+        \                       \"size\": 562036736,\n                        \"subvariant\":
+        \"Workstation\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-WS-dvd-i386-28\"\n                    }\n                ],\n                \"x86_64\":
+        [\n                    {\n                        \"arch\": \"x86_64\",\n
+        \                       \"bootable\": true,\n                        \"checksums\":
+        {\n                            \"sha256\": \"bd5c9ee34b7698eb0852a320da4fbdf616222a493d99f6054aa96afa96207bfb\"\n
+        \                       },\n                        \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        null,\n                        \"mtime\": 1524638738,\n                        \"path\":
+        \"Workstation/x86_64/iso/Fedora-Workstation-Live-x86_64-28-1.1.iso\",\n                        \"size\":
+        1787822080,\n                        \"subvariant\": \"Workstation\",\n                        \"type\":
+        \"live\",\n                        \"volume_id\": null\n                    },\n
+        \                   {\n                        \"arch\": \"x86_64\",\n                        \"bootable\":
+        true,\n                        \"checksums\": {\n                            \"sha256\":
+        \"34da8b46b23d786bb1d43a77a4dcd713c446fc70a4ace0c6f52e43b086350562\"\n                        },\n
+        \                       \"disc_count\": 1,\n                        \"disc_number\":
+        1,\n                        \"format\": \"iso\",\n                        \"implant_md5\":
+        \"8bce1b0032cd53dfdaad0d12720e1c09\",\n                        \"mtime\":
+        1524626297,\n                        \"path\": \"Workstation/x86_64/iso/Fedora-Workstation-netinst-x86_64-28-1.1.iso\",\n
+        \                       \"size\": 611319808,\n                        \"subvariant\":
+        \"Workstation\",\n                        \"type\": \"boot\",\n                        \"volume_id\":
+        \"Fedora-WS-dvd-x86_64-28\"\n                    }\n                ]\n            }\n
+        \       }\n    }\n}"}
+    headers:
+      accept-ranges: [bytes]
+      appserver: [proxy10.phx2.fedoraproject.org]
+      apptime: [D=7027]
+      connection: [close]
+      content-length: ['81068']
+      content-type: [application/json]
+      date: ['Tue, 24 Jul 2018 21:14:25 GMT']
+      last-modified: ['Wed, 25 Apr 2018 11:48:16 GMT']
+      referrer-policy: [same-origin]
+      server: [Apache/2.4.33 (Fedora)]
+      strict-transport-security: [max-age=31536000; includeSubDomains; preload, max-age=31536000;
+          includeSubDomains; preload]
+      x-content-type-options: [nosniff]
+      x-frame-options: [SAMEORIGIN]
+      x-xss-protection: [1; mode=block]
+    status: {code: 200, message: OK}
 version: 1
