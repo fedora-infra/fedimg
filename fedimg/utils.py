@@ -232,7 +232,8 @@ def cancel_stale_conversion_tasks():
         delta_time = now_datetime - start_datetime
 
         if delta_time.total_seconds() >= 86400:
-            _log.info('This is a stale task. Canceling %r'% import_vol_task_id) 
+            _log.info(
+                'This is a stale task. Canceling %r' % import_vol_task_id)
             output, error, retcode = external_run_command([
                 'euca-cancel-conversion-task --region us-east-1',
                 import_vol_task_id
