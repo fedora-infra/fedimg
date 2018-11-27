@@ -92,18 +92,19 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
             _log.debug("%r is unsupported compose" % compose_id)
             return
 
-        cloud_meta = get_value_from_dict(
-            compose_metadata, 'images', 'payload', 'images',
-            'Cloud', 'x86_64')
-        atomic_meta = get_value_from_dict(
-            compose_metadata, 'images', 'payload',
-            'images', 'AtomicHost', 'x86_64')
-
         images_meta = []
-        if cloud_meta:
-            images_meta.extend(cloud_meta)
-        if atomic_meta:
-            images_meta.extend(atomic_meta)
+        for arch in ['x86_64', 'aarch64']:
+            cloud_meta = get_value_from_dict(
+                compose_metadata, 'images', 'payload', 'images',
+                'Cloud', arch)
+            atomic_meta = get_value_from_dict(
+                compose_metadata, 'images', 'payload',
+                'images', 'AtomicHost', arch)
+
+            if cloud_meta:
+                images_meta.extend(cloud_meta)
+            if atomic_meta:
+                images_meta.extend(atomic_meta)
 
         if not images_meta:
             _log.debug('No compatible image found to process')

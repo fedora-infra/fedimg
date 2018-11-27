@@ -168,6 +168,13 @@ class EC2ImagePublisher(EC2Base):
 
         return blk_mapping[0]['ebs']['volume_type']
 
+    def get_arch_from_image(self, image):
+        if isinstance(image, str):
+            image_id = image
+            image = self._connect().get_image(image_id)
+
+        return image.extra['architecture']
+
     def get_virt_type_from_image(self, image):
         return 'hvm'
 
@@ -198,6 +205,7 @@ class EC2ImagePublisher(EC2Base):
 
             volume_type = self.get_volume_type_from_image(image)
             virt_type = self.get_virt_type_from_image(image)
+            arch = self.get_arch_from_image(image)
 
             if self.push_notifications:
                 fedimg.messenger.notify(
@@ -206,6 +214,7 @@ class EC2ImagePublisher(EC2Base):
                         image_name=get_image_name_from_ami_name_for_fedmsg(
                             image.name),
                         image_url=self.image_url,
+                        architecture=arch,
                         destination=self.region,
                         service=self.service,
                         compose=self.compose_id,
@@ -268,6 +277,7 @@ class EC2ImagePublisher(EC2Base):
 
                     blk_mapping = image.extra['block_device_mapping']
                     volume_type = blk_mapping[0]['ebs']['volume_type']
+                    arch = self.get_arch_from_image(image)
 
                     if self.push_notifications:
                         fedimg.messenger.notify(
@@ -277,6 +287,7 @@ class EC2ImagePublisher(EC2Base):
                                     get_image_name_from_ami_name_for_fedmsg(
                                         copied_image.name)),
                                 destination=self.region,
+                                architecture=arch,
                                 service=self.service,
                                 compose_id=self.compose_id,
                                 extra=dict(

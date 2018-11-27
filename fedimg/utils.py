@@ -51,6 +51,8 @@ def get_file_arch(file_name):
     like a 32-bit or 64-bit image, None is returned. """
     if file_name.find('x86_64') != -1:
         return 'x86_64'
+    elif file_name.find('aarch64') != -1:
+        return 'arm64'
     else:
         return None
 
