@@ -83,8 +83,9 @@ class FedimgConsumer(fedmsg.consumers.FedmsgConsumer):
 
         cancel_stale_conversion_tasks()
 
-        location = msg_info['location']
-        compose_id = msg_info['compose_id']
+        self.process_compose(msg_info['location'], msg_info['compose_id'])
+
+    def process_compose(self, location, compose_id):
         try:
             compose_metadata = fedfind.release.get_release(
                 cid=compose_id).metadata
