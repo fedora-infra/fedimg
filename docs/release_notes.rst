@@ -2,6 +2,15 @@
 Release Notes
 =============
 
+2.4.0
+=====
+
+Developer Improvements
+----------------------
+
+* Initial patchset for AARCH64 uploading to EC2
+  (`#156 <https://github.com/fedora-infra/fedimg/pull/156>`_).
+
 2.3.0
 =====
 
