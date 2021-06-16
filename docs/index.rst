@@ -44,13 +44,13 @@ Community
 
 Fedimg is maintained by the Fedora Project and it's `source code`_ and `issue
 tracker`_ are on Github. Join the `mailing list`_ or/and the IRC
-channel on `FreeNode`_, ``#fedora-cloud`` for discussion on Fedimg.
+channel on `Libera`_, ``#fedora-cloud`` for discussion on Fedimg.
 
 .. _Python: https://www.python.org/
 .. _Amazon Web Services: https://aws.amazon.com/
 .. _source code: https://github.com/fedora-infra/fedimg
 .. _mailing list: https://lists.fedoraproject.org/admin/lists/infrastructure.lists.fedoraproject.org/
-.. _FreeNode: https://freenode.net/
+.. _Libera: https://libera.chat/
 .. _fedmsg: http://www.fedmsg.com
 .. _issue tracker: https://github.com/fedora-infra/fedimg/issues/
 
