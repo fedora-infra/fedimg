@@ -166,7 +166,7 @@ class EC2ImageUploader(EC2Base):
         if self.volume_via_s3:
             output, err, retcode = external_run_command([
                 'euca-import-volume',
-                source,
+                source[5:],
                 '-f',
                 self.image_format,
                 '--region',
