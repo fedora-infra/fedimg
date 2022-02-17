@@ -108,6 +108,8 @@ def get_value_from_dict(_dict, *keys):
 
 
 def external_run_command(command):
+    if command[0] == 'euca-import-volume':
+        os.chdir('/tmp')
     _log.info("Starting the command: %r" % command)
     ret = subprocess.Popen(' '.join(command), stdin=subprocess.PIPE,
                            shell=True, stdout=subprocess.PIPE,
