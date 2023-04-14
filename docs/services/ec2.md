@@ -10,15 +10,15 @@ potentially six different AMIs for each Fedora Cloud image processed.
 <table>
 <tr><th>Virtualization</th><th>Storage</th><th>Result</th></tr>
 <tr><td>Paravirtual</td><td>Instance-Store</td><td>1 bundle * </td></tr>
-<tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
-<tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types * </td></tr>
+<tr><td>Paravirtual</td><td>EBS</td><td>1 snapshot, 1 volume type</td></tr>
+<tr><td>Paravirtual</td><td>EBS (encrypted)</td><td>1 snapshot, 1 volume type * </td></tr>
 <tr><td>HVM</td><td>Instance-Store</td><td>1 bundle * </td></tr>
-<tr><td>HVM</td><td>EBS</td><td>1 snapshot, 2 volume types</td></tr>
-<tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 2 volume types * </td></tr>
+<tr><td>HVM</td><td>EBS</td><td>1 snapshot, 1 volume type</td></tr>
+<tr><td>HVM</td><td>EBS (encrypted)</td><td>1 snapshot, 1 volume type * </td></tr>
 </table>
 `*`: Not yet added to Fedimg
 
-*The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
+*The "1 volume type" mentioned in this table is GP2. GP2 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
 characteristics.*
 
@@ -57,7 +57,7 @@ When the uploader calls on the EC2 service, the following happens:
     subsequently destroyed.
 
 4.  The volume snapshot is used to register the image as an AMI. Images
-    are registered with both standard and GP2 volume types, as well as
+    are registered with GP2 volume type, as well as
     with both paravirtual and HVM virtualization.
 
 5.  The utility instance is shut down, and a test instance is started,
