@@ -277,7 +277,7 @@ class TestFedimgUtils(unittest.TestCase):
         mock_image.extra = {
             'block_device_mapping': [{
                 'ebs': {
-                    'volume_type': 'gp2'
+                    'volume_type': 'gp3'
                 }
             }]
         }
@@ -286,7 +286,7 @@ class TestFedimgUtils(unittest.TestCase):
         volume_type = fedimg.utils.get_volume_type_from_image(
                 mock_image, region)
 
-        assert volume_type == 'gp2'
+        assert volume_type == 'gp3'
 
     def test_get_virt_type_from_image_hvm(self):
         mock_image = mock.Mock()
@@ -336,10 +336,10 @@ class TestFedimgUtils(unittest.TestCase):
             'hvm',
             'us-east-1',
             '0',
-            'gp2'
+            'gp3'
         )
 
-        assert image_name == 'Fedora-Atomic-26-1.5.x86_64-hvm-us-east-1-gp2-0'
+        assert image_name == 'Fedora-Atomic-26-1.5.x86_64-hvm-us-east-1-gp3-0'
 
     def test_get_image_name_from_image_without_vol_type(self):
         image_name = fedimg.utils.get_image_name_from_image(
@@ -353,15 +353,15 @@ class TestFedimgUtils(unittest.TestCase):
 
     def test_get_image_name_from_ami_name(self):
         image_name = fedimg.utils.get_image_name_from_ami_name(
-            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp2-0',
+            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp3-0',
             'eu-west-1'
         )
 
-        assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-eu-west-1-gp2-0'
+        assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-eu-west-1-gp3-0'
 
     def test_get_image_name_from_ami_name_for_fedmsg(self):
         image_name = fedimg.utils.get_image_name_from_ami_name_for_fedmsg(
-            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp2-0',
+            'Fedora-Cloud-Base-26-20180329.0.x86_64-paravirtual-us-east-1-gp3-0',
         )
 
         assert image_name == 'Fedora-Cloud-Base-26-20180329.0.x86_64'

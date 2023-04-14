@@ -67,7 +67,7 @@ class EC2ImageUploader(EC2Base):
             'image_virtualization_type': 'hvm',
             'image_architecture': 'x86_64',
             'image_url': None,
-            'image_volume_type': 'gp2',
+            'image_volume_type': 'gp3',
             'image_format': 'raw',
             'region': None,
             'service': 'EC2',

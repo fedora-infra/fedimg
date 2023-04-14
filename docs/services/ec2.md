@@ -18,7 +18,7 @@ potentially six different AMIs for each Fedora Cloud image processed.
 </table>
 `*`: Not yet added to Fedimg
 
-*The "2 volume types" mentioned in this table are Standard and GP2. GP2 is a new
+*The "2 volume types" mentioned in this table are Standard and GP3. GP3 is a new
 SSD-based type Amazon is encouraging. It has different pricing and performance
 characteristics.*
 
@@ -57,7 +57,7 @@ When the uploader calls on the EC2 service, the following happens:
     subsequently destroyed.
 
 4.  The volume snapshot is used to register the image as an AMI. Images
-    are registered with both standard and GP2 volume types, as well as
+    are registered with both standard and GP3 volume types, as well as
     with both paravirtual and HVM virtualization.
 
 5.  The utility instance is shut down, and a test instance is started,
