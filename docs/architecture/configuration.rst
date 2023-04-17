@@ -90,4 +90,11 @@ volume_size
 
 An integer, specifying the size of the volume to be created in GiB.
 
+.. _conf-volume-types:
+
+volume_types
+-----------
+
+A list containing all of the backing volume types the AMIs would be registered against, each of which differ in performance characteristics and price.
+
 .. _worker process: https://docs.python.org/2/library/multiprocessing.html#using-a-pool-of-workers
